@@ -9,6 +9,9 @@
 * Print Receipt                       *    
 ***************************************/
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 public class Reservation {
 
 	// Variables
@@ -51,8 +54,7 @@ public class Reservation {
 	}
 
 	public void setRooms(Room singleRoom) {
-		Room reservedRooms[] = {singleRoom};
-		this.reservedRooms = reservedRooms;
+		this.reservedRooms = new Room[]{singleRoom};
 	}
 
 	public User getUser() {
@@ -60,14 +62,14 @@ public class Reservation {
 	}
 
 	// Get + calculation for amount based on room's nightly rate
-	private BigDecimal getAmount() {
+	public BigDecimal getAmount() {
 		return calculateTotalAmount();
 	}
 
 	public BigDecimal calculateTotalAmount() {
-		BigDecimal total;
+		BigDecimal total = BigDecimal.ZERO;
 		for (Room room : reservedRooms) {
-			total = room.getRatePerNight() + total;
+			total = total.add(room.getRatePerNight());
 		}
 		return total;
 	}
