@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.ArrayList;
 
 public class User {
-    // Fields
+    
     private String name;
     private Date birthday;
     private int userNumber;
@@ -90,8 +90,7 @@ public class User {
         this.notifications.remove(notification);
     }
 
-    // toString method to display User information
-    @Override
+    //method to display User information
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
