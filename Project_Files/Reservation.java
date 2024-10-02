@@ -69,7 +69,7 @@ public class Reservation {
 	public BigDecimal calculateTotalAmount() {
 		BigDecimal total = BigDecimal.ZERO;
 		for (Room room : reservedRooms) {
-			total = total.add(room.getRatePerNight());
+			total = total.add(room.getPricePerNight());
 		}
 		return total;
 	}
