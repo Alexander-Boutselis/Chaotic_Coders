@@ -69,13 +69,29 @@ public class Reservation {
 	public BigDecimal calculateTotalAmount() {
 		BigDecimal total = BigDecimal.ZERO;
 		for (Room room : reservedRooms) {
-			total = total.add(room.getPricePerNight());
+			total = total.add(BigDecimal.valueOf(room.getPricePerNight()));
 		}
 		return total;
 	}
 
 	// Receipt printing
 	public void printReceipt() {
-		// Need to implement
+		System.out.println("HOTEL RESERVATIONS");
+		System.out.println("--------------------------------%n");
+		System.out.println("Your reservation was successsful.");
+		System.out.println("Name: " + user.getName());
+		System.out.println("User ID: " + user.getUserNumber());
+		System.out.println("Dates: " + startDate + " - " + endDate);
+		System.out.println("--------------------------------%n");
+		System.out.println("Your room(s): ");
+		System.out.println("--------------------------------%n");
+		for (Room room : reservedRooms) {
+			System.out.println("Room number: " + room.getRoomNumber());
+			System.out.println("Room type: " + room.getRoomType());
+			System.out.println("Room size: " + room.getRoomSize());
+			System.out.println("Nightly rate: " + room.getPricePerNight());
+			System.out.println("--------------------------------%n");
+		}
+		System.out.println("TOTAL OWED: " + getAmount());
 	}
 }
