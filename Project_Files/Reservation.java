@@ -74,24 +74,50 @@ public class Reservation {
 		return total;
 	}
 
+	// Make receipt into string
+	public String getReceipt() {
+		StringBuilder receipt = new StringBuilder();
+		receipt.append("HOTEL RESERVATIONS\n");
+		receipt.append("--------------------------------\n");
+		receipt.append("Your reservation was successsful.\n");
+		receipt.append("Name: ");
+		receipt.append(user.getName());
+		receipt.append("\n");
+		receipt.append("User ID: ");
+		receipt.append(user.getUserNumber());
+		receipt.append("\n");
+		receipt.append("Dates: ");
+		receipt.append(startDate);
+		receipt.append(" - ");
+		receipt.append(endDate);
+		receipt.append("\n");
+		receipt.append("--------------------------------\n");
+		receipt.append("Your room(s): \n");
+		receipt.append("--------------------------------\n");
+		for (Room room : reservedRooms) {
+			receipt.append("Room number: ");
+			receipt.append(room.getRoomNumber());
+			receipt.append("\n");
+			receipt.append("Room type: ");
+			receipt.append(room.getRoomType());
+			receipt.append("\n");
+			receipt.append("Room size: ");
+			receipt.append(room.getRoomSize());
+			receipt.append("\n");
+			receipt.append("Nightly rate: ");
+			receipt.append(room.getPricePerNight());
+			receipt.append("\n");
+			receipt.append("--------------------------------\n");
+		}
+		receipt.append("TOTAL OWED: $");
+		receipt.append(getAmount());
+		receipt.append("\n");
+
+		return receipt.toString();
+	}
+
 	// Receipt printing
 	public void printReceipt() {
-		System.out.println("HOTEL RESERVATIONS");
-		System.out.println("--------------------------------%n");
-		System.out.println("Your reservation was successsful.");
-		System.out.println("Name: " + user.getName());
-		System.out.println("User ID: " + user.getUserNumber());
-		System.out.println("Dates: " + startDate + " - " + endDate);
-		System.out.println("--------------------------------%n");
-		System.out.println("Your room(s): ");
-		System.out.println("--------------------------------%n");
-		for (Room room : reservedRooms) {
-			System.out.println("Room number: " + room.getRoomNumber());
-			System.out.println("Room type: " + room.getRoomType());
-			System.out.println("Room size: " + room.getRoomSize());
-			System.out.println("Nightly rate: " + room.getPricePerNight());
-			System.out.println("--------------------------------%n");
-		}
-		System.out.println("TOTAL OWED: " + getAmount());
+		System.out.println(getReceipt());
 	}
 }
