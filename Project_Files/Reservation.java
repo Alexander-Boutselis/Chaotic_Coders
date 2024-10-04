@@ -68,8 +68,10 @@ public class Reservation {
 
 	public BigDecimal calculateTotalAmount() {
 		BigDecimal total = BigDecimal.ZERO;
+		long nights = ChronoUnit.DAYS.between(startDate, endDate);
 		for (Room room : reservedRooms) {
-			total = total.add(BigDecimal.valueOf(room.getPricePerNight()));
+			BigDecimal roomTotal = (BigDecimal.valueOf(nights)).multiply(BigDecimal.valueOf(room.getPricePerNight()));
+			total = total.add(roomTotal);
 		}
 		return total;
 	}
