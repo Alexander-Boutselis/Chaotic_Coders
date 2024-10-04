@@ -13,19 +13,45 @@
 
 
 import java.util.Date;
+import java.util.Calendar;
 import java.util.ArrayList;
 
 public class User {
     
-    private String name;
-    private Date birthday;
+    private String name; //We should seperate first and last name into their own Variables and seperate the prompt. This will intigrate with the GUI easier
+    private Calendar birthday = Calendar.getInstance();
     private int userNumber;
     private String password;
     private ArrayList<String> reservations;
     private ArrayList<String> notifications;
 
+
+    // Testing Default Constructor
+    public User() {
+        name = "Tina TestUser";
+        birthday.set(2000, Calendar.APRIL, 13);
+        userNumber = 00001;
+        password = "password";
+        reservations = new ArrayList<>();
+        notifications = new ArrayList<>();
+    }
+
+    //Signed out User
+    public User(int num) {
+        if (num == 1) {
+            name = " ";
+            birthday.getInstance();
+            userNumber = 00000;
+            password = " ";
+            reservations = new ArrayList<>();
+            notifications = new ArrayList<>();
+            
+        }
+    }
+
+
     // Constructor
-    public User(String name, Date birthday, int userNumber, String password) {
+    public User(String name, Calendar birthday, int userNumber, String password) {
         this.name = name;
         this.birthday = birthday;
         this.userNumber = userNumber;
@@ -42,11 +68,11 @@ public class User {
         this.name = name;
     }
 
-    public Date getBirthday() {
+    public Calendar getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(Calendar birthday) {
         this.birthday = birthday;
     }
 

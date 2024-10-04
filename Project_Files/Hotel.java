@@ -24,7 +24,8 @@ public class Hotel{
 	public Room[] hotel_Rooms;
 	public int total_Rooms;
 	public int availible_Rooms;
-	public int unavailible_Rooms;
+	public User current_User;
+	public String hotel_Name = "Chaotic Coder Inn";
 
 	//Protected:
 	protected Reservation[] all_Reservations;
@@ -38,14 +39,14 @@ public class Hotel{
 		//Default will be 10 Rooms and users
 		total_Rooms = 10;
 		availible_Rooms = total_Rooms;
-		unavailible_Rooms = 0;
 		manager_Confrimation = "Manager";
 		hotel_Rooms = new Room[10];
+		current_User = new User(1);
 		all_Users = new User[10];
 		all_Reservations = new Reservation[10];
 	}
 
-	//Program has been run before Constructor
+	//Program has been run before Constructor WIP
 	public Hotel(int tmp){
 		//Load stored data
 		loadData();
@@ -64,6 +65,25 @@ public class Hotel{
 
 		return;
 	}
+
+
+	public void printHotel(){
+        System.out.println("Hotel: " + hotel_Name);
+        System.out.println("Total rooms: " + total_Rooms); 
+		return;
+	}
+
+
+	public void printCurrentUser(){
+        System.out.println("Current User: "+ current_User.getName());
+        return;
+	}
+
+	public void setCurrentUser(User new_User){
+		current_User = new_User;
+		return;
+	}
+
 }
 
                                                     
