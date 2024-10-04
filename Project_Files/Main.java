@@ -35,7 +35,7 @@ public class Main{
 
         //Initiate Driver Classes
         AccountManager accountManager = new AccountManager();
-        ReservationManager reservationManager = new ReservationManager();
+        ReservationManager reservationManager = new ReservationManager(chaotic_Coders_Inn);
 
         //Verify that the Hotel is created
         chaotic_Coders_Inn.printHotel();

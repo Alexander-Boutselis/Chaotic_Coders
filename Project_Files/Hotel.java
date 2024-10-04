@@ -85,6 +85,15 @@ public class Hotel{
 		return;
 	}
 
+	public void addReservation(Reservation reservation, int rooms) {
+		all_Reservations.add(reservation);
+		availible_Rooms = availible_Rooms - rooms;
+	}
+
+	public void removeReservation(Reservation reservation, int rooms) {
+		all_Reservations.remove(reservation);
+		availible_Rooms = availible_Rooms + rooms;
+	}
 }
 
                                                     
