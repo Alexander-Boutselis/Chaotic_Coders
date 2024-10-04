@@ -12,60 +12,68 @@
 ********************************/
 
 
-import java.util.Date;
+//import java.util.Date;
 import java.util.Calendar;
 import java.util.ArrayList;
 
 public class User {
     
-    private String name; //We should seperate first and last name into their own Variables and seperate the prompt. This will intigrate with the GUI easier
+    //User Info
+    private String firstName; //We should seperate first and last name into their own Variables and seperate the prompt. This will intigrate with the GUI easier
+    private String lastName;
     private Calendar birthday = Calendar.getInstance();
+
+    //Log in Info
     private int userNumber;
     private String password;
+
+    //User Reservations
     private ArrayList<String> reservations;
-    private ArrayList<String> notifications;
 
 
     // Testing Default Constructor
     public User() {
-        name = "Tina TestUser";
+        firstName = "Tina TestUser";
         birthday.set(2000, Calendar.APRIL, 13);
         userNumber = 00001;
         password = "password";
         reservations = new ArrayList<>();
-        notifications = new ArrayList<>();
     }
 
     //Signed out User
     public User(int num) {
         if (num == 1) {
-            name = " ";
+            firstName = " ";
+            lastName = " ";
             birthday.getInstance();
             userNumber = 00000;
             password = " ";
             reservations = new ArrayList<>();
-            notifications = new ArrayList<>();
             
         }
     }
 
 
     // Constructor
-    public User(String name, Calendar birthday, int userNumber, String password) {
-        this.name = name;
+    public User(String firstName, String lastName, Calendar birthday, int userNumber, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.birthday = birthday;
         this.userNumber = userNumber;
         this.password = password;
         this.reservations = new ArrayList<>();
-        this.notifications = new ArrayList<>();
+        
     }
 
     public String getName() {
-        return name;
+        String nameCombiner;
+        nameCombiner = firstName + " " + lastName;
+        return nameCombiner;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public Calendar getBirthday() {
@@ -104,26 +112,15 @@ public class User {
         this.reservations.remove(reservation);
     }
 
-    public ArrayList<String> getNotifications() {
-        return notifications;
-    }
-
-    public void addNotification(String notification) {
-        this.notifications.add(notification);
-    }
-
-    public void removeNotification(String notification) {
-        this.notifications.remove(notification);
-    }
+    
 
     //method to display User information
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
+                "name='" + firstName + " " + lastName + '\'' +
                 ", birthday=" + birthday +
                 ", userNumber=" + userNumber +
                 ", reservations=" + reservations +
-                ", notifications=" + notifications +
                 '}';
     }
 }

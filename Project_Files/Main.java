@@ -33,6 +33,10 @@ public class Main{
         //Check if Hotel Exits (for now it will not exist on a fresh run)
         Hotel chaotic_Coders_Inn = new Hotel();
 
+        //Initiate Driver Classes
+        AccountManager accountManager = new AccountManager();
+        ReservationManager reservationManager = new ReservationManager();
+
         //Verify that the Hotel is created
         chaotic_Coders_Inn.printHotel();
 
@@ -44,6 +48,9 @@ public class Main{
         chaotic_Coders_Inn.printCurrentUser();
 
         
+        //if (user instanceof Manager){} //For seperating User and Manager, can be used for Rooms as well.
+
+
 //-----------------------------------------------------------------------------------------End of Test Code
 
 
@@ -52,6 +59,7 @@ public class Main{
 
         while (running) {
             System.out.println("Welcome to the User Shell");
+            System.out.println("Please select one of the following options");
             System.out.println("1. Option 1");
             System.out.println("2. Option 2");
             System.out.println("3. Option 3");

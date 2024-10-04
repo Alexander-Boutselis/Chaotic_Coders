@@ -15,23 +15,23 @@
 * Modify Room                        *
 * Print Rooms List (Admin)           *
 **************************************/
+import java.util.ArrayList;
 
 
 public class Hotel{
 
-	//Declare Variables
 	//Public:
-	public Room[] hotel_Rooms;
-	public int total_Rooms;
-	public int availible_Rooms;
-	public User current_User;
 	public String hotel_Name = "Chaotic Coder Inn";
+	public int total_Rooms;
+	public ArrayList<Room> hotel_Rooms;
+	public User current_User;
+	public boolean signed_In;
+	public int availible_Rooms;
+	public ArrayList<Reservation> all_Reservations;
 
-	//Protected:
-	protected Reservation[] all_Reservations;
 
 	//Private:
-	private User[] all_Users;//Might need to move to main
+	private ArrayList<User> all_Users;//Might need to move to main
 	private String manager_Confrimation;
 
 	//First Run Constructor
@@ -39,11 +39,12 @@ public class Hotel{
 		//Default will be 10 Rooms and users
 		total_Rooms = 10;
 		availible_Rooms = total_Rooms;
-		manager_Confrimation = "Manager";
-		hotel_Rooms = new Room[10];
+		hotel_Rooms = new ArrayList<>();
+		all_Users = new ArrayList<>();
 		current_User = new User(1);
-		all_Users = new User[10];
-		all_Reservations = new Reservation[10];
+		signed_In = false;
+		all_Users.add(current_User);
+		all_Reservations = new ArrayList<>();
 	}
 
 	//Program has been run before Constructor WIP
