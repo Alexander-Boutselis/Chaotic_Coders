@@ -21,18 +21,15 @@ import java.util.ArrayList;
 public class Hotel{
 
 	//Public:
-	public String hotel_Name = "Chaotic Coder Inn";
+	public String hotel_Name;
 	public int total_Rooms;
 	public ArrayList<Room> hotel_Rooms;
-	public User current_User;
-	public boolean signed_In;
 	public int availible_Rooms;
-	public ArrayList<Reservation> all_Reservations;
 
 
 	//Private:
-	private ArrayList<User> all_Users;//Might need to move to main
-	private String manager_Confrimation;
+	private boolean signed_In;
+	private User current_User;
 
 	//First Run Constructor
 	public Hotel(){
@@ -40,31 +37,17 @@ public class Hotel{
 		total_Rooms = 10;
 		availible_Rooms = total_Rooms;
 		hotel_Rooms = new ArrayList<>();
-		all_Users = new ArrayList<>();
 		current_User = new User(1);
 		signed_In = false;
-		all_Users.add(current_User);
-		all_Reservations = new ArrayList<>();
+		hotel_Name = "Chaotic Coder Inn";
 	}
 
-	//Program has been run before Constructor WIP
-	public Hotel(int tmp){
-		//Load stored data
-		loadData();
+	public Hotel(String hotel_Name, int total_Rooms){
+		this.hotel_Name = hotel_Name;
+		this.total_Rooms = total_Rooms;
+		availible_Rooms = total_Rooms;
+		hotel_Rooms = new ArrayList<Room>();
 
-	}
-
-	private void loadData(){
-		//Load Number of Rooms
-		//Load Array of Users from data
-		//Load Reservations from data
-		//Load number of rooms from data
-		//Load Array of hotel rooms from data
-		//Load number of unavailable rooms
-		//Load number of available rooms
-		//Load
-
-		return;
 	}
 
 
@@ -86,12 +69,10 @@ public class Hotel{
 	}
 
 	public void addReservation(Reservation reservation, int rooms) {
-		all_Reservations.add(reservation);
 		availible_Rooms = availible_Rooms - rooms;
 	}
 
 	public void removeReservation(Reservation reservation, int rooms) {
-		all_Reservations.remove(reservation);
 		availible_Rooms = availible_Rooms + rooms;
 	}
 }

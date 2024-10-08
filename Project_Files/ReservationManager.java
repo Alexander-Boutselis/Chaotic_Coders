@@ -18,6 +18,10 @@ public class ReservationManager {
 		this.hotel = hotel;
 	}
 
+	public ReservationManager() {
+		
+	}
+
 	public void listRooms(Room[] rooms) {
 		System.out.println("--------------------------------");
 		for (Room room : rooms) {

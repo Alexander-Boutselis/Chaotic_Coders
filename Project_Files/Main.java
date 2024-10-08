@@ -1,5 +1,5 @@
 /**************************
- * Hotel Managment Project*
+ * Hotel Management Project*
  * COMP 380/L             *
  **************************/
 import java.util.Scanner;
@@ -30,25 +30,37 @@ public class Main{
         */
 
 //----------------------------------------------------------------------------------------Test Code
+
+        //Make Database Object
+            //This will create all necessary classes 
+        Database database = new Database();
+
+
+
+
+
+
+
+
         //Check if Hotel Exits (for now it will not exist on a fresh run)
-        Hotel chaotic_Coders_Inn = new Hotel();
+        //Hotel chaotic_Coders_Inn = new Hotel();
 
         //Initiate Driver Classes
-        AccountManager accountManager = new AccountManager();
-        ReservationManager reservationManager = new ReservationManager(chaotic_Coders_Inn);
+        //AccountManager accountManager = new AccountManager();
+        //ReservationManager reservationManager = new ReservationManager(chaotic_Coders_Inn);
 
         //Verify that the Hotel is created
-        chaotic_Coders_Inn.printHotel();
+        database.hotel.printHotel();
 
         //Create Test User
         //User test = new User();
         //chaotic_Coders_Inn.setCurrentUser(test);
 
         //Verify that user has been created
-        chaotic_Coders_Inn.printCurrentUser();
+        database.hotel.printCurrentUser();
 
         
-        //if (user instanceof Manager){} //For seperating User and Manager, can be used for Rooms as well.
+        //if (user instanceof Manager){} //For separating User and Manager, can be used for Rooms as well.
 
 
 //-----------------------------------------------------------------------------------------End of Test Code
