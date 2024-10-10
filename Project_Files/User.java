@@ -109,7 +109,7 @@ public class User {
     }
 
     public void printUser(){
-        System.out.println("User Signed in: " + getName());
+        System.out.println("\nUser Signed in: " + getName());
         System.out.println("User Number: " + userNumber);
         SimpleDateFormat simpleFormatBirthday = new SimpleDateFormat("MM/dd/yyyy");
         System.out.println("User's Birthday: " + simpleFormatBirthday.format(birthday.getTime()));

@@ -13,40 +13,14 @@ public class Main{
 
 
 //-----------------------------------------------------------------------------------------Test Code
+//-----------------------------------------------------------------------------------------End of Test Code
 
         //Connect to Database
         Database database = new Database();
 
-        
-
-
-        
-
-        
-
-
-
-
-
-
-        //Check if Hotel Exits (for now it will not exist on a fresh run)
-        //Hotel chaotic_Coders_Inn = new Hotel();
-
-        //Initiate Driver Classes
-        //AccountManager accountManager = new AccountManager();
-        //ReservationManager reservationManager = new ReservationManager(chaotic_Coders_Inn);
-
         //Verify that the Hotel is created
         database.hotel.printHotel();
-
-        //Create Test User
-        //User test = new User();
-        //chaotic_Coders_Inn.setCurrentUser(test);
-
-        //Verify that user has been created
-        database.hotel.printCurrentUser();
-
-        
+     
         //if (user instanceof Manager){} //For separating User and Manager, can be used for Rooms as well.
 
 
@@ -54,29 +28,36 @@ public class Main{
 
 		Scanner scanner = new Scanner(System.in);
         boolean running = true;
-        int choice;
+        int choice = 1;
         int state = 1;
 
         while (running) {
 
             if (database.hotel.currentUser == null){
                 state = 1;
+            }else if (database.hotel.currentUser instanceof Manager){
+                state = 3;
+
+            }else {
+                state = 2;
             }
 
             System.out.println("Current State: " + state);
 
             switch (state) {
-
+//--------------------------------------------------------------------------------------------State 1 Not Signed-In
                 case 1://Not Signed-in
 
-                    System.out.println("State 1 Entered: User not signed in");
+                    System.out.println("\n---State 1 Entered: User not signed in---");
 
                     System.out.println("1. Sign-in");
                     System.out.println("2. Sign-up");
+                    System.out.println("3. Quit");
                     System.out.print("Please enter a number: ");
 
-
                     choice = scanner.nextInt();
+                    scanner.nextLine(); 
+
 
                     switch(choice){
                         case 1:
@@ -86,9 +67,13 @@ public class Main{
 
                         case 2:
                             //Call AccountManager.CreateAccount();
-                            state = database.accountManager.createAccount();
-                            database.hotel.currentUser.printUser();
+                            database.accountManager.createAccount();
                             System.out.println("User has created an account and has been Signed-in");
+                            break;
+
+                        case 3:
+                            System.out.println("Exiting...");
+                            running = false;
                             break;
 
                         default:
@@ -98,16 +83,57 @@ public class Main{
                     }
                     break;
 
+//--------------------------------------------------------------------------------------------State 2 User Signed-In
                 case 2://User Signed-in
-                    System.out.println("State 2 Entered: User signed in");
-                    debug();state = scanner.nextInt();
+                    System.out.println("\n---State 2 Entered: User signed in---");
+
+                    System.out.println("1. View Rooms (Make a reservation)");
+                    System.out.println("2. Edit My Account");
+                    System.out.println("3. My Reservations");
+                    System.out.println("4. Quit");
+                    System.out.print("Please enter a number: ");
+
+                    choice = scanner.nextInt();
+                    scanner.nextLine(); 
+
+
+                    switch(choice){
+                        case 1:
+                            //View Rooms
+                            System.out.println("View Rooms");
+                            break;
+
+                        case 2:
+                            //Edit My Account
+                            System.out.println("Edit My Account");
+                            database.accountManager.editUserAccount();
+                            break;
+
+                        case 3:
+                            //My Reservations
+                            System.out.println("My Reservations");
+                            break;
+
+                        case 4:
+                            System.out.println("Exiting...");
+                            running = false;
+                            break;
+                            
+                        default:
+                            //Invalid choice
+                            System.out.println("Invalid Selection");
+                            break;
+                    }
+
                     break;
 
+//--------------------------------------------------------------------------------------------State 3 Manager Signed-In
                 case 3://Manager Signed-in
-                    System.out.println("State 3 Entered: Manager signed in");
-                    debug();state = scanner.nextInt();
+                    System.out.println("\n---State 3 Entered: Manager signed in---");
+                    state = debug();
                     break;
-                
+            
+//--------------------------------------------------------------------------------------------State 4 ExitProgram
                 case 4://Exit Program
                     System.out.println("Exiting the shell.");
                     running = false; // This ends the loop and exits the program.
@@ -121,15 +147,18 @@ public class Main{
 	}//End of main
 
 
-public static void debug(){
+public static int debug(){
+        Scanner scanner = new Scanner(System.in);
+        int input;
     System.out.println("\n---State Options (DEBUG)---");
     System.out.println("1. Not Signed in State");
     System.out.println("2. User Signed in State");
     System.out.println("3. Manager Signed in State");
     System.out.println("4. Quit Program");
     System.out.print("Set program state to:");
+    input = scanner.nextInt();
 
-    return;
+    return input;
 }
 
 

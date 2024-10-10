@@ -21,74 +21,24 @@ public class AccountManager{
     //public
     public int numOfUsers;
 
+    //private
 	private int nextUserNumber;
 	private int lastEmployeeNumber;
 	private String manager_Confrimation; 
     private Database database;
 
 
+    //Constructor
 	public AccountManager(Database database){
 		nextUserNumber = 1;
 		lastEmployeeNumber = 0;
 		manager_Confrimation = "Manager";
         numOfUsers = 0;
         this.database = database;
-        System.out.println("***Account Manager Created***");
-
-		
-	}
-
-    //Check when User wants to create a Manager Account
-    public boolean isManager(String userInput){
-
-        if (userInput == manager_Confrimation){
-            return true;
-        }else{
-            return false;
-        }
     }
 
-
-    public boolean isOriginalName(String firstName, String lastName){
-        for (int i = 0; i < numOfUsers; i++){
-            if (firstName.equals(database.allUsers.get(i).getFirstName()) && lastName.equals(database.allUsers.get(i).getLastName())){
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    public void createUser(String firstName, String lastName, 
-                         Calendar birthday,  String password){
-
-        if (isOriginalName(firstName,lastName)){
-        User newUser = new User(firstName, lastName, birthday, nextUserNumber, password);
-
-        nextUserNumber++;
-        numOfUsers++;
-        database.addUser(newUser);
-        database.hotel.setCurrentUser(newUser);
-        }
-
-        return;
-    }//End of createUser
-
-    /*
-    public void createManager(String firstName, String lastName, 
-                                     int userNumber,String password,
-                                Calendar birthday,Database database){
-
-        //check if manager confirmaiton number is correct then create Manager 
-
-        Manager newManager = new Manager(firstName, lastName, userNumber, password, birthday);
-        database.addUser(newUser);
-
-        return;
-    }//End of createManager
-    */
-
-	public int createAccount(){
+//------------------------------------------------------------------------------------------------------------Create Account
+	public void createAccount(){
 		Scanner scanner = new Scanner(System.in);
 		boolean running = true;
         int option;
@@ -97,7 +47,7 @@ public class AccountManager{
             System.out.println("---Create an Account---");
             System.out.println("1. Create a User Account");
             System.out.println("2. Create a Manager Account");
-            System.out.println("3. Exit Appliation");
+            System.out.println("3. Exit Account Creator");
             System.out.print("Please enter a number: ");
 
             option = scanner.nextInt();
@@ -105,6 +55,9 @@ public class AccountManager{
 
 
             switch (option) {
+                //***********************************************
+                //          Create User Acoount Option
+                //***********************************************
                 case 1:
                     System.out.println("---User Name---");
 
@@ -173,9 +126,10 @@ public class AccountManager{
                         //Confirm Password
                         passwordArray = console.readPassword("Please re-enter your password: ");
         
-                        // Convert the password array to a string
+                        //Convert the password array to a string
                         inputPassword2 = new String(passwordArray);
 
+                        //Confirm passwords match
                         if (inputPassword1.equals(inputPassword2)){
                             matching = true;
                         }else{
@@ -185,11 +139,24 @@ public class AccountManager{
                     }
 
                     createUser(inputFirstName, inputLastName, inputFullBirthday, inputPassword2);
-                    return 2;
+                    database.hotel.currentUser.printUser();
+
+                    return;
+
+                //***********************************************
+                //          Create Manager Acoount Option
+                //***********************************************
 
                 case 2:
                     System.out.println("---Manager Name---");
-                    return 3;
+                    return;
+
+                //***********************************************
+                //          Exit Account Creation Screen
+                //***********************************************
+                case 3:
+                    running = false;
+                    return;
 
                 default:
                     System.out.println("Invalid option, please try again.");
@@ -197,9 +164,137 @@ public class AccountManager{
             }
         }
         scanner.close(); // Close the scanner to avoid resource leaks
-        return 1;
+        return;
 	}//End of creatAccount
+//------------------------------------------------------------------------------------------------------------End of Create Account
 
+
+
+//------------------------------------------------------------------------------------------------------------Edit User Account
+    public void editUserAccount(){
+
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+        int option;
+        String userInput;
+
+        while (running) {
+
+            System.out.println("\n---Edit Account---");
+            System.out.println("1. Edit User Info");
+            System.out.println("2. Sign-out");
+            System.out.println("3. Delete Account");
+            System.out.println("4. Cancel");
+            System.out.print("Please enter a number: ");
+
+            option = scanner.nextInt();
+            scanner.nextLine(); 
+
+
+
+            switch (option) {
+
+                //***********************************************
+                //          Edit User Info
+                //***********************************************
+                case 1:
+                    System.out.println("Edit User Info");
+
+                    break;
+
+                //***********************************************
+                //          Sign-Out of User Account
+                //***********************************************
+                case 2:
+                    System.out.println("\nAre you sure you want to sign-out?");
+                    userInput = scanner.nextLine().toLowerCase();
+
+                    if (userInput.charAt(0)== 'y'){
+                        database.hotel.setCurrentUser(null);
+                        running = false;
+                    }
+                    break;
+
+                //***********************************************
+                //          Delete User Account
+                //***********************************************
+                case 3:
+                System.out.println("Delete Account");
+
+                    break;
+
+                //***********************************************
+                //          Exit Edit Account Screen
+                //***********************************************
+                case 4:
+                    System.out.println("4. Cancel");
+                    running = false;                    
+                default:
+
+                    break;
+            }
+        }
+        return;
+    }//End of editUserAccount
+//------------------------------------------------------------------------------------------------------------End of Edit User Account
+
+
+
+
+    //Check when User wants to create a Manager Account
+//------------------------------------------------------------------------------------------------------------Is Manager
+    public boolean isManager(String userInput){
+
+        if (userInput == manager_Confrimation){
+            return true;
+        }else{
+            return false;
+        }
+    }
+//------------------------------------------------------------------------------------------------------------End of Is Manager
+
+
+//------------------------------------------------------------------------------------------------------------Create User
+    public void createUser(String firstName, String lastName, 
+                         Calendar birthday,  String password){
+
+        User newUser = new User(firstName, lastName, birthday, nextUserNumber, password);
+
+        nextUserNumber++;
+        numOfUsers++;
+        database.addUser(newUser);
+        database.hotel.setCurrentUser(newUser);
+
+        return;
+    }//End of createUser
+//------------------------------------------------------------------------------------------------------------End of Create User
+
+
+    /*
+    public void createManager(String firstName, String lastName, 
+                                     int userNumber,String password,
+                                Calendar birthday,Database database){
+
+        //check if manager confirmaiton number is correct then create Manager 
+
+        Manager newManager = new Manager(firstName, lastName, userNumber, password, birthday);
+        database.addUser(newUser);
+
+        return;
+    }//End of createManager
+    */
+
+
+    /*
+    public boolean isOriginalName(String firstName, String lastName){
+        for (int i = 0; i < numOfUsers; i++){
+            if (firstName.equals(database.allUsers.get(i).getFirstName()) && lastName.equals(database.allUsers.get(i).getLastName())){
+                return false;
+            }
+        }
+        return true;
+    }
+    */
 
 
 

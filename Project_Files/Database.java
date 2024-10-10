@@ -26,7 +26,7 @@ import java.util.Calendar;
 
 
 
-public class Database {
+public class Database { //Once Database is implemented make a UTILITY Class Static
 
 	//Public
 	public Hotel hotel;
