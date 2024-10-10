@@ -9,33 +9,20 @@ import java.util.Scanner;
 public class Main{
 	public static void main(String[] args) {
 
-        /*General Application Flow
-         * App runs
-         * Check database class if Hotel already exits --> For now this will not exist, hotel must be created every new run
-         * If it does not create Hotel()
-         *
-         * Prompt User to sign in/create account
-         *
-         * Pull up User Menu (Options: 1.View Rooms, 2.View Reservations, and 3.Sign out)
-         * Option 1:View Rooms
-         *  Bring up List of all rooms
-         *  Once a room is selected the user is prompted to make a reservation
-         *  Call --> Reservation Manager()
-         * Option 2:View Reservations
-         *  If no reservations prompt and return to menu
-         *  Else Print all Reservations for user
-         * Option 3:Sign out
-         *  Sign user out
-         *  Return to Initial Sign in Screen
-        */
+        
 
-//----------------------------------------------------------------------------------------Test Code
 
-        //Make Database Object
-            //This will create all necessary classes 
+//-----------------------------------------------------------------------------------------Test Code
+
+        //Connect to Database
         Database database = new Database();
 
+        
 
+
+        
+
+        
 
 
 
@@ -63,38 +50,66 @@ public class Main{
         //if (user instanceof Manager){} //For separating User and Manager, can be used for Rooms as well.
 
 
-//-----------------------------------------------------------------------------------------End of Test Code
 
 
 		Scanner scanner = new Scanner(System.in);
         boolean running = true;
+        int choice;
+        int state = 1;
 
         while (running) {
-            System.out.println("Welcome to the User Shell");
-            System.out.println("Please select one of the following options");
-            System.out.println("1. Option 1");
-            System.out.println("2. Option 2");
-            System.out.println("3. Option 3");
-            System.out.println("4. Option 4");
-            System.out.println("5. Exit");
-            System.out.print("Please enter a number: ");
 
-            int choice = scanner.nextInt();
+            if (database.hotel.currentUser == null){
+                state = 1;
+            }
 
-            switch (choice) {
-                case 1:
-                    System.out.println("You selected Option 1.");
+            System.out.println("Current State: " + state);
+
+            switch (state) {
+
+                case 1://Not Signed-in
+
+                    System.out.println("State 1 Entered: User not signed in");
+
+                    System.out.println("1. Sign-in");
+                    System.out.println("2. Sign-up");
+                    System.out.print("Please enter a number: ");
+
+
+                    choice = scanner.nextInt();
+
+                    switch(choice){
+                        case 1:
+                            //Call AccountManager.SignIn();
+                            System.out.println("User has Signed-in");
+                            break;
+
+                        case 2:
+                            //Call AccountManager.CreateAccount();
+                            state = database.accountManager.createAccount();
+                            database.hotel.currentUser.printUser();
+                            System.out.println("User has created an account and has been Signed-in");
+                            break;
+
+                        default:
+                            //Invalid choice
+                            System.out.println("Invalid Selection");
+                            break;
+                    }
                     break;
-                case 2:
-                    System.out.println("You selected Option 2.");
+
+                case 2://User Signed-in
+                    System.out.println("State 2 Entered: User signed in");
+                    state = scanner.nextInt();
+
                     break;
-                case 3:
-                    System.out.println("You selected Option 3.");
+
+                case 3://Manager Signed-in
+                    System.out.println("State 3 Entered: Manager signed in");
+                    state = scanner.nextInt();
                     break;
-                case 4:
-                    System.out.println("You selected Option 4.");
-                    break;
-                case 5:
+                
+                case 4://Exit Program
                     System.out.println("Exiting the shell.");
                     running = false; // This ends the loop and exits the program.
                     break;

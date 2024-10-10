@@ -30,37 +30,52 @@ public class Database {
 
 	//Public
 	public Hotel hotel;
-	public ArrayList<Reservation> all_Reservations;
+	public ArrayList<Reservation> allReservations;
 	public Calendar birthday;
+	public ArrayList<User> allUsers;
+	public AccountManager accountManager;
 
 
 	//Private
-	private ArrayList<User> all_Users;
-	private AccountManager accountManager;
 	private ReservationManager reservationManager;
-	private RoomManager roomManager;//To be implemented
+	
 
 
 
 	public Database(){
+
+		//Check if hotel object exists in database
+
+        //if Hotel does not exist
 		//Create Hotel
-		hotel = new Hotel("Chotic Coder Inn", 10);
+		hotel = new Hotel("Chotic Coder Inn", 100);
 
 		//Create List of Users
-		all_Users = new ArrayList<User>();
+		allUsers = new ArrayList<User>();
 
-		//Create "Signed Out" User 0 and set it to Hotel Current User
-		birthday.getInstance();
-		User user = new User(" ", " ", birthday, 00000, " ");
-		all_Users.add(user);
-		hotel.setCurrentUser(all_Users.get(0));
+		//Create List of Reservations
+		allReservations = new ArrayList<Reservation>();
 
 		//Create Controller Classes
-		accountManager = new AccountManager();
-		reservationManager = new ReservationManager();
-		roomManager = new RoomManager();
+		accountManager = new AccountManager(this);
+		reservationManager = new ReservationManager(this);
+
+		//Create "Signed Out" User 0 and set it to Hotel Current User
+		//birthday.getInstance();
+		//accountManager.createUser(" ", " ", birthday, " ");
+		//allUsers.add(user);
+		//hotel.setCurrentUser(null);
+
+		
 	}
 
+	public void addUser(User newUser){
+
+		allUsers.add(newUser);
+
+		return;
+
+	}
 
 
 	

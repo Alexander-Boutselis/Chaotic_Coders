@@ -18,7 +18,7 @@ public class ReservationManager {
 		this.hotel = hotel;
 	}
 
-	public ReservationManager() {
+	public ReservationManager(Database database) {
 		
 	}
 

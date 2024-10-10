@@ -14,6 +14,7 @@
 
 //import java.util.Date;
 import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class User {
@@ -31,7 +32,7 @@ public class User {
     private ArrayList<String> reservations;
 
 
-    // Testing Default Constructor
+/*    // Testing Default Constructor
     public User() {
         firstName = "Tina TestUser";
         birthday.set(2000, Calendar.APRIL, 13);
@@ -39,21 +40,8 @@ public class User {
         password = "password";
         reservations = new ArrayList<>();
     }
-
-    //Signed out User
-    public User(int num) {
-        if (num == 1) {
-            firstName = " ";
-            lastName = " ";
-            birthday.getInstance();
-            userNumber = 00000;
-            password = " ";
-            reservations = new ArrayList<>();
-            
-        }
-    }
-
-
+*/
+ 
     // Constructor
     public User(String firstName, String lastName, Calendar birthday, int userNumber, String password) {
         this.firstName = firstName;
@@ -69,6 +57,14 @@ public class User {
         String nameCombiner;
         nameCombiner = firstName + " " + lastName;
         return nameCombiner;
+    }
+
+    public String getFirstName(){
+        return firstName;
+    }
+
+    public String getLastName(){
+        return lastName;
     }
 
     public void setName(String firstName, String lastName) {
@@ -112,7 +108,12 @@ public class User {
         this.reservations.remove(reservation);
     }
 
-    
+    public void printUser(){
+        System.out.println("User Signed in: " + getName());
+        System.out.println("User Number: " + userNumber);
+        SimpleDateFormat simpleFormatBirthday = new SimpleDateFormat("MM/dd/yyyy");
+        System.out.println("User's Birthday: " + simpleFormatBirthday.format(birthday.getTime()));
+    }
 
     //method to display User information
     public String toString() {
