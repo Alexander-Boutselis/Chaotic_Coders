@@ -101,6 +101,8 @@ public class AccountManager{
             System.out.print("Please enter a number: ");
 
             option = scanner.nextInt();
+            scanner.nextLine(); 
+
 
             switch (option) {
                 case 1:
@@ -109,7 +111,6 @@ public class AccountManager{
                     //Get first name
                     System.out.print("Please enter your first name: ");
                     String inputFirstName = scanner.nextLine();
-                    scanner.nextLine(); 
 
                     //Get last name
                     System.out.print("Please enter your last name: ");

@@ -100,13 +100,12 @@ public class Main{
 
                 case 2://User Signed-in
                     System.out.println("State 2 Entered: User signed in");
-                    state = scanner.nextInt();
-
+                    debug();state = scanner.nextInt();
                     break;
 
                 case 3://Manager Signed-in
                     System.out.println("State 3 Entered: Manager signed in");
-                    state = scanner.nextInt();
+                    debug();state = scanner.nextInt();
                     break;
                 
                 case 4://Exit Program
@@ -119,5 +118,20 @@ public class Main{
         }
 
         scanner.close(); // Close the scanner to avoid resource leaks
-	}
+	}//End of main
+
+
+public static void debug(){
+    System.out.println("\n---State Options (DEBUG)---");
+    System.out.println("1. Not Signed in State");
+    System.out.println("2. User Signed in State");
+    System.out.println("3. Manager Signed in State");
+    System.out.println("4. Quit Program");
+    System.out.print("Set program state to:");
+
+    return;
 }
+
+
+
+}//End of Main
