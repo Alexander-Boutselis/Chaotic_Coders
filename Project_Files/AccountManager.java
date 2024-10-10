@@ -135,6 +135,25 @@ public class AccountManager{
                     Calendar inputFullBirthday = Calendar.getInstance();
                     inputFullBirthday.set(inputBirthYEAR, inputBirthMONTH - 1, inputBirthDAY);
 
+                    //Get the current date
+                    Calendar today = Calendar.getInstance();
+
+                    //Calculate the difference in years
+                    int age = today.get(Calendar.YEAR) - inputFullBirthday.get(Calendar.YEAR);
+
+                    //Check if the user hasn't had their birthday this year yet
+                    if (today.get(Calendar.MONTH) < inputFullBirthday.get(Calendar.MONTH) ||
+                        (today.get(Calendar.MONTH) == inputFullBirthday.get(Calendar.MONTH) &&
+                         today.get(Calendar.DAY_OF_MONTH) < inputFullBirthday.get(Calendar.DAY_OF_MONTH))) {
+                        age--; // Subtract one if the birthday hasn't occurred yet this year
+                    }
+
+                    // Verify if the user is 18 or older
+                    if (age < 18) {
+                        System.out.println("You must be 18 years or older to create an account.");
+                        break; // Exit method if the user is under 18
+                    }
+
                     //Loop until passwords match
                     String inputPassword1;
                     String inputPassword2 = "";
@@ -143,8 +162,6 @@ public class AccountManager{
                     while(matching != true){
 
                         System.out.println("---Password---");
-                        scanner.nextLine(); 
-
 
                         //Get Password
                         Console console = System.console();
