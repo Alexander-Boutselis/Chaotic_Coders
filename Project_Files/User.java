@@ -22,10 +22,10 @@ public class User {
     //User Info
     private String firstName; //We should seperate first and last name into their own Variables and seperate the prompt. This will intigrate with the GUI easier
     private String lastName;
-    private Calendar birthday = Calendar.getInstance();
+    protected Calendar birthday = Calendar.getInstance();
 
     //Log in Info
-    private int userNumber;
+    protected int userNumber;
     private String password;
 
     //User Reservations

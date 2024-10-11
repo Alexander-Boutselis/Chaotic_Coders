@@ -62,13 +62,12 @@ public class Main{
                     switch(choice){
                         case 1:
                             //Call AccountManager.SignIn();
-                            System.out.println("User has Signed-in");
+                            database.accountManager.accountSignIn();
                             break;
 
                         case 2:
                             //Call AccountManager.CreateAccount();
                             database.accountManager.createAccount();
-                            System.out.println("User has created an account and has been Signed-in");
                             break;
 
                         case 3:

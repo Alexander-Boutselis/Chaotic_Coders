@@ -12,6 +12,8 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.text.SimpleDateFormat;
+
 
 
 public class Manager extends User{
@@ -40,14 +42,14 @@ public class Manager extends User{
     public void removeNotification(String notification) {
         this.notifications.remove(notification);
     }
+
+    public void printManager(){
+        System.out.println("\nUser Signed in: " + getName());
+        System.out.println("User Number: " + userNumber);
+        SimpleDateFormat simpleFormatBirthday = new SimpleDateFormat("MM/dd/yyyy");
+        System.out.println("User's Birthday: " + simpleFormatBirthday.format(birthday.getTime()));
+    }
+
 }
 
 
-
-
-/*
-Should reservations be stored in the User or should the user have a pointer to their reservations in the hotel reservation arraylist?
-
-
-
-*/
