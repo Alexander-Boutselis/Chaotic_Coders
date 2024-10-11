@@ -78,6 +78,10 @@ public class Hotel{
 		return;
 	}
 
+	public User getCurrentUser() {
+		return currentUser;
+	}
+
 
 	public void addReservation(Reservation reservation, int rooms) {
 		availibleRooms = availibleRooms - rooms;

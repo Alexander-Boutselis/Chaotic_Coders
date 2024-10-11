@@ -34,10 +34,10 @@ public class Database { //Once Database is implemented make a UTILITY Class Stat
 	public Calendar birthday;
 	public ArrayList<User> allUsers;
 	public AccountManager accountManager;
+	public ReservationManager reservationManager;
 
 
 	//Private
-	private ReservationManager reservationManager;
 	
 
 
