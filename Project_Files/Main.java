@@ -129,7 +129,52 @@ public class Main{
 //--------------------------------------------------------------------------------------------State 3 Manager Signed-In
                 case 3://Manager Signed-in
                     System.out.println("\n---State 3 Entered: Manager signed in---");
-                    state = debug();
+                    System.out.println("1. Edit Hotel");
+                    System.out.println("2. Edit My Account");
+                    System.out.println("3. Edit User Accounts");
+                    System.out.println("4. View Reservations");
+                    System.out.println("5. Quit");
+                    System.out.print("Please enter a number: ");
+
+                    choice = scanner.nextInt();
+                    scanner.nextLine(); 
+
+
+                    switch(choice){
+                        case 1:
+                            //View Rooms
+                            System.out.println(" Edit Hotel");
+                            break;
+
+                        case 2:
+                            //Edit My Account
+                            System.out.println("Edit My Account");
+                            database.accountManager.editUserAccount();
+                            break;
+
+                        case 3:
+                            //My Reservations
+                            System.out.println("Edit User Accounts");
+                            break;
+
+
+                        case 4:
+                            //My Reservations
+                            System.out.println("View Reservations");
+                            break;
+
+                        case 5:
+                            System.out.println("Exiting...");
+                            running = false;
+                            break;
+                            
+                        default:
+                            //Invalid choice
+                            System.out.println("Invalid Selection");
+                            break;
+                    
+                    }
+                    //state = debug();//REMOVE
                     break;
             
 //--------------------------------------------------------------------------------------------State 4 ExitProgram
