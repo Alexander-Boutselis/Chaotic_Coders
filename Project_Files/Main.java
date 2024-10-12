@@ -100,6 +100,7 @@ public class Main{
                         case 1:
                             //View Rooms
                             System.out.println("View Rooms");
+                            database.reservationManager.viewRoomsMakeReservation(database.hotel.getCurrentUser());
                             break;
 
                         case 2:

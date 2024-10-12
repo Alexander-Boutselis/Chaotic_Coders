@@ -29,6 +29,13 @@ public class Reservation {
 		this.user = user;
 	}
 
+	public Reservation(LocalDate startDate, LocalDate endDate, Room reservedRoom, User user) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.reservedRooms = new Room[]{reservedRoom};
+		this.user = user;
+	}
+
 	// Get and set methods
 	public LocalDate getStartDate() {
 		return startDate;
