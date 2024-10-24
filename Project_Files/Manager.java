@@ -18,6 +18,21 @@ import java.text.SimpleDateFormat;
 
 public class Manager extends User{
 
+    /*Variables:
+        Employee Number
+        Start Date
+    */
+    
+    /*Functions:
+        Get/Set Employee Number
+        Get/Set Start Date
+        Calc Time worked at Hotel
+        PrintAccount
+        
+    */
+
+
+
 	protected int employeeNumber;
     private ArrayList<String> notifications;
 
@@ -43,7 +58,8 @@ public class Manager extends User{
         this.notifications.remove(notification);
     }
 
-    public void printManager(){
+    //Overide
+    public void printAccount(){
         System.out.println("\nUser Signed in: " + getName());
         System.out.println("User Number: " + userNumber);
         SimpleDateFormat simpleFormatBirthday = new SimpleDateFormat("MM/dd/yyyy");

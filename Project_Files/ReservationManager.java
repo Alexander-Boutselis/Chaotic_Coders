@@ -14,6 +14,58 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class ReservationManager {
+
+
+
+	/*Functions: (All Methods must be Static)
+		Create Reservation
+		Assign User
+		Get Duration
+		Calc Total Price
+		Get/Set Total Price
+		Get/Set Room Number
+		Get/Set Room Number Reserved
+		Get/Set Start Date
+		Get/Set End Date
+		isEqualTo()
+		Print Reservation
+	*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	private Hotel hotel;
 	private Database database;
 

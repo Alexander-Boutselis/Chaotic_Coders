@@ -9,10 +9,35 @@
 * Size of Room (# of people it fits)*
 *************************************/
 public class Room {
+
+
+
+    /*Variables:
+        Room Number
+        Number of Beds
+        Bed Type
+        Price Per Night
+        Description
+        List of Reservation Index Numbers in Database
+    */
+    
+    /*Functions:
+        Get/Set Room Number
+        Get/Set Number of Beds
+        Get/Set Bed Type
+        Get/Set Price Per Night
+        Get/Set Description
+        Get Reservation 
+        Get All Reservations
+        Add/Remove Reservation
+        Print Room
+    */
+
+
     // Fields for the Room class
     private int roomNumber;
     private String roomType;
-    private boolean isOccupied;
+    private boolean isAvailable;
     private double pricePerNight;
     private int roomSize; // Number of people the room fits
 
@@ -42,12 +67,12 @@ public class Room {
         this.roomType = roomType;
     }
 
-    public boolean isOccupied() {
-        return isOccupied;
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
-    public void setOccupied(boolean isOccupied) {
-        this.isOccupied = isOccupied;
+    public void setAvailability(boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 
     public double getPricePerNight() {
@@ -70,14 +95,13 @@ public class Room {
     public void displayRoomDetails() {
         System.out.println("Room Number: " + roomNumber);
         System.out.println("Room Type: " + roomType);
-        System.out.println("Occupied: " + (isOccupied ? "Yes" : "No"));
+        System.out.println("isAvailable: " + (isAvailable ? "Yes" : "No"));
         System.out.println("Price per Night: $" + pricePerNight);
         System.out.println("Room Size: Fits " + roomSize + " people");
     }
 
-    public static void main(String[] args) {
-        // // Example of creating a Room object and displaying its details
-        // Room room = new Room(101, "Deluxe", false, 150.0, 4);
-        // room.displayRoomDetails();
-    }
+    /****************************************************************
+     *                          End                                 *
+     ****************************************************************/
+
 }

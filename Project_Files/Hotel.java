@@ -1,24 +1,33 @@
-//Hotel.j
+//Hotel.java
 
-/*************************************
-*Hotel Class should include:         *
-* Total # of Rooms                   *
-* Array of Reserved Rooms            *
-* Array of Users                     *
-*Functions:                          *
-* User Shell                         *
-* Sign in                            *
-* Make Reservation                   *
-* Modify Reservation                 *
-* Modify Hotel Room (Admin Only)     *
-* Add Room                           *
-* Modify Room                        *
-* Print Rooms List (Admin)           *
-**************************************/
+
 import java.util.ArrayList;
 
 
 public class Hotel{
+
+
+
+	/*Variables:
+        Hotel Name
+        Current User - Will move to GUI
+        List of Rooms
+		Number of Rooms
+		List of Reservation Index Numbers
+    */
+    
+    /*Functions:
+        Get/Set Hotel Name
+        Get/Set Current User
+        Get/Set Number of Rooms
+        Add/Remove Rooms
+        Get Room from List
+		Get Reservation
+		Get All Reservations
+		Print Hotel        
+    */
+
+
 
 	//Public:
 	public String hotelName;
@@ -90,6 +99,10 @@ public class Hotel{
 	public void removeReservation(Reservation reservation, int rooms) {
 		availibleRooms = availibleRooms + rooms;
 	}
+
+	/****************************************************************
+	 *							End					 				*
+	 ****************************************************************/
 }
 
                                                     

@@ -15,6 +15,27 @@ import java.time.temporal.ChronoUnit;
 
 public class Reservation {
 
+
+	/*Variables:
+		Assigned User
+		Total Price 
+		Room Number Reserved (Can only reserve 1 room per reservation)
+		Start Date
+		End Date
+
+	*/
+	
+	/*Functions:
+		Get/Set Assigned User
+		Get/Set Total Price
+		Get/Set Room Number Reserved
+		Get/Set Start Date
+		Get/Set End Date
+		Calculate Duration of Stay
+		Print Reservation
+	*/
+
+
 	// Variables
 	private LocalDate startDate;
 	private LocalDate endDate;
@@ -130,4 +151,8 @@ public class Reservation {
 	public void printReceipt() {
 		System.out.println(getReceipt());
 	}
+
+	/****************************************************************
+	 *							End					 				*
+	 ****************************************************************/
 }

@@ -16,7 +16,8 @@ public class Main{
 //-----------------------------------------------------------------------------------------End of Test Code
 
         //Connect to Database
-        Database database = new Database();
+        //Database database = new Database();
+        DatabaseManager.initializeDatabase();
 
         //Verify that the Hotel is created
         database.hotel.printHotel();

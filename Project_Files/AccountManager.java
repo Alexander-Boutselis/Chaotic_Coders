@@ -18,6 +18,39 @@ import java.io.Console;
 
 public class AccountManager{
 
+
+
+    /*Functions:
+        Create User Account
+        Create Manager Account
+        Add/Remove Account
+        Get Account from Database
+        Set/Get Username
+        Check for Unique Username
+        isManager()
+        Edit User
+        Sign-In
+        Sign out
+        isEqualTo()
+        Print Account Info
+    */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //public
     public int numOfUsers;
 

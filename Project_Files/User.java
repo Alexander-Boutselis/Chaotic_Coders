@@ -18,6 +18,38 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class User {
+
+
+    /*Variables
+    First Name
+    Last Name
+    Birthday
+    Username
+    Password
+    List of Reservation Index in Database
+    List of Notificaitons
+    */
+
+    /*Functions:
+    Get/Set First and Last name (seperate)
+    Get/Set Birthday
+    Get/Set Username
+    Get/Set Password
+    Add Reservation
+    Remove Reservation
+    Get Reservation from list
+    Add/Remove Notificaitons
+    Get Notificaitons
+    Print User
+    */
+
+
+
+
+
+
+
+
     
     //User Info
     private String firstName; //We should seperate first and last name into their own Variables and seperate the prompt. This will intigrate with the GUI easier
@@ -108,11 +140,16 @@ public class User {
         this.reservations.remove(reservation);
     }
 
-    public void printUser(){
+    public void printAccount(){
         System.out.println("\nUser Signed in: " + getName());
         System.out.println("User Number: " + userNumber);
         SimpleDateFormat simpleFormatBirthday = new SimpleDateFormat("MM/dd/yyyy");
         System.out.println("User's Birthday: " + simpleFormatBirthday.format(birthday.getTime()));
+    }
+
+
+    public void equals(User otherUser){
+        
     }
 
     //method to display User information
