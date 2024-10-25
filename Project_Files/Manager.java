@@ -1,12 +1,6 @@
 //Manager.java
 
 
-/***********************************
-*Manager Class should extend User: *
-* Employee #                   *
-* Password                     *
-* Array Notificaitons (updates)*
-********************************/
 
 
 import java.util.Scanner;
@@ -32,20 +26,22 @@ public class Manager extends User{
     */
 
 
-
-	protected int employeeNumber;
+	private int employeeNumber;
+    private Calendar startDate;
     private ArrayList<String> notifications;
 
 
-
-
-	public Manager(int employeeNumber, String firstName, String lastName, Calendar birthday, int userNumber, String password) {
-        super(firstName, lastName, birthday, userNumber, password);
+	public Manager(int employeeNumber, String firstName, String lastName, Calendar birthday, String username, String password) {
+        super(firstName, lastName, birthday, username, password);
         this.employeeNumber = employeeNumber;
+        startDate = Calendar.getInstance();
 		notifications = new ArrayList<>();
 	}
 
 
+/****************************************************************
+ *                      Notifications                           *
+ ****************************************************************/
 	public ArrayList<String> getNotifications() {
         return notifications;
     }
@@ -58,12 +54,40 @@ public class Manager extends User{
         this.notifications.remove(notification);
     }
 
-    //Overide
+
+/****************************************************************
+ *                      Getters                                 *
+ ****************************************************************/
+    public Calendar getStartDate(){
+        return startDate;
+    }
+
+    public int getEmployeeNumber(){
+        return employeeNumber;
+    }
+
+
+/****************************************************************
+ *                      Setters                                 *
+ ****************************************************************/
+    public void getStartDate(Calendar date){
+        startDate = date;
+    }
+
+    public void getEmployeeNumber(int num){//Should not need this?
+        employeeNumber = num;
+    }
+
+
+/****************************************************************
+ *                       Print                                  *
+ ****************************************************************/
     public void printAccount(){
         System.out.println("\nUser Signed in: " + getName());
-        System.out.println("User Number: " + userNumber);
+        System.out.println("Username: " + username);
+        System.out.println("Employee Number: " + employeeNumber);
         SimpleDateFormat simpleFormatBirthday = new SimpleDateFormat("MM/dd/yyyy");
-        System.out.println("User's Birthday: " + simpleFormatBirthday.format(birthday.getTime()));
+        System.out.println(getName() + "'s Birthday: " + simpleFormatBirthday.format(birthday.getTime()));
     }
 
 }

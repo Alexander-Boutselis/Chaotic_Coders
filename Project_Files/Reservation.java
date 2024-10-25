@@ -18,6 +18,7 @@ public class Reservation {
 
 	/*Variables:
 		Assigned User
+		Reservation Number
 		Total Price 
 		Room Number Reserved (Can only reserve 1 room per reservation)
 		Start Date

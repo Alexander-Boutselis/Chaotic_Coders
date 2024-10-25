@@ -1,16 +1,12 @@
-//Room.j
+//Room.java
 
-/************************************
-*Room Class should include:         *
-* Room #                            *
-* Room Type                         *
-* Status of Room                    *
-* Amount per night                  *
-* Size of Room (# of people it fits)*
-*************************************/
+
+import java.util.ArrayList;
+
+/****************************************************************
+ *                      Room Class                              *
+ ****************************************************************/
 public class Room {
-
-
 
     /*Variables:
         Room Number
@@ -34,74 +30,120 @@ public class Room {
     */
 
 
-    // Fields for the Room class
     private int roomNumber;
-    private String roomType;
-    private boolean isAvailable;
+    private int numOfBeds;
+    private String bedType;
+    private String roomDescription;
     private double pricePerNight;
-    private int roomSize; // Number of people the room fits
+    private ArrayList<Integer> reservationIndexNumbers;
+
 
     // Constructor for initializing the Room object
-    public Room(int roomNumber, String roomType, boolean isOccupied, double pricePerNight, int roomSize) {
+    public Room(int roomNumber, int numOfBeds, String bedType, double pricePerNight, String roomDescription) {
         this.roomNumber = roomNumber;
-        this.roomType = roomType;
-        this.isOccupied = isOccupied;
+        this.bedType = bedType;
+        this.numOfBeds = numOfBeds;
         this.pricePerNight = pricePerNight;
-        this.roomSize = roomSize;
+        this.roomDescription = roomDescription;
+        reservationIndexNumbers = new ArrayList<Integer>;
     }
 
-    // Getter and Setter methods
-    public int getRoomNumber() {
-        return roomNumber;
-    }
+
+/****************************************************************
+ *                      Setters                                 *
+ ****************************************************************/
 
     public void setRoomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
     }
 
-    public String getRoomType() {
-        return roomType;
+    public void setNumberOfBeds(int numOfBeds){
+        this.numOfBeds = numOfBeds;
     }
 
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
+    public void setBedType(String bedType) {
+        this.bedType = bedType;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailability(boolean isAvailable) {
-        this.isAvailable = isAvailable;
-    }
-
-    public double getPricePerNight() {
-        return pricePerNight;
+    public void setRoomDescription(String roomDescription){
+        this.roomDescription = roomDescription;
     }
 
     public void setPricePerNight(double pricePerNight) {
         this.pricePerNight = pricePerNight;
     }
 
-    public int getRoomSize() {
-        return roomSize;
+
+/****************************************************************
+ *                      Getters                                 *
+ ****************************************************************/
+    public int getRoomNumber(){
+        return roomNumber;
     }
 
-    public void setRoomSize(int roomSize) {
-        this.roomSize = roomSize;
+    public int getNumberOfBeds(){
+        return numOfBeds;
     }
+
+    public String getBedType(){
+        return bedType;
+    }
+    
+    public String getRoomDescription(){
+        this.roomDescription = roomDescription;
+    }
+
+    public double getPricePerNight(){
+        return pricePerNight;
+    }
+
+    public int getReservationIndexNumber(int index){
+        return reservationIndexNumbers.get(index);
+    }
+
+    public ArrayList<Integer> getAllReservationIndexNumbers(){
+        return reservationIndexNumbers;
+    }
+
+
+/****************************************************************
+ *                      Add Reservation                         *
+ ****************************************************************/
+    public void addReservationIndexNumber(int newReservationIndexNumber){
+        reservationIndexNumbers.add(newReservationIndexNumber);
+    }
+    
+
+/****************************************************************
+ *                      Remove Reservation                      *
+ ****************************************************************/
+    public void removeReservationIndexNumber(int indexNumberToDelete){
+
+        for (int i = 0; i < reservationIndexNumbers.size(); i++) {
+
+            if (reservationIndexNumbers.get(i) == indexNumberToDelete){
+                reservationIndexNumbers.remove(i);
+                return;
+            }
+        }
+    }
+
+/****************************************************************
+ *                           Print                              *
+ ****************************************************************/
 
     // Display room details
-    public void displayRoomDetails() {
+    public void printRoom() {
         System.out.println("Room Number: " + roomNumber);
-        System.out.println("Room Type: " + roomType);
-        System.out.println("isAvailable: " + (isAvailable ? "Yes" : "No"));
+        System.out.print(numOfBeds + " ");
+        System.out.println(bedType);
         System.out.println("Price per Night: $" + pricePerNight);
-        System.out.println("Room Size: Fits " + roomSize + " people");
+        System.out.println("Description: ");
+        System.out.println(roomDescription);
     }
 
-    /****************************************************************
-     *                          End                                 *
-     ****************************************************************/
+/****************************************************************
+ *                          End                                 *
+ ****************************************************************/
 
 }

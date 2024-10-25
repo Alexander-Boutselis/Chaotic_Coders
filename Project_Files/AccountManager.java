@@ -31,6 +31,7 @@ public class AccountManager{
         Edit User
         Sign-In
         Sign out
+        Get/Set CurrentUser
         isEqualTo()
         Print Account Info
     */

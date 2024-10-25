@@ -1,6 +1,12 @@
 //RoomManager.java
 
 
+
+
+
+/****************************************************************
+ *                     Room Manager                             *
+ ****************************************************************/
 public class RoomManager {
 	
     /*Functions Needed:
@@ -21,5 +27,23 @@ public class RoomManager {
     // Private constructor to prevent instantiation
     private RoomManager() {}
 
+/****************************************************************
+ *                  Create/Destroy Room                         *
+ ****************************************************************/
+
+    public static void createRoom(Hotel hotel, int roomNumber, int numOfBeds, String bedType, double pricePerNight, String roomDescription){
+    	Room newRoom = new Room(roomNumber, numOfBeds, bedType, pricePerNight, roomDescription);
+    	hotel.addRoom(newRoom);
+    }
+
+
+/****************************************************************
+ *                      Calculate Price                         *
+ ****************************************************************/
+
+
+/****************************************************************
+ *                           End                                *
+ ****************************************************************/
 
 }

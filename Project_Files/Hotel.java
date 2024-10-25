@@ -7,10 +7,8 @@ import java.util.ArrayList;
 public class Hotel{
 
 
-
 	/*Variables:
         Hotel Name
-        Current User - Will move to GUI
         List of Rooms
 		Number of Rooms
 		List of Reservation Index Numbers
@@ -18,7 +16,6 @@ public class Hotel{
     
     /*Functions:
         Get/Set Hotel Name
-        Get/Set Current User
         Get/Set Number of Rooms
         Add/Remove Rooms
         Get Room from List
@@ -28,67 +25,120 @@ public class Hotel{
     */
 
 
-
 	//Public:
-	public String hotelName;
-	public int totalRooms;
-	public ArrayList<Room> hotelRooms;
-	public int availibleRooms;
-	public User currentUser;
-
 
 	//Private:
-	private boolean signedIn;
-	private RoomManager roomManager;//To be implemented
+	private String hotelName;
+	private int totalRooms;
+	private ArrayList<Room> hotelRooms;
+	private	ArrayList<Reservation> allReservations;
 
-	//REMOVE, DO NOT USE IN CURRENT STATE
-	public Hotel(){
-		//Default will be 10 Rooms and users
-		totalRooms = 10;
-		availibleRooms = totalRooms;
+
+	//Empty Hotel
+	public Hotel(String hotelName){
+		//Default
+		totalRooms = 0;
 		hotelRooms = new ArrayList<>();
-		currentUser = null;
-		signedIn = false;
-		hotelName = "Chaotic Coder Inn";
+		allReservations = new ArrayList<Reservation>();
+		this.hotelName = hotelName;
 	}
 
+	//Dont Use This one anymore
 	public Hotel(String hotelName, int totalRooms){
 		this.hotelName = hotelName;
 		this.totalRooms = totalRooms;
-		availibleRooms = totalRooms;
-		hotelRooms = new ArrayList<Room>();
-		roomManager = new RoomManager();
-		currentUser = null;
+		hotelRooms = new ArrayList<>();
 	}
+
+ /****************************************************************
+  *                    		  Getters		                     *
+  ****************************************************************/
+
+	public String getHotelName(){
+		return hotelName;
+	}
+
+	public int getNumOfRooms(){
+		return totalRooms;
+	}
+
+	public Room getRoom(int searchRoomNumber){
+		for (Room room : hotelRooms){
+			if (room.getRoomNumber() == searchRoomNumber){
+				return room;
+			}
+		}
+		return null; //Failed to find Room with matching Room Number
+	}
+
+	public ArrayList<Room> getAllRooms(){
+		return hotelRooms;
+	}
+
+	public Reservation getReservation(int searchReservationNumber){
+		for (Reservation reservation : allReservations){
+			if (reservation.getReservationNumber() == searchRoomNumber)
+				return reservation;
+		}
+		return null; //No Reservaiton found
+	}
+
+
+	public ArrayList<Reservaiton> getAllReservations(){
+		return allReservations;
+	}
+
+
+ /****************************************************************
+  *                    		  Setters		                     *
+  ****************************************************************/
+
+	public void setHotelName(String newHotelName){
+		hotelName = newHotelName;
+	}
+
+	public void setTotalRooms(){//Updates total rooms
+		totalRooms = hotelRooms.size();
+	}
+
+
+
+ /****************************************************************
+  *                    		  Adders		                     *
+  ****************************************************************/
+
+    //Add a Reservation object to the list
+    public void addReservation(Reservation reservation) {
+        allReservations.add(reservation);
+    }
+
+
+
+
+ /****************************************************************
+  *                    		  Removers		                     *
+  ****************************************************************/
+
+    //Remove a Reservation object from the list by matching with isEqualTo()
+    public void removeReservation(Reservation reservation) {
+        for (int i = 0; i < allReservations.size(); i++) {
+            if (allReservations.get(i).isEqualTo(reservation)) {
+                allReservations.remove(i);
+                break; //Stop after removing the first match
+            }
+        }
+    }
+
+
+ /****************************************************************
+  *                    		  Print 		                     *
+  ****************************************************************/
 
 
 	public void printHotel(){
         System.out.println("Hotel: " + hotelName);
         System.out.println("Total rooms: " + totalRooms); 
 		return;
-	}
-
-
-	public void printCurrentUser(){
-		if(currentUser != null){
-        System.out.println("Current User: "+ currentUser.getName());
-		}
-        return;
-	}
-
-	public void setCurrentUser(User newUser){
-		currentUser = newUser;
-		return;
-	}
-
-
-	public void setCurrentUser(Manager newUser){
-		currentUser = newUser;
-		return;
-	}
-
-	public User getCurrentUser() {
-		return currentUser;
 	}
 
 

@@ -9,51 +9,43 @@ import java.util.ArrayList;
  ****************************************************************/
 public class Database { //Currently where data is stored, will eventually be replace with Database calls and returns
 
-
-
 	/*Variables:
         List of All Hotels
         List of All Users
         List of All Reservations
+        Current User
+        Signed-in Status
     */
     
     /*Functions:
        	Add/Remove Hotel
        	Add/Remove User
        	Add/Remove Reservation
+        Get/Set Current User
+        Get/Set Sign-in Status
        	Get Hotel
        	Get User
-       	Get Reservation
-        
+       	Get Reservation  
+        Print Current User
     */
 
-
-
-
-
-
-
-
-
-	//Public
 
 	//Private
 	private ArrayList<Hotel> allHotels;
 	private ArrayList<User> allUsers;
 	private ArrayList<Reservation> allReservations;
-	
+    private User currentUser;
+    private boolean signedIn;
 
-	//private AccountManager accountManager;
-	//private ReservationManager reservationManager;
 
 
 	//Database constructor
 	public Database(){
 		allHotels = new ArrayList<Hotel>();
 		allUsers = new ArrayList<User>();
-		allReservations = new ArrayList<Reservation>();
+        currentUser = null;
+        signedIn = false;
 	}
-
 
 	
 	/****************************************************************
@@ -70,43 +62,43 @@ public class Database { //Currently where data is stored, will eventually be rep
         allUsers.add(user);
     }
 
-    //Add a Reservation object to the list
-    public void addReservation(Reservation reservation) {
-        allReservations.add(reservation);
-    }
 
 	/****************************************************************
 	 *							Removers							*
 	 ****************************************************************/
 
-	//Remove a Hotel object from the list by matching with equalTo()
-    public void removeHotel(Hotel hotel) {
+	//Remove a Hotel object from the list by matching with isEqualTo()
+    public void removeHotel(String hotelName) {
         for (int i = 0; i < allHotels.size(); i++) {
-            if (allHotels.get(i).equalTo(hotel)) {
+            if (allHotels.get(i).equals(hotelName)) {
                 allHotels.remove(i);
                 break; //Stop after removing the first match
             }
         }
     }
 
-    //Remove a User object from the list by matching with equalTo()
-    public void removeUser(User user) {
+    //Remove a User object from the list by matching with isEqualTo()
+    public void removeUser(String username) {
         for (int i = 0; i < allUsers.size(); i++) {
-            if (allUsers.get(i).equalTo(user)) {
+            if (allUsers.get(i).getUsername.equals(username)) {
                 allUsers.remove(i);
                 break; //Stop after removing the first match
             }
         }
     }
 
-    //Remove a Reservation object from the list by matching with equalTo()
-    public void removeReservation(Reservation reservation) {
-        for (int i = 0; i < allReservations.size(); i++) {
-            if (allReservations.get(i).equalTo(reservation)) {
-                allReservations.remove(i);
-                break; //Stop after removing the first match
-            }
-        }
+
+
+    /****************************************************************
+     *                          Setters                             *
+     ****************************************************************/
+
+    public void setCurrentUser(User user){
+        currentUser = user;
+    }
+
+    public void setSignedInStatus(boolean status){
+        signedIn = status;
     }
 
 
@@ -114,41 +106,61 @@ public class Database { //Currently where data is stored, will eventually be rep
 	 *							Getters								*
 	 ****************************************************************/
 
-	//Get a Hotel object by comparing with another Hotel object using equalTo()
-    public Hotel getHotel(Hotel searchHotel) {
+    public User getCurrentUser(){
+        return currentUser;
+    }
+
+    public boolean isSignedIn(){
+        return signedIn;
+    }
+
+	//Get a Hotel object by comparing with another Hotel object using isEqualTo()
+    public Hotel getHotel(String searchHotelName) {
         for (Hotel hotel : allHotels) {
-            if (hotel.equalTo(searchHotel)) {
+            if (hotel.getName().equals(searchHotelName)) {
                 return hotel;
             }
         }
         return null; //If no matching object is found
     }
 
-    // Get a User object by comparing with another User object using equalTo()
+    // Get a User object by comparing with another User object using isEqualTo()
     public User getUser(User searchUser) {
         for (User user : allUsers) {
-            if (user.equalTo(searchUser)) {
+            if (user.isEqualTo(searchUser)) {
                 return user;
             }
         }
         return null; //If no matching object is found
     }
 
-    //Get a Reservation object by comparing with another Reservation object using equalTo()
+    //Get a Reservation object by comparing with another Reservation object using isEqualTo()
     public Reservation getReservation(Reservation searchReservation) {
         for (Reservation reservation : allReservations) {
-            if (reservation.equalTo(searchReservation)) {
+            if (reservation.isEqualTo(searchReservation)) {
                 return reservation;
             }
         }
         return null; //If no matching object is found
     }
 
-	
+    public ArrayList<Reservation> getAllReservations(){
+        return allReservations;
+    }
+
+
+
+    /****************************************************************
+     *                          Print                               *
+     ****************************************************************/
+    public void printCurrentUser(){
+        if(currentUser != null){
+        System.out.println("Current User: "+ currentUser.getName());
+        }
+        return;
+    }
 
 	/****************************************************************
-	 *							End								*
+	 *							End			    					*
 	 ****************************************************************/
-
-
 }

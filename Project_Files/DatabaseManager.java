@@ -12,12 +12,12 @@ public class DatabaseManager {
 		Get Hotel
 		Add/Remove User
 		Get User
-		Add/Remove Reservation
-		Get Reservation
+        Get Current User
+        Sign-in/out
 	*/
 
 
-
+    //Single Instance of Database
     private static Database database = new Database();
 
 
@@ -26,7 +26,7 @@ public class DatabaseManager {
 
 
 	/****************************************************************
-	 *					Initialize Database							*
+	 *					Initialize Database							*WIP
 	 ****************************************************************/
     // Initialization method to set up a hotel with n rooms
     public static void initializeData(String hotelName, int numberOfRooms) {
@@ -55,22 +55,19 @@ public class DatabaseManager {
     }
 
     // Static method to remove a hotel
-    public static void removeHotel(Hotel hotel) {
+    public static void removeHotel(String hotel) {
         database.removeHotel(hotel);
     }
 
     // Static method to get a hotel
-    public static Hotel getHotel(Hotel searchHotel) {
+    public static Hotel getHotel(String searchHotel) {
         return database.getHotel(searchHotel);
     }
-
-
 
 
 	/****************************************************************
 	 *						User Data								*
 	 ****************************************************************/
-
     // Static method to add a user
     public static void addUser(User user) {
         database.addUser(user);
@@ -88,23 +85,24 @@ public class DatabaseManager {
 
 
     /****************************************************************
-	 *						Reservation Data						*
-	 ****************************************************************/
-
-    // Static method to add a reservation
-    public static void addReservation(Reservation reservation) {
-        database.addReservation(reservation);
+     *                      Current User                            *
+     ****************************************************************/
+    public static void signIn(User user){
+        database.setCurrentUser(user);
+        database.setSignedInStatus(true);
     }
 
-    // Static method to remove a reservation
-    public static void removeReservation(Reservation reservation) {
-        database.removeReservation(reservation);
+    public static void signOut(){
+        database.setCurrentUser(null);
+        database.setSignedInStatus(false);
     }
 
-    // Static method to get a reservation
-    public static Reservation getReservation(Reservation searchReservation) {
-        return database.getReservation(searchReservation);
+    public static User getCurrentUser(){
+        return database.getCurrentUser();
     }
 
 
+    /****************************************************************
+     *                           End                                *
+     ****************************************************************/
 }
