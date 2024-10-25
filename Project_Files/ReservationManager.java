@@ -62,7 +62,7 @@ public class ReservationManager {
 
 
 
-
+/*
 
 
 
@@ -260,4 +260,8 @@ public class ReservationManager {
 		}
 		hotel.removeReservation(reservation, reservedRooms.length);
 	}
+
+	
+*/
+
 }

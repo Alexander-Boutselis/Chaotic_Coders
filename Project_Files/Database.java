@@ -33,7 +33,6 @@ public class Database { //Currently where data is stored, will eventually be rep
 	//Private
 	private ArrayList<Hotel> allHotels;
 	private ArrayList<User> allUsers;
-	private ArrayList<Reservation> allReservations;
     private User currentUser;
     private boolean signedIn;
 
@@ -78,12 +77,11 @@ public class Database { //Currently where data is stored, will eventually be rep
     }
 
     //Remove a User object from the list by matching with isEqualTo()
-    public void removeUser(String username) {
-        for (int i = 0; i < allUsers.size(); i++) {
-            if (allUsers.get(i).getUsername.equals(username)) {
-                allUsers.remove(i);
+    public void removeUser(String searchUsername) {
+        for(User user : allUsers){
+            if (user.getUsername().equals(searchUsername))
+                allUsers.remove(user);
                 break; //Stop after removing the first match
-            }
         }
     }
 
@@ -117,7 +115,7 @@ public class Database { //Currently where data is stored, will eventually be rep
 	//Get a Hotel object by comparing with another Hotel object using isEqualTo()
     public Hotel getHotel(String searchHotelName) {
         for (Hotel hotel : allHotels) {
-            if (hotel.getName().equals(searchHotelName)) {
+            if (hotel.getHotelName().equals(searchHotelName)) {
                 return hotel;
             }
         }
@@ -134,20 +132,7 @@ public class Database { //Currently where data is stored, will eventually be rep
         return null; //If no matching object is found
     }
 
-    //Get a Reservation object by comparing with another Reservation object using isEqualTo()
-    public Reservation getReservation(Reservation searchReservation) {
-        for (Reservation reservation : allReservations) {
-            if (reservation.isEqualTo(searchReservation)) {
-                return reservation;
-            }
-        }
-        return null; //If no matching object is found
-    }
-
-    public ArrayList<Reservation> getAllReservations(){
-        return allReservations;
-    }
-
+    
 
 
     /****************************************************************

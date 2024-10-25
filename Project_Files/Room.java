@@ -35,7 +35,7 @@ public class Room {
     private String bedType;
     private String roomDescription;
     private double pricePerNight;
-    private ArrayList<Integer> reservationIndexNumbers;
+    private ArrayList<Integer> reservationNumbers;
 
 
     // Constructor for initializing the Room object
@@ -45,7 +45,7 @@ public class Room {
         this.numOfBeds = numOfBeds;
         this.pricePerNight = pricePerNight;
         this.roomDescription = roomDescription;
-        reservationIndexNumbers = new ArrayList<Integer>;
+        reservationNumbers = new ArrayList<>();
     }
 
 
@@ -90,7 +90,7 @@ public class Room {
     }
     
     public String getRoomDescription(){
-        this.roomDescription = roomDescription;
+        return roomDescription;
     }
 
     public double getPricePerNight(){
@@ -98,11 +98,11 @@ public class Room {
     }
 
     public int getReservationIndexNumber(int index){
-        return reservationIndexNumbers.get(index);
+        return reservationNumbers.get(index);
     }
 
-    public ArrayList<Integer> getAllReservationIndexNumbers(){
-        return reservationIndexNumbers;
+    public ArrayList<Integer> getAllreservationNumbers(){
+        return reservationNumbers;
     }
 
 
@@ -110,7 +110,7 @@ public class Room {
  *                      Add Reservation                         *
  ****************************************************************/
     public void addReservationIndexNumber(int newReservationIndexNumber){
-        reservationIndexNumbers.add(newReservationIndexNumber);
+        reservationNumbers.add(newReservationIndexNumber);
     }
     
 
@@ -119,10 +119,10 @@ public class Room {
  ****************************************************************/
     public void removeReservationIndexNumber(int indexNumberToDelete){
 
-        for (int i = 0; i < reservationIndexNumbers.size(); i++) {
+        for (int i = 0; i < reservationNumbers.size(); i++) {
 
-            if (reservationIndexNumbers.get(i) == indexNumberToDelete){
-                reservationIndexNumbers.remove(i);
+            if (reservationNumbers.get(i) == indexNumberToDelete){
+                reservationNumbers.remove(i);
                 return;
             }
         }

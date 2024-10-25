@@ -69,6 +69,7 @@ public class HotelManager {
         hotel.addReservation(reservation);
     }
 
+/*
     // Static method to remove a reservation
     public static void removeReservation(Hotel hotel, Reservation reservation) {
         hotel.removeReservation(reservation);
@@ -78,6 +79,7 @@ public class HotelManager {
     public static Reservation getReservation(Hotel hotel, Reservation searchReservation) {
         return hotel.getReservation(searchReservation);
     }
+*/
 
  /****************************************************************
   *                    Calculate Finances 		                 *
@@ -97,15 +99,7 @@ public class HotelManager {
 
     //Print Hotel Finances
 
- /****************************************************************
-  *                   		  Equals 			                 *
-  ****************************************************************/
-
-    public static boolean isEqualTo(Hotel otherHotel){
-    	//Match name
-    	//Match Total Number of Rooms
-    }
-
+ 
 /****************************************************************
  *                     			End                             *
  ****************************************************************/

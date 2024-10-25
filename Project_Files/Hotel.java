@@ -75,6 +75,7 @@ public class Hotel{
 		return hotelRooms;
 	}
 
+/*
 	public Reservation getReservation(int searchReservationNumber){
 		for (Reservation reservation : allReservations){
 			if (reservation.getReservationNumber() == searchRoomNumber)
@@ -82,11 +83,13 @@ public class Hotel{
 		}
 		return null; //No Reservaiton found
 	}
+*/
 
-
-	public ArrayList<Reservaiton> getAllReservations(){
+	public ArrayList<Reservation> getAllReservations(){
 		return allReservations;
 	}
+
+
 
 
  /****************************************************************
@@ -112,13 +115,16 @@ public class Hotel{
         allReservations.add(reservation);
     }
 
-
+    //Add Room to this hotel
+    public void addRoom(Room newRoom){
+    	hotelRooms.add(newRoom);
+    }
 
 
  /****************************************************************
   *                    		  Removers		                     *
   ****************************************************************/
-
+/*
     //Remove a Reservation object from the list by matching with isEqualTo()
     public void removeReservation(Reservation reservation) {
         for (int i = 0; i < allReservations.size(); i++) {
@@ -128,7 +134,15 @@ public class Hotel{
             }
         }
     }
+*/
+    public void removeRoom(int searchRoomNumber){
+    	for (Room room : hotelRooms){
+    		if (room.getRoomNumber() == searchRoomNumber){
+    			hotelRooms.remove(room);
+    		}
+    	}
 
+    }
 
  /****************************************************************
   *                    		  Print 		                     *
@@ -141,14 +155,18 @@ public class Hotel{
 		return;
 	}
 
+ /****************************************************************
+  *                   		  Equals 			                 *
+  ****************************************************************/
 
-	public void addReservation(Reservation reservation, int rooms) {
-		availibleRooms = availibleRooms - rooms;
-	}
+    public boolean isEqualTo(Hotel otherHotel){
+    	if (hotelName.equals(otherHotel.getHotelName())){
+    		return true;
+    	}else{
+    		return false;
+    	}
+    }
 
-	public void removeReservation(Reservation reservation, int rooms) {
-		availibleRooms = availibleRooms + rooms;
-	}
 
 	/****************************************************************
 	 *							End					 				*

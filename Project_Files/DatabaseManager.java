@@ -29,7 +29,8 @@ public class DatabaseManager {
 	 *					Initialize Database							*WIP
 	 ****************************************************************/
     // Initialization method to set up a hotel with n rooms
-    public static void initializeData(String hotelName, int numberOfRooms) {
+    public static void initializeDatabase(String hotelName, int numberOfRooms) {
+        /*
         // Step 1: Create a hotel and add it to the database
         Hotel hotel = new Hotel(hotelName);
         addHotel(hotel);
@@ -43,6 +44,7 @@ public class DatabaseManager {
         }
 
         System.out.println("Initialization complete. Added " + numberOfRooms + " rooms to " + hotelName);
+        */
     }
 
 	/****************************************************************
@@ -74,13 +76,13 @@ public class DatabaseManager {
     }
 
     // Static method to remove a user
-    public static void removeUser(User user) {
-        database.removeUser(user);
+    public static void removeUser(String username) {
+        database.removeUser(username);
     }
 
     // Static method to get a user
-    public static User getUser(User searchUser) {
-        return database.getUser(searchUser);
+    public static User getUser(User searchUsername) {
+        return database.getUser(searchUsername);
     }
 
 

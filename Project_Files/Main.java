@@ -17,15 +17,15 @@ public class Main{
 
         //Connect to Database
         //Database database = new Database();
-        DatabaseManager.initializeDatabase();
+        DatabaseManager.initializeDatabase("Chaotic Coder Inn", 0);
 
         //Verify that the Hotel is created
-        database.hotel.printHotel();
+        //database.hotel.printHotel();
      
         //if (user instanceof Manager){} //For separating User and Manager, can be used for Rooms as well.
 
 
-
+/*
 
 		Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -190,7 +190,9 @@ public class Main{
         }
 
         scanner.close(); // Close the scanner to avoid resource leaks
-	}//End of main
+*/
+	}//End of main 
+/*
 
 
 public static int debug(){
@@ -208,5 +210,7 @@ public static int debug(){
 }
 
 
-
+    /****************************************************************
+     *                          End                                 *
+     ****************************************************************/
 }//End of Main

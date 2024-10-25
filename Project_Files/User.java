@@ -32,10 +32,10 @@ public class User {
     //User Info
     private String firstName;
     private String lastName;
-    private Calendar birthday = Calendar.getInstance();
+    protected Calendar birthday = Calendar.getInstance();
 
     //Log in Info
-    private String username;
+    protected String username;
     private String password;
 
     //User Reservations
@@ -48,7 +48,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
-        this.username = usename;
+        this.username = username;
         this.password = password;
         this.reservationIndexNumbers = new ArrayList<>();
     }
@@ -67,7 +67,7 @@ public class User {
     }
 
     public void setUsername(String username) {
-        this.username = usename;
+        this.username = username;
     }
 
     public void setPassword(String password) {
@@ -96,7 +96,7 @@ public class User {
         return birthday;
     }
 
-    public int getUsername() {
+    public String getUsername() {
         return username;
     }
 
