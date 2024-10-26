@@ -29,7 +29,6 @@ public class Hotel{
 
 	//Private:
 	private String hotelName;
-	private int totalRooms;
 	private ArrayList<Room> hotelRooms;
 	private	ArrayList<Reservation> allReservations;
 
@@ -37,18 +36,11 @@ public class Hotel{
 	//Empty Hotel
 	public Hotel(String hotelName){
 		//Default
-		totalRooms = 0;
 		hotelRooms = new ArrayList<>();
 		allReservations = new ArrayList<Reservation>();
 		this.hotelName = hotelName;
 	}
 
-	//Dont Use This one anymore
-	public Hotel(String hotelName, int totalRooms){
-		this.hotelName = hotelName;
-		this.totalRooms = totalRooms;
-		hotelRooms = new ArrayList<>();
-	}
 
  /****************************************************************
   *                    		  Getters		                     *
@@ -59,7 +51,7 @@ public class Hotel{
 	}
 
 	public int getNumOfRooms(){
-		return totalRooms;
+		return hotelRooms.size();
 	}
 
 	public Room getRoom(int searchRoomNumber){
@@ -99,11 +91,6 @@ public class Hotel{
 	public void setHotelName(String newHotelName){
 		hotelName = newHotelName;
 	}
-
-	public void setTotalRooms(){//Updates total rooms
-		totalRooms = hotelRooms.size();
-	}
-
 
 
  /****************************************************************
@@ -151,7 +138,7 @@ public class Hotel{
 
 	public void printHotel(){
         System.out.println("Hotel: " + hotelName);
-        System.out.println("Total rooms: " + totalRooms); 
+        System.out.println("Total rooms: " + getNumOfRooms()); 
 		return;
 	}
 

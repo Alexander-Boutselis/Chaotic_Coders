@@ -147,13 +147,81 @@ public class AccountManager{
     }//End of createManager
 
 /****************************************************************
- *                        Add/Remove Account                    *
+ *                     Add/Remove/Edit Account                  *
  ****************************************************************/
 
     //Add Account to Database
 
 
     //Remove Account from Database
+
+
+    //Edit User Account
+    public static void editUserAccount(){
+
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+        int option;
+        String userInput;
+
+        while (running) {
+
+            System.out.println("\n---Edit Account---");
+            System.out.println("1. Edit User Info");
+            System.out.println("2. Sign-out");
+            System.out.println("3. Delete Account");
+            System.out.println("4. Cancel");
+            System.out.print("Please enter a number: ");
+
+            option = scanner.nextInt();
+            scanner.nextLine(); 
+
+
+
+            switch (option) {
+
+                //***********************************************
+                //          Edit User Info
+                //***********************************************
+                case 1:
+                    System.out.println("Edit User Info");
+
+                    break;
+
+                //***********************************************
+                //          Sign-Out of User Account
+                //***********************************************
+                case 2:
+                    System.out.println("\nAre you sure you want to sign-out?");
+                    userInput = scanner.nextLine().toLowerCase();
+
+                    if (userInput.charAt(0)== 'y'){
+                        DatabaseManager.signOut();
+                        running = false;
+                    }
+                    break;
+
+                //***********************************************
+                //          Delete User Account
+                //***********************************************
+                case 3:
+                System.out.println("Delete Account");
+
+                    break;
+
+                //***********************************************
+                //          Exit Edit Account Screen
+                //***********************************************
+                case 4:
+                    System.out.println("4. Cancel");
+                    running = false;                    
+                default:
+
+                    break;
+            }
+        }
+        return;
+    }//End of editUserAccount
 
 
 /****************************************************************
@@ -206,6 +274,36 @@ public class AccountManager{
  ****************************************************************/
 
     //Sign-in
+    public static void accountSignIn(){
+
+    Scanner scanner = new Scanner(System.in);
+ 
+    System.out.println("\n---Sign-in to Account---");
+
+    //Get Username
+    System.out.print("Enter Username: ");
+    String inputUsername = scanner.nextLine();
+
+     //Get Password
+    System.out.print("Enter Password: ");
+    String inputPassword = scanner.nextLine();
+
+
+    for (User user : DatabaseManager.getAllUsers()){
+        //System.out.println("Checked User Number: " + user.getUserNumber());
+        //System.out.println("Entered Password: " + inputPassword + "\nUser Password: " + user.getPassword());
+        if (user.getUsername().equals(inputUsername)){
+            if (user.getPassword().equals(inputPassword)){
+
+                DatabaseManager.signIn(user);
+                return;
+            }
+        }
+    }
+    System.out.println("Username or Password incorrect");
+
+    return;
+}//End of accountSignIn
 
     //Sign-out
 
@@ -264,6 +362,7 @@ public static void accountPrompts(boolean isManager){
         //Get Year of birth
         System.out.print("Please enter the YEAR of your birth(####): ");
         int inputBirthYEAR = scanner.nextInt();
+        scanner.nextLine();
 
         //Combine into Calendar object
         Calendar inputFullBirthday = Calendar.getInstance();
@@ -350,68 +449,7 @@ public static void accountPrompts(boolean isManager){
 
 
 
-//------------------------------------------------------------------------------------------------------------Create Account
-	public static void createAccount(){
-		Scanner scanner = new Scanner(System.in);
-		boolean running = true;
-        int option;
 
-        while (running) {
-            System.out.println("---Create an Account---");
-            System.out.println("1. Create a User Account");
-            System.out.println("2. Create a Manager Account");
-            System.out.println("3. Exit Account Creator");
-            System.out.print("Please enter a number: ");
-
-            option = scanner.nextInt();
-            scanner.nextLine(); 
-
-
-            switch (option) {
-                //***********************************************
-                //          Create User Acoount Option
-                //***********************************************
-                case 1:
-                    //Prompt for User info isManager = false
-                    accountPrompts(false);
-                    running = false;
-                    break;
-
-                //***********************************************
-                //          Create Manager Account Option
-                //***********************************************
-
-                case 2:
-                    //Verify Manager Code
-                    System.out.print("Please enter the Manager Confirmation Code: ");
-                    String inputManagerCode = scanner.nextLine();
-
-                    if (inputManagerCode.equals(managerConfirmationCode)) {
-                        //Prompt for Manager info isManager = true
-                        accountPrompts(true);
-                        running = false;
-
-                    }else{
-                        System.out.println("Incorrect Manager Confirmation Code");
-
-                    }
-                    break;
-
-                //***********************************************
-                //          Exit Account Creation Screen
-                //***********************************************
-                case 3:
-                    running = false;
-                    return;
-
-                default:
-                    System.out.println("Invalid option, please try again.");
-                    break;
-            }
-        }
-        return;
-	}//End of creatAccount
-//------------------------------------------------------------------------------------------------------------End of Create Account
 
 
 

@@ -17,7 +17,7 @@ public class Main{
 
         //Connect to Database
         //Database database = new Database();
-        DatabaseManager.initializeDatabase("Chaotic Coder Inn", 0);
+        DatabaseManager.initializeDatabase("Chaotic Coder Inn");
 
         //Verify that the Hotel is created
         //database.hotel.printHotel();
@@ -25,7 +25,7 @@ public class Main{
         //if (user instanceof Manager){} //For separating User and Manager, can be used for Rooms as well.
 
 
-/*
+
 
 		Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -34,9 +34,9 @@ public class Main{
 
         while (running) {
 
-            if (database.hotel.currentUser == null){
+            if (!DatabaseManager.isSignedIn()){
                 state = 1;
-            }else if (database.hotel.currentUser instanceof Manager){
+            }else if (DatabaseManager.getCurrentUser() instanceof Manager){
                 state = 3;
 
             }else {
@@ -62,13 +62,13 @@ public class Main{
 
                     switch(choice){
                         case 1:
-                            //Call AccountManager.SignIn();
-                            database.accountManager.accountSignIn();
+                            //Sign in Screen
+                            AccountManager.accountSignIn();
                             break;
 
                         case 2:
-                            //Call AccountManager.CreateAccount();
-                            database.accountManager.createAccount();
+                            //Account Creation Screen
+                            AccountManager.createAccount();
                             break;
 
                         case 3:
@@ -101,13 +101,13 @@ public class Main{
                         case 1:
                             //View Rooms
                             System.out.println("View Rooms");
-                            database.reservationManager.viewRoomsMakeReservation(database.hotel.getCurrentUser());
+                            //database.reservationManager.viewRoomsMakeReservation(database.hotel.getCurrentUser());
                             break;
 
                         case 2:
                             //Edit My Account
                             System.out.println("Edit My Account");
-                            database.accountManager.editUserAccount();
+                            AccountManager.editUserAccount();
                             break;
 
                         case 3:
@@ -151,7 +151,7 @@ public class Main{
                         case 2:
                             //Edit My Account
                             System.out.println("Edit My Account");
-                            database.accountManager.editUserAccount();
+                            AccountManager.editUserAccount();
                             break;
 
                         case 3:
@@ -190,9 +190,9 @@ public class Main{
         }
 
         scanner.close(); // Close the scanner to avoid resource leaks
-*/
+
 	}//End of main 
-/*
+
 
 
 public static int debug(){

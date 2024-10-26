@@ -33,6 +33,7 @@ public class Database { //Currently where data is stored, will eventually be rep
 	//Private
 	private ArrayList<Hotel> allHotels;
     private ArrayList<User> allUsers;
+    private Hotel currentHotel;
     private User currentUser;
     private boolean signedIn;
 
@@ -91,25 +92,38 @@ public class Database { //Currently where data is stored, will eventually be rep
      *                          Setters                             *
      ****************************************************************/
 
+    //Set Current User
     public void setCurrentUser(User user){
         currentUser = user;
     }
 
+    //Set Signed-In Status
     public void setSignedInStatus(boolean status){
         signedIn = status;
     }
 
+    //Set Current Hotel
+    public void setCurrentHotel(Hotel hotel){
+        currentHotel = hotel;
+    }
 
 	/****************************************************************
 	 *							Getters								*
 	 ****************************************************************/
 
+    //Get Current User
     public User getCurrentUser(){
         return currentUser;
     }
 
+    //Get Signed in Status
     public boolean isSignedIn(){
         return signedIn;
+    }
+
+    //Get Current Hotel
+    public Hotel getCurrentHotel(){
+        return currentHotel;
     }
 
 	//Get a Hotel object by comparing with another Hotel object using isEqualTo()
@@ -120,6 +134,11 @@ public class Database { //Currently where data is stored, will eventually be rep
             }
         }
         return null; //If no matching object is found
+    }
+
+    //Get all Hotels
+    public ArrayList<Hotel> getAllHotels(){
+        return allHotels;
     }
 
     // Get a User object by comparing with another User object using isEqualTo()
@@ -141,6 +160,8 @@ public class Database { //Currently where data is stored, will eventually be rep
     /****************************************************************
      *                          Print                               *
      ****************************************************************/
+    
+    //Print Current User
     public void printCurrentUser(){
         if(currentUser != null){
         System.out.println("Current User: "+ currentUser.getName());
@@ -148,6 +169,13 @@ public class Database { //Currently where data is stored, will eventually be rep
         return;
     }
 
+    //Print Current Hotel
+    public void printCurrentHotel(){
+        if(currentHotel != null){
+        System.out.println("Current Hotel: "+ currentHotel.getHotelName());
+        }
+        return;
+    }
 	/****************************************************************
 	 *							End			    					*
 	 ****************************************************************/

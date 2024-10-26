@@ -33,6 +33,7 @@ public class User {
     private String firstName;
     private String lastName;
     protected Calendar birthday = Calendar.getInstance();
+    //$ Balance
 
     //Log in Info
     protected String username;

@@ -1,5 +1,6 @@
 //DatabaseManager.java
 
+import java.util.ArrayList;
 
 
 
@@ -29,7 +30,11 @@ public class DatabaseManager {
 	 *					Initialize Database							*WIP
 	 ****************************************************************/
     // Initialization method to set up a hotel with n rooms
-    public static void initializeDatabase(String hotelName, int numberOfRooms) {
+    public static void initializeDatabase(String hotelName) {
+
+        HotelManager.createHotel(hotelName);
+        
+        
         /*
         // Step 1: Create a hotel and add it to the database
         Hotel hotel = new Hotel(hotelName);
@@ -66,6 +71,15 @@ public class DatabaseManager {
         return database.getHotel(searchHotel);
     }
 
+    public static ArrayList<Hotel> getAllHotels(){
+        return database.getAllHotels();
+    }
+
+    //Set Current Hotel
+    public static void setCurrentHotel(Hotel hotel){
+        database.setCurrentHotel(hotel);
+    }
+
 
 	/****************************************************************
 	 *						User Data								*
@@ -83,6 +97,11 @@ public class DatabaseManager {
     // Static method to get a user
     public static User getUser(User searchUsername) {
         return database.getUser(searchUsername);
+    }
+
+    //Get all Users
+    public static ArrayList<User> getAllUsers(){
+        return database.getAllUsers();
     }
 
     //Check if Account name is Unique (isUniqueName)
@@ -112,18 +131,26 @@ public class DatabaseManager {
     /****************************************************************
      *                      Current User                            *
      ****************************************************************/
+
+    //Sign in User
     public static void signIn(User user){
         database.setCurrentUser(user);
         database.setSignedInStatus(true);
     }
 
+    //Sign out User
     public static void signOut(){
         database.setCurrentUser(null);
         database.setSignedInStatus(false);
     }
 
+
     public static User getCurrentUser(){
         return database.getCurrentUser();
+    }
+
+    public static boolean isSignedIn(){
+        return database.isSignedIn();
     }
 
 

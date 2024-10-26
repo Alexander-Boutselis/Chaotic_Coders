@@ -24,6 +24,18 @@ public class HotelManager {
     private HotelManager() {}
 
 /****************************************************************
+ *                     Create/Destroy Hotel                     *
+ ****************************************************************/
+
+    //Create Empty Hotel
+    public static void createHotel(String hotelName){
+        Hotel newHotel = new Hotel(hotelName);
+        DatabaseManager.addHotel(newHotel);
+    }
+
+
+
+/****************************************************************
  *		                      Getters 		                    *
  ****************************************************************/
 
@@ -39,24 +51,44 @@ public class HotelManager {
 
 
     //Get Signed in Status
-
+    public static boolean getSignedInStatus(){
+        return DatabaseManager.isSignedIn();
+    }
 
 /****************************************************************
  *                     		 Setters                            *
  ****************************************************************/
 
-    //Set Hotel
+    //Set Current Hotel
+    public static void setCurrentHotel(Hotel hotel){
+        DatabaseManager.setCurrentHotel(hotel);
+    }
 
-    //Set Hotel Name
-
-    //Set Signed in Status
+    //Set Current Hotel Name
+    public static void setHotelName(Hotel hotel, String newHotelName){
+        hotel.setHotelName(newHotelName);
+    }
 
 
 
 /****************************************************************
- *						Room Management							*
+ *                            Adders                            *
  ****************************************************************/
 
+    //Add Hotel to Database
+    public static void addHotel(Hotel newHotel){
+        DatabaseManager.addHotel(newHotel);
+    }
+
+
+/****************************************************************
+ *                            Removers                          *
+ ****************************************************************/
+
+    //Remove Hotel from Database
+    public static void removeHotel(String searchHotelName){
+        DatabaseManager.removeHotel(searchHotelName); 
+    }
 
 
 
