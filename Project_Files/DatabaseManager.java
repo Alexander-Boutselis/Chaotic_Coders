@@ -71,8 +71,8 @@ public class DatabaseManager {
 	 *						User Data								*
 	 ****************************************************************/
     // Static method to add a user
-    public static void addUser(User user) {
-        database.addUser(user);
+    public static void addUser(User newUser) {
+        database.addUser(newUser);
     }
 
     // Static method to remove a user
@@ -85,6 +85,29 @@ public class DatabaseManager {
         return database.getUser(searchUsername);
     }
 
+    //Check if Account name is Unique (isUniqueName)
+   public static boolean isUniqueName(String newUsername){
+        for (User user : database.getAllUsers()){
+            if(user.getUsername().equals(newUsername)){
+                return false;
+            }
+        }
+        return true;
+   }
+
+   //Get the next unused Employee Number
+   public static int nextEmployeeNumber(){
+    int largestEmployeeNumber = 0;
+    for (User manager : database.getAllUsers()){
+        if (manager instanceof Manager){
+            int managerEmployeeNumber = ((Manager) manager).getEmployeeNumber();
+            if(largestEmployeeNumber < managerEmployeeNumber){
+                largestEmployeeNumber = managerEmployeeNumber;
+            }
+        }
+    }
+    return largestEmployeeNumber + 1;
+   }
 
     /****************************************************************
      *                      Current User                            *

@@ -32,7 +32,7 @@ public class Database { //Currently where data is stored, will eventually be rep
 
 	//Private
 	private ArrayList<Hotel> allHotels;
-	private ArrayList<User> allUsers;
+    private ArrayList<User> allUsers;
     private User currentUser;
     private boolean signedIn;
 
@@ -41,7 +41,7 @@ public class Database { //Currently where data is stored, will eventually be rep
 	//Database constructor
 	public Database(){
 		allHotels = new ArrayList<Hotel>();
-		allUsers = new ArrayList<User>();
+        allUsers = new ArrayList<User>();
         currentUser = null;
         signedIn = false;
 	}
@@ -132,8 +132,11 @@ public class Database { //Currently where data is stored, will eventually be rep
         return null; //If no matching object is found
     }
 
-    
-
+        
+    //Get all Users
+    public ArrayList<User> getAllUsers(){
+        return allUsers;
+    }
 
     /****************************************************************
      *                          Print                               *

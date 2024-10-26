@@ -12,13 +12,16 @@
 ************************************************************/
 import java.util.Scanner;
 import java.util.Calendar;
-import java.io.Console;
+
 
 
 
 public class AccountManager{
 
 
+    /*Variables:
+        Manager Password
+    */
 
     /*Functions:
         Create User Account
@@ -36,40 +39,311 @@ public class AccountManager{
         Print Account Info
     */
 
+    //Manager Password
+    private static String managerPassword = "Manager";
+
+    // Private constructor to prevent instantiation
+    private AccountManager() {}
+
+
+
+
+/****************************************************************
+ *                        Create Account                        *
+ ****************************************************************/
+  
+    //********************************
+    //         Create Acoount        *
+    //********************************
+    public static void createAccount(){
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+        int option;
+
+        while (running) {
+            System.out.println("---Create an Account---");
+            System.out.println("1. Create a User Account");
+            System.out.println("2. Create a Manager Account");
+            System.out.println("3. Exit Account Creator");
+            System.out.print("Please enter a number: ");
+
+            option = scanner.nextInt();
+            scanner.nextLine(); 
+
+
+            switch (option) {
+                //***********************************************
+                //          Create User Acoount Option
+                //***********************************************
+                case 1:
+                    //Prompt for User info isManager = false
+                    accountPrompts(false);
+                    running = false;
+                    break;
+
+                //***********************************************
+                //          Create Manager Account Option
+                //***********************************************
+
+                case 2:
+                    //Verify Manager Code
+                    System.out.print("Please enter the Manager Confirmation Code: ");
+                    String inputManagerPassword = scanner.nextLine();
+
+                    if (inputManagerPassword.equals(managerPassword)) {
+                        //Prompt for Manager info isManager = true
+                        accountPrompts(true);
+                        running = false;
+
+                    }else{
+                        System.out.println("Incorrect Manager Confirmation Code");
+
+                    }
+                    break;
+
+                //***********************************************
+                //          Exit Account Creation Screen
+                //***********************************************
+                case 3:
+                    running = false;
+                    return;
+
+                default:
+                    System.out.println("Invalid option, please try again.");
+                    break;
+            }
+        }
+        return;
+    }//End of creatAccount
+
+    //********************************
+    //         Create User           *
+    //********************************
+       public static void createUser(String firstName, String lastName, Calendar birthday, String username, String password){
+        //Create User
+       User newUser = new User(firstName, lastName, birthday, username, password);
+
+       //Add to Database
+       DatabaseManager.addUser(newUser);
+
+       //Set Current User
+       DatabaseManager.signIn(newUser);
+       return;
+   }//End of createUser
+
+
+    //********************************
+    //         Create Manager        *
+    //********************************
+   public static void createManager(String firstName, String lastName, Calendar birthday, String username, String password){  
+
+        Manager newManager = new Manager(DatabaseManager.nextEmployeeNumber(), firstName, lastName, birthday, username, password);
+        //Add to Database
+        DatabaseManager.addUser(newManager);
+
+        //Set Current User
+        DatabaseManager.signIn(newManager);
+        return;
+    }//End of createManager
+
+/****************************************************************
+ *                        Add/Remove Account                    *
+ ****************************************************************/
+
+    //Add Account to Database
+
+
+    //Remove Account from Database
+
+
+/****************************************************************
+ *                          Getters                             *
+ ****************************************************************/
+
+    //Get Account from Database
+
+    //Get Username
+
+    //Get password
+
+    //Get CurrentUser
+
+    //Get birthday
+
+    //Get Name (First and Last seperated by a space)
+
+    //Get Last Employee Number
+
+    //Get Start Date
+
+
+/****************************************************************
+ *                          Setters                             *
+ ****************************************************************/
+
+
+    //Set Username
+
+    //Set password
+
+    //Set CurrentUser
+
+    //Set Sign-in Status
+
+    //Set birthday
+
+    //Set First Name 
+
+    //Set Last Name
+
+    //Set Last Employee Number
+
+    //Set Start Date
+
+
+/****************************************************************
+ *                      Sign-in/out                             *
+ ****************************************************************/
+
+    //Sign-in
+
+    //Sign-out
+
+
+
+/****************************************************************
+ *                         Booleans                             *
+ ****************************************************************/
+
+    //Check if Account is Manager (isManager)
 
 
 
 
 
+/****************************************************************
+ *                          Print                               *
+ ****************************************************************/
+
+
+
+/****************************************************************
+ *                          Prompts                             *
+ ****************************************************************/
+
+public static void accountPrompts(boolean isManager){
+        Scanner scanner = new Scanner(System.in);
+
+
+        if (isManager) {
+            System.out.println("---Manager Name---");
+            
+        }else {
+            System.out.println("---User Name---");
+            
+        }
+        //Get First name
+        System.out.print("Please enter your first name: ");
+        String inputFirstName = scanner.nextLine();
+
+        //Get Last name
+        System.out.print("Please enter your last name: ");
+        String inputLastName = scanner.nextLine();
+
+        //Get Birthday
+        System.out.println("---Birthday---");
+
+        //Get Day of birth
+        System.out.print("Please enter the DAY of your birth (1-31): ");
+        int inputBirthDAY = scanner.nextInt();
+
+        //Get Month of birth
+        System.out.print("Please enter the MONTH of your birth (1-12): ");
+        int inputBirthMONTH = scanner.nextInt();
+
+        //Get Year of birth
+        System.out.print("Please enter the YEAR of your birth(####): ");
+        int inputBirthYEAR = scanner.nextInt();
+
+        //Combine into Calendar object
+        Calendar inputFullBirthday = Calendar.getInstance();
+        inputFullBirthday.set(inputBirthYEAR, inputBirthMONTH - 1, inputBirthDAY);
+
+        //Get the current date
+        Calendar today = Calendar.getInstance();
+
+        //Calculate the difference in years
+        int age = today.get(Calendar.YEAR) - inputFullBirthday.get(Calendar.YEAR);
+
+        //Check if the user hasn't had their birthday this year yet
+        if (today.get(Calendar.MONTH) < inputFullBirthday.get(Calendar.MONTH) ||
+            (today.get(Calendar.MONTH) == inputFullBirthday.get(Calendar.MONTH) &&
+             today.get(Calendar.DAY_OF_MONTH) < inputFullBirthday.get(Calendar.DAY_OF_MONTH))) {
+            age--; // Subtract one if the birthday hasn't occurred yet this year
+        }
+
+        // Verify if the user is 18 or older
+        if (age < 18) {
+            System.out.println("You must be 18 years or older to create an account.\nAccount Not Created");
+            return; // Exit method if the user is under 18
+        }
+
+        boolean isUnique = false;
+        String inputUsername = "";
+        //Loop until username is unique
+        while (isUnique == false){
+            //Get Username
+            System.out.print("Please enter a Username: ");
+            inputUsername = scanner.nextLine();
+
+            if(DatabaseManager.isUniqueName(inputUsername)){
+                isUnique = true;
+            }else{
+            System.out.println("That Username Already Exists");
+            System.out.println("Please try a different username");
+            }
+        }
+
+        //Loop until passwords match
+        String inputPassword1;
+        String inputPassword2 = "";
+        boolean matching = false;
+
+        while(matching == false){
+
+            System.out.println("---Password---");
+
+            //Get Password 1
+            System.out.print("Please create your password: ");
+            inputPassword1 = scanner.nextLine();
+
+            //Get Password 2
+            System.out.print("Please re-enter your password: ");
+            inputPassword2 = scanner.nextLine();
+
+
+            //Confirm passwords match
+            if (inputPassword1.equals(inputPassword2)){
+                matching = true;
+            }else{
+                System.out.println("Passwords do not match, try again");
+            }
+
+        }
+        if (isManager) {
+            //Create Manager
+            createManager(inputFirstName, inputLastName, inputFullBirthday, inputUsername, inputPassword2);
+
+        }else{
+            //Create User
+            createUser(inputFirstName, inputLastName, inputFullBirthday, inputUsername, inputPassword2);
+        }
+        return;
+    }//End of accountPrompts
 
 
 
 
-
-
-
-
-
-
-
-    //public
-    public int numOfUsers;
-
-    //private
-	private int nextUserNumber;
-	private int nextEmployeeNumber;
-	private String managerConfirmationCode; 
-    private Database database;
-
-
-    //Constructor
-	public AccountManager(Database database){
-		nextUserNumber = 1;
-		nextEmployeeNumber = 1;
-		managerConfirmationCode = "Manager";
-        numOfUsers = 0;
-        this.database = database;
-    }
 
 /*
 
@@ -77,7 +351,7 @@ public class AccountManager{
 
 
 //------------------------------------------------------------------------------------------------------------Create Account
-	public void createAccount(){
+	public static void createAccount(){
 		Scanner scanner = new Scanner(System.in);
 		boolean running = true;
         int option;
@@ -428,6 +702,8 @@ public void accountSignIn(){
 
 
 
-
+/****************************************************************
+ *                           End                                *
+ ****************************************************************/
 
 }//End of AccountManager
