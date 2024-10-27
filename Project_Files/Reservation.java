@@ -11,6 +11,7 @@
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 public class Reservation {
 
@@ -87,6 +88,20 @@ public class Reservation {
 		return endDate;
 	}
 
+	//Get Start Date as Calendar
+	public Calendar getStartDateAsCalendar() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfYear());
+		return calendar;
+	}
+
+	//Get End Date as Calendar
+	public Calendar getEndDateAsCalendar() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfYear());
+		return calendar;
+	}
+
 /****************************************************************
  *                  		Setters 	                        *
  ****************************************************************/
@@ -120,7 +135,15 @@ public class Reservation {
 		this.endDate = endDate;
 	}
 
+	//Set Start Date from Calendar
+	public void setStartDateCalendar(Calendar calendar) {
+		this.startDate = LocalDate.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId());
+	}
 
+	//Set End Date from Calendar
+	public void setEndDateCalendar(Calendar calendar) {
+		this.endDate = LocalDate.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId());
+	}
 
 /****************************************************************
  *                  		Calculations	                    *
