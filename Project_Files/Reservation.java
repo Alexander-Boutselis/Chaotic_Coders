@@ -52,55 +52,79 @@ public class Reservation {
 		this.endDate = endDate;
 	}
 
-	// Functions
+
+/****************************************************************
+ *                  		Getters 	                        *
+ ****************************************************************/
+
+	//Get Assigned User
 	public User getAssignedUser() {
 		return assignedUser;
 	}
 
-	public void setAssignedUser(User assignedUser) {
-		this.assignedUser = assignedUser;
-	}
-
+		//Get Reservation Number
 	public int getReservationNumber() {
 		return reservationNumber;
 	}
 
-	public void setReservationNumber(int reservationNumber) {
-		this.reservationNumber = reservationNumber;
-	}
-
+	//Get Total Price
 	public double getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-
+	//Get Room
 	public Room getRoom() {
 		return room;
 	}
 
-	public void setRoom(Room room) {
-		this.room = room;
-	}
-
+	//Get Start Date
 	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
-	
+	//Get End Date
 	public LocalDate getEndDate() {
 		return endDate;
 	}
 
+/****************************************************************
+ *                  		Setters 	                        *
+ ****************************************************************/
+	//Set Assigned User
+	public void setAssignedUser(User assignedUser) {
+		this.assignedUser = assignedUser;
+	}
+
+	//Set Reservation Number
+	public void setReservationNumber(int reservationNumber) {
+		this.reservationNumber = reservationNumber;
+	}
+
+	//Set Total Price
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	//Set Room
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	//Set Start Date
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	//Set End Date
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
+
+
+/****************************************************************
+ *                  		Calculations	                    *
+ ****************************************************************/
 	// Calculate duration of stay
 	public long calculateDays(LocalDate startDate, LocalDate endDate) {
 		return ChronoUnit.DAYS.between(startDate, endDate);
@@ -110,6 +134,10 @@ public class Reservation {
 		return ChronoUnit.DAYS.between(startDate, endDate) - 1;
 	}
 
+
+/****************************************************************
+ *                  			Print	       		            *
+ ****************************************************************/
 	// Print reservation
 
 	public String getReceipt() {
