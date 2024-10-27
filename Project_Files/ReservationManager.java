@@ -28,38 +28,9 @@ public class ReservationManager {
 		Get/Set Start Date
 		Get/Set End Date
 		isEqualTo()
+		Get next unused reservation number
 		Print Reservation
 	*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*

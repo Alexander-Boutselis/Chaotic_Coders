@@ -9,12 +9,10 @@
 * Print Receipt                       *    
 ***************************************/
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class Reservation {
-
 
 	/*Variables:
 		Assigned User
@@ -36,33 +34,57 @@ public class Reservation {
 		Print Reservation
 	*/
 
-
 	// Variables
+	private User assignedUser;
+	private int reservationNumber;
+	private double totalPrice;
+	private Room room;
 	private LocalDate startDate;
 	private LocalDate endDate;
-	private Room[] reservedRooms;
-	private User user;
 
 	// Constructor
-	public Reservation(LocalDate startDate, LocalDate endDate, Room[] reservedRooms, User user) {
+	public Reservation(User assignedUser, int reservationNumber, double totalPrice, Room room, LocalDate startDate, LocalDate endDate) {
+		this.assignedUser = assignedUser;
+		this.reservationNumber = reservationNumber;
+		this.totalPrice = totalPrice;
+		this.room = room;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.reservedRooms = reservedRooms;
-		this.user = user;
 	}
 
-
-/*
-
-	public Reservation(LocalDate startDate, LocalDate endDate, Room reservedRoom, User user) {
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.reservedRooms = new Room[]{reservedRoom};
-		this.user = user;
+	// Functions
+	public User getAssignedUser() {
+		return assignedUser;
 	}
 
+	public void setAssignedUser(User assignedUser) {
+		this.assignedUser = assignedUser;
+	}
 
-	// Get and set methods
+	public int getReservationNumber() {
+		return reservationNumber;
+	}
+
+	public void setReservationNumber(int reservationNumber) {
+		this.reservationNumber = reservationNumber;
+	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
 	public LocalDate getStartDate() {
 		return startDate;
 	}
@@ -78,86 +100,70 @@ public class Reservation {
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
-	
-	public Room[] getRooms() {
-		return reservedRooms;
+
+	// Calculate duration of stay
+	public long calculateDays(LocalDate startDate, LocalDate endDate) {
+		return ChronoUnit.DAYS.between(startDate, endDate);
 	}
 
-	public void setRooms(Room[] reservedRooms) {
-		this.reservedRooms = reservedRooms;
+	public long calculateNights(LocalDate startDate, LocalDate endDate) {
+		return ChronoUnit.DAYS.between(startDate, endDate) - 1;
 	}
 
-	public void setRooms(Room singleRoom) {
-		this.reservedRooms = new Room[]{singleRoom};
-	}
+	// Print reservation
 
-	public User getUser() {
-		return user;
-	}
-
-	// Get + calculation for amount based on room's nightly rate
-	public BigDecimal getAmount() {
-		return calculateTotalAmount();
-	}
-
-	public BigDecimal calculateTotalAmount() {
-		BigDecimal total = BigDecimal.ZERO;
-		long nights = ChronoUnit.DAYS.between(startDate, endDate);
-		for (Room room : reservedRooms) {
-			BigDecimal roomTotal = (BigDecimal.valueOf(nights)).multiply(BigDecimal.valueOf(room.getPricePerNight()));
-			total = total.add(roomTotal);
-		}
-		return total;
-	}
-
-	// Make receipt into string
 	public String getReceipt() {
 		StringBuilder receipt = new StringBuilder();
 		receipt.append("HOTEL RESERVATIONS\n");
 		receipt.append("--------------------------------\n");
 		receipt.append("Your reservation was successsful.\n");
 		receipt.append("Name: ");
-		receipt.append(user.getName());
+		receipt.append(assignedUser.getName());
 		receipt.append("\n");
-		receipt.append("User ID: ");
-		receipt.append(user.getUserNumber());
+		receipt.append("Reservation Number: ");
+		receipt.append(reservationNumber);
+		receipt.append("\n");
+		receipt.append("Username: ");
+		receipt.append(assignedUser.getUsername());
 		receipt.append("\n");
 		receipt.append("Dates: ");
 		receipt.append(startDate);
 		receipt.append(" - ");
 		receipt.append(endDate);
+		receipt.append(calculateDays(startDate, endDate));
+		receipt.append(" days, ");
+		receipt.append(calculateNights(startDate, endDate));
+		receipt.append(" nights");
 		receipt.append("\n");
 		receipt.append("--------------------------------\n");
-		receipt.append("Your room(s): \n");
+		receipt.append("Your room: \n");
 		receipt.append("--------------------------------\n");
-		for (Room room : reservedRooms) {
-			receipt.append("Room number: ");
-			receipt.append(room.getRoomNumber());
-			receipt.append("\n");
-			receipt.append("Room type: ");
-			receipt.append(room.getRoomType());
-			receipt.append("\n");
-			receipt.append("Room size: ");
-			receipt.append(room.getRoomSize());
-			receipt.append("\n");
-			receipt.append("Nightly rate: ");
-			receipt.append(room.getPricePerNight());
-			receipt.append("\n");
-			receipt.append("--------------------------------\n");
-		}
+		receipt.append("Room number: ");
+		receipt.append(room.getRoomNumber());
+		receipt.append("\n");
+		receipt.append("Room description: ");
+		receipt.append(room.getRoomDescription());
+		receipt.append("\n");
+		receipt.append("Number of beds: ");
+		receipt.append(room.getNumberOfBeds());
+		receipt.append("\n");
+		receipt.append("Bed type: ");
+		receipt.append(room.getBedType());
+		receipt.append("\n");
+		receipt.append("Nightly rate: ");
+		receipt.append(room.getPricePerNight());
+		receipt.append("\n");
+		receipt.append("--------------------------------\n");
 		receipt.append("TOTAL OWED: $");
-		receipt.append(getAmount());
+		receipt.append(totalPrice);
 		receipt.append("\n");
 
 		return receipt.toString();
 	}
 
-	// Receipt printing
-	public void printReceipt() {
+	public void printReservation() {
 		System.out.println(getReceipt());
 	}
-
-
 
 	/****************************************************************
 	 *							End					 				*
