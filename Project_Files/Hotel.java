@@ -135,17 +135,28 @@ public class Hotel{
   *                    		  Print 		                     *
   ****************************************************************/
 
+    //toString Hotel info
+    public String getHotelInfo(){
+
+        StringBuilder receipt = new StringBuilder();
+
+        receipt.append("\n");
+        receipt.append("Hotel: " + hotelName);
+        receipt.append("\n");
+        receipt.append("Total rooms: " + getNumOfRooms()); 
+
+		return receipt.toString();
+    }
 
 	public void printHotel(){
-        System.out.println("Hotel: " + hotelName);
-        System.out.println("Total rooms: " + getNumOfRooms()); 
-		return;
-	}
+        System.out.println(getHotelInfo());	
+    }
 
  /****************************************************************
   *                   		  Equals 			                 *
   ****************************************************************/
 
+/*
     public boolean isEqualTo(Hotel otherHotel){
     	if (hotelName.equals(otherHotel.getHotelName())){
     		return true;
@@ -153,7 +164,7 @@ public class Hotel{
     		return false;
     	}
     }
-
+*/
 
 	/****************************************************************
 	 *							End					 				*

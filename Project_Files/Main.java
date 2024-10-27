@@ -19,6 +19,8 @@ public class Main{
         //Database database = new Database();
         DatabaseManager.initializeDatabase("Chaotic Coder Inn");
 
+        TestClass.testCases(0);
+
         //Verify that the Hotel is created
         //database.hotel.printHotel();
      

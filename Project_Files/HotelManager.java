@@ -1,5 +1,6 @@
 //HotelManager.java
 
+import java.util.ArrayList;
 
 
 public class HotelManager {
@@ -44,16 +45,33 @@ public class HotelManager {
     	return DatabaseManager.getHotel(searchHotelName);
     }
 
+    //Get All Hotels in Database
+    public static ArrayList<Hotel> getAllHotels(){
+        return DatabaseManager.getAllHotels();
+    }
+
     //Get Hotel Name
-    public static String getHotelName(Hotel hotel){
-    	return hotel.getHotelName();
+    public static String getHotelName(){
+    	return DatabaseManager.getCurrentHotel().getHotelName();
     }
 
-
-    //Get Signed in Status
-    public static boolean getSignedInStatus(){
-        return DatabaseManager.isSignedIn();
+    //Get Current Hotel
+    public static Hotel getCurrentHotel(){
+        return DatabaseManager.getCurrentHotel();
     }
+
+    //Get All Rooms from Current Hotel
+    public static ArrayList<Room> getAllCurrentHotelRooms(){
+        //Get Current Hotel
+        Hotel currHotel = DatabaseManager.getCurrentHotel();
+        return currHotel.getAllRooms();
+    }
+
+    //Get Total Number of Rooms
+    public static int getTotalNumberOfRooms(){
+        return getAllCurrentHotelRooms().size();
+    }
+
 
 /****************************************************************
  *                     		 Setters                            *
@@ -65,8 +83,8 @@ public class HotelManager {
     }
 
     //Set Current Hotel Name
-    public static void setHotelName(Hotel hotel, String newHotelName){
-        hotel.setHotelName(newHotelName);
+    public static void setHotelName(String newHotelName){
+        DatabaseManager.getCurrentHotel().setHotelName(newHotelName);
     }
 
 
@@ -80,6 +98,11 @@ public class HotelManager {
         DatabaseManager.addHotel(newHotel);
     }
 
+    //Add Room to Current Hotel
+    public static void addRoomToCurrentHotel(Room newRoom){
+        DatabaseManager.getCurrentHotel().addRoom(newRoom);
+    }
+
 
 /****************************************************************
  *                            Removers                          *
@@ -90,7 +113,30 @@ public class HotelManager {
         DatabaseManager.removeHotel(searchHotelName); 
     }
 
+    //Remove Room from Current Hotel
+    public static void removeRoomFromCurrentHotel(Room newRoom){
+        DatabaseManager.getCurrentHotel().removeRoom(newRoom.getRoomNumber());
+    }
 
+
+/****************************************************************
+ *                          Booleans                            *
+ ****************************************************************/
+
+    //Get Signed in Status
+    public static boolean getSignedInStatus(){
+        return DatabaseManager.isSignedIn();
+    }
+
+    //Hotel Has Unique Name
+    public static boolean isUniqueName(String checkName){
+        for(Hotel hotel : getAllHotels()){
+            if (hotel.getHotelName().equals(checkName)){
+                return false;
+            }
+        }
+        return true;
+    }
 
 /****************************************************************
  *						Reservation Data						*
@@ -126,8 +172,45 @@ public class HotelManager {
   ****************************************************************/
 
     //Print All Rooms - Call Room Manager to Print each Room
+    public static String getAllCurrentHotelRoomsInfo(){
+        
+        StringBuilder receipt = new StringBuilder();
 
-    //Print Hotel info
+        for(Room room : getAllCurrentHotelRooms()){
+             receipt.append(room.getRoomInfo());
+        }
+
+
+        return receipt.toString();
+    }
+
+    //toString Hotel info
+    public static String getCurrentHotelInfo(){
+        return getCurrentHotel().getHotelInfo();
+    }
+
+
+    //toString Hotel and All its Rooms
+    public static String getCurrentHotelAndRoomsInfo(){
+        StringBuilder receipt = new StringBuilder();
+
+
+        receipt.append("\n--------------------------------\n");
+
+        receipt.append(getCurrentHotelInfo());
+        receipt.append(getAllCurrentHotelRoomsInfo());
+
+        receipt.append("\n--------------------------------\n");
+        
+
+
+        return receipt.toString();
+    }
+
+    //Print Hotel
+    public static void printCurrentHotelInfo(){
+        System.out.println(getCurrentHotelInfo());
+    }
 
     //Print Hotel Finances
 

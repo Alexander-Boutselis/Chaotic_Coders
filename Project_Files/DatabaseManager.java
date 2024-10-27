@@ -32,24 +32,20 @@ public class DatabaseManager {
     // Initialization method to set up a hotel with n rooms
     public static void initializeDatabase(String hotelName) {
 
+        //Create Initial Empty Hotel
         HotelManager.createHotel(hotelName);
-        
-        
-        /*
-        // Step 1: Create a hotel and add it to the database
-        Hotel hotel = new Hotel(hotelName);
-        addHotel(hotel);
-        
-        // Step 2: Create rooms and add them to the database
-        for (int i = 1; i <= numberOfRooms; i++) {
-            // Example room creation with varying data
-            String bedType = (i % 2 == 0) ? "Queen" : "King"; // Alternating bed types
-            Room room = new Room(i, (i % 2) + 1, bedType, "Room " + i + " description");
-            addRoom(room);
-        }
 
+        //Set it as Current Hotel
+        setCurrentHotel(getHotel(hotelName));
+
+        //Loop to Generate Rooms
+        //Call a test class
+        
+
+        
+/*
         System.out.println("Initialization complete. Added " + numberOfRooms + " rooms to " + hotelName);
-        */
+*/
     }
 
 	/****************************************************************
@@ -69,6 +65,11 @@ public class DatabaseManager {
     // Static method to get a hotel
     public static Hotel getHotel(String searchHotel) {
         return database.getHotel(searchHotel);
+    }
+
+    //Get Current Hotel
+    public static Hotel getCurrentHotel(){
+        return database.getCurrentHotel();
     }
 
     public static ArrayList<Hotel> getAllHotels(){

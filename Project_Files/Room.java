@@ -30,6 +30,7 @@ public class Room {
     */
 
 
+    //Private
     private int roomNumber;
     private int numOfBeds;
     private String bedType;
@@ -38,7 +39,7 @@ public class Room {
     private ArrayList<Integer> reservationNumbers;
 
 
-    // Constructor for initializing the Room object
+    //Constructor
     public Room(int roomNumber, int numOfBeds, String bedType, double pricePerNight, String roomDescription) {
         this.roomNumber = roomNumber;
         this.bedType = bedType;
@@ -53,22 +54,27 @@ public class Room {
  *                      Setters                                 *
  ****************************************************************/
 
+    //Set Room Number
     public void setRoomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
     }
 
+    //Set Number of Beds
     public void setNumberOfBeds(int numOfBeds){
         this.numOfBeds = numOfBeds;
     }
 
+    //Set Bed Type
     public void setBedType(String bedType) {
         this.bedType = bedType;
     }
 
+    //Set Room Description
     public void setRoomDescription(String roomDescription){
         this.roomDescription = roomDescription;
     }
 
+    //Set Price Per Night
     public void setPricePerNight(double pricePerNight) {
         this.pricePerNight = pricePerNight;
     }
@@ -77,51 +83,68 @@ public class Room {
 /****************************************************************
  *                      Getters                                 *
  ****************************************************************/
+    
+    //Get Room Number
     public int getRoomNumber(){
         return roomNumber;
     }
 
+    //Get Number of Beds
     public int getNumberOfBeds(){
         return numOfBeds;
     }
 
+    //Get Bed Type
     public String getBedType(){
         return bedType;
     }
     
+    //Get Room Description
     public String getRoomDescription(){
         return roomDescription;
     }
 
+    //Get Price Per Night
     public double getPricePerNight(){
         return pricePerNight;
     }
 
-    public int getReservationIndexNumber(int index){
-        return reservationNumbers.get(index);
-    }
-
+    //Get All Reservation Numbers
     public ArrayList<Integer> getAllreservationNumbers(){
         return reservationNumbers;
+    }
+
+    //Check if Room has Reservation Number
+    public boolean hasReservationNumber(int searchReservationNumber){
+        for (int reservationNumber : reservationNumbers){
+            if (reservationNumber == searchReservationNumber){
+                return true;
+            }
+        }
+        return false;
     }
 
 
 /****************************************************************
  *                      Add Reservation                         *
  ****************************************************************/
-    public void addReservationIndexNumber(int newReservationIndexNumber){
-        reservationNumbers.add(newReservationIndexNumber);
+
+    //Add Reservation Number
+    public void addReservationNumber(int newReservationNumber){
+        reservationNumbers.add(newReservationNumber);
     }
     
 
 /****************************************************************
  *                      Remove Reservation                      *
  ****************************************************************/
-    public void removeReservationIndexNumber(int indexNumberToDelete){
+
+    //Remove Reservation Number
+    public void removeReservationNumber(int roomNumberToDelete){
 
         for (int i = 0; i < reservationNumbers.size(); i++) {
 
-            if (reservationNumbers.get(i) == indexNumberToDelete){
+            if (reservationNumbers.get(i) == roomNumberToDelete){
                 reservationNumbers.remove(i);
                 return;
             }
@@ -132,15 +155,48 @@ public class Room {
  *                           Print                              *
  ****************************************************************/
 
-    // Display room details
-    public void printRoom() {
-        System.out.println("Room Number: " + roomNumber);
-        System.out.print(numOfBeds + " ");
-        System.out.println(bedType);
-        System.out.println("Price per Night: $" + pricePerNight);
-        System.out.println("Description: ");
-        System.out.println(roomDescription);
+    //toString Room Info
+    public String getRoomInfo(){
+        StringBuilder receipt = new StringBuilder();
+
+        receipt.append("\n***********************\n");
+        receipt.append("Room #: " + roomNumber);
+        receipt.append("\n");
+        String capitalizedBedType = bedType.substring(0, 1).toUpperCase() + bedType.substring(1);
+        receipt.append(numOfBeds + " " + capitalizedBedType); 
+        receipt.append("\n");
+        String formatedPricePerNight = String.format("%.2f", pricePerNight);
+        receipt.append("Price per Night: $" + formatedPricePerNight);
+        receipt.append("\n");
+        receipt.append("Description: \n");
+
+        //If no Description generate description
+        if (roomDescription.equals("")){
+            receipt.append("This room has " + numOfBeds + " " + capitalizedBedType  + ".\n");
+
+            int roomFloor = roomNumber/ 100;
+            if (roomFloor == 0){
+                receipt.append("It is on the ground floor.\n");
+            }else{
+                receipt.append("It is on the " + roomFloor + " floor.\n");
+            }
+
+            receipt.append("This room costs " + formatedPricePerNight + " per night.");
+
+        }else{
+        receipt.append(roomDescription);
+        }
+        receipt.append("\n***********************\n");
+
+        return receipt.toString();
     }
+
+    // Display room details
+    public void printRoomInfo() {
+        System.out.println(getRoomInfo());
+    }
+
+
 
 /****************************************************************
  *                          End                                 *

@@ -33,14 +33,14 @@ public class User {
     private String firstName;
     private String lastName;
     protected Calendar birthday = Calendar.getInstance();
-    //$ Balance
+    //$ Balance - Create a Payment Manager
 
     //Log in Info
     protected String username;
     private String password;
 
     //User Reservations
-    private ArrayList<Integer> reservationIndexNumbers;
+    private ArrayList<Integer> reservationNumbers;
     //private ArrayList<Notification> notifications;
 
  
@@ -51,7 +51,7 @@ public class User {
         this.birthday = birthday;
         this.username = username;
         this.password = password;
-        this.reservationIndexNumbers = new ArrayList<>();
+        this.reservationNumbers = new ArrayList<>();
     }
 
 
@@ -106,11 +106,11 @@ public class User {
     }
 
    public int getReservationIndexNumber(int index){
-        return reservationIndexNumbers.get(index);
+        return reservationNumbers.get(index);
     }
 
-    public ArrayList<Integer> getAllReservationIndexNumbers() {
-        return reservationIndexNumbers;
+    public ArrayList<Integer> getAllreservationNumbers() {
+        return reservationNumbers;
     }
 
 
@@ -118,11 +118,11 @@ public class User {
  *                  Add/Remove Reservation                      *
  ****************************************************************/
     public void addReservation(int reservationIndex) {
-        this.reservationIndexNumbers.add(reservationIndex);
+        this.reservationNumbers.add(reservationIndex);
     }
 
     public void removeReservation(String reservationIndex) {
-        this.reservationIndexNumbers.remove(reservationIndex);
+        this.reservationNumbers.remove(reservationIndex);
     }
 
 
