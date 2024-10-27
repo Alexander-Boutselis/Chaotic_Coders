@@ -172,7 +172,7 @@ public class Room {
 
         //If no Description generate description
         if (roomDescription.equals("")){
-            receipt.append("This room has " + numOfBeds + " " + capitalizedBedType  + ".\n");
+            receipt.append("This room has " + numOfBeds + " " + capitalizedBedType  + " sized bed(s).\n");
 
             int roomFloor = roomNumber/ 100;
             if (roomFloor == 0){
