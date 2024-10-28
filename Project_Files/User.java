@@ -121,7 +121,7 @@ public class User {
         this.reservationNumbers.add(reservationIndex);
     }
 
-    public void removeReservation(String reservationIndex) {
+    public void removeReservation(int reservationIndex) {
         this.reservationNumbers.remove(reservationIndex);
     }
 
