@@ -8,14 +8,14 @@
 * Prompt for start date, end date, desired room    *
 ***************************************************/
 
-import java.time.LocalDate;
 import java.util.*;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import java.time.*;
+
+/****************************************************************
+*                  	Reservation Manager 	                    *
+****************************************************************/
 
 public class ReservationManager {
-
-
 
 	/*Functions: (All Methods must be Static)
 		Create Reservation
@@ -32,6 +32,127 @@ public class ReservationManager {
 		Print Reservation
 	*/
 
+	private ReservationManager() {}
+
+	/****************************************************************
+ 	*                  	Functions 	               		   	 	    *
+ 	****************************************************************/
+
+	//Create reservation
+	public static void createReservation(Hotel hotel, User user, int reservationNumber, double totalPrice, Room room, LocalDate startDate, LocalDate endDate) {
+		Reservation newReservation = new Reservation(user, reservationNumber, totalPrice, room, startDate, endDate);
+		hotel.addReservation(newReservation);
+		user.addReservation(reservationNumber);
+		room.addReservationNumber(reservationNumber);
+	}
+
+	//Assign user to reservation
+	public static void assignUser(Hotel hotel, User user, Reservation reservation) {		
+		Reservation newReservation = new Reservation(reservation);
+		//	hotel.removeReservation(reservation);
+		user.removeReservation(reservation.getReservationNumber());
+		newReservation.setAssignedUser(user);
+		hotel.addReservation(newReservation);
+		user.addReservation(newReservation.getReservationNumber());
+	}
+
+	//Get next unused reservation number in hotel
+	public static int getNextUnusedNumber(Hotel hotel) {
+		ArrayList<Reservation> reservations = hotel.getAllReservations();
+		ArrayList<Integer> reservationNumbers = new ArrayList<>();
+		for (Reservation reservation : reservations) {
+			reservationNumbers.add(reservation.getReservationNumber());
+		}
+		Collections.sort(reservationNumbers);
+		int nextNumber = 0;
+		for (int number : reservationNumbers) {
+			if (nextNumber == number) {
+				nextNumber++;
+			} else {
+				if (number > nextNumber) {
+					break;
+				}
+			}
+		}
+		return nextNumber;
+	}
+
+	/****************************************************************
+ 	*                  		Getters 	                        *
+ 	****************************************************************/
+
+	//Get duration (nights) given reservation
+	public static long getDurationInNights(Reservation reservation) {
+	return reservation.calculateNights(reservation.getStartDate(), reservation.getEndDate());
+	}
+
+	//Get duration (days) given reservation
+	public static long getDurationInDays(Reservation reservation) {
+		return reservation.calculateDays(reservation.getStartDate(), reservation.getEndDate());
+	}
+
+	//Get total price
+	public static double getTotalPrice(Reservation reservation) {
+		return reservation.getTotalPrice();
+	}
+
+	//Get room
+	public static Room getRoom(Reservation reservation) {
+		return reservation.getRoom();
+	}
+
+	//Get start date
+	public static LocalDate getStartDate(Reservation reservation) {
+		return reservation.getStartDate();
+	}
+
+	//Get end date
+	public static LocalDate getEndDate(Reservation reservation) {
+		return reservation.getEndDate();
+	}
+
+	/****************************************************************
+ 	*                  		Setters 	                        *
+ 	****************************************************************/
+
+	//Set total price
+	public static void setTotalPrice(Reservation reservation, double price) {
+		reservation.setTotalPrice(price);
+	}
+
+	//Set room
+	public static void setRoom(Reservation reservation, Room room) {
+		reservation.setRoom(room);
+	}
+
+	//Set start date
+	public static void setStartDate(Reservation reservation, LocalDate date) {
+		reservation.setStartDate(date);
+	}
+
+	//Set end date
+	public static void setEndDate(Reservation reservation, LocalDate date) {
+		reservation.setEndDate(date);
+	}
+
+	/****************************************************************
+ 	*                  		Calculations	                    *
+ 	****************************************************************/
+
+	//Calculate total price
+	public static double calculateTotalPrice(Room room, long nights) {
+		double totalPrice = room.getPricePerNight() * nights;
+		return totalPrice;
+	}
+
+	/****************************************************************
+ 	*                  			Print	       		            *
+ 	****************************************************************/
+	
+	//Print reservation
+	public static void printReservation(Reservation reservation) {
+		reservation.printReservation();
+	}
 
 /*
 

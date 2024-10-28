@@ -111,7 +111,7 @@ public class Hotel{
  /****************************************************************
   *                    		  Removers		                     *
   ****************************************************************/
-/*
+
     //Remove a Reservation object from the list by matching with isEqualTo()
     public void removeReservation(Reservation reservation) {
         for (int i = 0; i < allReservations.size(); i++) {
@@ -121,7 +121,7 @@ public class Hotel{
             }
         }
     }
-*/
+
     public void removeRoom(int searchRoomNumber){
     	for (Room room : hotelRooms){
     		if (room.getRoomNumber() == searchRoomNumber){

@@ -53,6 +53,14 @@ public class Reservation {
 		this.endDate = endDate;
 	}
 
+	public Reservation(Reservation reservation) {
+		this.assignedUser = reservation.assignedUser;
+		this.reservationNumber = reservation.reservationNumber;
+		this.totalPrice = reservation.totalPrice;
+		this.room = reservation.room;
+		this.startDate = reservation.startDate;
+		this.endDate = reservation.endDate;
+	}
 
 /****************************************************************
  *                  		Getters 	                        *
@@ -214,6 +222,18 @@ public class Reservation {
 
 	public void printReservation() {
 		System.out.println(getReceipt());
+	}
+
+	/****************************************************************
+	 *                      Equals                                  *
+	 ****************************************************************/
+	
+	public boolean isEqualTo(Reservation otherReservation){
+		if (reservationNumber == otherReservation.reservationNumber) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/****************************************************************
