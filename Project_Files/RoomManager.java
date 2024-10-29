@@ -198,7 +198,7 @@ public class RoomManager {
             case "king":
                 basePrice = 150;
                 break;
-            case "suite":
+            case "california king":
                 basePrice = 200;
                 break;
             default:
@@ -247,7 +247,7 @@ public class RoomManager {
         System.out.println("2. Full");
         System.out.println("3. Queen");
         System.out.println("4. King");
-        System.out.println("5. Suite");
+        System.out.println("5. California King");
         System.out.println("6. Cancel");
         System.out.println("\nSelect Type of Bed: ");
 
@@ -270,7 +270,7 @@ public class RoomManager {
                 bedType = "king";
                 break;
             case 5:
-                bedType = "suite";
+                bedType = "california king";
                 break;
             case 6:
                 return;

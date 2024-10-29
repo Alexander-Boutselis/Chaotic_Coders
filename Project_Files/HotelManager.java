@@ -189,6 +189,11 @@ public class HotelManager {
         return getCurrentHotel().getHotelInfo();
     }
 
+        //toString Hotel info
+    public static String getHotelInfo(Hotel hotel){
+        return hotel.getHotelInfo();
+    }
+
 
     //toString Hotel and All its Rooms
     public static String getCurrentHotelAndRoomsInfo(){

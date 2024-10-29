@@ -12,189 +12,50 @@ public class Main{
         
 
 
-//-----------------------------------------------------------------------------------------Test Code
-//-----------------------------------------------------------------------------------------End of Test Code
 
         //Connect to Database
         //Database database = new Database();
-        DatabaseManager.initializeDatabase("Chaotic Coder Inn");
+        DatabaseManager.initializeDatabase("Chaotic Coder Inn", 100);
 
         TestClass.testCases(0);
 
-        //Verify that the Hotel is created
-        //database.hotel.printHotel();
-     
-        //if (user instanceof Manager){} //For separating User and Manager, can be used for Rooms as well.
+        DatabaseManager.setCurrentHotel(DatabaseManager.getHotel("Chaotic Coder Inn"));
+
+        HotelManager.printCurrentHotelInfo();
+
+ 
 
 
 
 
 		Scanner scanner = new Scanner(System.in);
-        boolean running = true;
-        int choice = 1;
-        int state = 1;
-
-        while (running) {
-
-            if (!DatabaseManager.isSignedIn()){
-                state = 1;
-            }else if (DatabaseManager.getCurrentUser() instanceof Manager){
-                state = 3;
-
-            }else {
-                state = 2;
-            }
-
-            System.out.println("Current State: " + state);
-
-            switch (state) {
-//--------------------------------------------------------------------------------------------State 1 Not Signed-In
-                case 1://Not Signed-in
-
-                    System.out.println("\n---State 1 Entered: User not signed in---");
-
-                    System.out.println("1. Sign-in");
-                    System.out.println("2. Sign-up");
-                    System.out.println("3. Quit");
-                    System.out.print("Please enter a number: ");
-
-                    choice = scanner.nextInt();
-                    scanner.nextLine(); 
-
-
-                    switch(choice){
-                        case 1:
-                            //Sign in Screen
-                            AccountManager.accountSignIn();
-                            break;
-
-                        case 2:
-                            //Account Creation Screen
-                            AccountManager.createAccount();
-                            break;
-
-                        case 3:
-                            System.out.println("Exiting...");
-                            running = false;
-                            break;
-
-                        default:
-                            //Invalid choice
-                            System.out.println("Invalid Selection");
-                            break;
-                    }
-                    break;
-
-//--------------------------------------------------------------------------------------------State 2 User Signed-In
-                case 2://User Signed-in
-                    System.out.println("\n---State 2 Entered: User signed in---");
-
-                    System.out.println("1. View Rooms (Make a reservation)");
-                    System.out.println("2. Edit My Account");
-                    System.out.println("3. My Reservations");
-                    System.out.println("4. Quit");
-                    System.out.print("Please enter a number: ");
-
-                    choice = scanner.nextInt();
-                    scanner.nextLine(); 
-
-
-                    switch(choice){
-                        case 1:
-                            //View Rooms
-                            System.out.println("View Rooms");
-                            //database.reservationManager.viewRoomsMakeReservation(database.hotel.getCurrentUser());
-                            break;
-
-                        case 2:
-                            //Edit My Account
-                            System.out.println("Edit My Account");
-                            AccountManager.editUserAccount();
-                            break;
-
-                        case 3:
-                            //My Reservations
-                            System.out.println("My Reservations");
-                            break;
-
-                        case 4:
-                            System.out.println("Exiting...");
-                            running = false;
-                            break;
-                            
-                        default:
-                            //Invalid choice
-                            System.out.println("Invalid Selection");
-                            break;
-                    }
-
-                    break;
-
-//--------------------------------------------------------------------------------------------State 3 Manager Signed-In
-                case 3://Manager Signed-in
-                    System.out.println("\n---State 3 Entered: Manager signed in---");
-                    System.out.println("1. Edit Hotel");
-                    System.out.println("2. Edit My Account");
-                    System.out.println("3. Edit User Accounts");
-                    System.out.println("4. View Reservations");
-                    System.out.println("5. Quit");
-                    System.out.print("Please enter a number: ");
-
-                    choice = scanner.nextInt();
-                    scanner.nextLine(); 
-
-
-                    switch(choice){
-                        case 1:
-                            //View Rooms
-                            System.out.println(" Edit Hotel");
-                            break;
-
-                        case 2:
-                            //Edit My Account
-                            System.out.println("Edit My Account");
-                            AccountManager.editUserAccount();
-                            break;
-
-                        case 3:
-                            //My Reservations
-                            System.out.println("Edit User Accounts");
-                            break;
-
-
-                        case 4:
-                            //My Reservations
-                            System.out.println("View Reservations");
-                            break;
-
-                        case 5:
-                            System.out.println("Exiting...");
-                            running = false;
-                            break;
-                            
-                        default:
-                            //Invalid choice
-                            System.out.println("Invalid Selection");
-                            break;
-                    
-                    }
-                    //state = debug();//REMOVE
-                    break;
-            
-//--------------------------------------------------------------------------------------------State 4 ExitProgram
-                case 4://Exit Program
-                    System.out.println("Exiting the shell.");
-                    running = false; // This ends the loop and exits the program.
-                    break;
-                default:
-                    System.out.println("Invalid option, please try again.");
-            }
-        }
+        
+        promptForGUI(scanner);
 
         scanner.close(); // Close the scanner to avoid resource leaks
 
 	}//End of main 
 
+
+
+
+public static void promptForGUI(Scanner scanner){
+    String choice;
+
+    System.out.println("\n---Launch GUI---");
+
+    System.out.println("Would you like to launch the GUI (Y/N): ");
+
+    choice = scanner.nextLine().toLowerCase();
+
+    if (choice.charAt(0)== 'y'){
+        //ADD CODE TO LAUNCH GUI HERE
+    }else {
+        //Hotel App Run in terminal window
+        TestClass.runAppInTerminal(scanner);
+    }
+
+}
 
 
 public static int debug(){

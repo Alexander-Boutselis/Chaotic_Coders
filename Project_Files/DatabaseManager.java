@@ -30,7 +30,7 @@ public class DatabaseManager {
 	 *					Initialize Database							*WIP
 	 ****************************************************************/
     // Initialization method to set up a hotel with n rooms
-    public static void initializeDatabase(String hotelName) {
+    public static void initializeDatabase(String hotelName, int numberOfRooms) {
 
         //Create Initial Empty Hotel
         HotelManager.createHotel(hotelName);
@@ -39,8 +39,12 @@ public class DatabaseManager {
         setCurrentHotel(getHotel(hotelName));
 
         //Loop to Generate Rooms
-        //Call a test class
-        
+        //Loop to Generate Rooms
+        for (int i = 0; i < numberOfRooms; i++){
+            RoomManager.createRoom(2, "queen","");
+            RoomManager.createRoom(3, "twin","");
+            RoomManager.createRoom(1, "california king","");
+        }       
 
         
 /*
