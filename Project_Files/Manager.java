@@ -28,6 +28,7 @@ public class Manager extends User{
 
 	private int employeeNumber;
     private Calendar startDate;
+    private Calendar endDate;
     private ArrayList<String> notifications;
 
 
@@ -35,6 +36,7 @@ public class Manager extends User{
         super(firstName, lastName, birthday, username, password);
         this.employeeNumber = employeeNumber;
         startDate = Calendar.getInstance();
+        endDate = null;
 		notifications = new ArrayList<>();
 	}
 
@@ -58,10 +60,17 @@ public class Manager extends User{
 /****************************************************************
  *                      Getters                                 *
  ****************************************************************/
+    //Get Start Date
     public Calendar getStartDate(){
         return startDate;
     }
 
+    //Get End Date
+    public Calendar getEndDate(){
+        return endDate;
+    }
+
+    //Get Employee Number
     public int getEmployeeNumber(){
         return employeeNumber;
     }
@@ -70,26 +79,49 @@ public class Manager extends User{
 /****************************************************************
  *                      Setters                                 *
  ****************************************************************/
-    public void getStartDate(Calendar date){
-        startDate = date;
+    public void setStartDate(Calendar startDate){
+        this.startDate = startDate;
     }
 
-    public void getEmployeeNumber(int num){//Should not need this?
-        employeeNumber = num;
+    public void setEndDate(Calendar endDate){
+        this.endDate = endDate;
+    }
+
+
+    public void setEmployeeNumber(int employeeNumber){
+        this.employeeNumber = employeeNumber;
     }
 
 
 /****************************************************************
  *                       Print                                  *
  ****************************************************************/
-    public void printAccount(){
-        System.out.println("\nUser Signed in: " + getName());
-        System.out.println("Username: " + username);
-        System.out.println("Employee Number: " + employeeNumber);
+
+    //Get Account Info toSting()
+    public String getAccountInfo(){
+        StringBuilder accountInfo = new StringBuilder();
+
+        accountInfo.append("\n***********************\n");
+        accountInfo.append("User Signed in: " + getName());
+        accountInfo.append("\n");
+        accountInfo.append("Username: " + username);
+        accountInfo.append("\n");
+        accountInfo.append("Employee Number: " + employeeNumber);
+        accountInfo.append("\n");
         SimpleDateFormat simpleFormatBirthday = new SimpleDateFormat("MM/dd/yyyy");
-        System.out.println(getName() + "'s Birthday: " + simpleFormatBirthday.format(birthday.getTime()));
+        accountInfo.append("Birthday: " + simpleFormatBirthday.format(birthday.getTime()));
+        accountInfo.append("\n");
+        accountInfo.append("Number of Reservations: " + reservationNumbers.size());
+        accountInfo.append("\n***********************\n");
+
+        return accountInfo.toString();
     }
 
+    //Print Account info
+    public void printAccount(){
+        System.out.println(getAccountInfo());
+    }
+    
 }
 
 

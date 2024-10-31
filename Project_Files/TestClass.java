@@ -4,6 +4,8 @@
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 
 
@@ -20,6 +22,7 @@ public class TestClass{
 
 		int numberOfCases = 10;
 		int numberOfRooms = 35;
+		int passedTest;
 
 		switch(choice){
 		case 0:
@@ -32,36 +35,138 @@ public class TestClass{
 			}
 			break;
 		case 1:
+			passedTest = 0;
 	        System.out.println("\n---Test Case 1---");
 
-			String hotelName = "Test Hotel";
-	        //Create Initial Empty Hotel
-	        HotelManager.createHotel(hotelName);
+	        try{
 
-	        //Set it as Current Hotel
-	        DatabaseManager.setCurrentHotel(DatabaseManager.getHotel(hotelName));
+				String hotelName = "Test Hotel";
+		        
+		        //Create Initial Empty Hotel
+		        HotelManager.createHotel(hotelName);
+		        passedTest++;
 
-	        //Loop to Generate Rooms
-	        for (int i = 0; i < numberOfRooms; i++){
-	        	RoomManager.createRoom(2, "queen","");
-	        	RoomManager.createRoom(3, "twin","");
-	        	RoomManager.createRoom(1, "california king","");
-	        }
+		        //Set it as Current Hotel
+		        DatabaseManager.setCurrentHotel(DatabaseManager.getHotel(hotelName));
+		        passedTest++;
 
-			//Print Hotel
-			HotelManager.printCurrentHotelInfo();
+		        //Loop to Generate Rooms
+		        for (int i = 0; i < numberOfRooms; i++){
+		        	RoomManager.createRoom(2, "queen","");
+		        	RoomManager.createRoom(3, "twin","");
+		        	RoomManager.createRoom(1, "california king","");
+		        }
+		        passedTest++;
 
-			//Print All Hotel Rooms
-	        System.out.println(HotelManager.getAllCurrentHotelRoomsInfo());
+
+				//Print Hotel
+				HotelManager.printCurrentHotelInfo();
+		        passedTest++;
 
 
-	        //System.out.println(HotelManager.getCurrentHotelAndRoomsInfo());
+				//Print All Hotel Rooms
+		        System.out.println(HotelManager.getAllCurrentHotelRoomsInfo());
+		        passedTest++;
 
-	        System.out.println("---1. Passed ---");
+
+
+		        //System.out.println(HotelManager.getCurrentHotelAndRoomsInfo());
+		        //passedTest++;
+
+
+		        System.out.println("---1. Passed ---");
+
+	            } catch (Exception e) {
+        			// Handle any exceptions that were thrown
+        			System.out.println("Exception caught: " + e.getMessage());
+        			System.out.println("Number of passed tries: " + passedTest);
+        		}
 			break;
 		case 2:
-	    //    System.out.println("\n---Test Case 2---");
-	    //    System.out.println("---2. Passed ---");
+			passedTest = 0;
+	        System.out.println("\n---Test Case 2---");
+
+	        try{
+
+		        //Create 2 User accounts
+		        Calendar birthday = new GregorianCalendar(2000, Calendar.APRIL, 13);
+		        AccountManager.createUser("Greg", "Testaburger", birthday, "Testuser1", "Password");
+		        passedTest++;
+	
+		        birthday = new GregorianCalendar(0, 0, 0);
+		        AccountManager.createUser("Tina", "Testaburger", birthday, "Testuser2", "Password");
+		        passedTest++;
+
+		        birthday = new GregorianCalendar(2024, 9, 31);
+		        AccountManager.createUser("Fail", "ShouldNotSeeThis", birthday, "Testuser1", "Password");
+		        passedTest++;
+
+
+		        //Sign in as Testuser1
+		        AccountManager.signIn(AccountManager.getAccount("Testuser1"));
+		        System.out.print("Signed in as: ");
+		        passedTest++;
+
+		        //Print CurrentUser
+				AccountManager.printCurrentUser();
+	        	passedTest++;
+
+		        //Sign out
+		        AccountManager.signOut();
+		        System.out.println("Signed out");
+
+		        passedTest++;
+
+		        //Sign in as Testuser1
+		        AccountManager.signIn(AccountManager.getAccount("Testuser1"));
+		        System.out.print("Signed in as: ");
+		        passedTest++;
+
+		        //Print CurrentUser
+	        	AccountManager.printCurrentUser();
+	        	passedTest++;
+
+		        //Sign in as Testuser2
+				AccountManager.signIn(AccountManager.getAccount("Testuser2"));
+		        System.out.print("Signed in as: ");
+				passedTest++;
+
+		        //Print CurrentUser
+	        	AccountManager.printCurrentUser();
+	        	passedTest++;
+
+		        //Sign out
+		        AccountManager.signOut();
+		        System.out.println("Signed out");
+
+		        passedTest++;
+				
+				//Create a Manager
+				birthday = new GregorianCalendar(2000, 4, 4);
+		        AccountManager.createUser("Mr", "Manager", birthday, "Testmanager1", "Password");
+		        passedTest++;
+
+		        AccountManager.signIn(AccountManager.getAccount("Testmanager1"));
+		        System.out.print("Signed in as: ");
+				passedTest++;
+
+		        //Print CurrentUser
+	        	AccountManager.printCurrentUser();
+	        	passedTest++;
+	
+		        //Print all Users
+		        for(User account : DatabaseManager.getAllUsers()){
+		        	AccountManager.printAccountInfo(account);
+		        }
+		        passedTest++;
+
+				
+		        System.out.println("---2. Passed ---");
+	    	} catch (Exception e) {
+        		// Handle any exceptions that were thrown
+        		System.out.println("Exception caught: " + e.getMessage());
+        		System.out.println("Number of passed tries: " + passedTest);
+        	}
 
 			break;
 		//case 3:
@@ -160,7 +265,7 @@ public class TestClass{
                 	//Output the current screen
             		System.out.println("Current screen: " + screen);
 
-            		System.out.println("---------------Welcome " + AccountManager.getCurrentUserName() + "!---------------");
+            		System.out.println("---------------Welcome " + AccountManager.getFullName(DatabaseManager.getCurrentUser()) + "!---------------");
                     System.out.println("1. Select Hotel");
                     System.out.println("2. Make Reservation");
                     System.out.println("3. Edit My Account");
@@ -236,7 +341,7 @@ public class TestClass{
                 	//Output the current screen
             		System.out.println("Current screen: " + screen);
 
-            		System.out.println("---------------Welcome " + AccountManager.getCurrentUserName() + "!---------------");
+            		System.out.println("---------------Welcome " + AccountManager.getFullName(DatabaseManager.getCurrentUser()) + "!---------------");
                     System.out.println("1. Edit Hotel");
                     System.out.println("2. Edit My Account");
                     System.out.println("3. Edit User Accounts");

@@ -38,9 +38,10 @@ public class User {
     //Log in Info
     protected String username;
     private String password;
+    //Add Boolean isActive to set as false when a user wants to terminate their account (dont delete it need it for records)
 
     //User Reservations
-    private ArrayList<Integer> reservationNumbers;
+    protected ArrayList<Integer> reservationNumbers;
     //private ArrayList<Notification> notifications;
 
  
@@ -60,6 +61,15 @@ public class User {
  ****************************************************************/
     public void setName(String firstName, String lastName) {
         this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    
+
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -129,11 +139,28 @@ public class User {
 /****************************************************************
  *                      Print                                   *
  ****************************************************************/
-    public void printAccount(){
-        System.out.println("\nUser Signed in: " + getName());
-        System.out.println("Username: " + username);
+
+    //Get Account Info toSting()
+    public String getAccountInfo(){
+        StringBuilder accountInfo = new StringBuilder();
+
+        accountInfo.append("\n***********************\n");
+        accountInfo.append("User: " + getName());
+        accountInfo.append("\n");
+        accountInfo.append("Username: " + username);
+        accountInfo.append("\n");
         SimpleDateFormat simpleFormatBirthday = new SimpleDateFormat("MM/dd/yyyy");
-        System.out.println("User's Birthday: " + simpleFormatBirthday.format(birthday.getTime()));
+        accountInfo.append("Birthday: " + simpleFormatBirthday.format(birthday.getTime()));
+        accountInfo.append("\n");
+        accountInfo.append("Number of Reservations: " + reservationNumbers.size());
+        accountInfo.append("\n***********************");
+
+        return accountInfo.toString();
+    }
+
+    //Print Account info
+    public void printAccount(){
+        System.out.println(getAccountInfo());
     }
 
 

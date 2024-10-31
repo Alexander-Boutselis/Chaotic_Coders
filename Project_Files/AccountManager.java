@@ -11,6 +11,7 @@
  * Employee Number Counter
 ************************************************************/
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 //if (user instanceof Manager){} //For separating User and Manager, can be used for Rooms as well.
@@ -46,6 +47,304 @@ public class AccountManager{
     private AccountManager() {}
 
 
+
+/****************************************************************
+ *                          Getters                             *
+ ****************************************************************/
+
+    //Get Account from Database
+    public static User getAccount(String searchUsername){
+        return DatabaseManager.getUser(searchUsername);
+    }
+
+    //Get Username
+    public static String getUsername(User user){
+        return user.getUsername();
+    }
+
+    //Get First Name
+    public static String getFirstName(User user){
+        return user.getFirstName();
+    }
+
+    //Get Last Name
+    public static String getLastName(User user){
+        return user.getLastName();
+    }
+
+    //Get Name
+    public static String getFullName(User user){
+        return user.getName();
+    }
+
+    //Get Birthday
+    public static Calendar getBirthday(User user){
+        return user.getBirthday();
+    }
+
+    //Get Password
+    public static String getPassword(User user){
+        return user.getPassword();
+    }
+
+    //Get All Reservation Numbers
+    public static ArrayList<Integer> getAllreservationNumbers(User user){
+        return user.getAllreservationNumbers();
+    }
+
+    /*//Get All Notificaitons
+    public static ArrayList<Notification> getAllNotifications(User user){
+        return user.getAllNotifications();
+    }*/
+
+    //Get Employee Number
+    public static int getEmployeeNumber(Manager manager){
+        return manager.getEmployeeNumber();
+    }
+
+    //Get Start Date
+    public static Calendar getEmployeeStartDate(Manager manager){
+        return manager.getStartDate();
+    }
+
+    //Get End Date
+    public static Calendar getEmployeeEndDate(Manager manager){
+        return manager.getEndDate();
+    }
+
+/****************************************************************
+ *                          Setters                             *
+ ****************************************************************/
+
+    //Set Username
+    public static void setUsername(User user, String newUsername){
+        user.setUsername(newUsername);
+    }
+
+    //Set First Name
+    public static void setFirstName(User user, String newFirstName){
+        user.setFirstName(newFirstName);
+    }
+
+    //Set Last Name
+    public static void setLastName(User user, String newLastName){
+        user.setLastName(newLastName);
+    }
+
+    //Set Name
+    public static void setFullName(User user, String newFirstName, String newLastName){
+        user.setName(newFirstName, newLastName);
+    }
+
+    //Set Birthday
+    public static void setBirthday(User user, Calendar newBirthday){
+        user.setBirthday(newBirthday);
+    }
+
+    //Set Password
+    public static void setsetPassword(User user, String newPassword){
+        user.setPassword(newPassword);
+    }
+
+    //Set Employee Number
+    public static void setEmployeeNumber(Manager manager, int newEmployeeNumber){
+        manager.setEmployeeNumber(newEmployeeNumber);
+    }
+
+    //Set Start Date
+    public static void setEmployeeStartDate(Manager manager, Calendar newStartDate){
+        manager.setStartDate(newStartDate);
+    }
+
+    //Set End Date
+    public static void setEmployeeEndDate(Manager manager, Calendar newEndDate){
+        manager.setEndDate(newEndDate);
+    }
+
+
+/****************************************************************
+ *                         Booleans                             *
+ ****************************************************************/
+ 
+    //Check if Account is Manager (isManager)
+    public static boolean isManager(User user){
+        if (user instanceof Manager){
+            return true;
+        }else{
+        return false;
+        }
+    }
+
+    //Check if 2 Users are Equal (isEqual)
+    public static boolean isEqual(User user1, User user2){
+       if(user1.getUsername().equals(user2.getUsername())){
+        return true;
+       }else{
+        return false;
+       }
+    }
+
+    //Checks if a username is Unique (isUnique)
+    public static boolean isUniqueUsername(String uniqueUsername){
+        for (User user : DatabaseManager.getAllUsers()){
+            if(user.getUsername().equals(uniqueUsername)){
+                return false;
+            }
+        }
+        return true;
+   }
+
+
+/****************************************************************
+ *                      Sign-in/out                             *
+ ****************************************************************/
+
+    //Prompt to Sign-in
+    public static void accountSignIn(){
+
+    Scanner scanner = new Scanner(System.in);
+ 
+    System.out.println("\n---Sign-in to Account---");
+
+    //Get Username
+    System.out.print("Enter Username: ");
+    String inputUsername = scanner.nextLine();
+
+     //Get Password
+    System.out.print("Enter Password: ");
+    String inputPassword = scanner.nextLine();
+
+
+    for (User user : DatabaseManager.getAllUsers()){
+        //System.out.println("Checked User Number: " + user.getUserNumber());
+        //System.out.println("Entered Password: " + inputPassword + "\nUser Password: " + user.getPassword());
+        if (user.getUsername().equals(inputUsername)){
+            if (user.getPassword().equals(inputPassword)){
+
+                signIn(user);
+                return;
+            }
+        }
+    }
+    System.out.println("Username or Password incorrect");
+
+    return;
+}//End of accountSignIn
+
+    //Sign-in
+    public static void signIn(User user){
+        DatabaseManager.signIn(user);
+    }
+
+    //Sign-out
+    public static void signOut(){
+        DatabaseManager.signOut();
+    }
+
+
+
+/****************************************************************
+ *                     Add/Remove/Edit Account                  *
+ ****************************************************************/
+
+    //Add Account to Database
+    public static void addAccount(User newUser){
+        DatabaseManager.addUser(newUser);
+    }
+
+    //Remove Account from Database
+    public static void removeAccount(String username){
+
+    }
+
+    //Edit User Account
+    public static void editUserAccount(){
+
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+        int option;
+        String userInput;
+
+        while (running) {
+
+            System.out.println("\n---Edit Account---");
+            System.out.println("1. Edit User Info");
+            System.out.println("2. Sign-out");
+            System.out.println("3. Delete Account");
+            System.out.println("4. Cancel");
+            System.out.print("Please enter a number: ");
+
+            option = scanner.nextInt();
+            scanner.nextLine(); 
+
+
+
+            switch (option) {
+
+                //***********************************************
+                //          Edit User Info
+                //***********************************************
+                case 1:
+                    System.out.println("Edit User Info");
+
+                    break;
+
+                //***********************************************
+                //          Sign-Out of User Account
+                //***********************************************
+                case 2:
+                    System.out.println("\nAre you sure you want to sign-out?");
+                    userInput = scanner.nextLine().toLowerCase();
+
+                    if (userInput.charAt(0)== 'y'){
+                        DatabaseManager.signOut();
+                        running = false;
+                    }
+                    break;
+
+                //***********************************************
+                //          Delete User Account
+                //***********************************************
+                case 3:
+                System.out.println("Delete Account");
+
+                    break;
+
+                //***********************************************
+                //          Exit Edit Account Screen
+                //***********************************************
+                case 4:
+                    System.out.println("4. Cancel");
+                    running = false;                    
+                default:
+
+                    break;
+            }
+        }
+        return;
+    }//End of editUserAccount
+
+
+
+
+/****************************************************************
+ *                          Print                               *
+ ****************************************************************/
+
+    //Get User toString
+    public static String getAccountInfo(User user){
+        return user.getAccountInfo();
+    }
+
+    //Get Current User toString
+    public static void printAccountInfo(User user){
+        System.out.println(getAccountInfo(user));
+    }
+
+    //Get Current User toString
+    public static void printCurrentUser(){
+        printAccountInfo(DatabaseManager.getCurrentUser());
+    }
 
 
 /****************************************************************
@@ -120,15 +419,22 @@ public class AccountManager{
     //         Create User           *
     //********************************
        public static void createUser(String firstName, String lastName, Calendar birthday, String username, String password){
+
+        if(isUniqueUsername(username)){
+
         //Create User
-       User newUser = new User(firstName, lastName, birthday, username, password);
+        User newUser = new User(firstName, lastName, birthday, username, password);
 
-       //Add to Database
-       DatabaseManager.addUser(newUser);
+        //Add to Database
+        DatabaseManager.addUser(newUser);
 
-       //Set Current User
-       DatabaseManager.signIn(newUser);
-       return;
+        //Set Current User
+        DatabaseManager.signIn(newUser);
+        }else{
+            System.out.println("Username Not Unique");
+
+        }
+        return;
    }//End of createUser
 
 
@@ -145,186 +451,6 @@ public class AccountManager{
         DatabaseManager.signIn(newManager);
         return;
     }//End of createManager
-
-/****************************************************************
- *                     Add/Remove/Edit Account                  *
- ****************************************************************/
-
-    //Add Account to Database
-
-
-    //Remove Account from Database
-
-
-    //Edit User Account
-    public static void editUserAccount(){
-
-        Scanner scanner = new Scanner(System.in);
-        boolean running = true;
-        int option;
-        String userInput;
-
-        while (running) {
-
-            System.out.println("\n---Edit Account---");
-            System.out.println("1. Edit User Info");
-            System.out.println("2. Sign-out");
-            System.out.println("3. Delete Account");
-            System.out.println("4. Cancel");
-            System.out.print("Please enter a number: ");
-
-            option = scanner.nextInt();
-            scanner.nextLine(); 
-
-
-
-            switch (option) {
-
-                //***********************************************
-                //          Edit User Info
-                //***********************************************
-                case 1:
-                    System.out.println("Edit User Info");
-
-                    break;
-
-                //***********************************************
-                //          Sign-Out of User Account
-                //***********************************************
-                case 2:
-                    System.out.println("\nAre you sure you want to sign-out?");
-                    userInput = scanner.nextLine().toLowerCase();
-
-                    if (userInput.charAt(0)== 'y'){
-                        DatabaseManager.signOut();
-                        running = false;
-                    }
-                    break;
-
-                //***********************************************
-                //          Delete User Account
-                //***********************************************
-                case 3:
-                System.out.println("Delete Account");
-
-                    break;
-
-                //***********************************************
-                //          Exit Edit Account Screen
-                //***********************************************
-                case 4:
-                    System.out.println("4. Cancel");
-                    running = false;                    
-                default:
-
-                    break;
-            }
-        }
-        return;
-    }//End of editUserAccount
-
-
-/****************************************************************
- *                          Getters                             *
- ****************************************************************/
-
-    //Get Account from Database
-
-    //Get Username
-
-    //Get password
-
-    //Get CurrentUser
-
-    //Get birthday
-
-    //Get Name (First and Last seperated by a space)
-
-    //Get Last Employee Number
-
-    //Get Start Date
-
-
-/****************************************************************
- *                          Setters                             *
- ****************************************************************/
-
-
-    //Set Username
-
-    //Set password
-
-    //Set CurrentUser
-
-    //Set Sign-in Status
-
-    //Set birthday
-
-    //Set First Name 
-
-    //Set Last Name
-
-    //Set Last Employee Number
-
-    //Set Start Date
-
-
-/****************************************************************
- *                      Sign-in/out                             *
- ****************************************************************/
-
-    //Sign-in
-    public static void accountSignIn(){
-
-    Scanner scanner = new Scanner(System.in);
- 
-    System.out.println("\n---Sign-in to Account---");
-
-    //Get Username
-    System.out.print("Enter Username: ");
-    String inputUsername = scanner.nextLine();
-
-     //Get Password
-    System.out.print("Enter Password: ");
-    String inputPassword = scanner.nextLine();
-
-
-    for (User user : DatabaseManager.getAllUsers()){
-        //System.out.println("Checked User Number: " + user.getUserNumber());
-        //System.out.println("Entered Password: " + inputPassword + "\nUser Password: " + user.getPassword());
-        if (user.getUsername().equals(inputUsername)){
-            if (user.getPassword().equals(inputPassword)){
-
-                DatabaseManager.signIn(user);
-                return;
-            }
-        }
-    }
-    System.out.println("Username or Password incorrect");
-
-    return;
-}//End of accountSignIn
-
-    //Sign-out
-
-
-
-/****************************************************************
- *                         Booleans                             *
- ****************************************************************/
-
-    //Check if Account is Manager (isManager)
-
-
-
-
-
-/****************************************************************
- *                          Print                               *
- ****************************************************************/
-public static String getCurrentUserName(){
-    return DatabaseManager.getCurrentUser().getName();
-}
 
 
 
@@ -398,7 +524,7 @@ public static void accountPrompts(boolean isManager){
             System.out.print("Please enter a Username: ");
             inputUsername = scanner.nextLine();
 
-            if(DatabaseManager.isUniqueName(inputUsername)){
+            if(isUniqueUsername(inputUsername)){
                 isUnique = true;
             }else{
             System.out.println("That Username Already Exists");

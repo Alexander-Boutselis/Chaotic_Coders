@@ -100,7 +100,7 @@ public class DatabaseManager {
     }
 
     // Static method to get a user
-    public static User getUser(User searchUsername) {
+    public static User getUser(String searchUsername) {
         return database.getUser(searchUsername);
     }
 
@@ -108,16 +108,6 @@ public class DatabaseManager {
     public static ArrayList<User> getAllUsers(){
         return database.getAllUsers();
     }
-
-    //Check if Account name is Unique (isUniqueName)
-   public static boolean isUniqueName(String newUsername){
-        for (User user : database.getAllUsers()){
-            if(user.getUsername().equals(newUsername)){
-                return false;
-            }
-        }
-        return true;
-   }
 
    //Get the next unused Employee Number
    public static int nextEmployeeNumber(){

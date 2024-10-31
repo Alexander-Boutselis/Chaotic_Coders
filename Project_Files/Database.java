@@ -142,9 +142,9 @@ public class Database { //Currently where data is stored, will eventually be rep
     }
 
     // Get a User object by comparing with another User object using isEqualTo()
-    public User getUser(User searchUser) {
+    public User getUser(String searchUser) {
         for (User user : allUsers) {
-            if (user.isEqualTo(searchUser)) {
+            if (user.getUsername().equals(searchUser)) {
                 return user;
             }
         }
