@@ -30,6 +30,7 @@ public class Hotel{
 	//Private:
 	private String hotelName;
 	private ArrayList<Room> hotelRooms;
+	private ArrayList<Integer> removedRoomNumbers;
 	private	ArrayList<Reservation> allReservations;
 
 
@@ -37,7 +38,8 @@ public class Hotel{
 	public Hotel(String hotelName){
 		//Default
 		hotelRooms = new ArrayList<>();
-		allReservations = new ArrayList<Reservation>();
+		allReservations = new ArrayList<>();
+		removedRoomNumbers = new ArrayList<>();
 		this.hotelName = hotelName;
 	}
 
@@ -65,6 +67,10 @@ public class Hotel{
 
 	public ArrayList<Room> getAllRooms(){
 		return hotelRooms;
+	}
+
+	public ArrayList<Integer> getRemovedRoomNumbers(){
+		return removedRoomNumbers;
 	}
 
 /*
@@ -106,6 +112,11 @@ public class Hotel{
     public void addRoom(Room newRoom){
     	hotelRooms.add(newRoom);
     }
+
+    public void addRemovedRoomNumber(int removedRoomNumber){
+		removedRoomNumbers.add(removedRoomNumber);
+	}
+
 
 
  /****************************************************************

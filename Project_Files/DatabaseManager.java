@@ -34,6 +34,7 @@ public class DatabaseManager {
 
         //Create Initial Empty Hotel
         HotelManager.createHotel(hotelName);
+        Hotel hotel = HotelManager.getHotel(hotelName);
 
         //Set it as Current Hotel
         setCurrentHotel(getHotel(hotelName));
@@ -43,9 +44,10 @@ public class DatabaseManager {
         for (int i = 0; i < numberOfRooms; i++){
             RoomManager.createRoom(2, "queen","");
             RoomManager.createRoom(3, "twin","");
-            RoomManager.createRoom(1, "california king","");
+            RoomManager.createRoom(1, "king","");
         }       
 
+        setCurrentHotel(null);
         
 /*
         System.out.println("Initialization complete. Added " + numberOfRooms + " rooms to " + hotelName);

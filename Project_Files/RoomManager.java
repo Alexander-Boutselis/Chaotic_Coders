@@ -48,8 +48,13 @@ public class RoomManager {
     	HotelManager.addRoomToCurrentHotel(newRoom);
     }
 
-    public static void destroyRoom(int roomNumber){
-
+    public static void removeRoom(int roomNumber){
+        Room roomToRemove;
+        int indexOfRoom;
+        roomToRemove = getHotelRoom(roomNumber);
+        indexOfRoom = HotelManager.getAllCurrentHotelRooms().indexOf(roomToRemove);
+        HotelManager.getAllCurrentHotelRooms().set(indexOfRoom, null);
+        HotelManager.addRemovedRoomNumber(HotelManager.getCurrentHotel(), roomNumber);
     }
 
 
@@ -75,15 +80,11 @@ public class RoomManager {
     		}
     	}
 
-
-/*
-    	for (Room room : HotelManager.getAllCurrentHotelRooms()){
-    		int roomNumber = getRoomNumber(room);
-    		if (roomNumber == nextRoomNumber){
-    			nextRoomNumber++;
+    	for (int roomNum : HotelManager.getRemovedRoomNumbers(HotelManager.getCurrentHotel())){
+    		if (roomNum < nextRoomNumber){
+    			nextRoomNumber = roomNum;
     		}
     	}
-*/
     	return nextRoomNumber;
     }
 
@@ -231,14 +232,12 @@ public class RoomManager {
  ****************************************************************/
 
     //Prompt to get user info to create a room
-    public static void createAHotelRoom(){
+    public static void createAHotelRoom(Scanner scanner){
 
     	String bedType = "";
     	int numOfBeds;
     	String roomDescription;
     	double pricePerNight;
-
-    	Scanner scanner = new Scanner(System.in);
 
     	System.out.println("\n---Create A Room---");
 		//Get First name
@@ -249,7 +248,7 @@ public class RoomManager {
         System.out.println("4. King");
         System.out.println("5. California King");
         System.out.println("6. Cancel");
-        System.out.println("\nSelect Type of Bed: ");
+        System.out.print("\nSelect Type of Bed: ");
 
         int choice = scanner.nextInt();
         scanner.nextLine();       
@@ -280,7 +279,7 @@ public class RoomManager {
 
 
         System.out.println("\nHow many beds will there be?");
-        System.out.println("Number of Beds: ");
+        System.out.print("Number of Beds: ");
 
         numOfBeds = scanner.nextInt();
         scanner.nextLine();     
@@ -288,12 +287,28 @@ public class RoomManager {
         //Get Room Description
         System.out.println("\nEnter Room Description: ");
         roomDescription = scanner.nextLine();
-
+        //roomDescription = "";
 
         createRoom(numOfBeds, bedType, roomDescription);
 
     }
 
+    //Remove a Hotel Room
+    public static void removeAHotelRoom(Scanner scanner){
+        //Print all Hotel Rooms
+        System.out.println(HotelManager.getAllCurrentHotelRoomsInfo());
+
+        //Get Room Number from User
+        System.out.println("Which Room would you like to remove?");
+        System.out.print("Room Number: ");
+
+        int roomNumber = scanner.nextInt();
+        scanner.nextLine();  
+
+        //Using that Room number Remove the room
+        removeRoom(roomNumber);
+
+    }
 
 /****************************************************************
  *                           Print                              *

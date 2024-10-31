@@ -1,6 +1,7 @@
 //HotelManager.java
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class HotelManager {
@@ -67,6 +68,18 @@ public class HotelManager {
         return currHotel.getAllRooms();
     }
 
+    //Get All Rooms from Hotel
+    public static ArrayList<Room> getAllHotelRooms(){
+        //Get Current Hotel
+        Hotel currHotel = DatabaseManager.getCurrentHotel();
+        return currHotel.getAllRooms();
+    }
+
+    //Get All Removed Room Numbers
+    public static ArrayList<Integer> getRemovedRoomNumbers(Hotel hotel){
+        return hotel.getRemovedRoomNumbers();
+    }
+
     //Get Total Number of Rooms
     public static int getTotalNumberOfRooms(){
         return getAllCurrentHotelRooms().size();
@@ -101,6 +114,16 @@ public class HotelManager {
     //Add Room to Current Hotel
     public static void addRoomToCurrentHotel(Room newRoom){
         DatabaseManager.getCurrentHotel().addRoom(newRoom);
+    }
+
+    //Add Room to Hotel
+    public static void addRoomToHotel(Hotel hotel,Room newRoom){
+        hotel.addRoom(newRoom);
+    }
+
+    //Add Removed Room Number
+    public static void addRemovedRoomNumber(Hotel hotel, int removedRoomNumber){
+        hotel.addRemovedRoomNumber(removedRoomNumber);
     }
 
 
@@ -177,7 +200,17 @@ public class HotelManager {
         StringBuilder receipt = new StringBuilder();
 
         for(Room room : getAllCurrentHotelRooms()){
-             receipt.append(room.getRoomInfo());
+            try{
+                receipt.append(room.getRoomInfo());
+            }catch (Exception e){
+                receipt.append("\n***********************\n");
+                receipt.append("Room #: null");
+                receipt.append("\n");
+                receipt.append("\n");
+                receipt.append("Price per Night: null");
+                receipt.append("\n");
+                receipt.append("Description: null\n");
+            }
         }
 
 
@@ -218,6 +251,87 @@ public class HotelManager {
     }
 
     //Print Hotel Finances
+
+/****************************************************************
+ *                          Screens                             *
+ ****************************************************************/
+
+    //Select Hotel
+    public static void selectHotelScreen(Scanner scanner){
+        String hotelChoice;
+        System.out.println("----Select Hotel----");
+
+        //Print all hotels
+        for (Hotel hotel : DatabaseManager.getAllHotels()){
+            System.out.println(getHotelInfo(hotel));
+        }
+                
+        System.out.println("Enter Hotel Name");
+        
+        hotelChoice = scanner.nextLine();
+
+        setCurrentHotel(getHotel(hotelChoice));
+    }
+
+
+    public static void editHotelScreen(Scanner scanner){
+        boolean running = true;
+        int option;
+
+        while (running) {
+            System.out.println("----Edit Hotel----");
+
+            //Print hotel
+            System.out.println(getCurrentHotelInfo());
+            
+            System.out.println("Editing: " + getHotelName());
+            System.out.println("1. Add Room");
+            System.out.println("2. Remove Room");
+            System.out.println("3. View Specific Room");
+            System.out.println("4. View All Rooms");
+            System.out.println("5. Exit Hotel Edditer");
+
+            System.out.print("Please enter a number: ");
+            option = scanner.nextInt();
+            scanner.nextLine(); 
+
+
+            switch (option) {
+                //***********************************************
+                //               Edit Hotel Screen
+                //***********************************************
+                case 1:
+                    //Add a Hotel Room
+                    RoomManager.createAHotelRoom(scanner);
+                    break;
+
+                case 2:
+                    //Remove Hotel Room
+                    try{
+                        RoomManager.removeAHotelRoom(scanner);
+                    }catch(Exception e){
+
+                    }
+                    break;
+
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    running = false;
+                    break;
+                default:
+                    break;
+            }
+                
+        
+
+        }
+    }
 
  
 /****************************************************************

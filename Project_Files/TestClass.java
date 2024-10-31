@@ -86,7 +86,7 @@ public class TestClass{
 			passedTest = 0;
 	        System.out.println("\n---Test Case 2---");
 
-	        try{
+	        //try{
 
 		        //Create 2 User accounts
 		        Calendar birthday = new GregorianCalendar(2000, Calendar.APRIL, 13);
@@ -138,14 +138,14 @@ public class TestClass{
 		        //Sign out
 		        AccountManager.signOut();
 		        System.out.println("Signed out");
-
 		        passedTest++;
 				
 				//Create a Manager
 				birthday = new GregorianCalendar(2000, 4, 4);
-		        AccountManager.createUser("Mr", "Manager", birthday, "Testmanager1", "Password");
+		        AccountManager.createManager("Mr", "Manager", birthday, "Testmanager1", "Password");
 		        passedTest++;
 
+		        //Sign in Manager
 		        AccountManager.signIn(AccountManager.getAccount("Testmanager1"));
 		        System.out.print("Signed in as: ");
 				passedTest++;
@@ -154,6 +154,11 @@ public class TestClass{
 	        	AccountManager.printCurrentUser();
 	        	passedTest++;
 	
+				//Sign out
+		        AccountManager.signOut();
+		        System.out.println("Signed out");
+		        passedTest++;
+
 		        //Print all Users
 		        for(User account : DatabaseManager.getAllUsers()){
 		        	AccountManager.printAccountInfo(account);
@@ -162,11 +167,11 @@ public class TestClass{
 
 				
 		        System.out.println("---2. Passed ---");
-	    	} catch (Exception e) {
+	    	/*} catch (Exception e) {
         		// Handle any exceptions that were thrown
         		System.out.println("Exception caught: " + e.getMessage());
         		System.out.println("Number of passed tries: " + passedTest);
-        	}
+        	}*/
 
 			break;
 		//case 3:
@@ -202,9 +207,6 @@ public class TestClass{
                 screen = "Signed in as User Home Screen";
                 screenNum = 2;
             }
-
-
-
 
             //Simulate what will be on each GUI screen
             switch (screenNum) {         
@@ -266,9 +268,15 @@ public class TestClass{
             		System.out.println("Current screen: " + screen);
 
             		System.out.println("---------------Welcome " + AccountManager.getFullName(DatabaseManager.getCurrentUser()) + "!---------------");
-                    System.out.println("1. Select Hotel");
-                    System.out.println("2. Make Reservation");
-                    System.out.println("3. Edit My Account");
+            		if(HotelManager.getCurrentHotel() == null){
+                    	System.out.println("1. Select Hotel");
+
+            		}else{
+                    	System.out.println("1. Change Hotel");
+            		}
+
+                    System.out.println("2. Edit My Account");
+                    System.out.println("3. Make Reservation");
                     System.out.println("4. View My Reservations");
                     //Notificaitons
                     System.out.println("5. Quit");
@@ -287,33 +295,28 @@ public class TestClass{
                             screen = "Select Hotel Screen";
             				System.out.println("Current screen: " + screen);
 
-                   			System.out.println("----Select Hotel----");
-                   			//Print all hotels
-
-                   			for (Hotel hotel : DatabaseManager.getAllHotels()){
-                   				System.out.println(HotelManager.getHotelInfo(hotel));
-                   			}
+                   			HotelManager.selectHotelScreen(scanner);
                             
                             //Print All Hotel Rooms
-	        				System.out.println(HotelManager.getAllCurrentHotelRoomsInfo());
+	        				//System.out.println(HotelManager.getAllCurrentHotelRoomsInfo());
                             break;
 
                         case 2:
-                        //********************************
-    					//        Make Reservation       *
-    					//********************************
-                            //Make a Reservation
-                            System.out.println("Make a Reservation");
-                            ReservationManager.viewRoomsAndMakeReservation(HotelManager.getCurrentHotel(), DatabaseManager.getCurrentUser());
-                            break;
-
-                        case 3:
                     	//********************************
     					//        Edit User Account      *
     					//********************************
                             //Edit My Account
                             System.out.println("Edit My Account");
                             AccountManager.editUserAccount();
+                            break;
+
+                        case 3:
+                        //********************************
+    					//        Make Reservation       *
+    					//********************************
+                            //Make a Reservation
+                            System.out.println("Make a Reservation");
+                            ReservationManager.viewRoomsAndMakeReservation(HotelManager.getCurrentHotel(), DatabaseManager.getCurrentUser());
                             break;
 
                         case 4:
@@ -350,11 +353,17 @@ public class TestClass{
             		System.out.println("Current screen: " + screen);
 
             		System.out.println("---------------Welcome " + AccountManager.getFullName(DatabaseManager.getCurrentUser()) + "!---------------");
-                    System.out.println("1. Edit Hotel");
-                    System.out.println("2. Edit My Account");
-                    System.out.println("3. Edit User Accounts");
-                    System.out.println("4. View Reservations");
-                    System.out.println("5. Quit");
+            		if(HotelManager.getCurrentHotel() == null){
+                    	System.out.println("1. Select Hotel");
+
+            		}else{
+                    	System.out.println("1. Change Hotel");
+            		}
+                    System.out.println("2. Edit Hotel");
+                    System.out.println("3. Edit My Account");
+                    System.out.println("4. Edit User Accounts");
+                    System.out.println("5. View Reservations");
+                    System.out.println("6. Quit");
                     System.out.print("Please enter a number: ");
 
                     choice = scanner.nextInt();
@@ -363,28 +372,41 @@ public class TestClass{
 
                     switch(choice){
                         case 1:
-                            //View Rooms
-                            System.out.println(" Edit Hotel");
+                            //View Hotels
+                            screen = "Select Hotel Screen";
+            				System.out.println("Current screen: " + screen);
+
+            				HotelManager.selectHotelScreen(scanner);
+                            
                             break;
 
                         case 2:
+                        //********************************
+    					//        	Edit Hotel 		     *
+    					//********************************
+                            //Edit Hotel Room
+							screen = "Edit Hotel Screen";
+            				System.out.println("Current screen: " + screen);
+            				HotelManager.editHotelScreen(scanner);
+                            break;
+                        case 3:
                             //Edit My Account
                             System.out.println("Edit My Account");
                             AccountManager.editUserAccount();
                             break;
 
-                        case 3:
+                        case 4:
                             //My Reservations
                             System.out.println("Edit User Accounts");
                             break;
 
 
-                        case 4:
+                        case 5:
                             //My Reservations
                             System.out.println("View Reservations");
                             break;
 
-                        case 5:
+                        case 6:
                             System.out.println("Exiting...");
                             running = false;
                             break;
@@ -412,6 +434,7 @@ public class TestClass{
         }
 
 	}
+
 
 
 /****************************************************************

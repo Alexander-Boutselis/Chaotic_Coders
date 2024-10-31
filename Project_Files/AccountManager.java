@@ -443,12 +443,15 @@ public class AccountManager{
     //********************************
    public static void createManager(String firstName, String lastName, Calendar birthday, String username, String password){  
 
-        Manager newManager = new Manager(DatabaseManager.nextEmployeeNumber(), firstName, lastName, birthday, username, password);
-        //Add to Database
-        DatabaseManager.addUser(newManager);
+            if(isUniqueUsername(username)){
+            Manager newManager = new Manager(DatabaseManager.nextEmployeeNumber(), firstName, lastName, birthday, username, password);
+            
+            //Add to Database
+            DatabaseManager.addUser(newManager);
 
-        //Set Current User
-        DatabaseManager.signIn(newManager);
+            //Set Current User
+            DatabaseManager.signIn(newManager);
+        }
         return;
     }//End of createManager
 
