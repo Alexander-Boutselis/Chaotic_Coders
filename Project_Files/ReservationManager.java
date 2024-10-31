@@ -10,6 +10,8 @@
 
 import java.util.*;
 import java.time.*;
+import java.time.format.*;
+import java.time.temporal.*;
 
 /****************************************************************
 *                  	Reservation Manager 	                    *
@@ -39,11 +41,12 @@ public class ReservationManager {
  	****************************************************************/
 
 	//Create reservation
-	public static void createReservation(Hotel hotel, User user, int reservationNumber, double totalPrice, Room room, LocalDate startDate, LocalDate endDate) {
+	public static Reservation createReservation(Hotel hotel, User user, int reservationNumber, double totalPrice, Room room, LocalDate startDate, LocalDate endDate) {
 		Reservation newReservation = new Reservation(user, reservationNumber, totalPrice, room, startDate, endDate);
 		hotel.addReservation(newReservation);
 		user.addReservation(reservationNumber);
 		room.addReservationNumber(reservationNumber);
+		return newReservation;
 	}
 
 	//Assign user to reservation
@@ -75,6 +78,21 @@ public class ReservationManager {
 			}
 		}
 		return nextNumber;
+	}
+
+	//Check if a string YYYY/MM/DD is a valid date
+	public static boolean isValidDate(String date) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+		try {
+			LocalDate datePassed = LocalDate.parse(date, formatter);
+			if (!datePassed.isAfter(LocalDate.now())) {
+				System.out.println("The chosen date must be after today's date.");
+				return false;
+			}
+			return true;
+		} catch (DateTimeParseException exc) {
+			return false;
+		}
 	}
 
 	/****************************************************************
@@ -154,113 +172,121 @@ public class ReservationManager {
 		reservation.printReservation();
 	}
 
-/*
+	/****************************************************************
+ 	*                 View Rooms (Make Reservation)		   	 	    *
+ 	****************************************************************/
 
-
-
-	private Hotel hotel;
-	private Database database;
-
-	public ReservationManager(Hotel hotel) {
-		this.hotel = hotel;
-	}
-
-	public ReservationManager(Database database) {
-		this.database = database;
-	}
-
-	// VIEW ROOMS (MAKE RESERVATION) option
-	public void viewRoomsMakeReservation(User user) {
-		LocalDate startDate = getStartDateInput();
-		LocalDate endDate = getEndDateInput(startDate);
-		// Need to implement updating parameters logic
-		// Need to implement overlapping dates logic
-		Reservation newReservation = searchTheRooms(startDate, endDate);
-		newReservation.printReceipt();
-	}
-
-	private LocalDate getStartDateInput() {
+	public static void viewRoomsAndMakeReservation(Hotel hotel, User user) {
+		
+		//Get the desired start and end dates + error checking
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter the start date of your reservation in the following format: YYYY/MM/DD");
-		String startInput = scanner.nextLine();
-		if (isValidDate(startInput)) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/mm/dd");
-			LocalDate startDate = LocalDate.parse(startInput, formatter);
-			scanner.close();
-			return startDate;
-		} else {
-			System.out.println("This is not a valid date, try again.");
-			scanner.close();
-			return getStartDateInput();
-		}
-	}
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+		int looper = 0;
+		LocalDate startDate = null;
+		LocalDate endDate = null;
 
-	private LocalDate getEndDateInput(LocalDate startDate) {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter the end date of your reservation in the following format: YYYY/MM/DD");
-		String startInput = scanner.nextLine();
-		if (isValidDate(startInput)) {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/mm/dd");
-			LocalDate endDate = LocalDate.parse(startInput, formatter);
-			if (endDate.isBefore(startDate) || endDate.isEqual(startDate)) {
-				System.out.println("Your end date cannot be before or on the same day as your start date.");
-				scanner.close();
-				return getEndDateInput(startDate);
+		while (looper == 0) {
+			System.out.println("Enter the start date of your reservation in the following format: YYYY/MM/DD");
+			String startInput = scanner.nextLine();
+			if (isValidDate(startInput)) {
+				startDate = LocalDate.parse(startInput, formatter);
 			} else {
-				scanner.close();
-				return endDate;
+				System.out.println("This is not a valid date, try again.");
+				continue;
 			}
-		} else {
-			System.out.println("This is not a valid date, try again.");
-			scanner.close();
-			return getEndDateInput(startDate);
+
+			System.out.println("Now, enter the end date of your reservation in the following format: YYYY/MM/DD");
+			String endInput = scanner.nextLine();
+			if (isValidDate(endInput)) {
+				endDate = LocalDate.parse(endInput, formatter);
+				if (endDate.isBefore(startDate) || endDate.isEqual(startDate)) {
+					System.out.println("Your end date cannot be before or on the same day as your start date.");
+					System.out.println("Try again from the beginning.");
+					continue;
+				} else {
+					scanner.close();
+					looper = 1;
+				}
+			} else {
+				System.out.println("This is not a valid date, try again from the beginning.");
+			}
 		}
+
+		int looper2 = 0;
+		Scanner roomScanner = new Scanner(System.in);
+		int reservationSize = 0;
+		Room chosenRoom = null;
+
+		while (looper2 == 0) {
+			
+			//Print the list of rooms matching the date range and desired room size
+			//Need to add search parameters later
+			System.out.println("Enter the number of beds for your room:");
+			reservationSize = roomScanner.nextInt();
+
+			ArrayList<Room> filteredRooms = filterRooms(hotel.getAllRooms(), reservationSize);
+			if (filteredRooms.isEmpty()) {
+				System.out.println("There are no rooms matching your search. Please try again.");
+				continue;
+			}
+			listRooms(filteredRooms);
+
+			//User selects a room by typing in the room number + error check
+			System.out.println("Type in the room number of your desired room: ");
+			int roomNumber = scanner.nextInt();
+			chosenRoom = findRoomByRoomNumber(filteredRooms, roomNumber);
+			if (chosenRoom == null) {
+				System.out.println("This room number is not from the listed rooms. Please try again.");
+				continue;
+			}
+			
+			//The full selected room details get printed
+			System.out.println("FULL ROOM DETAILS");
+			System.out.println("--------------------------------");
+			chosenRoom.printRoomInfo();
+			System.out.println("--------------------------------");
+			
+			//Are you sure prompt, if answer is no then it will go back to reprint list
+			System.out.println("Are you sure you want to reserve this room? Type 1 to continue and any other number if not.");
+			int decision = scanner.nextInt();
+			if (decision != 1) {
+				continue;
+			}
+
+			roomScanner.close();
+			looper2 = 1;
+		}
+
+		long nights = ChronoUnit.DAYS.between(startDate, endDate) - 1;
+		double price = calculateTotalPrice(chosenRoom, nights);
+
+		//Room is reserved and set
+		Reservation processedReservation = createReservation(hotel, user, getNextUnusedNumber(hotel), price, chosenRoom, startDate, endDate);
+		printReservation(processedReservation);
 	}
 
-	private Reservation searchTheRooms(LocalDate startDate, LocalDate endDate) {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter the amount of people for the reservation: ");
-		int roomSize = scanner.nextInt();
-
-		ArrayList<Room> filteredRooms = filterRooms(database.hotel.hotelRooms, roomSize);
-		listRooms(filteredRooms);
-
-		System.out.println("Type in the room number of your desired room: ");
-		int roomNumber = scanner.nextInt();
-		// Need to add error checking for invalid room number
-		Room chosenRoom = findRoomByRoomNumber(filteredRooms, roomNumber);
-
-		System.out.println("Are you sure you want to reserve this room? Type 1 to continue and any other number if not.");
-		int decision = scanner.nextInt();
-		if (decision != 1) {
-			scanner.close();
-			return searchTheRooms(startDate, endDate);
-		}
-		scanner.close();
-		return new Reservation(startDate, endDate, chosenRoom, database.hotel.getCurrentUser());
-	}
-
-	public ArrayList<Room> filterRooms(ArrayList<Room> rooms, int roomSize) {
+	//Filter array of rooms based on number of beds
+	public static ArrayList<Room> filterRooms(ArrayList<Room> rooms, int roomSize) {
 		ArrayList<Room> newRoomList = new ArrayList<>();
 		for (Room room : rooms) {
-			if (room.getRoomSize() >= roomSize) {
+			if (room.getNumberOfBeds() >= roomSize) {
 				newRoomList.add(room);
 			}
 		}
 		return newRoomList;
 	}
 
-	public boolean isValidDate(String date) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/mm/dd");
-		try {
-			LocalDate.parse(date, formatter);
-			return true;
-		} catch (DateTimeParseException exc) {
-			return false;
+	//List all room information given array of rooms
+	public static void listRooms(ArrayList<Room> rooms) {
+		System.out.println("--------------------------------");
+		for (Room room : rooms) {
+			room.printRoomInfo();
+        	System.out.println("--------------------------------");
 		}
 	}
 
-	public Room findRoomByRoomNumber(ArrayList<Room> rooms, int roomNumber) {
+	//Get room from array of rooms given room number
+	public static Room findRoomByRoomNumber(ArrayList<Room> rooms, int roomNumber) {
 		for (Room room : rooms) {
 			if (room.getRoomNumber() == roomNumber) {
 				return room;
@@ -269,91 +295,16 @@ public class ReservationManager {
 		return null;
 	}
 
-	// Need to implement
-	public void viewReservations(User user) {
-		return;
-	}
+	/****************************************************************
+ 	*           		  View Reservations	(User)	   			    *
+ 	****************************************************************/
 
-	public void listRooms(Room[] rooms) {
-		System.out.println("--------------------------------");
-		for (Room room : rooms) {
-			System.out.println("Room number: " + room.getRoomNumber());
-        	System.out.println("Room type: " + room.getRoomType());
-        	System.out.println("Nightly rate: $" + room.getPricePerNight());
-        	System.out.println("--------------------------------");
-		}
-	}
 
-	public void listRooms(ArrayList<Room> rooms) {
-		System.out.println("--------------------------------");
-		for (Room room : rooms) {
-			System.out.println("Room number: " + room.getRoomNumber());
-        	System.out.println("Room type: " + room.getRoomType());
-        	System.out.println("Nightly rate: $" + room.getPricePerNight());
-        	System.out.println("--------------------------------");
-		}
-	}
 
-	public void displayRoomDetails(Room room) {
-		System.out.println("Information for this room:");
-		room.displayRoomDetails();
-	}
+	/****************************************************************
+ 	*           	  View Reservations (Manager)	 	  			*
+ 	****************************************************************/
 
-	// Process reservation for multiple rooms
-	public void makeReservation(LocalDate startDate, LocalDate endDate, Room[] reservedRooms, User user) {
-		for (Room room : reservedRooms) { 
-			if (room.isOccupied()) {
-				return;
-			}
-		}
-		if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
-			return;
-		}
-		Reservation reservation = new Reservation(startDate, endDate, reservedRooms, user);
-		for (Room room : reservedRooms) {
-			user.addReservation(Integer.toString(room.getRoomNumber()));
-			room.setOccupied(true);
-		}
-		hotel.addReservation(reservation, reservedRooms.length);
-	}
-
-	// Process reservation for single room
-	public void makeReservation(LocalDate startDate, LocalDate endDate, Room reservedRoom, User user) {
-		if (reservedRoom.isOccupied()) {
-			return;
-		}
-		if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
-			return;
-		}
-		Room[] rooms = {reservedRoom};
-		Reservation reservation = new Reservation(startDate, endDate, rooms, user);
-		for (Room room : rooms) {
-			user.addReservation(Integer.toString(room.getRoomNumber()));
-			room.setOccupied(true);
-		}
-		hotel.addReservation(reservation, 1);
-	}
-
-	// Change reservation dates
-	private void changeReservationDates(Reservation reservation, LocalDate newStartDate, LocalDate newEndDate) {
-		return;
-	}
-
-	// Change reservation room (?)
-	private void changeReservationRoom(Reservation reservation) {
-		return;
-	}
-
-	// Cancel the reservation
-	public void cancelReservation(Reservation reservation) {
-		Room[] reservedRooms = reservation.getRooms();
-		for (Room room : reservedRooms) {
-			room.setOccupied(false);
-		}
-		hotel.removeReservation(reservation, reservedRooms.length);
-	}
 
 	
-*/
-
 }
