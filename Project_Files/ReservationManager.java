@@ -204,7 +204,6 @@ public class ReservationManager {
 					System.out.println("Try again from the beginning.");
 					continue;
 				} else {
-					scanner.close();
 					looper = 1;
 				}
 			} else {
@@ -213,7 +212,6 @@ public class ReservationManager {
 		}
 
 		int looper2 = 0;
-		Scanner roomScanner = new Scanner(System.in);
 		int reservationSize = 0;
 		Room chosenRoom = null;
 
@@ -222,7 +220,7 @@ public class ReservationManager {
 			//Print the list of rooms matching the date range and desired room size
 			//Need to add search parameters later
 			System.out.println("Enter the number of beds for your room:");
-			reservationSize = roomScanner.nextInt();
+			reservationSize = scanner.nextInt();
 
 			ArrayList<Room> filteredRooms = filterRooms(hotel.getAllRooms(), reservationSize);
 			if (filteredRooms.isEmpty()) {
@@ -253,11 +251,10 @@ public class ReservationManager {
 				continue;
 			}
 
-			roomScanner.close();
 			looper2 = 1;
 		}
 
-		long nights = ChronoUnit.DAYS.between(startDate, endDate) - 1;
+		long nights = ChronoUnit.DAYS.between(startDate, endDate);
 		double price = calculateTotalPrice(chosenRoom, nights);
 
 		//Room is reserved and set

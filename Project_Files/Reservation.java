@@ -158,11 +158,11 @@ public class Reservation {
  ****************************************************************/
 	// Calculate duration of stay
 	public long calculateDays(LocalDate startDate, LocalDate endDate) {
-		return ChronoUnit.DAYS.between(startDate, endDate);
+		return ChronoUnit.DAYS.between(startDate, endDate) + 1;
 	}
 
 	public long calculateNights(LocalDate startDate, LocalDate endDate) {
-		return ChronoUnit.DAYS.between(startDate, endDate) - 1;
+		return ChronoUnit.DAYS.between(startDate, endDate);
 	}
 
 
@@ -189,6 +189,7 @@ public class Reservation {
 		receipt.append(startDate);
 		receipt.append(" - ");
 		receipt.append(endDate);
+		receipt.append("\n");
 		receipt.append(calculateDays(startDate, endDate));
 		receipt.append(" days, ");
 		receipt.append(calculateNights(startDate, endDate));
