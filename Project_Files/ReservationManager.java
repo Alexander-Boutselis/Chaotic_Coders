@@ -82,7 +82,7 @@ public class ReservationManager {
 
 	//Check if a string YYYY/MM/DD is a valid date
 	public static boolean isValidDate(String date) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd");
 		try {
 			LocalDate datePassed = LocalDate.parse(date, formatter);
 			if (!datePassed.isAfter(LocalDate.now())) {
@@ -180,7 +180,7 @@ public class ReservationManager {
 		
 		//Get the desired start and end dates + error checking
 		Scanner scanner = new Scanner(System.in);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd");
 		int looper = 0;
 		LocalDate startDate = null;
 		LocalDate endDate = null;
