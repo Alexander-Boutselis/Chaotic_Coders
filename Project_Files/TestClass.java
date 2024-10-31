@@ -296,7 +296,15 @@ public class TestClass{
                             
                             //Print All Hotel Rooms
 	        				System.out.println(HotelManager.getAllCurrentHotelRoomsInfo());
-                            //database.reservationManager.viewRoomsMakeReservation(database.hotel.getCurrentUser());
+                            break;
+
+                        case 2:
+                        //********************************
+    					//        Make Reservation       *
+    					//********************************
+                            //Make a Reservation
+                            System.out.println("Make a Reservation");
+                            ReservationManager.viewRoomsAndMakeReservation(HotelManager.getCurrentHotel(), DatabaseManager.getCurrentUser());
                             break;
 
                         case 3:
