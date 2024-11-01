@@ -78,14 +78,6 @@ public class login extends JFrame implements ActionListener{
         setSize(600,300);
         setVisible(true);
     }
-    
-
-
-    public static void main(String[] args) {
-        new login();
-    }
-
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
