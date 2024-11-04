@@ -133,7 +133,8 @@ public class AccountManager{
 
     //Set Name
     public static void setFullName(User user, String newFirstName, String newLastName){
-        user.setName(newFirstName, newLastName);
+        user.setFirstName(newFirstName);
+        user.setLastName(newLastName);
     }
 
     //Set Birthday
@@ -281,50 +282,103 @@ public class AccountManager{
 
             switch (option) {
 
-                //***********************************************
-                //          Edit User Info
-                //***********************************************
-                case 1:
-                    System.out.println("Edit User Info");
+            //***********************************************
+            //          Edit User Info
+            //***********************************************
+            case 1:
+                System.out.println("Edit User Info");
+                editUserInfo(scanner);
 
-                    break;
+                break;
 
-                //***********************************************
-                //          Sign-Out of User Account
-                //***********************************************
-                case 2:
-                    System.out.println("\nAre you sure you want to sign-out?");
-                    userInput = scanner.nextLine().toLowerCase();
+            //***********************************************
+            //          Sign-Out of User Account
+            //***********************************************
+            case 2:
+                System.out.println("\nAre you sure you want to sign-out?");
+                userInput = scanner.nextLine().toLowerCase();
 
-                    if (userInput.charAt(0)== 'y'){
-                        DatabaseManager.signOut();
-                        running = false;
-                    }
-                    break;
+                if (userInput.charAt(0)== 'y'){
+                    DatabaseManager.signOut();
+                    running = false;
+                }
+                break;
 
-                //***********************************************
-                //          Delete User Account
-                //***********************************************
-                case 3:
-                System.out.println("Delete Account");
+            //***********************************************
+            //          Delete User Account
+            //***********************************************
+            case 3:
+            System.out.println("Delete Account");
 
-                    break;
+                break;
 
-                //***********************************************
-                //          Exit Edit Account Screen
-                //***********************************************
-                case 4:
-                    System.out.println("4. Cancel");
-                    running = false;                    
-                default:
+            //***********************************************
+            //          Exit Edit Account Screen
+            //***********************************************
+            case 4:
+                System.out.println("4. Cancel");
+                running = false;                    
+            default:
 
-                    break;
+                break;
             }
         }
         return;
     }//End of editUserAccount
 
+    //Edit User Info
+    public static void editUserInfo(Scanner scanner){
+        boolean running = true;
+        int option;
+        String userInput;
 
+        while (running){
+
+            //Prompt user to select what to change
+            System.out.println("\n---Edit Account Info---");
+            
+            //Print current User ifo
+            printCurrentUser();
+
+            System.out.println("1. Edit Name");
+            System.out.println("2. Change Username");
+            System.out.println("3. Change Password");
+            System.out.println("4. Cancel");
+            System.out.print("Please enter a number: ");
+
+            option = scanner.nextInt();
+            scanner.nextLine(); 
+
+            switch(option){
+            case 1:
+            System.out.println("\n---Edit Name---");
+            System.out.println("Please enter your first name: ");
+            userInput = scanner.nextLine();
+            
+            
+
+                break;
+            
+            case 2:
+
+                break;
+
+            case 3:
+
+                break;
+
+            case 4:
+                System.out.println("4. Cancel");
+                running = false;                    
+            
+            default:
+
+                break;
+            }
+        }
+
+
+    }
 
 
 /****************************************************************

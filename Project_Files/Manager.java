@@ -41,28 +41,29 @@ public class Manager extends User{
 	}
 
 
-/****************************************************************
- *                      Notifications                           *
- ****************************************************************/
-	public ArrayList<String> getNotifications() {
-        return notifications;
+    /****************************************************************
+     *                     Manager Info Methods                     *
+     ****************************************************************/
+    
+    /********************************
+     *      Set/Get Start Date      *
+     ********************************/
+    //Set Start Date
+    public void setStartDate(Calendar startDate){
+        this.startDate = startDate;
     }
 
-    public void addNotification(String notification) {
-        this.notifications.add(notification);
-    }
-
-    public void removeNotification(String notification) {
-        this.notifications.remove(notification);
-    }
-
-
-/****************************************************************
- *                      Getters                                 *
- ****************************************************************/
     //Get Start Date
     public Calendar getStartDate(){
         return startDate;
+    }
+
+    /********************************
+     *       Set/Get End Date       *
+     ********************************/
+    //Set End Date
+    public void setEndDate(Calendar endDate){
+        this.endDate = endDate;
     }
 
     //Get End Date
@@ -70,33 +71,22 @@ public class Manager extends User{
         return endDate;
     }
 
+    /********************************
+     *    Set/Get Employee Number   *
+     ********************************/
+    //Set EmployeeNumber
+    public void setEmployeeNumber(int employeeNumber){
+        this.employeeNumber = employeeNumber;
+    }
+
     //Get Employee Number
     public int getEmployeeNumber(){
         return employeeNumber;
     }
 
-
-/****************************************************************
- *                      Setters                                 *
- ****************************************************************/
-    public void setStartDate(Calendar startDate){
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(Calendar endDate){
-        this.endDate = endDate;
-    }
-
-
-    public void setEmployeeNumber(int employeeNumber){
-        this.employeeNumber = employeeNumber;
-    }
-
-
-/****************************************************************
- *                       Print                                  *
- ****************************************************************/
-
+    /********************************
+     *      Print Account Info      *
+     ********************************/
     //Get Account Info toSting()
     public String getAccountInfo(){
         StringBuilder accountInfo = new StringBuilder();
@@ -120,8 +110,36 @@ public class Manager extends User{
     //Print Account info
     public void printAccount(){
         System.out.println(getAccountInfo());
+    }   
+
+
+/****************************************************************
+ *                     Notification Methods                     *
+ ****************************************************************/
+
+    /********************************
+     *      Get Notificaiton(s)     *
+     ********************************/
+    //Get All Notifications
+	public ArrayList<String> getNotifications() {
+        return notifications;
     }
-    
-}
+
+    /********************************
+     *    Add/Remove Notificaiton   *
+     ********************************/
+    //Add Notification
+    public void addNotification(String notification) {
+        this.notifications.add(notification);
+    }
+
+    //Remove Notification
+    public void removeNotification(String notification) {
+        this.notifications.remove(notification);
+    }
 
 
+/****************************************************************
+ *                             End                              *
+ ****************************************************************/
+}//End of Manager Class

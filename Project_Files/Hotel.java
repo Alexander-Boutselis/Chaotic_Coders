@@ -10,7 +10,7 @@ public class Hotel{
 	/*Variables:
         Hotel Name
         List of Rooms
-		Number of Rooms
+		List of of Removed Rooms (Room number Stored)
 		List of Reservation Index Numbers
     */
     
@@ -43,109 +43,34 @@ public class Hotel{
 		this.hotelName = hotelName;
 	}
 
+    /****************************************************************
+     *                      Get/Set Hotel Info                      *
+     ****************************************************************/
 
- /****************************************************************
-  *                    		  Getters		                     *
-  ****************************************************************/
-
+    /********************************
+     *        Get Hotel Info        *
+     ********************************/
+	//Get Hotel Name
 	public String getHotelName(){
 		return hotelName;
 	}
 
+	//Get Number of Rooms
 	public int getNumOfRooms(){
 		return hotelRooms.size();
 	}
 
-	public Room getRoom(int searchRoomNumber){
-		for (Room room : hotelRooms){
-			if (room.getRoomNumber() == searchRoomNumber){
-				return room;
-			}
-		}
-		return null; //Failed to find Room with matching Room Number
-	}
-
-	public ArrayList<Room> getAllRooms(){
-		return hotelRooms;
-	}
-
-	public ArrayList<Integer> getRemovedRoomNumbers(){
-		return removedRoomNumbers;
-	}
-
-/*
-	public Reservation getReservation(int searchReservationNumber){
-		for (Reservation reservation : allReservations){
-			if (reservation.getReservationNumber() == searchRoomNumber)
-				return reservation;
-		}
-		return null; //No Reservaiton found
-	}
-*/
-
-	public ArrayList<Reservation> getAllReservations(){
-		return allReservations;
-	}
-
-
-
-
- /****************************************************************
-  *                    		  Setters		                     *
-  ****************************************************************/
-
+	/********************************
+     *        Set Hotel Info        *
+     ********************************/
+	//Set Hotel Name
 	public void setHotelName(String newHotelName){
 		hotelName = newHotelName;
 	}
 
-
- /****************************************************************
-  *                    		  Adders		                     *
-  ****************************************************************/
-
-    //Add a Reservation object to the list
-    public void addReservation(Reservation reservation) {
-        allReservations.add(reservation);
-    }
-
-    //Add Room to this hotel
-    public void addRoom(Room newRoom){
-    	hotelRooms.add(newRoom);
-    }
-
-    public void addRemovedRoomNumber(int removedRoomNumber){
-		removedRoomNumbers.add(removedRoomNumber);
-	}
-
-
-
- /****************************************************************
-  *                    		  Removers		                     *
-  ****************************************************************/
-
-    //Remove a Reservation object from the list by matching with isEqualTo()
-    public void removeReservation(Reservation reservation) {
-        for (int i = 0; i < allReservations.size(); i++) {
-            if (allReservations.get(i).isEqualTo(reservation)) {
-                allReservations.remove(i);
-                break; //Stop after removing the first match
-            }
-        }
-    }
-
-    public void removeRoom(int searchRoomNumber){
-    	for (Room room : hotelRooms){
-    		if (room.getRoomNumber() == searchRoomNumber){
-    			hotelRooms.remove(room);
-    		}
-    	}
-
-    }
-
- /****************************************************************
-  *                    		  Print 		                     *
-  ****************************************************************/
-
+    /********************************
+     *          Print Hotel         *
+     ********************************/
     //toString Hotel info
     public String getHotelInfo(){
 
@@ -163,11 +88,118 @@ public class Hotel{
         System.out.println(getHotelInfo());	
     }
 
- /****************************************************************
-  *                   		  Equals 			                 *
-  ****************************************************************/
 
-/*
+    /****************************************************************
+     *                        Hotel Room(s)                         *
+     ****************************************************************/
+
+    /********************************
+     *       Get Hotel Room(s)      *
+     ********************************/
+    //Get Room by Room Number
+	public Room getRoom(int searchRoomNumber){
+		for (Room room : hotelRooms){
+			if (room.getRoomNumber() == searchRoomNumber){
+				return room;
+			}
+		}
+		return null; //Failed to find Room with matching Room Number
+	}
+
+	//Get All Rooms
+	public ArrayList<Room> getAllRooms(){
+		return hotelRooms;
+	}
+
+    /********************************
+     *      Add/Remove Room(s)      *
+     ********************************/
+	//Add Room to this hotel
+    public void addRoom(Room newRoom){
+    	hotelRooms.add(newRoom);
+    }
+
+    //Remove Room from this Hotel
+    public void removeRoom(int searchRoomNumber){
+    	for (Room room : hotelRooms){
+    		if (room.getRoomNumber() == searchRoomNumber){
+    			hotelRooms.remove(room);
+    		}
+    	}
+
+    }
+
+    /********************************
+     *        Removed Room(s)       *
+     ********************************/
+	//Get All Removed Room Numbers
+	public ArrayList<Integer> getRemovedRoomNumbers(){
+		return removedRoomNumbers;
+	}
+
+	//Add Removed Room Number
+    public void addRemovedRoomNumber(int removedRoomNumber){
+		removedRoomNumbers.add(removedRoomNumber);
+	}
+
+	//Remove Removed Room Number
+	public void removeRemovedRoomNumber(int usedRoomNumber){
+	//	for (int i = 0; i < removedRoomNumbers.size(); i++){
+	//		if(r == usedRoomNumber){
+	//			removedRoomNumbers.remove(i);
+	//		}
+	//	}
+	}
+
+
+    /****************************************************************
+     *                      Reservation Methods                     *
+     ****************************************************************/
+
+    /********************************
+     *       Get Reservations       *
+     ********************************/
+	//Get Reservation based on Reservation Number
+	public Reservation getReservation(int searchReservationNumber){
+		for (Reservation reservation : allReservations){
+			if (reservation.getReservationNumber() == searchReservationNumber)
+				return reservation;
+		}
+		return null; //No Reservaiton found
+	}
+
+	//Get All Reservations
+	public ArrayList<Reservation> getAllReservations(){
+		return allReservations;
+	}
+
+    /********************************
+     *    Add/Remove Reservations   *
+     ********************************/
+    //Add a Reservation object to the list
+    public void addReservation(Reservation reservation) {
+        allReservations.add(reservation);
+    }
+
+    //Remove a Reservation object from the list by matching with isEqualTo()
+    public void removeReservation(Reservation reservation) {
+        for (int i = 0; i < allReservations.size(); i++) {
+            if (allReservations.get(i).isEqualTo(reservation)) {
+                allReservations.remove(i);
+                break; //Stop after removing the first match
+            }
+        }
+    }
+
+
+ 	/****************************************************************
+     *                       Boolean Methods                        *
+  	 ****************************************************************/
+
+   	/********************************
+     *       Are Hotels Equal       *
+     ********************************/
+    //Checks if Hotels have matching names
     public boolean isEqualTo(Hotel otherHotel){
     	if (hotelName.equals(otherHotel.getHotelName())){
     		return true;
@@ -175,11 +207,11 @@ public class Hotel{
     		return false;
     	}
     }
-*/
+
 
 	/****************************************************************
 	 *							End					 				*
 	 ****************************************************************/
-}
+}//End of Hotel Class
 
                                                     

@@ -56,90 +56,66 @@ public class User {
     }
 
 
-/****************************************************************
- *                      Setters                                 *
- ****************************************************************/
-    public void setName(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
 
+
+    /****************************************************************
+     *                          Methods                             *
+     ****************************************************************/
+
+    /********************************
+     *           Example            *
+     ********************************/
+
+    /****************************************************************
+     *                         User Info Methods                    *
+     ****************************************************************/
+
+    /********************************
+     *         Set/Get Name         *
+     ********************************/
+    //Set First Name
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    
 
+    //Set Last Name
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public void setBirthday(Calendar birthday) {
-        this.birthday = birthday;
+    //Get First Name
+    public String getFirstName(){
+        return firstName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    //Get Last Name
+    public String getLastName(){
+        return lastName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-/****************************************************************
- *                      Getters                                 *
- ****************************************************************/
+    //Get Full Name
     public String getName() {
         String nameCombiner;
         nameCombiner = firstName + " " + lastName;
         return nameCombiner;
     }
 
-    public String getFirstName(){
-        return firstName;
+    /********************************
+     *       Set/Get Birthday       *
+     ********************************/
+    //Set Birthday
+    public void setBirthday(Calendar birthday) {
+        this.birthday = birthday;
     }
 
-    public String getLastName(){
-        return lastName;
-    }
-
+    //Get Birthday
     public Calendar getBirthday() {
         return birthday;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-   public int getReservationIndexNumber(int index){
-        return reservationNumbers.get(index);
-    }
-
-    public ArrayList<Integer> getAllreservationNumbers() {
-        return reservationNumbers;
-    }
-
-
-/****************************************************************
- *                  Add/Remove Reservation                      *
- ****************************************************************/
-    public void addReservation(int reservationIndex) {
-        this.reservationNumbers.add(reservationIndex);
-    }
-
-    public void removeReservation(int reservationIndex) {
-        this.reservationNumbers.remove(reservationIndex);
-    }
-
-
-/****************************************************************
- *                      Print                                   *
- ****************************************************************/
-
+    /********************************
+     *          Print Info          *
+     ********************************/
     //Get Account Info toSting()
     public String getAccountInfo(){
         StringBuilder accountInfo = new StringBuilder();
@@ -163,10 +139,85 @@ public class User {
         System.out.println(getAccountInfo());
     }
 
+    /****************************************************************
+     *                   Username/Password Methods                  *
+     ****************************************************************/
 
-/****************************************************************
- *                      Equals                                  *
- ****************************************************************/
+    /********************************
+     *       Set/Get Username       *
+     ********************************/
+    //Set Username
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    //Get Username
+    public String getUsername() {
+        return username;
+    }
+
+    /********************************
+     *       Set/Get Password       *
+     ********************************/
+    //Set Password
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    //Get Password
+    public String getPassword() {
+        return password;
+    }
+
+
+    /****************************************************************
+     *                     Reservation Methods                      *
+     ****************************************************************/
+
+    /********************************
+     *      Get Reservation(s)      *
+     ********************************/
+    //Get Reservation based on its Reservation Number
+    public int getReservationNumber(int searchReservationNumber){
+        for(int reservationNumber : reservationNumbers){
+            return reservationNumber;
+        }
+        return -1;
+    }
+
+    //Get All ReservationNumbers
+    public ArrayList<Integer> getAllreservationNumbers() {
+        return reservationNumbers;
+    }
+
+    /********************************
+     *    Add/Remove Reservation    *
+     ********************************/
+    //Add Reservation Number
+    public void addReservation(int reservationNumber) {
+        reservationNumbers.add(reservationNumber);
+    }
+
+    //Remove Reservation Number
+    public void removeReservation(int reservationNumber) {
+        for(int i = 0; i < reservationNumbers.size(); i++){
+            if(reservationNumbers.get(i) == reservationNumber){
+                reservationNumbers.remove(i);
+                return;
+            }
+        }
+    }
+
+
+
+    /****************************************************************
+     *                            Equals                            *
+     ****************************************************************/
+
+    /********************************
+     *           isEqualTo          *
+     ********************************/
+    //Checks if 2 Users names are equal
     public boolean isEqualTo(User otherUser){
         if (username.equals(otherUser.username)) {
             return true;
@@ -174,4 +225,8 @@ public class User {
             return false;
         }
     }
-}
+
+/****************************************************************
+ *                             End                              *
+ ****************************************************************/
+}//End of User Class

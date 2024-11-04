@@ -14,7 +14,6 @@ public class Search{
 	 * 
 	 * Idea #3: When selecting the dates grab all rooms availible during that time, then check for search parameters.
 	 * 
-	 * Idea #4: Sharing is caring, let reservations overlap for now and worry about this later once data is stored in database 
 	 * 
 	**/
 }
