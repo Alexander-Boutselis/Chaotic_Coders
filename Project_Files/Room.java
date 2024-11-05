@@ -50,43 +50,29 @@ public class Room {
     }
 
 
-/****************************************************************
- *                      Setters                                 *
- ****************************************************************/
+    /****************************************************************
+     *                      Room Info Methods                       *
+     ****************************************************************/
 
+    /********************************
+     *      Set/Get Room Number     *
+     ********************************/
     //Set Room Number
     public void setRoomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
     }
 
-    //Set Number of Beds
-    public void setNumberOfBeds(int numOfBeds){
-        this.numOfBeds = numOfBeds;
-    }
-
-    //Set Bed Type
-    public void setBedType(String bedType) {
-        this.bedType = bedType;
-    }
-
-    //Set Room Description
-    public void setRoomDescription(String roomDescription){
-        this.roomDescription = roomDescription;
-    }
-
-    //Set Price Per Night
-    public void setPricePerNight(double pricePerNight) {
-        this.pricePerNight = pricePerNight;
-    }
-
-
-/****************************************************************
- *                      Getters                                 *
- ****************************************************************/
-    
     //Get Room Number
     public int getRoomNumber(){
         return roomNumber;
+    }
+
+    /********************************
+     *        Set/Get Bed Info      *
+     ********************************/
+    //Set Number of Beds
+    public void setNumberOfBeds(int numOfBeds){
+        this.numOfBeds = numOfBeds;
     }
 
     //Get Number of Beds
@@ -94,14 +80,35 @@ public class Room {
         return numOfBeds;
     }
 
+    //Set Bed Type
+    public void setBedType(String bedType) {
+        this.bedType = bedType;
+    }
+
     //Get Bed Type
     public String getBedType(){
         return bedType;
     }
-    
+
+    /********************************
+     *   Set/Get Room Description   *
+     ********************************/
+    //Set Room Description
+    public void setRoomDescription(String roomDescription){
+        this.roomDescription = roomDescription;
+    }
+
     //Get Room Description
     public String getRoomDescription(){
         return roomDescription;
+    }
+
+    /********************************
+     *      Set/Get Room Price      *
+     ********************************/
+    //Set Price Per Night
+    public void setPricePerNight(double pricePerNight) {
+        this.pricePerNight = pricePerNight;
     }
 
     //Get Price Per Night
@@ -109,52 +116,9 @@ public class Room {
         return pricePerNight;
     }
 
-    //Get All Reservation Numbers
-    public ArrayList<Integer> getAllreservationNumbers(){
-        return reservationNumbers;
-    }
-
-    //Check if Room has Reservation Number
-    public boolean hasReservationNumber(int searchReservationNumber){
-        for (int reservationNumber : reservationNumbers){
-            if (reservationNumber == searchReservationNumber){
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-/****************************************************************
- *                      Add Reservation                         *
- ****************************************************************/
-
-    //Add Reservation Number
-    public void addReservationNumber(int newReservationNumber){
-        reservationNumbers.add(newReservationNumber);
-    }
-    
-
-/****************************************************************
- *                      Remove Reservation                      *
- ****************************************************************/
-
-    //Remove Reservation Number
-    public void removeReservationNumber(int roomNumberToDelete){
-
-        for (int i = 0; i < reservationNumbers.size(); i++) {
-
-            if (reservationNumbers.get(i) == roomNumberToDelete){
-                reservationNumbers.remove(i);
-                return;
-            }
-        }
-    }
-
-/****************************************************************
- *                           Print                              *
- ****************************************************************/
-
+    /********************************
+     *          Print Room          *
+     ********************************/
     //toString Room Info
     public String getRoomInfo(){
         StringBuilder receipt = new StringBuilder();
@@ -197,9 +161,53 @@ public class Room {
     }
 
 
+    /****************************************************************
+     *                     Reservation Methods                      *
+     ****************************************************************/
+
+    /********************************
+     *       Get Reservations       *
+     ********************************/
+    //Get All Reservation Numbers
+    public ArrayList<Integer> getAllreservationNumbers(){
+        return reservationNumbers;
+    }
+
+    /********************************
+     *    Check for Reservations    *
+     ********************************/
+    //Check if Room has Reservation Number
+    public boolean hasReservationNumber(int searchReservationNumber){
+        for (int reservationNumber : reservationNumbers){
+            if (reservationNumber == searchReservationNumber){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /********************************
+     *    Add/Remove Reservation    *
+     ********************************/
+    //Add Reservation Number
+    public void addReservationNumber(int newReservationNumber){
+        reservationNumbers.add(newReservationNumber);
+    }
+   
+    //Remove Reservation Number
+    public void removeReservationNumber(int roomNumberToDelete){
+
+        for (int i = 0; i < reservationNumbers.size(); i++) {
+
+            if (reservationNumbers.get(i) == roomNumberToDelete){
+                reservationNumbers.remove(i);
+                return;
+            }
+        }
+    }
+
 
 /****************************************************************
  *                          End                                 *
  ****************************************************************/
-
-}
+}//End of Room Class

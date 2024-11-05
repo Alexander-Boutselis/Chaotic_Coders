@@ -56,10 +56,10 @@ public static void promptForGUI(Scanner scanner){
     choice = scanner.nextLine().toLowerCase();
 
     if (choice.charAt(0)== 'y'){
-        //ADD CODE TO LAUNCH GUI HERE
+        GUIManager.runAppGUI(scanner);
     }else {
         //Hotel App Run in terminal window
-        TestClass.runAppInTerminal(scanner);
+        GUIManager.runAppInTerminal(scanner);
     }
 
 }
