@@ -38,6 +38,7 @@ public class User {
     //Log in Info
     protected String username;
     private String password;
+    protected boolean isActive;
     //Add Boolean isActive to set as false when a user wants to terminate their account (dont delete it need it for records)
 
     //User Reservations
@@ -52,19 +53,10 @@ public class User {
         this.birthday = birthday;
         this.username = username;
         this.password = password;
+        isActive = true;
         this.reservationNumbers = new ArrayList<>();
     }
 
-
-
-
-    /****************************************************************
-     *                          Methods                             *
-     ****************************************************************/
-
-    /********************************
-     *           Example            *
-     ********************************/
 
     /****************************************************************
      *                         User Info Methods                    *
@@ -121,6 +113,11 @@ public class User {
         StringBuilder accountInfo = new StringBuilder();
 
         accountInfo.append("\n***********************\n");
+
+        if(!isActive){            
+            accountInfo.append("ACCOUNT REMOVED, INACTIVE");
+            accountInfo.append("\n");
+        }
         accountInfo.append("User: " + getName());
         accountInfo.append("\n");
         accountInfo.append("Username: " + username);
@@ -211,11 +208,11 @@ public class User {
 
 
     /****************************************************************
-     *                            Equals                            *
+     *                       Boolean Methods                        *
      ****************************************************************/
 
     /********************************
-     *           isEqualTo          *
+     *            Equals            *
      ********************************/
     //Checks if 2 Users names are equal
     public boolean isEqualTo(User otherUser){
@@ -225,7 +222,19 @@ public class User {
             return false;
         }
     }
-    
+
+    /********************************
+     *    Set/Get Active Status     *
+     ********************************/
+    //Set Active Status
+    public void setActiveStatus(boolean newStatus){
+        isActive = newStatus;
+    }
+
+    //Get Active Status
+    public boolean getActiveStatus(){
+        return isActive;
+    }
 
 /****************************************************************
  *                             End                              *

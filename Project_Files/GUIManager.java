@@ -153,8 +153,8 @@ public static void runAppInTerminal(Scanner scanner){
     for (User user : DatabaseManager.getAllUsers()){
         //System.out.println("Checked User Number: " + user.getUserNumber());
         //System.out.println("Entered Password: " + inputPassword + "\nUser Password: " + user.getPassword());
-        if (user.getUsername().equals(inputUsername)){
-            if (user.getPassword().equals(inputPassword)){
+        if (user.getUsername().equals(inputUsername) && user.getPassword().equals(inputPassword)){
+            if (user.getActiveStatus()){
 
                 AccountManager.signIn(user);
                 return;
@@ -493,6 +493,7 @@ public static void runAppInTerminal(Scanner scanner){
             //***********************************************
             case 2:
                 System.out.println("\nAre you sure you want to sign-out?");
+                System.out.print("(Yes/No): ");
                 userInput = scanner.nextLine().toLowerCase();
 
                 if (userInput.charAt(0)== 'y'){
@@ -505,8 +506,16 @@ public static void runAppInTerminal(Scanner scanner){
             //          Delete User Account
             //***********************************************
             case 3:
-            System.out.println("Delete Account");
+            	System.out.println("Delete Account");
+                System.out.println("\nAre you sure you want to DELETE your Account?");
+                System.out.print("(Yes/No): ");
+                userInput = scanner.nextLine().toLowerCase();
 
+                if (userInput.charAt(0)== 'y'){
+                    AccountManager.removeAccount(DatabaseManager.getCurrentUser());
+                    DatabaseManager.signOut();
+                    running = false;
+                }
                 break;
 
             //***********************************************
