@@ -148,7 +148,7 @@ public class AccountManager{
     }
 
     //Set Password
-    public static void setsetPassword(User user, String newPassword){
+    public static void setPassword(User user, String newPassword){
         user.setPassword(newPassword);
     }
 
