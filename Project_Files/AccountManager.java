@@ -52,7 +52,7 @@ public class AccountManager{
  *                          Getters                             *
  ****************************************************************/
 
-    //Get Account from Database
+    //Get Account from Database -------------------------------------REWORK
     public static User getAccount(String searchUsername){
         return DatabaseManager.getUser(searchUsername);
     }
@@ -227,8 +227,8 @@ public class AccountManager{
     }
 
     //Remove Account from Database
-    public static void removeAccount(String username){
-
+    public static void removeAccount(User user){
+        user.setActiveStatus(false);
     }
 
 
