@@ -1,6 +1,9 @@
 //GUIManager.java
 
 import java.util.Scanner;
+
+import javax.swing.SwingUtilities;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -9,13 +12,25 @@ public class GUIManager{
     // Private constructor to prevent instantiation
     private GUIManager() {}
 
+// Authentication method that returns a User object if login is successful
+public static String authenticateAndGetRole(String username, String password) {
+    User user = DatabaseManager.getUser(username);
+    if (user != null && user.getPassword().equals(password)) {
+        if (user instanceof Manager) {
+            return "Manager";
+        } else {
+            return "User";
+        }
+    }
+    return null;  // Return null if no user is found or password does not match
+}
 
-
-
-public static void runAppGUI(Scanner scanner){
-
-
-}//End of Run App GUI
+// Method to run the GUI, showing login screen
+public static void runAppGUI() {
+    login loginWindow = new login();
+    loginWindow.setVisible(true);
+}
+//End of Run App GUI
 
 /****************************************************************
  *                     Run App in Terminal                      *
