@@ -565,25 +565,117 @@ public static void runAppInTerminal(Scanner scanner){
 //        Make Reservation       *
 //********************************
     public static void makeReservationScreen(Scanner scanner){
-        //Move this method into here
-        ReservationManager.viewRoomsAndMakeReservation(HotelManager.getCurrentHotel(), DatabaseManager.getCurrentUser());
+
+        //Get the desired start and end dates + error checking
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd");
+		int looper = 0;
+		LocalDate startDate = null;
+		LocalDate endDate = null;
+
+		while (looper == 0) {
+			System.out.println("Enter the start date of your reservation in the following format: YYYY/MM/DD");
+			String startInput = scanner.nextLine();
+			if (isValidDate(startInput)) {
+				startDate = LocalDate.parse(startInput, formatter);
+			} else {
+				System.out.println("This is not a valid date, try again.");
+				continue;
+			}
+
+			System.out.println("Now, enter the end date of your reservation in the following format: YYYY/MM/DD");
+			String endInput = scanner.nextLine();
+			if (isValidDate(endInput)) {
+				endDate = LocalDate.parse(endInput, formatter);
+				if (endDate.isBefore(startDate) || endDate.isEqual(startDate)) {
+					System.out.println("Your end date cannot be before or on the same day as your start date.");
+					System.out.println("Try again from the beginning.");
+					continue;
+				} else {
+					looper = 1;
+				}
+			} else {
+				System.out.println("This is not a valid date, try again from the beginning.");
+			}
+		}
+
+		int looper2 = 0;
+		int reservationSize = 0;
+		Room chosenRoom = null;
+
+		while (looper2 == 0) {
+			
+			//Print the list of rooms matching the date range and desired room size
+			//Need to add search parameters later
+			System.out.println("Enter the number of beds for your room:");
+			reservationSize = scanner.nextInt();
+
+			ArrayList<Room> filteredRooms = filterRooms(hotel.getAllRooms(), reservationSize);
+			if (filteredRooms.isEmpty()) {
+				System.out.println("There are no rooms matching your search. Please try again.");
+				continue;
+			}
+			listRooms(filteredRooms);
+
+			//User selects a room by typing in the room number + error check
+			System.out.println("Type in the room number of your desired room: ");
+			int roomNumber = scanner.nextInt();
+			chosenRoom = findRoomByRoomNumber(filteredRooms, roomNumber);
+			if (chosenRoom == null) {
+				System.out.println("This room number is not from the listed rooms. Please try again.");
+				continue;
+			}
+			
+			//The full selected room details get printed
+			System.out.println("FULL ROOM DETAILS");
+			System.out.println("--------------------------------");
+			chosenRoom.printRoomInfo();
+			System.out.println("--------------------------------");
+			
+			//Are you sure prompt, if answer is no then it will go back to reprint list
+			System.out.println("Are you sure you want to reserve this room? Type 1 to continue and any other number if not.");
+			int decision = scanner.nextInt();
+			if (decision != 1) {
+				continue;
+			}
+
+			looper2 = 1;
+		}
+
+		long nights = ChronoUnit.DAYS.between(startDate, endDate);
+		double price = calculateTotalPrice(chosenRoom, nights);
+
+		//Room is reserved and set
+		Reservation processedReservation = createReservation(hotel, user, getNextUnusedNumber(hotel), price, chosenRoom, startDate, endDate);
+		System.out.println();
+        printReservation(processedReservation);
     }   //End of makeReservationScreen
 
 //********************************
 //    View User Reservations     *
 //********************************
     public static void viewUsersReservationsScreen(Scanner scanner){
-        //Check if user has reservations
+        
+        if (user.getAllreservationNumbers().isEmpty()) {
+			System.out.println("You have no current reservations.");
+			return;
+		}
 
-        //Print all reservations
+		ArrayList<Integer> allUserNumbers = user.getAllreservationNumbers();
+		for (int i : allUserNumbers) {
+			System.out.println(i);
+		}
 
-        //Prompt for user to:
-            //Select Reservation
-            //Cancel
+		System.out.println();
+		System.out.println("These are all of your current reservation numbers.");
+		System.out.println("To view a reservation, type the number. Otherwise, type CANCEL to go back.");
 
-        //Get User input
+		String reservationNumber = scanner.nextLine();
 
-        //Call Reservation Receipt Screen for that Reservation
+		if (reservationNumber == "CANCEL") {
+			return;
+		}
+
+        viewReceiptScreen(hotel.getReservation(reservationNumber));
     }//End of viewUserReservationsScreen
 
 
@@ -808,6 +900,20 @@ public static void runAppInTerminal(Scanner scanner){
 //    View Reservation Recipet   * Shared
 //********************************
     public static void viewReceiptScreen(Reservation reservation){
+
+        printReservation(reservation);
+
+        System.out.println();
+		System.out.println("Do you want to edit this reservation? If so, type anything.");
+		System.out.println("Otherwise, type CANCEL to go back.");
+
+        String responseOne = scanner.nextLine();
+
+		if (responseOne == "CANCEL") {
+			return;
+		}
+        // Need to complete the rest
+
         //Print reservation information
         //Prompt for User to:
             //Edit Slected Reservation
