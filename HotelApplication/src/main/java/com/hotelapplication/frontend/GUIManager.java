@@ -9,6 +9,9 @@ import javax.swing.SwingUtilities;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.time.format.*;
+import java.time.temporal.ChronoUnit;
+import java.time.*;
 
 public class GUIManager{
 
@@ -575,7 +578,7 @@ public static void runAppInTerminal(Scanner scanner){
 		while (looper == 0) {
 			System.out.println("Enter the start date of your reservation in the following format: YYYY/MM/DD");
 			String startInput = scanner.nextLine();
-			if (isValidDate(startInput)) {
+			if (ReservationManager.isValidDate(startInput)) {
 				startDate = LocalDate.parse(startInput, formatter);
 			} else {
 				System.out.println("This is not a valid date, try again.");
@@ -584,7 +587,7 @@ public static void runAppInTerminal(Scanner scanner){
 
 			System.out.println("Now, enter the end date of your reservation in the following format: YYYY/MM/DD");
 			String endInput = scanner.nextLine();
-			if (isValidDate(endInput)) {
+			if (ReservationManager.isValidDate(endInput)) {
 				endDate = LocalDate.parse(endInput, formatter);
 				if (endDate.isBefore(startDate) || endDate.isEqual(startDate)) {
 					System.out.println("Your end date cannot be before or on the same day as your start date.");
@@ -609,17 +612,17 @@ public static void runAppInTerminal(Scanner scanner){
 			System.out.println("Enter the number of beds for your room:");
 			reservationSize = scanner.nextInt();
 
-			ArrayList<Room> filteredRooms = filterRooms(hotel.getAllRooms(), reservationSize);
+			ArrayList<Room> filteredRooms = ReservationManager.filterRooms(DatabaseManager.getCurrentHotel().getAllRooms(), reservationSize);
 			if (filteredRooms.isEmpty()) {
 				System.out.println("There are no rooms matching your search. Please try again.");
 				continue;
 			}
-			listRooms(filteredRooms);
+			ReservationManager.listRooms(filteredRooms);
 
 			//User selects a room by typing in the room number + error check
 			System.out.println("Type in the room number of your desired room: ");
 			int roomNumber = scanner.nextInt();
-			chosenRoom = findRoomByRoomNumber(filteredRooms, roomNumber);
+			chosenRoom = ReservationManager.findRoomByRoomNumber(filteredRooms, roomNumber);
 			if (chosenRoom == null) {
 				System.out.println("This room number is not from the listed rooms. Please try again.");
 				continue;
@@ -642,12 +645,12 @@ public static void runAppInTerminal(Scanner scanner){
 		}
 
 		long nights = ChronoUnit.DAYS.between(startDate, endDate);
-		double price = calculateTotalPrice(chosenRoom, nights);
+		double price = ReservationManager.calculateTotalPrice(chosenRoom, nights);
 
 		//Room is reserved and set
-		Reservation processedReservation = createReservation(hotel, user, getNextUnusedNumber(hotel), price, chosenRoom, startDate, endDate);
+		Reservation processedReservation = ReservationManager.createReservation(DatabaseManager.getCurrentHotel(), DatabaseManager.getCurrentUser(), ReservationManager.getNextUnusedNumber(DatabaseManager.getCurrentHotel()), price, chosenRoom, startDate, endDate);
 		System.out.println();
-        printReservation(processedReservation);
+        ReservationManager.printReservation(processedReservation);
     }   //End of makeReservationScreen
 
 //********************************
@@ -655,12 +658,12 @@ public static void runAppInTerminal(Scanner scanner){
 //********************************
     public static void viewUsersReservationsScreen(Scanner scanner){
         
-        if (user.getAllreservationNumbers().isEmpty()) {
+        if (DatabaseManager.getCurrentUser().getAllreservationNumbers().isEmpty()) {
 			System.out.println("You have no current reservations.");
 			return;
 		}
 
-		ArrayList<Integer> allUserNumbers = user.getAllreservationNumbers();
+		ArrayList<Integer> allUserNumbers = DatabaseManager.getCurrentUser().getAllreservationNumbers();
 		for (int i : allUserNumbers) {
 			System.out.println(i);
 		}
@@ -675,7 +678,7 @@ public static void runAppInTerminal(Scanner scanner){
 			return;
 		}
 
-        viewReceiptScreen(hotel.getReservation(reservationNumber));
+        viewReceiptScreen(DatabaseManager.getCurrentHotel().getReservation(Integer.valueOf(reservationNumber)), scanner);
     }//End of viewUserReservationsScreen
 
 
@@ -899,9 +902,9 @@ public static void runAppInTerminal(Scanner scanner){
 //********************************
 //    View Reservation Recipet   * Shared
 //********************************
-    public static void viewReceiptScreen(Reservation reservation){
+    public static void viewReceiptScreen(Reservation reservation, Scanner scanner){
 
-        printReservation(reservation);
+        ReservationManager.printReservation(reservation);
 
         System.out.println();
 		System.out.println("Do you want to edit this reservation? If so, type anything.");
