@@ -465,7 +465,14 @@ public static void runAppInTerminal(Scanner scanner){
         
         hotelChoice = scanner.nextLine();
 
-        HotelManager.setCurrentHotel(HotelManager.getHotel(hotelChoice));
+        if(hotelChoice.equals("null")){
+            HotelManager.setCurrentHotel(null);
+        }else {
+            for (Hotel hotel : DatabaseManager.getAllHotels()){
+                if (hotelChoice.equals(HotelManager.getHotelName(hotel)))
+                    HotelManager.setCurrentHotel(hotel);
+            }
+        }
     }
 
 
@@ -594,9 +601,9 @@ public static void runAppInTerminal(Scanner scanner){
         }
         System.out.println("2. Edit Hotel");
         System.out.println("3. Edit My Account");
-        System.out.println("4. View Hotel Rooms");
-        System.out.println("5. View Reservations");
-        System.out.println("6. Quit");
+        //System.out.println("4. View Hotel Rooms");
+        System.out.println("4. View Reservations");
+        System.out.println("5. Quit");
         System.out.print("Please enter a number: ");
 
         int choice = scanner.nextInt();
@@ -621,8 +628,13 @@ public static void runAppInTerminal(Scanner scanner){
             //********************************
                 screen = "Edit Hotel Screen";
                 System.out.println("Current screen: " + screen);
-                editHotelScreen(scanner);
+                if (DatabaseManager.getCurrentHotel() != null) {
+                    editHotelScreen(scanner);
+                }else{
+                    System.out.println("No Hotel Selected");
+                }
                 break;
+
             case 3:
             //********************************
             //          Edit Account         *
@@ -634,16 +646,6 @@ public static void runAppInTerminal(Scanner scanner){
 
             case 4:
             //********************************
-            //        View Hotel Rooms       *
-            //********************************
-                screen = "View Hotel Rooms";
-                System.out.println("Current screen: " + screen);
-                viewHotelReservationsScreen(scanner);
-                break;
-
-
-            case 5:
-            //********************************
             //    View Hotel Reservations    *
             //********************************
                 //Hotel Reservations
@@ -651,7 +653,7 @@ public static void runAppInTerminal(Scanner scanner){
                 viewHotelReservationsScreen(scanner);
                 break;
 
-            case 6:
+            case 5:
             //********************************
             //              Exit             *
             //********************************
@@ -685,9 +687,9 @@ public static void runAppInTerminal(Scanner scanner){
             System.out.println("Editing: " + HotelManager.getHotelName());
             System.out.println("1. Add Room");
             System.out.println("2. Remove Room");
-            System.out.println("3. View Specific Room");
-            System.out.println("4. View All Rooms");
-            System.out.println("5. Exit Hotel Edditer");
+            //System.out.println("3. View Specific Room");
+            System.out.println("3. View All Rooms");
+            System.out.println("4. Exit Hotel Edditer");
 
             System.out.print("Please enter a number: ");
             option = scanner.nextInt();
@@ -708,17 +710,15 @@ public static void runAppInTerminal(Scanner scanner){
                     try{
                         RoomManager.removeAHotelRoom(scanner);
                     }catch(Exception e){
-
+                        System.out.println("Hotel Room Not Removed");
                     }
                     break;
 
                 case 3:
+                    viewHotelRoomsScreen(scanner);
 
                     break;
                 case 4:
-
-                    break;
-                case 5:
                     System.out.println("Exiting...");
                     running = false;
                     break;
@@ -735,13 +735,55 @@ public static void runAppInTerminal(Scanner scanner){
 //    View Hotel Rooms Screen    *
 //********************************
     public static void viewHotelRoomsScreen(Scanner scanner){
-        //Print All Hotel Rooms
-        //Prompt User to:
-            //Select Room
-                //Go to viewRoomInfo
-            //Add Room
-            //Remove Room
+        //Print All Hotel Rooms for Current Hotel
+        for (Room room : HotelManager.getAllCurrentHotelRooms()){
+            System.out.println(RoomManager.getRoomInfo(room));
+        }
+
+        //Prompt User to select a Room by Room Number
+        System.out.print("Please Select a Room Number: ");
+        int userInputRoomNumber = scanner.nextInt();
+        scanner.nextLine(); 
+
+        for (Room room : HotelManager.getAllCurrentHotelRooms()){
+            if(RoomManager.getRoomNumber(room) == userInputRoomNumber){
+                System.out.println(RoomManager.getRoomInfo(room));
+                
+                System.out.print("Edit Hotel Room?(Yes/No): ");
+                String userInput = scanner.nextLine().toLowerCase();
+                if (userInput.charAt(0)== 'y'){
+                    editRoomInfoScreen(scanner);
+                }else{
+                    return;
+                }
+            }
+        }
     }    
+
+
+
+//********************************
+//    View Hotel Room Screen     * Shared
+//********************************
+    public static void editRoomInfoScreen(Scanner scanner){
+        //Display Room info
+
+        //Prompt Manager to:
+            //Edit Room
+            //Cancel
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 /********************************
  *View Hotel Reservations Screen*
@@ -758,38 +800,6 @@ public static void runAppInTerminal(Scanner scanner){
             //Cancel
     }//End of viewHotelReservationsScreen
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//********************************
-//    View Hotel Room Screen     * Shared
-//********************************
-    public static void viewRoomInfoScreen(Scanner scanner){
-        //Display Room info
-
-        //Prompt Manager to:
-            //Edit Room
-            //Cancel
-    }
 
 //********************************
 //    View Reservation Recipet   * Shared
@@ -926,16 +936,6 @@ public static void runAppInTerminal(Scanner scanner){
         
     }
 
-
-
-
-
-
-
-    //Edit Room 
-    public static void editRoomInfoScreen(Scanner scanner){
-        
-    }
     //Add Room
     public static void addRoomScreen(Scanner scanner){
         

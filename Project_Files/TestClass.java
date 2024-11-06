@@ -21,7 +21,7 @@ public class TestClass{
 	public static void testCases(int choice){
 
 		int numberOfCases = 10;
-		int numberOfRooms = 35;
+		int numberOfRooms = 5;
 		int passedTest;
 
 		switch(choice){

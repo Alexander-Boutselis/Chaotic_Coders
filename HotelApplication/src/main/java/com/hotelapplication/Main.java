@@ -59,7 +59,9 @@ public class Main{
        promptForGUI(scanner);
 
         scanner.close(); // Close the scanner to avoid resource leaks
-
+        // Disconnect from the database
+        DatabaseConnecter.disconnect();
+        System.exit(0);
 	}//End of main 
 
 

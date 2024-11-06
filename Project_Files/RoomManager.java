@@ -319,6 +319,11 @@ public class RoomManager {
         return HotelManager.getCurrentHotel().getRoom(roomNumber).getRoomInfo();
     }
 
+    //toString Hotel info
+    public static String getRoomInfo(Room room){
+        return room.getRoomInfo();
+    }
+
     //Print Hotel
     public static void printRoomInfo(int roomNumber){
         System.out.println(getRoomInfo(roomNumber));

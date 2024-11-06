@@ -56,6 +56,11 @@ public class HotelManager {
     	return DatabaseManager.getCurrentHotel().getHotelName();
     }
 
+        //Get Hotel Name
+    public static String getHotelName(Hotel hotel){
+        return hotel.getHotelName();
+    }
+
     //Get Current Hotel
     public static Hotel getCurrentHotel(){
         return DatabaseManager.getCurrentHotel();
