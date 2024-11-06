@@ -11,10 +11,11 @@
  *          Sub Section         *
  ********************************/
 package com.hotelapplication;
-
 import com.hotelapplication.frontend.*;
 import com.hotelapplication.backend.*;
 
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 import java.awt.Color;
@@ -28,25 +29,24 @@ import java.awt.event.ActionListener;
 //Start of Main
 public class Main{
 	public static void main(String[] args) {
+ // Create an instance of DatabaseConnecter
+        // Create an instance of DatabaseConnecter
+        DatabaseConnecter dbConnecter = new DatabaseConnecter();
 
-        
-        DatabaseConnecter.connect();
+        // Connect to the database
+        dbConnecter.connect();
 
-        // You can use the connection here
-        // For example: Check if the connection is valid
-        try {
-            if (DatabaseConnecter.getConnection() != null && DatabaseConnecter.getConnection().isValid(2)) {
-                System.out.println("Connection to AWS RDS is verified and valid.");
-            } else {
-                System.out.println("Connection to AWS RDS could not be verified.");
+        // Example query: Retrieve all users
+        String query = "SELECT * FROM Users";
+        try (ResultSet rs = dbConnecter.executeQuery(query)) {
+            while (rs != null && rs.next()) {
+                System.out.println("User ID: " + rs.getInt("user_id") + ", Name: " + rs.getString("name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
-        //Connect to Database
-        //Database database = new Database();
         DatabaseManager.initializeDatabase("Chaotic Coder Inn", 100);
 
         TestClass.testCases(0);
@@ -59,8 +59,8 @@ public class Main{
        promptForGUI(scanner);
 
         scanner.close(); // Close the scanner to avoid resource leaks
-        // Disconnect from the database
-        DatabaseConnecter.disconnect();
+        // Disconnect from the database using the instance
+        dbConnecter.disconnect();
         System.exit(0);
 	}//End of main 
 
