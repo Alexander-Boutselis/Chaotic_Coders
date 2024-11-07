@@ -35,8 +35,10 @@ public class Main{
         // Create an instance of DatabaseConnecter
         DatabaseConnecter dbConnecter = new DatabaseConnecter();
 
-        // Connect to the database
+        try{
+
         dbConnecter.connect();
+        // Connect to the database
 
         // Example query: Retrieve all users
         String query = "SELECT * FROM Users";
@@ -48,7 +50,12 @@ public class Main{
             e.printStackTrace();
         }
 
+        // Disconnect from the database using the instance
+        dbConnecter.disconnect();
+        }catch(Exception e){
+            System.out.println("Database not connected");
 
+        }
         DatabaseManager.initializeDatabase("Chaotic Coder Inn", 100);
 
         TestClass.testCases(0);
@@ -57,12 +64,9 @@ public class Main{
 
         HotelManager.printCurrentHotelInfo();
 
-		Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         promptForGUI(scanner);
-
         scanner.close(); // Close the scanner to avoid resource leaks
-        // Disconnect from the database using the instance
-        dbConnecter.disconnect();
         System.exit(0);
 	}//End of main 
 
