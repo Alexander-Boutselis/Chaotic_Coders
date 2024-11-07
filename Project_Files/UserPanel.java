@@ -45,4 +45,11 @@ public class UserPanel extends JFrame {
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return button;
     }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new UserPanel().setVisible(true);
+        });
+    }
+    
 }
