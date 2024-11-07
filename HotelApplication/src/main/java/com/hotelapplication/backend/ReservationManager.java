@@ -52,10 +52,17 @@ public class ReservationManager {
 		return newReservation;
 	}
 
+	//Cancel reservation
+	public static void cancelReservation(Hotel hotel, User user, Reservation reservation) {
+		hotel.removeReservation(reservation);
+		user.removeReservation(reservation.getReservationNumber());
+		getRoom(reservation).removeReservationNumber(reservation.getReservationNumber());
+	}
+
 	//Assign user to reservation
 	public static void assignUser(Hotel hotel, User user, Reservation reservation) {		
 		Reservation newReservation = new Reservation(reservation);
-		//	hotel.removeReservation(reservation);
+		hotel.removeReservation(reservation);
 		user.removeReservation(reservation.getReservationNumber());
 		newReservation.setAssignedUser(user);
 		hotel.addReservation(newReservation);
@@ -208,17 +215,4 @@ public class ReservationManager {
 		}
 		return null;
 	}
-
-	/****************************************************************
- 	*           		  View Reservations	(User)	   			    *
- 	****************************************************************/
-
-
-
-	/****************************************************************
- 	*           	  View Reservations (Manager)	 	  			*
- 	****************************************************************/
-
-
-	
 }

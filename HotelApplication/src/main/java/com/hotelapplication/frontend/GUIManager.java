@@ -677,7 +677,7 @@ public static void runAppInTerminal(Scanner scanner){
 
 		String reservationNumber = scanner.nextLine();
 
-		if (reservationNumber == "CANCEL") {
+		if (reservationNumber.equalsIgnoreCase("CANCEL")) {
 			return;
 		}
 
@@ -910,17 +910,34 @@ public static void runAppInTerminal(Scanner scanner){
         ReservationManager.printReservation(reservation);
 
         System.out.println();
-		System.out.println("Do you want to edit this reservation? If so, type anything.");
+		System.out.println("Do you want to modify this reservation? If so, type anything.");
 		System.out.println("Otherwise, type CANCEL to go back.");
 
         String responseOne = scanner.nextLine();
 
-		if (responseOne == "CANCEL") {
+		if (responseOne.equalsIgnoreCase("CANCEL")) {
 			return;
 		}
-        // Need to complete the rest
 
-        //Print reservation information
+        System.out.println();
+		System.out.println("Select an option.");
+        System.out.println("OPTION 1: Edit Reservation");
+        System.out.println("OPTION 2: Cancel Reservation");
+        System.out.println("OPTION 3: Go Back");
+        System.out.print("Type your selection: ");
+
+        int responseTwo = scanner.nextInt();
+
+        switch (responseTwo) {
+            case 1:
+                editReservationScreen(reservation, scanner);
+            case 2: 
+                cancelReservationScreen(reservation, scanner);
+            case 3:
+                return;
+            default:
+                return;
+        }
         //Prompt for User to:
             //Edit Slected Reservation
                 //Go to Edit Reservation Screen
@@ -930,7 +947,7 @@ public static void runAppInTerminal(Scanner scanner){
 //********************************
 //       Edit Reservations       * Shared
 //********************************
-    public static void editReservationScreen(Scanner scanner){
+    public static void editReservationScreen(Reservation reservation, Scanner scanner){
         //Check if User is Manager or Not
 
         //Allow all users to:
@@ -940,6 +957,44 @@ public static void runAppInTerminal(Scanner scanner){
         //Allow Managers to:
             //Edit Reservation Price
             //Edit Room Selection Advanced
+        
+        System.out.println("Select an option.");
+        System.out.println("OPTION 1: Edit Reservation Dates");
+        System.out.println("OPTION 2: Edit Room Selection");
+        System.out.println("OPTION 3: Cancel Reservation");
+        System.out.println("OPTION 4: Go Back");
+
+        if (DatabaseManager.getCurrentUser() instanceof Manager) {
+            System.out.println("OPTION 5: Edit Reservation Price");
+            System.out.println("OPTION 6: Edit Room Selection Advanced");
+        }
+
+        System.out.print("Type your selection: ");
+
+        if (scanner.hasNextInt()) {
+            scanner.nextInt();
+        }
+
+        int response = scanner.nextInt();
+
+        switch (response) {
+            case 1: 
+                editReservationInfoScreen(reservation, scanner, 1);
+            case 2:
+                editReservationInfoScreen(reservation, scanner, 2);
+            case 3:
+                cancelReservationScreen(reservation, scanner);
+            case 4: 
+                viewReceiptScreen(reservation, scanner);
+            case 5: 
+                if (DatabaseManager.getCurrentUser() instanceof Manager) {
+                    editReservationInfoScreen(reservation, scanner, 5);
+                }
+            case 6:
+                if (DatabaseManager.getCurrentUser() instanceof Manager) {
+                    editReservationInfoScreen(reservation, scanner, 6);
+                }
+        }
     }
 
 //********************************
@@ -1064,12 +1119,54 @@ public static void runAppInTerminal(Scanner scanner){
 //Shared Screens
 
     //Cancel Reservation
-    public static void cancelReservationScreen(Scanner scanner){
+    public static void cancelReservationScreen(Reservation reservation, Scanner scanner){
         
+        double price = ReservationManager.getTotalPrice(reservation);
+
+        System.out.println("Are you sure you want to proceed with canceling this reservation?");
+        System.out.println("Type NO to go back. Otherwise, type anything to continue.");
+
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
+
+        String answer = scanner.nextLine();
+
+        if (answer.equalsIgnoreCase("NO")) {
+            return;
+        } else {
+            ReservationManager.cancelReservation(DatabaseManager.getCurrentHotel(), DatabaseManager.getCurrentUser(), reservation);
+        }
+
+        System.out.println("Your reservation has been cancelled successfully.");
+        System.out.println("You will be refunded $" + price + ".");
+        System.out.println("If this was done in error, please rebook your stay immediately.");
+
+        if (DatabaseManager.getCurrentUser() instanceof Manager) {
+            managerHomeScreen(scanner);
+        } else {
+            userHomeScreen(scanner);
+        }
     }
     //Edit Reservation Info
-    public static void editReservationInfoScreen(Scanner scanner){
+    public static void editReservationInfoScreen(Reservation reservation, Scanner scanner, int selection){
         //Behave slightly differently based on if current User is of type Manager
+
+        // Need to implement
+        switch (selection) {
+            // Edit Reservation Dates
+            case 1:
+                return;
+            // Edit Reservation Room
+            case 2:
+                return;
+            // Edit Reservation Price
+            case 5:
+                return;
+            // Edit Room Selection (Advanced)
+            case 6:
+                return;
+        }
     }
 
 
