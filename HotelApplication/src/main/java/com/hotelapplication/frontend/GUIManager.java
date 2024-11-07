@@ -39,6 +39,9 @@ public static String authenticateAndGetRole(String username, String password) {
 public static void runAppGUI() {
     login loginWindow = new login();
     loginWindow.setVisible(true);
+    Scanner scanner = new Scanner(System.in);
+    int choice = scanner.nextInt();
+        scanner.nextLine(); 
 }
 //End of Run App GUI
 

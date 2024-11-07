@@ -10,6 +10,10 @@
 /********************************
  *          Sub Section         *
  ********************************/
+
+//How to run
+//mvn clean compile exec:java
+
 package com.hotelapplication;
 import com.hotelapplication.frontend.*;
 import com.hotelapplication.backend.*;
@@ -23,8 +27,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//How to run
-//mvn clean compile exec:java
 
 //Start of Main
 public class Main{
@@ -56,7 +58,7 @@ public class Main{
         HotelManager.printCurrentHotelInfo();
 
 		Scanner scanner = new Scanner(System.in);
-       promptForGUI(scanner);
+        promptForGUI(scanner);
 
         scanner.close(); // Close the scanner to avoid resource leaks
         // Disconnect from the database using the instance
