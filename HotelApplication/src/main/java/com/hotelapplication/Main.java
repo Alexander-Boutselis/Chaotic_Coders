@@ -18,44 +18,25 @@ package com.hotelapplication;
 import com.hotelapplication.frontend.*;
 import com.hotelapplication.backend.*;
 
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 
 //Start of Main
 public class Main{
-	public static void main(String[] args) {
- // Create an instance of DatabaseConnecter
-        // Create an instance of DatabaseConnecter
-        DatabaseConnecter dbConnecter = new DatabaseConnecter();
+    public static void main(String[] args) {
+        // Create an instance of DatabaseConnector
+        DatabaseConnector dbConnector = new DatabaseConnector();
 
-        try{
+        try {
+            DatabaseConnector.createDatabase();
+            //Connect to the database
+            DatabaseConnector.connect();
 
-        dbConnecter.connect();
-        // Connect to the database
-
-        // Example query: Retrieve all users
-        String query = "SELECT * FROM Users";
-        try (ResultSet rs = dbConnecter.executeQuery(query)) {
-            while (rs != null && rs.next()) {
-                System.out.println("User ID: " + rs.getInt("user_id") + ", Name: " + rs.getString("name"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Database not connected: " + e.getMessage());
         }
 
-        // Disconnect from the database using the instance
-        dbConnecter.disconnect();
-        }catch(Exception e){
-            System.out.println("Database not connected");
-
-        }
         DatabaseManager.initializeDatabase("Chaotic Coder Inn", 100);
 
         TestClass.testCases(0);
@@ -66,45 +47,52 @@ public class Main{
 
         Scanner scanner = new Scanner(System.in);
         promptForGUI(scanner);
-        scanner.close(); // Close the scanner to avoid resource leaks
+
+        try {
+            //Disconnect from the database
+            DatabaseConnector.disconnect();
+
+        } catch (Exception e) {
+            System.err.println("Database not connected: " + e.getMessage());
+        }
+        //Close the scanner to avoid resource leaks
+        scanner.close(); 
         System.exit(0);
-	}//End of main 
+    }//End of main 
 
 
+    public static void promptForGUI(Scanner scanner){
+        String choice;
 
-public static void promptForGUI(Scanner scanner){
-    String choice;
+        System.out.println("\n---Launch GUI---");
 
-    System.out.println("\n---Launch GUI---");
+        System.out.println("Would you like to launch the GUI (Y/N): ");
 
-    System.out.println("Would you like to launch the GUI (Y/N): ");
+        choice = scanner.nextLine().toLowerCase();
 
-    choice = scanner.nextLine().toLowerCase();
+        if (choice.charAt(0)== 'y'){
+            GUIManager.runAppGUI();
+        }else {
+            //Hotel App Run in terminal window
+            GUIManager.runAppInTerminal(scanner);
+        }
 
-    if (choice.charAt(0)== 'y'){
-        GUIManager.runAppGUI();
-    }else {
-        //Hotel App Run in terminal window
-        GUIManager.runAppInTerminal(scanner);
     }
 
-}
 
-
-public static int debug(){
+    public static int debug(){
         Scanner scanner = new Scanner(System.in);
         int input;
-    System.out.println("\n---State Options (DEBUG)---");
-    System.out.println("1. Not Signed in State");
-    System.out.println("2. User Signed in State");
-    System.out.println("3. Manager Signed in State");
-    System.out.println("4. Quit Program");
-    System.out.print("Set program state to:");
-    input = scanner.nextInt();
+        System.out.println("\n---State Options (DEBUG)---");
+        System.out.println("1. Not Signed in State");
+        System.out.println("2. User Signed in State");
+        System.out.println("3. Manager Signed in State");
+        System.out.println("4. Quit Program");
+        System.out.print("Set program state to:");
+        input = scanner.nextInt();
 
-    return input;
-}
-
+        return input;
+    }
 
     /****************************************************************
      *                          End                                 *

@@ -30,8 +30,18 @@ public class DatabaseManager {
     private DatabaseManager() {}
 
 
+
+/********************************
+ *          Sub Section         *
+ ********************************/
+
+    /****************************************************************
+     *                     Database Connector                       *
+     ****************************************************************/
+    
+
 	/****************************************************************
-	 *					Initialize Database							*WIP
+	 *					Initialize      							*WIP
 	 ****************************************************************/
     // Initialization method to set up a hotel with n rooms
     public static void initializeDatabase(String hotelName, int numberOfRooms) {
@@ -58,6 +68,7 @@ public class DatabaseManager {
 */
     }
 
+
 	/****************************************************************
 	 *						Hotel Data								*
 	 ****************************************************************/
@@ -77,18 +88,8 @@ public class DatabaseManager {
         return database.getHotel(searchHotel);
     }
 
-    //Get Current Hotel
-    public static Hotel getCurrentHotel(){
-        return database.getCurrentHotel();
-    }
-
     public static ArrayList<Hotel> getAllHotels(){
         return database.getAllHotels();
-    }
-
-    //Set Current Hotel
-    public static void setCurrentHotel(Hotel hotel){
-        database.setCurrentHotel(hotel);
     }
 
 
@@ -130,8 +131,17 @@ public class DatabaseManager {
    }
 
     /****************************************************************
-     *                      Current User                            *
+     *                            Current                           *
      ****************************************************************/
+    //Get Current Hotel
+    public static Hotel getCurrentHotel(){
+        return database.getCurrentHotel();
+    }
+
+    //Set Current Hotel
+    public static void setCurrentHotel(Hotel hotel){
+        database.setCurrentHotel(hotel);
+    }
 
     //Sign in User
     public static void signIn(User user){

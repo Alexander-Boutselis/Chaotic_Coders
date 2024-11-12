@@ -81,13 +81,22 @@ public class login extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Invalid username or password", "Login Error", JOptionPane.ERROR_MESSAGE);
             }
         } else if (e.getSource() == b2) {
-            System.exit(0);  // Exit the application
+            try {
+                //Disconnect from the database
+                DatabaseConnector.disconnect();
+
+            } catch (Exception except) {
+                System.err.println("Database not connected: " + except.getMessage());
+            }
+            System.exit(0);
+            //System.exit(0);  // Exit the application
         }
     }
-
+/*
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             new login().setVisible(true);
         });
-    }
+        return;
+    }*/
 }

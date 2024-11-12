@@ -1,7 +1,7 @@
 com/hotelapplication/Main.class
 com/hotelapplication/frontend/login.class
+com/hotelapplication/backend/DatabaseConnector.class
 com/hotelapplication/backend/ReservationManager.class
-com/hotelapplication/backend/DatabaseConnecter.class
 com/hotelapplication/frontend/AddRoom.class
 com/hotelapplication/backend/AccountManager.class
 com/hotelapplication/backend/Database.class

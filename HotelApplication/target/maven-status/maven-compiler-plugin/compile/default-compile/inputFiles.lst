@@ -1,7 +1,7 @@
 /root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/src/main/java/com/hotelapplication/Main.java
 /root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/src/main/java/com/hotelapplication/backend/AccountManager.java
 /root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/src/main/java/com/hotelapplication/backend/Database.java
-/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/src/main/java/com/hotelapplication/backend/DatabaseConnecter.java
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/src/main/java/com/hotelapplication/backend/DatabaseConnector.java
 /root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/src/main/java/com/hotelapplication/backend/DatabaseManager.java
 /root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/src/main/java/com/hotelapplication/backend/Hotel.java
 /root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/src/main/java/com/hotelapplication/backend/HotelManager.java
