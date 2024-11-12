@@ -33,6 +33,7 @@ public class Main{
             //Connect to the database
             DatabaseConnector.connect();
 
+
         } catch (Exception e) {
             System.err.println("Database not connected: " + e.getMessage());
         }
@@ -49,6 +50,7 @@ public class Main{
         promptForGUI(scanner);
 
         try {
+            DatabaseConnector.printHotelsTable();
             //Disconnect from the database
             DatabaseConnector.disconnect();
 

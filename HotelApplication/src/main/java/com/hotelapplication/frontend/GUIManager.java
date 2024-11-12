@@ -39,6 +39,8 @@ public static String authenticateAndGetRole(String username, String password) {
 public static void runAppGUI() {
     login loginWindow = new login();
     loginWindow.setVisible(true);
+
+    //Keeps terminal open
     Scanner scanner = new Scanner(System.in);
     int choice = scanner.nextInt();
         scanner.nextLine(); 

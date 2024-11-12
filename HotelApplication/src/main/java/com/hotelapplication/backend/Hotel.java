@@ -1,10 +1,7 @@
-//Hotel.java
-
 package com.hotelapplication.backend;
 import com.hotelapplication.frontend.*;
 
 import java.util.ArrayList;
-
 
 public class Hotel{
 
@@ -30,6 +27,7 @@ public class Hotel{
 	//Public:
 
 	//Private:
+	private int hotelID;
 	private String hotelName;
 	private ArrayList<Room> hotelRooms;
 	private ArrayList<Integer> removedRoomNumbers;
@@ -39,6 +37,7 @@ public class Hotel{
 	//Empty Hotel
 	public Hotel(String hotelName){
 		//Default
+		hotelID = 1;
 		hotelRooms = new ArrayList<>();
 		allReservations = new ArrayList<>();
 		removedRoomNumbers = new ArrayList<>();
@@ -57,6 +56,11 @@ public class Hotel{
 		return hotelName;
 	}
 
+	//Get Hotel ID
+	public int getHotelID() {
+		return hotelID;
+	}
+
 	//Get Number of Rooms
 	public int getNumOfRooms(){
 		return hotelRooms.size();
@@ -68,6 +72,11 @@ public class Hotel{
 	//Set Hotel Name
 	public void setHotelName(String newHotelName){
 		hotelName = newHotelName;
+	}
+
+	//Set Hotel ID
+	public void setHotelID(int hotelID) {
+		this.hotelID = hotelID;
 	}
 
     /********************************
@@ -212,8 +221,11 @@ public class Hotel{
 
 
 	/****************************************************************
-	 *							End					 				*
+	 *					           End  		    				*
 	 ****************************************************************/
-}//End of Hotel Class
 
-                                                    
+
+    public String getHotelAddress(){
+    	return "123 Park Way, Northridge, CA";
+    }
+}//End of Hotel Class
