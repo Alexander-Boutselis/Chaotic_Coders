@@ -10,30 +10,8 @@ import java.util.ArrayList;
 
 public class User {
 
-    /*Variables
-    First Name
-    Last Name
-    Birthday
-    Username
-    Password
-    List of Reservation Index in Database
-    List of Notificaitons
-    */
-
-    /*Functions:
-    Get/Set First and Last name (seperate)
-    Get/Set Birthday
-    Get/Set Username
-    Get/Set Password
-    Add Reservation
-    Remove Reservation
-    Get Reservation from list
-    Add/Remove Notificaitons
-    Get Notificaitons
-    Print User
-    */
-
     //User Info
+    private int userID;
     private String firstName;
     private String lastName;
     protected Calendar birthday = Calendar.getInstance();
@@ -43,7 +21,6 @@ public class User {
     protected String username;
     private String password;
     protected boolean isActive;
-    //Add Boolean isActive to set as false when a user wants to terminate their account (dont delete it need it for records)
 
     //User Reservations
     protected ArrayList<Integer> reservationNumbers;
@@ -65,6 +42,18 @@ public class User {
     /****************************************************************
      *                         User Info Methods                    *
      ****************************************************************/
+    /********************************
+     *        Set/Get userID        *
+     ********************************/
+    //Set User ID
+    public void setUserID(int userID){
+        this.userID = userID;
+    }
+
+    //Set User ID
+    public int getUserID(){
+        return userID;
+    }
 
     /********************************
      *         Set/Get Name         *

@@ -41,15 +41,12 @@ public class TestClass{
 	        System.out.println("\n---Test Case 1---");
 
 	        try{
-
-				String hotelName = "Test Hotel";
-		        
 		        //Create Initial Empty Hotel
-		        HotelManager.createHotel(hotelName);
+		        HotelManager.createHotel("Test Hotel", "123 Address St, City, State");
 		        passedTest++;
 
 		        //Set it as Current Hotel
-		        DatabaseManager.setCurrentHotel(DatabaseManager.getHotel(hotelName));
+		        DatabaseManager.setCurrentHotel(DatabaseManager.getHotel("Test Hotel"));
 		        passedTest++;
 
 		        //Loop to Generate Rooms

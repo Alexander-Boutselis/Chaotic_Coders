@@ -57,7 +57,7 @@ public class RoomManager {
         roomToRemove = getHotelRoom(roomNumber);
         indexOfRoom = HotelManager.getAllCurrentHotelRooms().indexOf(roomToRemove);
         HotelManager.getAllCurrentHotelRooms().set(indexOfRoom, null);
-        HotelManager.addRemovedRoomNumber(HotelManager.getCurrentHotel(), roomNumber);
+        //HotelManager.addRemovedRoomNumber(HotelManager.getCurrentHotel(), roomNumber);
     }
 
 
@@ -83,11 +83,11 @@ public class RoomManager {
     		}
     	}
 
-    	for (int roomNum : HotelManager.getRemovedRoomNumbers(HotelManager.getCurrentHotel())){
-    		if (roomNum < nextRoomNumber){
-    			nextRoomNumber = roomNum;
-    		}
-    	}
+    	//for (int roomNum : HotelManager.getRemovedRoomNumbers(HotelManager.getCurrentHotel())){
+    	//	if (roomNum < nextRoomNumber){
+    	//		nextRoomNumber = roomNum;
+    	//	}
+    	//}
     	return nextRoomNumber;
     }
 

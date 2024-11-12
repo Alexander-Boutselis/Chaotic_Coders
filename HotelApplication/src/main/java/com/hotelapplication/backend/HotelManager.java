@@ -66,8 +66,8 @@ public class HotelManager {
  ****************************************************************/
 
     //Create Empty Hotel
-    public static void createHotel(String hotelName){
-        Hotel newHotel = new Hotel(hotelName);
+    public static void createHotel(String hotelName, String hotelAddress){
+        Hotel newHotel = new Hotel(hotelName, hotelAddress);
         DatabaseManager.addHotel(newHotel);
     }
 
@@ -117,9 +117,9 @@ public class HotelManager {
     }
 
     //Get All Removed Room Numbers
-    public static ArrayList<Integer> getRemovedRoomNumbers(Hotel hotel){
-        return hotel.getRemovedRoomNumbers();
-    }
+    //public static ArrayList<Integer> getRemovedRoomNumbers(Hotel hotel){
+    //    return hotel.getRemovedRoomNumbers();
+    //}
 
     //Get Total Number of Rooms
     public static int getTotalNumberOfRooms(){
@@ -163,9 +163,9 @@ public class HotelManager {
     }
 
     //Add Removed Room Number
-    public static void addRemovedRoomNumber(Hotel hotel, int removedRoomNumber){
-        hotel.addRemovedRoomNumber(removedRoomNumber);
-    }
+    //public static void addRemovedRoomNumber(Hotel hotel, int removedRoomNumber){
+   //     hotel.addRemovedRoomNumber(removedRoomNumber);
+    //}
 
 
 /****************************************************************

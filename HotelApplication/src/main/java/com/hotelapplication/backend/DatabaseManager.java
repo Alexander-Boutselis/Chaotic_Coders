@@ -37,7 +37,7 @@ public class DatabaseManager {
     public static void initializeDatabase(String hotelName, int numberOfRooms) {
 
         //Create Initial Empty Hotel
-        HotelManager.createHotel(hotelName);
+        HotelManager.createHotel(hotelName, "69420 TestAddress Ave, Test, Phase");
         Hotel hotel = HotelManager.getHotel(hotelName);
 
         //Set it as Current Hotel

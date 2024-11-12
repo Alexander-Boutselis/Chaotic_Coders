@@ -14,20 +14,6 @@ import java.text.SimpleDateFormat;
 
 public class Manager extends User{
 
-    /*Variables:
-        Employee Number
-        Start Date
-    */
-    
-    /*Functions:
-        Get/Set Employee Number
-        Get/Set Start Date
-        Calc Time worked at Hotel
-        PrintAccount
-        
-    */
-
-
 	private int employeeNumber;
     private Calendar startDate;
     private Calendar endDate;

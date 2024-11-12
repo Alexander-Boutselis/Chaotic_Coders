@@ -6,48 +6,30 @@ import java.util.ArrayList;
 public class Hotel{
 
 
-	/*Variables:
-        Hotel Name
-        List of Rooms
-		List of of Removed Rooms (Room number Stored)
-		List of Reservation Index Numbers
-    */
-    
-    /*Functions:
-        Get/Set Hotel Name
-        Get/Set Number of Rooms
-        Add/Remove Rooms
-        Get Room from List
-		Get Reservation
-		Get All Reservations
-		Print Hotel        
-    */
-
-
 	//Public:
 
 	//Private:
 	private int hotelID;
 	private String hotelName;
 	private ArrayList<Room> hotelRooms;
-	private ArrayList<Integer> removedRoomNumbers;
+	private String address; 
 	private	ArrayList<Reservation> allReservations;
 
 
 	//Empty Hotel
-	public Hotel(String hotelName){
+	public Hotel(String hotelName, String address){
 		//Default
-		hotelID = 1;
+		this.hotelName = hotelName;
+		this.address = address;
 		hotelRooms = new ArrayList<>();
 		allReservations = new ArrayList<>();
-		removedRoomNumbers = new ArrayList<>();
-		this.hotelName = hotelName;
+		//removedRoomNumbers = new ArrayList<>();
 	}
+
 
     /****************************************************************
      *                      Get/Set Hotel Info                      *
      ****************************************************************/
-
     /********************************
      *        Get Hotel Info        *
      ********************************/
@@ -59,6 +41,11 @@ public class Hotel{
 	//Get Hotel ID
 	public int getHotelID() {
 		return hotelID;
+	}
+
+	//Get Hotel Address
+	public String getHotelAddress(){
+		return address;
 	}
 
 	//Get Number of Rooms
@@ -79,6 +66,11 @@ public class Hotel{
 		this.hotelID = hotelID;
 	}
 
+	//Set Hotel Address
+	public void setHotelAddress(String address){
+		this.address = address;
+	}
+
     /********************************
      *          Print Hotel         *
      ********************************/
@@ -88,7 +80,11 @@ public class Hotel{
         StringBuilder receipt = new StringBuilder();
 
         receipt.append("\n");
+        receipt.append("Hotel ID: " + hotelID);
+        receipt.append("\n");
         receipt.append("Hotel: " + hotelName);
+        receipt.append("\n");
+        receipt.append("Address: " + address);
         receipt.append("\n");
         receipt.append("Total rooms: " + getNumOfRooms()); 
 
@@ -103,7 +99,6 @@ public class Hotel{
     /****************************************************************
      *                        Hotel Room(s)                         *
      ****************************************************************/
-
     /********************************
      *       Get Hotel Room(s)      *
      ********************************/
@@ -142,9 +137,9 @@ public class Hotel{
 
     /********************************
      *        Removed Room(s)       *
-     ********************************/
+     ********************************
 	//Get All Removed Room Numbers
-	public ArrayList<Integer> getRemovedRoomNumbers(){
+	public ArrayList< Integer> getRemovedRoomNumbers(){
 		return removedRoomNumbers;
 	}
 
@@ -166,7 +161,6 @@ public class Hotel{
     /****************************************************************
      *                      Reservation Methods                     *
      ****************************************************************/
-
     /********************************
      *       Get Reservations       *
      ********************************/
@@ -223,9 +217,4 @@ public class Hotel{
 	/****************************************************************
 	 *					           End  		    				*
 	 ****************************************************************/
-
-
-    public String getHotelAddress(){
-    	return "123 Park Way, Northridge, CA";
-    }
 }//End of Hotel Class

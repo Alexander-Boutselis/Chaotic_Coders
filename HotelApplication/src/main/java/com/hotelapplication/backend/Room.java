@@ -11,29 +11,9 @@ import java.util.ArrayList;
  ****************************************************************/
 public class Room {
 
-    /*Variables:
-        Room Number
-        Number of Beds
-        Bed Type
-        Price Per Night
-        Description
-        List of Reservation Index Numbers in Database
-    */
-    
-    /*Functions:
-        Get/Set Room Number
-        Get/Set Number of Beds
-        Get/Set Bed Type
-        Get/Set Price Per Night
-        Get/Set Description
-        Get Reservation 
-        Get All Reservations
-        Add/Remove Reservation
-        Print Room
-    */
-
-
+   
     //Private
+    private int roomID;
     private int roomNumber;
     private int numOfBeds;
     private String bedType;
@@ -56,6 +36,18 @@ public class Room {
     /****************************************************************
      *                      Room Info Methods                       *
      ****************************************************************/
+    /********************************
+     *        Set/Get roomID        *
+     ********************************/
+    //Set Room ID
+    public void setRoomID(int roomID){
+        this.roomID = roomID;
+    }
+
+    //Set Room ID
+    public int getRoomID(){
+        return roomID;
+    }
 
     /********************************
      *      Set/Get Room Number     *
