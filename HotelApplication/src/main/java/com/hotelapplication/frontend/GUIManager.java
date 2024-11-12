@@ -1158,17 +1158,160 @@ public static void runAppInTerminal(Scanner scanner){
         switch (selection) {
             // Edit Reservation Dates
             case 1:
-                return;
+                System.out.println("These are the current dates for this reservation.");
+                System.out.println(reservation.getStartDate() + " - " + reservation.getEndDate());
+
+                int looper = 0;
+                LocalDate startDate = null;
+                LocalDate endDate = null;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd");
+
+                while (looper == 0) {
+                    System.out.println("Type CANCEL to go back. Otherwise, type the new start date for the reservation.");
+                    System.out.println("The format should be: YYYY/MM/DD");
+                    String startInput = scanner.nextLine().trim();
+
+                    if (startInput.equalsIgnoreCase("CANCEL")) {
+                        return;
+                    }
+
+                    if (ReservationManager.isValidDate(startInput)) {
+                        startDate = LocalDate.parse(startInput, formatter);
+                    } else {
+                        System.out.println("This is not a valid date, try again.");
+                        continue;
+                    }
+        
+                    System.out.println("Now, enter the new end date of the reservation in the following format: YYYY/MM/DD");
+                    String endInput = scanner.nextLine().trim();
+                    if (ReservationManager.isValidDate(endInput)) {
+                        endDate = LocalDate.parse(endInput, formatter);
+                        if (endDate.isBefore(startDate) || endDate.isEqual(startDate)) {
+                            System.out.println("The end date cannot be before or on the same day as the start date.");
+                            System.out.println("Try again from the beginning.");
+                            continue;
+                        } else {
+                            looper = 1;
+                        }
+                    } else {
+                        System.out.println("This is not a valid date, try again from the beginning.");
+                    }
+                }
+
+                // Check room availability for selected date (NEED TO ADD)
+
+                System.out.println("Are you sure you want to change to these dates for this reservation?");
+                System.out.println(startDate + " - " + endDate);
+
+                System.out.println("Type 1 to confirm, otherwise type any number to go back to the main menu.");
+
+                int decision = scanner.nextInt();
+                scanner.nextLine();
+
+                if (decision == 1) {
+                    ReservationManager.cancelReservation(DatabaseManager.getCurrentHotel(), reservation.getAssignedUser(), reservation);
+                    ReservationManager.createReservation(DatabaseManager.getCurrentHotel(), reservation.getAssignedUser(), ReservationManager.getNextUnusedNumber(DatabaseManager.getCurrentHotel()),reservation.getTotalPrice(), reservation.getRoom(), startDate, endDate);
+                    System.out.println("The reservation dates have been changed successfully.");
+                    userHomeScreen(scanner);
+                } else {
+                    if (DatabaseManager.getCurrentUser() instanceof Manager) {
+                        managerHomeScreen(scanner);
+                    } else {
+                        userHomeScreen(scanner);
+                    }
+                }
+                break;
             // Edit Reservation Room
             case 2:
-                return;
+                System.out.println("This is the current room for this reservation.");
+                RoomManager.printRoomInfo(RoomManager.getRoomNumber(reservation.getRoom()));
+
+                int looper2 = 0;
+                int reservationSize = 0;
+                Room chosenRoom = null;
+        
+                while (looper2 == 0) {
+                    System.out.println("Type CANCEL to go back. Otherwise, type anything to continue.");
+                    String input = scanner.nextLine().trim();
+
+                    if (input.equalsIgnoreCase("CANCEL")) {
+                        return;
+                    }
+
+                    //Print the list of rooms matching the date range and desired room size
+                    //Need to add search parameters later
+                    System.out.println("Enter the number of beds for the room:");
+                    scanner.nextLine();
+                    reservationSize = scanner.nextInt();
+        
+                    ArrayList<Room> filteredRooms = ReservationManager.filterRooms(DatabaseManager.getCurrentHotel().getAllRooms(), reservationSize);
+                    if (filteredRooms.isEmpty()) {
+                        System.out.println("There are no rooms matching your search. Please try again.");
+                        continue;
+                    }
+                    ReservationManager.listRooms(filteredRooms);
+        
+                    //User selects a room by typing in the room number + error check
+                    System.out.println("Type in the room number of the desired room: ");
+                    int roomNumber = scanner.nextInt();
+                    chosenRoom = ReservationManager.findRoomByRoomNumber(filteredRooms, roomNumber);
+                    if (chosenRoom == null) {
+                        System.out.println("This room number is not from the listed rooms. Please try again.");
+                        continue;
+                    }
+                    
+                    //The full selected room details get printed
+                    System.out.println("FULL ROOM DETAILS");
+                    System.out.println("--------------------------------");
+                    chosenRoom.printRoomInfo();
+                    System.out.println("--------------------------------");
+                    
+                    //Are you sure prompt, if answer is no then it will go back to reprint list
+                    System.out.println("Are you sure you want to change to this room? Type 1 to continue and any other number if not.");
+                    int decisionTwo = scanner.nextInt();
+                    if (decisionTwo != 1) {
+                        continue;
+                    }
+        
+                    looper2 = 1;
+                }
+                
+                ReservationManager.cancelReservation(DatabaseManager.getCurrentHotel(), reservation.getAssignedUser(), reservation);
+                ReservationManager.createReservation(DatabaseManager.getCurrentHotel(), reservation.getAssignedUser(), ReservationManager.getNextUnusedNumber(DatabaseManager.getCurrentHotel()),reservation.getTotalPrice(), chosenRoom, reservation.getStartDate(), reservation.getEndDate());
+                System.out.println("The room has been changed successfully.");
+            
+                if (DatabaseManager.getCurrentUser() instanceof Manager) {
+                    managerHomeScreen(scanner);
+                } else {
+                    userHomeScreen(scanner);
+                }
+
+                break;
             // Edit Reservation Price
             case 5:
-                return;
+                System.out.println("This is the current price for this reservation.");
+                System.out.println("$" + reservation.getTotalPrice());
+
+                System.out.println("Type your desired total price for the reservation.");
+                System.out.println("To go back, type CANCEL.");
+
+                String choice = scanner.nextLine().trim();
+
+                if (choice.equalsIgnoreCase("CANCEL")) {
+                    return;
+                } else {
+                    ReservationManager.setTotalPrice(reservation, Double.parseDouble(choice));
+                }
+
+                System.out.println("The reservation price has been changed successfully.");
+
+                managerHomeScreen(scanner);
+                break;
             // Edit Room Selection (Advanced)
             case 6:
-                return;
+                break;
         }
+        return;
     }
 
 
