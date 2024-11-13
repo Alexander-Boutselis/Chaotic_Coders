@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class User {
 
     //User Info
-    private int userID;
+    private Integer userID;
     private String firstName;
     private String lastName;
     protected Calendar birthday = Calendar.getInstance();

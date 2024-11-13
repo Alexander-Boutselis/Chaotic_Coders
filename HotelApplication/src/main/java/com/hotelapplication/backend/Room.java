@@ -13,7 +13,7 @@ public class Room {
 
    
     //Private
-    private int roomID;
+    private Integer roomID;
     private int roomNumber;
     private int numOfBeds;
     private String bedType;
@@ -24,6 +24,7 @@ public class Room {
 
     //Constructor
     public Room(int roomNumber, int numOfBeds, String bedType, double pricePerNight, String roomDescription) {
+        roomID = null;
         this.roomNumber = roomNumber;
         this.bedType = bedType;
         this.numOfBeds = numOfBeds;

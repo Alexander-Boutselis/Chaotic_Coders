@@ -110,10 +110,9 @@ public class HotelManager {
     }
 
     //Get All Rooms from Hotel
-    public static ArrayList<Room> getAllHotelRooms(){
-        //Get Current Hotel
-        Hotel currHotel = DatabaseManager.getCurrentHotel();
-        return currHotel.getAllRooms();
+    public static ArrayList<Room> getAllHotelRooms(Hotel hotel){
+       
+        return hotel.getAllRooms();
     }
 
     //Get All Removed Room Numbers

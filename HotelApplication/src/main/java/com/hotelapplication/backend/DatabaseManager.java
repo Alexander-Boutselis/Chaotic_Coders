@@ -1,38 +1,29 @@
-//DatabaseManager.java
-
 package com.hotelapplication.backend;
 import com.hotelapplication.frontend.*;
 
-
 import java.util.ArrayList;
-
-
 
 public class DatabaseManager {
 
-
-	/*Functions:
-		Initialize
-		Add/Remove Hotel
-		Get Hotel
-		Add/Remove User
-		Get User
+    /*Functions:
+        Initialize
+        Add/Remove Hotel
+        Get Hotel
+        Add/Remove User
+        Get User
         Get Current User
         Sign-in/out
-	*/
-
+    */
 
     //Single Instance of Database
     private static Database database = new Database();
 
-
     // Private constructor to prevent instantiation
     private DatabaseManager() {}
 
-
-	/****************************************************************
-	 *					Initialize      							*WIP
-	 ****************************************************************/
+    /****************************************************************
+     *                    Initialize       *WIP                     *
+     ****************************************************************/
     // Initialization method to set up a hotel with n rooms
     public static void initializeDatabase(String hotelName, int numberOfRooms) {
 
@@ -44,24 +35,18 @@ public class DatabaseManager {
         setCurrentHotel(getHotel(hotelName));
 
         //Loop to Generate Rooms
-        //Loop to Generate Rooms
         for (int i = 0; i < numberOfRooms; i++){
-            RoomManager.createRoom(2, "queen","");
-            RoomManager.createRoom(3, "twin","");
-            RoomManager.createRoom(1, "king","");
+            RoomManager.createRoom(2, "queen", "");
+            RoomManager.createRoom(3, "twin", "");
+            RoomManager.createRoom(1, "king", "");
         }       
 
         setCurrentHotel(null);
-        
-/*
-        System.out.println("Initialization complete. Added " + numberOfRooms + " rooms to " + hotelName);
-*/
     }
 
-
-	/****************************************************************
-	 *						Hotel Data								*
-	 ****************************************************************/
+    /****************************************************************
+     *                    Hotel Data                               *
+     ****************************************************************/
 
     // Static method to add a hotel
     public static void addHotel(Hotel hotel) {
@@ -82,10 +67,32 @@ public class DatabaseManager {
         return database.getAllHotels();
     }
 
+    // Static method to check if hotel exists, update if it does, otherwise add it
+    public static void addOrUpdateHotel(Hotel hotel) {
+        if (database.getHotel(hotel.getHotelName()) != null) {
+            //DatabaseConnector.updateHotel(hotel);
+        } else {
+            DatabaseConnector.addHotel(hotel);
+        }
+    }
 
-	/****************************************************************
-	 *						User Data								*
-	 ****************************************************************/
+
+    /****************************************************************
+     *                    Room Data                                *
+     ****************************************************************/
+    // Static method to check if room exists, update if it does, otherwise add it
+    public static void addOrUpdateRoom(Room room) {
+        //if (database.getRoom(room.getRoomID()) != null) {
+           // DatabaseConnector.updateRoom(room);
+        //} else {
+            //DatabaseConnector.addRoom(room);
+        //}
+    }
+
+
+    /****************************************************************
+     *                    User Data                                *
+     ****************************************************************/
     // Static method to add a user
     public static void addUser(User newUser) {
         database.addUser(newUser);
@@ -106,6 +113,16 @@ public class DatabaseManager {
         return database.getAllUsers();
     }
 
+    // Static method to check if user exists, update if it does, otherwise add it
+    public static void addOrUpdateUser(User user) {
+        if (database.getUser(user.getUsername()) != null) {
+            // Assuming you have a method like DatabaseConnector.updateUser(user)
+            //DatabaseConnector.updateUser(user);
+        } else {
+           // DatabaseConnector.addUser(user);
+        }
+    }
+
    //Get the next unused Employee Number
    public static int nextEmployeeNumber(){
     int largestEmployeeNumber = 0;
@@ -119,6 +136,7 @@ public class DatabaseManager {
     }
     return largestEmployeeNumber + 1;
    }
+
 
     /****************************************************************
      *                            Current                           *
@@ -145,7 +163,6 @@ public class DatabaseManager {
         database.setSignedInStatus(false);
     }
 
-
     public static User getCurrentUser(){
         return database.getCurrentUser();
     }
@@ -158,4 +175,4 @@ public class DatabaseManager {
     /****************************************************************
      *                           End                                *
      ****************************************************************/
-}
+}//End of DatabaseManager Class

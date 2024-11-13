@@ -51,6 +51,7 @@ public class Main{
 
         try {
             DatabaseConnector.printHotelsTable();
+            DatabaseConnector.printRoomsTable();
             //Disconnect from the database
             DatabaseConnector.disconnect();
 

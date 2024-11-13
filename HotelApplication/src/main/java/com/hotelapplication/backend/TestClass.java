@@ -36,6 +36,7 @@ public class TestClass{
 				testCases(i);
 			}
 			break;
+
 		case 1:
 			passedTest = 0;
 	        System.out.println("\n---Test Case 1---");
@@ -72,7 +73,10 @@ public class TestClass{
 		        //System.out.println(HotelManager.getCurrentHotelAndRoomsInfo());
 		        //passedTest++;
 		        try{
-		        	DatabaseConnector.addOrUpdateHotel(HotelManager.getCurrentHotel());
+		        	DatabaseManager.addOrUpdateHotel(HotelManager.getCurrentHotel());
+		        	for(Room room : HotelManager.getAllCurrentHotelRooms()){
+		        		DatabaseManager.addOrUpdateRoom(room);
+		        	}
 		        	//DatabaseConnector.removeHotel(1);
 		        }catch(Exception e){
 		        	System.out.println("Failed to add hotel");

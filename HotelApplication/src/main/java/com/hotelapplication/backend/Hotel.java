@@ -9,7 +9,7 @@ public class Hotel{
 	//Public:
 
 	//Private:
-	private int hotelID;
+	private Integer hotelID;
 	private String hotelName;
 	private ArrayList<Room> hotelRooms;
 	private String address; 
@@ -18,7 +18,7 @@ public class Hotel{
 
 	//Empty Hotel
 	public Hotel(String hotelName, String address){
-		//Default
+		hotelID = null;
 		this.hotelName = hotelName;
 		this.address = address;
 		hotelRooms = new ArrayList<>();
