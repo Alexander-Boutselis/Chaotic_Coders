@@ -242,15 +242,25 @@ public class DatabaseConnector {
         }
     }
 
-    /********************************
+       /********************************
      *       Empty Table Method     *
      ********************************/
     public static void emptyTable(String tableName) {
         try {
+            if ("Hotels".equalsIgnoreCase(tableName)) {
+                // Delete all rows from the Rooms table associated with this hotel
+                String deleteRoomsSQL = "DELETE FROM Rooms WHERE hotel_id IN (SELECT hotel_id FROM Hotels)";
+                handle.execute(deleteRoomsSQL);
+                System.out.println("All rooms removed for the specified hotel.");
+            }
             // Delete all rows from the specified table
             String deleteSQL = "DELETE FROM " + tableName;
             handle.execute(deleteSQL);
-            handle.execute("ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH 1");
+
+            // Reset auto-increment for Hotels table if necessary
+            if ("Hotels".equalsIgnoreCase(tableName)) {
+                handle.execute("ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH 1");
+            }
             System.out.println("All items removed from table: " + tableName);
             
         } catch (Exception e) {

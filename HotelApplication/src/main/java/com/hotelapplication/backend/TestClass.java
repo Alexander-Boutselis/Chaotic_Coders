@@ -50,7 +50,6 @@ public class TestClass{
 		        DatabaseManager.setCurrentHotel(DatabaseManager.getHotel("Test Hotel"));
 		        passedTest++;
 
-		        DatabaseConnector.addHotel(HotelManager.getCurrentHotel());
 		        //Loop to Generate Rooms
 		        for (int i = 0; i < numberOfRooms; i++){
 		        	RoomManager.createRoom(2, "queen","");

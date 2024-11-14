@@ -47,8 +47,10 @@ public class Main{
             DatabaseConnector.printHotelsTable();
             DatabaseConnector.printRoomsTable();
             promptForGUI(scanner);
-            //DatabaseConnector.emptyTable("Hotels");
-            //Disconnect from the database
+
+            //Clear Tables
+            DatabaseConnector.emptyTable("Hotels");
+            DatabaseConnector.emptyTable("Rooms");
 
         } catch (Exception e) {
             System.err.println("Database not connected: " + e.getMessage());
