@@ -7,7 +7,7 @@ import java.awt.*;
 public class ManagerPanel extends JFrame {
     public ManagerPanel() {
         setTitle("Manager Menu");
-        setSize(600, 700);  // Match size with UserPanel
+        setSize(600, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -21,21 +21,28 @@ public class ManagerPanel extends JFrame {
         JButton editAccountButton = createModernButton("Edit My Account");
         JButton viewReservationsButton = createModernButton("View All Reservations");
         JButton editHotelButton = createModernButton("Edit Hotel");
+        
         JButton exitButton = createModernButton("Exit");
+        JButton signOutButton = createModernButton("Sign Out");
 
         exitButton.addActionListener(e -> System.exit(0));
+        signOutButton.addActionListener(e -> {
+            this.dispose();
+            SwingUtilities.invokeLater(() -> new login().setVisible(true));  // Go back to login form
+        });
 
         panel.add(selectHotelButton);
         panel.add(editAccountButton);
         panel.add(viewReservationsButton);
         panel.add(editHotelButton);
 
-        JPanel exitPanel = new JPanel();
-        exitPanel.setBackground(new Color(3, 45, 48));
-        exitPanel.add(exitButton);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(3, 45, 48));
+        buttonPanel.add(signOutButton);
+        buttonPanel.add(exitButton);
 
         add(panel, BorderLayout.CENTER);
-        add(exitPanel, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     private JButton createModernButton(String text) {
