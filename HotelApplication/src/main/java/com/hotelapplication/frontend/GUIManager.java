@@ -396,8 +396,7 @@ public static void runAppInTerminal(Scanner scanner){
         System.out.print("Please enter a number: ");
 
         int choice = scanner.nextInt();
-        scanner.nextLine(); 
-
+        scanner.nextLine();
 
         switch(choice){
             case 1:
@@ -582,7 +581,7 @@ public static void runAppInTerminal(Scanner scanner){
 
 		while (looper == 0) {
 			System.out.println("Enter the start date of your reservation in the following format: YYYY/MM/DD");
-			String startInput = scanner.nextLine();
+			String startInput = scanner.nextLine().trim();
 			if (ReservationManager.isValidDate(startInput)) {
 				startDate = LocalDate.parse(startInput, formatter);
 			} else {
@@ -591,7 +590,7 @@ public static void runAppInTerminal(Scanner scanner){
 			}
 
 			System.out.println("Now, enter the end date of your reservation in the following format: YYYY/MM/DD");
-			String endInput = scanner.nextLine();
+			String endInput = scanner.nextLine().trim();
 			if (ReservationManager.isValidDate(endInput)) {
 				endDate = LocalDate.parse(endInput, formatter);
 				if (endDate.isBefore(startDate) || endDate.isEqual(startDate)) {
@@ -615,9 +614,9 @@ public static void runAppInTerminal(Scanner scanner){
 			//Print the list of rooms matching the date range and desired room size
 			//Need to add search parameters later
 			System.out.println("Enter the number of beds for your room:");
-			reservationSize = scanner.nextInt();
+			reservationSize = Integer.parseInt(scanner.nextLine().trim());
 
-			ArrayList<Room> filteredRooms = ReservationManager.filterRooms(DatabaseManager.getCurrentHotel().getAllRooms(), reservationSize);
+			ArrayList<Room> filteredRooms = ReservationManager.filterRooms(DatabaseManager.getCurrentHotel().getAllRooms(), reservationSize, DatabaseManager.getCurrentHotel(), startDate, endDate);
 			if (filteredRooms.isEmpty()) {
 				System.out.println("There are no rooms matching your search. Please try again.");
 				continue;
@@ -626,7 +625,7 @@ public static void runAppInTerminal(Scanner scanner){
 
 			//User selects a room by typing in the room number + error check
 			System.out.println("Type in the room number of your desired room: ");
-			int roomNumber = scanner.nextInt();
+			int roomNumber = Integer.parseInt(scanner.nextLine().trim());
 			chosenRoom = ReservationManager.findRoomByRoomNumber(filteredRooms, roomNumber);
 			if (chosenRoom == null) {
 				System.out.println("This room number is not from the listed rooms. Please try again.");
@@ -641,7 +640,7 @@ public static void runAppInTerminal(Scanner scanner){
 			
 			//Are you sure prompt, if answer is no then it will go back to reprint list
 			System.out.println("Are you sure you want to reserve this room? Type 1 to continue and any other number if not.");
-			int decision = scanner.nextInt();
+			int decision = Integer.parseInt(scanner.nextLine().trim());
 			if (decision != 1) {
 				continue;
 			}
@@ -677,7 +676,7 @@ public static void runAppInTerminal(Scanner scanner){
 		System.out.println("These are all of your current reservation numbers.");
 		System.out.println("To view a reservation, type the number. Otherwise, type CANCEL to go back.");
 
-		String reservationNumber = scanner.nextLine();
+		String reservationNumber = scanner.nextLine().trim();
 
 		if (reservationNumber.equalsIgnoreCase("CANCEL")) {
 			return;
@@ -915,7 +914,7 @@ public static void runAppInTerminal(Scanner scanner){
 		System.out.println("Do you want to modify this reservation? If so, type anything.");
 		System.out.println("Otherwise, type CANCEL to go back.");
 
-        String responseOne = scanner.nextLine();
+        String responseOne = scanner.nextLine().trim();
 
 		if (responseOne.equalsIgnoreCase("CANCEL")) {
 			return;
@@ -928,9 +927,9 @@ public static void runAppInTerminal(Scanner scanner){
         System.out.println("OPTION 3: Go Back");
         System.out.print("Type your selection: ");
 
-        int responseTwo = scanner.nextInt();
+        String responseTwo = scanner.nextLine().trim();
 
-        switch (responseTwo) {
+        switch (Integer.parseInt(responseTwo)) {
             case 1:
                 editReservationScreen(reservation, scanner);
             case 2: 
@@ -973,11 +972,7 @@ public static void runAppInTerminal(Scanner scanner){
 
         System.out.print("Type your selection: ");
 
-        if (scanner.hasNextInt()) {
-            scanner.nextInt();
-        }
-
-        int response = scanner.nextInt();
+        int response = Integer.parseInt(scanner.nextLine().trim());
 
         switch (response) {
             case 1: 
@@ -987,7 +982,7 @@ public static void runAppInTerminal(Scanner scanner){
             case 3:
                 cancelReservationScreen(reservation, scanner);
             case 4: 
-                viewReceiptScreen(reservation, scanner);
+                userHomeScreen(scanner);
             case 5: 
                 if (DatabaseManager.getCurrentUser() instanceof Manager) {
                     editReservationInfoScreen(reservation, scanner, 5);
@@ -1128,11 +1123,7 @@ public static void runAppInTerminal(Scanner scanner){
         System.out.println("Are you sure you want to proceed with canceling this reservation?");
         System.out.println("Type NO to go back. Otherwise, type anything to continue.");
 
-        if (scanner.hasNextLine()) {
-            scanner.nextLine();
-        }
-
-        String answer = scanner.nextLine();
+        String answer = scanner.nextLine().trim();
 
         if (answer.equalsIgnoreCase("NO")) {
             return;
@@ -1143,6 +1134,9 @@ public static void runAppInTerminal(Scanner scanner){
         System.out.println("Your reservation has been cancelled successfully.");
         System.out.println("You will be refunded $" + price + ".");
         System.out.println("If this was done in error, please rebook your stay immediately.");
+        System.out.println("Press enter to return to the main screen.");
+
+        scanner.nextLine().trim();
 
         if (DatabaseManager.getCurrentUser() instanceof Manager) {
             managerHomeScreen(scanner);
@@ -1198,18 +1192,28 @@ public static void runAppInTerminal(Scanner scanner){
                     }
                 }
 
-                // Check room availability for selected date (NEED TO ADD)
+                ReservationManager.cancelReservation(DatabaseManager.getCurrentHotel(), reservation.getAssignedUser(), reservation);
+                ArrayList<Room> filteredRoomsOne = ReservationManager.filterRooms(DatabaseManager.getCurrentHotel().getAllRooms(), reservation.getRoom().getNumberOfBeds(), DatabaseManager.getCurrentHotel(), reservation.getStartDate(), reservation.getEndDate());
+
+                if (!(filteredRoomsOne.contains(reservation.getRoom()))) {
+                    System.out.println("This room is unavailable for this date range. If you would like to change the room and date range, you must rebook your stay.");
+                    System.out.println("Your reservation will be set back to the old date range for now.");
+                    ReservationManager.createReservation(DatabaseManager.getCurrentHotel(), reservation.getAssignedUser(), ReservationManager.getNextUnusedNumber(DatabaseManager.getCurrentHotel()),reservation.getTotalPrice(), reservation.getRoom(), reservation.getStartDate(), reservation.getEndDate());
+                    if (DatabaseManager.getCurrentUser() instanceof Manager) {
+                        managerHomeScreen(scanner);
+                    } else {
+                        userHomeScreen(scanner);
+                    }
+                }
 
                 System.out.println("Are you sure you want to change to these dates for this reservation?");
                 System.out.println(startDate + " - " + endDate);
 
                 System.out.println("Type 1 to confirm, otherwise type any number to go back to the main menu.");
 
-                int decision = scanner.nextInt();
-                scanner.nextLine();
+                int decision = Integer.parseInt(scanner.nextLine().trim());
 
                 if (decision == 1) {
-                    ReservationManager.cancelReservation(DatabaseManager.getCurrentHotel(), reservation.getAssignedUser(), reservation);
                     ReservationManager.createReservation(DatabaseManager.getCurrentHotel(), reservation.getAssignedUser(), ReservationManager.getNextUnusedNumber(DatabaseManager.getCurrentHotel()),reservation.getTotalPrice(), reservation.getRoom(), startDate, endDate);
                     System.out.println("The reservation dates have been changed successfully.");
                     userHomeScreen(scanner);
@@ -1241,20 +1245,19 @@ public static void runAppInTerminal(Scanner scanner){
                     //Print the list of rooms matching the date range and desired room size
                     //Need to add search parameters later
                     System.out.println("Enter the number of beds for the room:");
-                    scanner.nextLine();
-                    reservationSize = scanner.nextInt();
+                    reservationSize = Integer.parseInt(scanner.nextLine().trim());
         
-                    ArrayList<Room> filteredRooms = ReservationManager.filterRooms(DatabaseManager.getCurrentHotel().getAllRooms(), reservationSize);
-                    if (filteredRooms.isEmpty()) {
+                    ArrayList<Room> filteredRoomsTwo = ReservationManager.filterRooms(DatabaseManager.getCurrentHotel().getAllRooms(), reservationSize, DatabaseManager.getCurrentHotel(), reservation.getStartDate(), reservation.getEndDate());
+                    if (filteredRoomsTwo.isEmpty()) {
                         System.out.println("There are no rooms matching your search. Please try again.");
                         continue;
                     }
-                    ReservationManager.listRooms(filteredRooms);
+                    ReservationManager.listRooms(filteredRoomsTwo);
         
                     //User selects a room by typing in the room number + error check
                     System.out.println("Type in the room number of the desired room: ");
-                    int roomNumber = scanner.nextInt();
-                    chosenRoom = ReservationManager.findRoomByRoomNumber(filteredRooms, roomNumber);
+                    int roomNumber = Integer.parseInt(scanner.nextLine().trim());
+                    chosenRoom = ReservationManager.findRoomByRoomNumber(filteredRoomsTwo, roomNumber);
                     if (chosenRoom == null) {
                         System.out.println("This room number is not from the listed rooms. Please try again.");
                         continue;
@@ -1268,7 +1271,7 @@ public static void runAppInTerminal(Scanner scanner){
                     
                     //Are you sure prompt, if answer is no then it will go back to reprint list
                     System.out.println("Are you sure you want to change to this room? Type 1 to continue and any other number if not.");
-                    int decisionTwo = scanner.nextInt();
+                    int decisionTwo = Integer.parseInt(scanner.nextLine().trim());
                     if (decisionTwo != 1) {
                         continue;
                     }

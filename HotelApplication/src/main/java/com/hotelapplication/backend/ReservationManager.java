@@ -187,11 +187,25 @@ public class ReservationManager {
  	****************************************************************/
 
 	//Filter array of rooms based on number of beds
-	public static ArrayList<Room> filterRooms(ArrayList<Room> rooms, int roomSize) {
+	public static ArrayList<Room> filterRooms(ArrayList<Room> rooms, int roomSize, Hotel hotel, LocalDate startDate, LocalDate endDate) {
 		ArrayList<Room> newRoomList = new ArrayList<>();
 		for (Room room : rooms) {
 			if (room.getNumberOfBeds() >= roomSize) {
-				newRoomList.add(room);
+				boolean isAvailable = true;
+				for (Reservation reservation : hotel.getAllReservations()) {
+					if (reservation.getRoom().equals(room)) {
+						LocalDate existingStart = reservation.getStartDate();
+						LocalDate existingEnd = reservation.getEndDate();
+
+						if (existingStart.isBefore(endDate) && existingEnd.isAfter(startDate)) {
+							isAvailable = false;
+							break;
+						}
+ 					}
+				}
+				if (isAvailable == true) {
+					newRoomList.add(room);
+				}
 			}
 		}
 		return newRoomList;
