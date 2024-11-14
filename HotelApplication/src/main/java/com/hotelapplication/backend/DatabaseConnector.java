@@ -250,7 +250,9 @@ public class DatabaseConnector {
             // Delete all rows from the specified table
             String deleteSQL = "DELETE FROM " + tableName;
             handle.execute(deleteSQL);
+            handle.execute("ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH 1");
             System.out.println("All items removed from table: " + tableName);
+            
         } catch (Exception e) {
             System.err.println("Failed to empty table '" + tableName + "': " + e.getMessage());
         }
@@ -267,6 +269,7 @@ public class DatabaseConnector {
             // Insert hotel without specifying hotel_id as it is auto-incremented
             String insertSQL = "INSERT INTO Hotels (name, address) VALUES (:name, :address)";
 
+
             
             int hotelID = handle.createUpdate(insertSQL)
                     .bind("name", hotel.getHotelName())
@@ -277,7 +280,7 @@ public class DatabaseConnector {
             
             // Set the hotelID to the hotel object
             //hotel.setHotelID(hotelID);
-            HotelManager.setHotelID(hotelID);
+            HotelManager.setHotelID(hotel, hotelID);
 
             // Log success
             System.out.println("New hotel added successfully with Hotel ID: " + hotelID + "\n");
