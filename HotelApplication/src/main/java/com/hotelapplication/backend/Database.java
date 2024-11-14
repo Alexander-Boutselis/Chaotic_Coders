@@ -20,6 +20,7 @@ public class Database { //Currently where data is stored, will eventually be rep
     private boolean signedIn;
 
     //Database Variables
+    private boolean isConnected;
     private ArrayList<Hotel> allHotels;
     private ArrayList<User> allUsers;
 
@@ -31,6 +32,11 @@ public class Database { //Currently where data is stored, will eventually be rep
         currentUser = null;
         currentHotel = null;
         signedIn = false;
+        try{
+            
+        }catch(Exception e){
+            
+        }
     }
 
 

@@ -73,13 +73,14 @@ public class TestClass{
 		        //System.out.println(HotelManager.getCurrentHotelAndRoomsInfo());
 		        //passedTest++;
 		        try{
-		        	DatabaseManager.addOrUpdateHotel(HotelManager.getCurrentHotel());
-		        	for(Room room : HotelManager.getAllCurrentHotelRooms()){
-		        		DatabaseManager.addOrUpdateRoom(room);
-		        	}
+		        	DatabaseConnector.addHotel(HotelManager.getCurrentHotel());
+
+		        	//for(Room room : HotelManager.getAllCurrentHotelRooms()){
+		        	//	DatabaseConnector.addRoom(room);
+		        	//}
 		        	//DatabaseConnector.removeHotel(1);
 		        }catch(Exception e){
-		        	System.out.println("Failed to add hotel");
+		        	System.out.println("Failed to add hotel/rooms");
 
 		        }
 

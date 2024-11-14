@@ -29,7 +29,7 @@ public class Main{
         DatabaseConnector dbConnector = new DatabaseConnector();
 
         try {
-            DatabaseConnector.createDatabase();
+            //DatabaseConnector.createDatabase();
             //Connect to the database
             DatabaseConnector.connect();
 
@@ -52,6 +52,7 @@ public class Main{
         try {
             DatabaseConnector.printHotelsTable();
             DatabaseConnector.printRoomsTable();
+            DatabaseConnector.emptyTable("Hotels");
             //Disconnect from the database
             DatabaseConnector.disconnect();
 
