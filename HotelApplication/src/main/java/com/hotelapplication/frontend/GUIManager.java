@@ -37,7 +37,7 @@ public static String authenticateAndGetRole(String username, String password) {
  ****************************************************************/
 // Method to run the GUI, showing login screen
 public static void runAppGUI() {
-    login loginWindow = new login();
+    Login loginWindow = new Login();
     loginWindow.setVisible(true);
 
     //Keeps terminal open

@@ -49,6 +49,8 @@ public class DatabaseConnector {
             //Check if Database is missing any of the 4 tables
             if(handle.createQuery("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME IN ('Hotels', 'Rooms', 'Users', 'Reservations')").mapTo(Integer.class).one() != 4){
                 createTables();
+            }else{
+                System.out.println("Oops shouldnt be here");
             }
         } catch (Exception e) {
             System.err.println("Connection failed: " + e.getMessage());
@@ -64,6 +66,17 @@ public class DatabaseConnector {
             System.out.println("Disconnected from database.");
         }
     }
+
+    /********************************
+     *         Get Handle           *
+     ********************************/
+    public static Handle getHandle() {
+        if (handle == null){
+            connect();
+        }
+        return handle;
+    }
+
 
 /****************************************************************
  *                            Tables                            *
@@ -246,26 +259,27 @@ public class DatabaseConnector {
 
 
 
-    /****************************************************************
+     /****************************************************************
      *                             Add                              *
      ****************************************************************/
     public static void addHotel(Hotel hotel) {
         try {
-            // Reset the auto-increment value to start from 1
-            handle.execute("ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH 1");
-
             // Insert hotel without specifying hotel_id as it is auto-incremented
             String insertSQL = "INSERT INTO Hotels (name, address) VALUES (:name, :address)";
-            handle.createUpdate(insertSQL)
+
+            
+            int hotelID = handle.createUpdate(insertSQL)
                     .bind("name", hotel.getHotelName())
                     .bind("address", hotel.getHotelAddress())
-                    .execute();
+                    .executeAndReturnGeneratedKeys("hotel_id")
+                    .mapTo(int.class)
+                    .one();
+            
+            // Set the hotelID to the hotel object
+            //hotel.setHotelID(hotelID);
+            HotelManager.setHotelID(hotelID);
 
-            // Retrieve the auto-generated hotel_id
-            int hotelID = handle.createQuery("SELECT LAST_INSERT_ID()")
-                                .mapTo(int.class)
-                                .one();
-            hotel.setHotelID(hotelID);
+            // Log success
             System.out.println("New hotel added successfully with Hotel ID: " + hotelID + "\n");
         } catch (Exception e) {
             System.err.println("Failed to add hotel: " + e.getMessage());
@@ -274,42 +288,26 @@ public class DatabaseConnector {
 
 
 
-/*
+
+
     //Add Room to databas
     public static void addRoom(Room room) {
         try {
-            // Validate hotel ID and set default if necessary
-            if (room.getHotelID() == null) {
-                System.out.println("Invalid hotel ID provided. Assigning default hotel ID.");
-                int defaultHotelID = 1; // Example: default hotel ID is set to 1 (must exist in the database)
-                room.setHotelID(defaultHotelID);
-            }
 
-            // Check if the hotel exists
-            String selectHotelSQL = "SELECT COUNT(*) FROM Hotels WHERE hotel_id = :hotel_id";
-            int hotelCount = handle.createQuery(selectHotelSQL)
-                    .bind("hotel_id", room.getHotelID())
-                    .mapTo(int.class)
-                    .one();
-
-            if (hotelCount == 0) {
-                System.err.println("Cannot add room: Hotel with ID " + room.getHotelID() + " does not exist.\n");
-                return;
-            }
-
-            // Insert the room into the database
-            String insertSQL = "INSERT INTO Rooms (room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night) " +
-                    "VALUES (:room_id, :hotel_id, :room_number, :bed_type, :num_of_beds, :price_per_night)";
-            int roomID = room.getHotelID() * 1000 + room.getRoomNumber(); // Generate room_id from hotel_id and room_number
+            //Insert the room into the database
+            String insertSQL = "INSERT INTO Rooms (room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night) VALUES (:room_id, :hotel_id, :room_number, :bed_type, :num_of_beds, :price_per_night)";
+            
+            //Extract hotel ID from the first 2 digits of roomID
+            int hotelID = RoomManager.getRoomID(room) / 1000; 
             handle.createUpdate(insertSQL)
-                    .bind("room_id", roomID)
-                    .bind("hotel_id", room.getHotelID())
-                    .bind("room_number", room.getRoomNumber())
-                    .bind("bed_type", room.getBedType())
-                    .bind("num_of_beds", room.getNumOfBeds())
-                    .bind("price_per_night", room.getPricePerNight())
+                    .bind("room_id", RoomManager.getRoomID(room))
+                    .bind("hotel_id", hotelID)
+                    .bind("room_number", RoomManager.getRoomNumber(room))
+                    .bind("bed_type", RoomManager.getBedType(room))
+                    .bind("num_of_beds", RoomManager.getNumberOfBeds(room))
+                    .bind("price_per_night", RoomManager.getPricePerNight(room))
                     .execute();
-            System.out.println("New room added successfully with Room ID: " + roomID + "\n");
+            System.out.println("New room added successfully");
         } catch (Exception e) {
             System.err.println("Failed to add room: " + e.getMessage());
         }

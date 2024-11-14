@@ -6,6 +6,8 @@ import com.hotelapplication.frontend.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import org.jdbi.v3.core.Handle;
+
 
 
 public class HotelManager {
@@ -67,8 +69,19 @@ public class HotelManager {
 
     //Create Empty Hotel
     public static void createHotel(String hotelName, String hotelAddress){
-        Hotel newHotel = new Hotel(hotelName, hotelAddress);
-        DatabaseManager.addHotel(newHotel);
+        try{
+            //Get next available Hotel ID number
+            //int nextHotelID = DatabaseConnector.getHandle().createQuery("SELECT IFNULL(MAX(hotel_id), -1) + 1 FROM Hotels").mapTo(int.class).one();
+            //Create new Hotel
+            Hotel newHotel = new Hotel( hotelName, hotelAddress);
+
+            //Add Hotel to database
+            DatabaseManager.addHotel(newHotel);
+        }catch (Exception e) {
+            System.out.println("Failed to create Hotel and Add to Database");
+            
+        }
+        
     }
 
 
@@ -111,8 +124,12 @@ public class HotelManager {
 
     //Get All Rooms from Hotel
     public static ArrayList<Room> getAllHotelRooms(Hotel hotel){
-       
         return hotel.getAllRooms();
+    }
+
+    //Get Hotel Id
+    public static int getHotelID(Hotel hotel){
+        return hotel.getHotelID();
     }
 
     //Get All Removed Room Numbers
@@ -139,6 +156,19 @@ public class HotelManager {
     public static void setHotelName(String newHotelName){
         DatabaseManager.getCurrentHotel().setHotelName(newHotelName);
     }
+
+    //Set Hotel Id
+    public static void setHotelID(int hotelID){
+        DatabaseManager.getCurrentHotel().setHotelID(hotelID);
+    }
+
+    //Set Hotel Id
+    public static void setHotelID(Hotel hotel, int hotelID){
+        hotel.setHotelID(hotelID);
+    }
+
+
+
 
 
 
@@ -262,7 +292,7 @@ public class HotelManager {
         return getCurrentHotel().getHotelInfo();
     }
 
-        //toString Hotel info
+    //toString Hotel info
     public static String getHotelInfo(Hotel hotel){
         return hotel.getHotelInfo();
     }

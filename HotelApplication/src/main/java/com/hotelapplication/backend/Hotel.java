@@ -17,13 +17,19 @@ public class Hotel{
 
 
 	//Empty Hotel
-	public Hotel(String hotelName, String address){
-		//hotelID = null;
+	public Hotel(int hotelID, String hotelName, String address){
+		hotelID = hotelID;
 		this.hotelName = hotelName;
 		this.address = address;
 		hotelRooms = new ArrayList<>();
 		allReservations = new ArrayList<>();
-		//removedRoomNumbers = new ArrayList<>();
+	}
+
+	public Hotel(String hotelName, String address){
+		this.hotelName = hotelName;
+		this.address = address;
+		hotelRooms = new ArrayList<>();
+		allReservations = new ArrayList<>();
 	}
 
 

@@ -25,43 +25,39 @@ import java.util.Scanner;
 //Start of Main
 public class Main{
     public static void main(String[] args) {
-        // Create an instance of DatabaseConnector
-        DatabaseConnector dbConnector = new DatabaseConnector();
+
+        Scanner scanner = new Scanner(System.in);
 
         try {
-            //DatabaseConnector.createDatabase();
-            //Connect to the database
-            DatabaseConnector.connect();
+            DatabaseManager.initializeDatabase("Chaotic Coder Inn", 100);
+
+            TestClass.testCases(0);
+
+            DatabaseManager.setCurrentHotel(DatabaseManager.getHotel("Chaotic Coder Inn"));
+
+            HotelManager.printCurrentHotelInfo();
 
 
         } catch (Exception e) {
             System.err.println("Database not connected: " + e.getMessage());
         }
 
-        DatabaseManager.initializeDatabase("Chaotic Coder Inn", 100);
-
-        TestClass.testCases(0);
-
-        DatabaseManager.setCurrentHotel(DatabaseManager.getHotel("Chaotic Coder Inn"));
-
-        HotelManager.printCurrentHotelInfo();
-
-        Scanner scanner = new Scanner(System.in);
-        promptForGUI(scanner);
 
         try {
             DatabaseConnector.printHotelsTable();
             DatabaseConnector.printRoomsTable();
-            DatabaseConnector.emptyTable("Hotels");
+            promptForGUI(scanner);
+            //DatabaseConnector.emptyTable("Hotels");
             //Disconnect from the database
-            DatabaseConnector.disconnect();
 
         } catch (Exception e) {
             System.err.println("Database not connected: " + e.getMessage());
+        }finally{
+            DatabaseConnector.disconnect();
+            //Close the scanner to avoid resource leaks
+            scanner.close(); 
+            System.exit(0);
         }
-        //Close the scanner to avoid resource leaks
-        scanner.close(); 
-        System.exit(0);
     }//End of main 
 
 

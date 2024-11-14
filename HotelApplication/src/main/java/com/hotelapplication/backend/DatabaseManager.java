@@ -26,10 +26,10 @@ public class DatabaseManager {
      ****************************************************************/
     // Initialization method to set up a hotel with n rooms
     public static void initializeDatabase(String hotelName, int numberOfRooms) {
+        DatabaseConnector.connect();
 
         //Create Initial Empty Hotel
         HotelManager.createHotel(hotelName, "69420 TestAddress Ave, Test, Phase");
-        Hotel hotel = HotelManager.getHotel(hotelName);
 
         //Set it as Current Hotel
         setCurrentHotel(getHotel(hotelName));
@@ -41,7 +41,7 @@ public class DatabaseManager {
             RoomManager.createRoom(1, "king", "");
         }       
 
-        setCurrentHotel(null);
+        //setCurrentHotel(null);
     }
 
     /****************************************************************
@@ -51,6 +51,7 @@ public class DatabaseManager {
     // Static method to add a hotel
     public static void addHotel(Hotel hotel) {
         database.addHotel(hotel);
+        DatabaseConnector.addHotel(hotel);
     }
 
     // Static method to remove a hotel

@@ -44,8 +44,10 @@ public class RoomManager {
         //Calc Price Per Night
 		double pricePerNight = calcPricePerNight(roomNumber, numOfBeds, bedType);
 
+        int roomID = HotelManager.getHotelID(HotelManager.getCurrentHotel()) * 1000 + roomNumber; 
+
     	//Create Room
-    	Room newRoom = new Room(roomNumber, numOfBeds, bedType, pricePerNight, roomDescription);
+    	Room newRoom = new Room(roomID, roomNumber, numOfBeds, bedType, pricePerNight, roomDescription);
 
     	//Add Room to Current Hotel
     	HotelManager.addRoomToCurrentHotel(newRoom);
@@ -127,42 +129,57 @@ public class RoomManager {
     	return room.getAllreservationNumbers();
     }
 
+    //Get Room ID
+    public static int getRoomID(Room room){
+        return room.getRoomID();
+    }
+
 
 /****************************************************************
- *                  		Setters 	                        *
+ *                      Setters                         *
  ****************************************************************/
 
     //Set Room #
-
+    public static void setRoomNumber(Room room, int roomNumber) {
+        room.setRoomNumber(roomNumber);
+    }
 
     //Set Bed Type
     public static void setBedType(Room room, String bedType){
-    	bedType = bedType.toLowerCase();
-    	room.setBedType(bedType);
+        bedType = bedType.toLowerCase();
+        room.setBedType(bedType);
     }
 
     //Set Number of Beds
+    public static void setNumberOfBeds(Room room, int numOfBeds) {
+        room.setNumberOfBeds(numOfBeds);
+    }
 
     //Set Price Per Night (Manual)
+    public static void setPricePerNight(Room room, double pricePerNight) {
+        room.setPricePerNight(pricePerNight);
+    }
 
     //Set Price Per Night
     public static void setPricePerNight(Room room){
 
-    	//Get Room Number
-    	int roomNumber = room.getRoomNumber();
-    	
-    	//Get Bed Type
-    	String bedType = room.getBedType();
+        //Get Room Number
+        int roomNumber = room.getRoomNumber();
+        
+        //Get Bed Type
+        String bedType = room.getBedType();
 
-    	//Get Num of Beds
-    	int numOfBeds = room.getNumberOfBeds();
+        //Get Num of Beds
+        int numOfBeds = room.getNumberOfBeds();
 
-    	//Calculate Price Per Night
-    	room.setPricePerNight(calcPricePerNight(roomNumber, numOfBeds, bedType));
+        //Calculate Price Per Night
+        room.setPricePerNight(calcPricePerNight(roomNumber, numOfBeds, bedType));
     }
 
-
     //Set Room Description
+    public static void setRoomDescription(Room room, String roomDescription) {
+        room.setRoomDescription(roomDescription);
+    }
 
 
 /****************************************************************

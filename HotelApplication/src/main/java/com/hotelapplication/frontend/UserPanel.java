@@ -28,7 +28,7 @@ public class UserPanel extends JFrame {
         exitButton.addActionListener(e -> System.exit(0));
         signOutButton.addActionListener(e -> {
             this.dispose();
-            SwingUtilities.invokeLater(() -> new login().setVisible(true));  // Go back to login form
+            SwingUtilities.invokeLater(() -> new Login().setVisible(true));  // Go back to login form
         });
 
         panel.add(viewReservationsButton);
