@@ -44,8 +44,30 @@ public static void runAppGUI() {
     Scanner scanner = new Scanner(System.in);
     int choice = scanner.nextInt();
         scanner.nextLine(); 
+}//End of Run App GUI
+
+
+/****************************************************************
+ *                           Exit Program                       *
+ ****************************************************************/
+//Method to end program gracefully
+public static void closeApplication(){
+    DatabaseConnector.disconnect();
+    System.exit(0);
 }
-//End of Run App GUI
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /****************************************************************
  *                     Run App in Terminal                      *
