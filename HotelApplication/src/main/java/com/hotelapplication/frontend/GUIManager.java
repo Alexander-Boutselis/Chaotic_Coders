@@ -507,6 +507,31 @@ public static void runAppInTerminal(Scanner scanner){
         }
     }
 
+/********************************
+ *      Create Hotel Screen     * 
+ ********************************/
+    public static void createHotelScreen(Scanner scanner){
+        System.out.println("---Hotel Creation Screen---");
+
+        System.out.print("Please Enter the Name of this Hotel: ");
+        String newHotelName = scanner.nextLine();
+
+        System.out.print("Enter the Hotel Address: ");
+        String newHotelAddress = scanner.nextLine();
+
+        System.out.print("Creating Hotel...");
+        try{
+            HotelManager.createHotel(newHotelName, newHotelAddress);
+        }catch(Exception e){
+            System.out.print("Failed to create Hotel");
+        }
+
+
+    }
+
+    
+
+
 
 //********************************
 //        Edit User Account      * Shared
@@ -717,17 +742,13 @@ public static void runAppInTerminal(Scanner scanner){
     public static boolean managerHomeScreen(Scanner scanner){
         String screen;
         System.out.println("---------------Welcome " + AccountManager.getFullName(DatabaseManager.getCurrentUser()) + "!---------------");
-        if(HotelManager.getCurrentHotel() == null){
-            System.out.println("1. Select Hotel");
 
-        }else{
-            System.out.println("1. Change Hotel");
-        }
-        System.out.println("2. Edit Hotel");
-        System.out.println("3. Edit My Account");
-        //System.out.println("4. View Hotel Rooms");
-        System.out.println("4. View Reservations");
-        System.out.println("5. Quit");
+        System.out.println("1. Select Hotel");
+        System.out.println("2. Create Hotel");
+        System.out.println("3. Edit Hotel");
+        System.out.println("4. Edit My Account");
+        System.out.println("5. View Reservations");
+        System.out.println("6. Quit");
         System.out.print("Please enter a number: ");
 
         int choice = scanner.nextInt();
@@ -745,8 +766,17 @@ public static void runAppInTerminal(Scanner scanner){
                 selectHotelScreen(scanner);
                 
                 break;
-
             case 2:
+            //********************************
+            //          Create Hotel         *
+            //********************************
+                screen = "Create Hotel Screen";
+                System.out.println("Current screen: " + screen);
+
+                createHotelScreen(scanner);
+                
+                break;
+            case 3:
             //********************************
             //          Edit Hotel           *
             //********************************
@@ -759,7 +789,7 @@ public static void runAppInTerminal(Scanner scanner){
                 }
                 break;
 
-            case 3:
+            case 4:
             //********************************
             //          Edit Account         *
             //********************************
@@ -768,7 +798,7 @@ public static void runAppInTerminal(Scanner scanner){
                 editAccountScreen();
                 break;
 
-            case 4:
+            case 5:
             //********************************
             //    View Hotel Reservations    *
             //********************************
@@ -777,7 +807,7 @@ public static void runAppInTerminal(Scanner scanner){
                 viewHotelReservationsScreen(scanner);
                 break;
 
-            case 5:
+            case 6:
             //********************************
             //              Exit             *
             //********************************
@@ -811,9 +841,9 @@ public static void runAppInTerminal(Scanner scanner){
             System.out.println("Editing: " + HotelManager.getHotelName());
             System.out.println("1. Add Room");
             System.out.println("2. Remove Room");
-            //System.out.println("3. View Specific Room");
             System.out.println("3. View All Rooms");
-            System.out.println("4. Exit Hotel Edditer");
+            System.out.println("4. Delete Hotel");
+            System.out.println("5. Exit Hotel Edditer");
 
             System.out.print("Please enter a number: ");
             option = scanner.nextInt();
@@ -840,9 +870,13 @@ public static void runAppInTerminal(Scanner scanner){
 
                 case 3:
                     viewHotelRoomsScreen(scanner);
-
                     break;
-                case 4:
+
+                 case 4:
+                    viewHotelRoomsScreen(scanner);
+                    break;
+
+                case 5:
                     System.out.println("Exiting...");
                     running = false;
                     break;
@@ -860,7 +894,7 @@ public static void runAppInTerminal(Scanner scanner){
 //********************************
     public static void viewHotelRoomsScreen(Scanner scanner){
         //Print All Hotel Rooms for Current Hotel
-        for (Room room : HotelManager.getAllCurrentHotelRooms()){
+        for (Room room : HotelManager.getAllHotelRooms()){
             System.out.println(RoomManager.getRoomInfo(room));
         }
 
@@ -869,7 +903,7 @@ public static void runAppInTerminal(Scanner scanner){
         int userInputRoomNumber = scanner.nextInt();
         scanner.nextLine(); 
 
-        for (Room room : HotelManager.getAllCurrentHotelRooms()){
+        for (Room room : HotelManager.getAllHotelRooms()){
             if(RoomManager.getRoomNumber(room) == userInputRoomNumber){
                 System.out.println(RoomManager.getRoomInfo(room));
                 

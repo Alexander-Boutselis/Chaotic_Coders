@@ -74,7 +74,7 @@ public class TestClass{
 		        //passedTest++;
 		        try{
 
-		        	for(Room room : HotelManager.getAllCurrentHotelRooms()){
+		        	for(Room room : HotelManager.getAllHotelRooms()){
 		        		DatabaseConnector.addRoom(room);
 		        	}
 		        	//DatabaseConnector.removeHotel(1);

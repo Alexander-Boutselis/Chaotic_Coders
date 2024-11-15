@@ -12,22 +12,6 @@ import org.jdbi.v3.core.Handle;
 
 public class HotelManager {
 	
-
-	/*Functions:
-		Get Hotel
-		Get/Set Hotel Name
-		Account Manager
-		isSignedIn()
-		Add/Remove Rooms
-		Calculate Total Rooms
-		Find Next Hotel Room #
-		Add/Remove Reservation
-		Calc Finances
-		isEqualTo()
-		Print Hotel Info
-	*/
-
-
     // Private constructor to prevent instantiation
     private HotelManager() {}
 
@@ -39,92 +23,57 @@ public class HotelManager {
 /****************************************************************
  *                          Title                               *
  ****************************************************************/
-
 /********************************
  *          Sub Section         *
  ********************************/
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /****************************************************************
  *                     Create/Destroy Hotel                     *
  ****************************************************************/
-
-    //Create Empty Hotel
+/********************************
+ *         Create Hotel         *
+ ********************************/
     public static void createHotel(String hotelName, String hotelAddress){
         try{
-            //Get next available Hotel ID number
-            //int nextHotelID = DatabaseConnector.getHandle().createQuery("SELECT IFNULL(MAX(hotel_id), -1) + 1 FROM Hotels").mapTo(int.class).one();
             //Create new Hotel
             Hotel newHotel = new Hotel( hotelName, hotelAddress);
 
             //Add Hotel to database
             DatabaseManager.addHotel(newHotel);
+
         }catch (Exception e) {
             System.out.println("Failed to create Hotel and Add to Database");
-            
         }
-        
     }
-
-
+/********************************
+ *          Remove Hotel        *
+ ********************************/
+    
 
 /****************************************************************
- *		                      Getters 		                    *
+ *                        Get Hotel Info                        *
  ****************************************************************/
-
-    //Get Hotel by searching its name
-    public static Hotel getHotel(String searchHotelName){
-    	return DatabaseManager.getHotel(searchHotelName);
-    }
-
-    //Get All Hotels in Database
-    public static ArrayList<Hotel> getAllHotels(){
-        return DatabaseManager.getAllHotels();
-    }
-
-    //Get Hotel Name
+/********************************
+ *          Hotel Name          *
+ ********************************/
+    //Get Current Hotel Name
     public static String getHotelName(){
     	return DatabaseManager.getCurrentHotel().getHotelName();
     }
 
-        //Get Hotel Name
+    //Get Hotel Name
     public static String getHotelName(Hotel hotel){
         return hotel.getHotelName();
     }
 
-    //Get Current Hotel
-    public static Hotel getCurrentHotel(){
-        return DatabaseManager.getCurrentHotel();
-    }
-
-    //Get All Rooms from Current Hotel
-    public static ArrayList<Room> getAllCurrentHotelRooms(){
-        //Get Current Hotel
-        Hotel currHotel = DatabaseManager.getCurrentHotel();
-        return currHotel.getAllRooms();
-    }
-
-    //Get All Rooms from Hotel
-    public static ArrayList<Room> getAllHotelRooms(Hotel hotel){
-        return hotel.getAllRooms();
+/********************************
+ *          Hotel ID            *
+ ********************************/
+    //Get Current Hotel Id
+    public static int getHotelID(){
+        return DatabaseManager.getCurrentHotel().getHotelID();
     }
 
     //Get Hotel Id
@@ -132,32 +81,53 @@ public class HotelManager {
         return hotel.getHotelID();
     }
 
-    //Get All Removed Room Numbers
-    //public static ArrayList<Integer> getRemovedRoomNumbers(Hotel hotel){
-    //    return hotel.getRemovedRoomNumbers();
-    //}
+/********************************
+ *        Hotel Address         *
+ ********************************/
+    //Get Current Hotel Address
+    public static String getHotelAddress(){
+        return DatabaseManager.getCurrentHotel().getHotelAddress();
+    }
 
-    //Get Total Number of Rooms
+    //Get Hotel Address
+    public static String getHotelAddress(Hotel hotel){
+        return hotel.getHotelAddress();
+    }
+
+/********************************
+ *     Number of Hotel Rooms    *
+ ********************************/
+    //Get Total Number of Rooms in Current Hotel
     public static int getTotalNumberOfRooms(){
-        return getAllCurrentHotelRooms().size();
+        return getAllHotelRooms().size();
+    }
+
+    //Get Total Number of Rooms in Hotel
+    public static int getTotalNumberOfRooms(Hotel hotel){
+        return getAllHotelRooms(hotel).size();
     }
 
 
 /****************************************************************
- *                     		 Setters                            *
+ *                        Set Hotel Info                        *
  ****************************************************************/
-
-    //Set Current Hotel
-    public static void setCurrentHotel(Hotel hotel){
-        DatabaseManager.setCurrentHotel(hotel);
-    }
-
+/********************************
+ *          Hotel Name          *
+ ********************************/
     //Set Current Hotel Name
     public static void setHotelName(String newHotelName){
         DatabaseManager.getCurrentHotel().setHotelName(newHotelName);
     }
 
-    //Set Hotel Id
+    //Set Hotel Name
+    public static void setHotelName(Hotel hotel, String newHotelName){
+       hotel.setHotelName(newHotelName);
+    }
+
+/********************************
+ *          Hotel ID            *
+ ********************************/
+    //Set Current Hotel Id
     public static void setHotelID(int hotelID){
         DatabaseManager.getCurrentHotel().setHotelID(hotelID);
     }
@@ -167,22 +137,85 @@ public class HotelManager {
         hotel.setHotelID(hotelID);
     }
 
+/********************************
+ *        Hotel Address         *
+ ********************************/
+    //Set Current Hotel Address
+    public static void setHotelAddress(String hotelAddress){
+        DatabaseManager.getCurrentHotel().setHotelAddress(hotelAddress);
+    }
+
+    //Set Hotel Address
+    public static void setHotelAddress(Hotel hotel, String hotelAddress){
+        hotel.setHotelAddress(hotelAddress);
+    }
 
 
+/****************************************************************
+ *                          Hotels and Rooms                    *
+ ****************************************************************/
+/********************************
+ *          Get Hotel           *
+ ********************************/
+    //Get Hotel by searching its name
+    public static Hotel getHotel(String searchHotelName){
+    	return DatabaseManager.getHotel(searchHotelName);
+    }
 
+/********************************
+ *         Get All Hotels       *
+ ********************************/
+    //Get All Hotels in Database
+    public static ArrayList<Hotel> getAllHotels(){
+        return DatabaseManager.getAllHotels();
+    }
+
+/********************************
+ *       Get Current Hotel      *
+ ********************************/
+    //Get Current Hotel
+    public static Hotel getCurrentHotel(){
+        return DatabaseManager.getCurrentHotel();
+    }
+
+/********************************
+ *       Set Current Hotel      *
+ ********************************/
+ //Set Current Hotel
+    public static void setCurrentHotel(Hotel hotel){
+        DatabaseManager.setCurrentHotel(hotel);
+    }
+
+/********************************
+ *          Get Rooms           *
+ ********************************/
+    //Get All Rooms from Current Hotel
+    public static ArrayList<Room> getAllHotelRooms(){
+        return DatabaseManager.getCurrentHotel().getAllRooms();
+    }
+
+    //Get All Rooms from Hotel
+    public static ArrayList<Room> getAllHotelRooms(Hotel hotel){
+        return hotel.getAllRooms();
+    }
 
 
 /****************************************************************
  *                            Adders                            *
  ****************************************************************/
-
+/********************************
+ *          Add Hotel           *
+ ********************************/
     //Add Hotel to Database
     public static void addHotel(Hotel newHotel){
         DatabaseManager.addHotel(newHotel);
     }
 
+/********************************
+ *           Add Room           *
+ ********************************/
     //Add Room to Current Hotel
-    public static void addRoomToCurrentHotel(Room newRoom){
+    public static void addRoomToHotel(Room newRoom){
         DatabaseManager.getCurrentHotel().addRoom(newRoom);
     }
 
@@ -191,24 +224,29 @@ public class HotelManager {
         hotel.addRoom(newRoom);
     }
 
-    //Add Removed Room Number
-    //public static void addRemovedRoomNumber(Hotel hotel, int removedRoomNumber){
-   //     hotel.addRemovedRoomNumber(removedRoomNumber);
-    //}
-
-
+    
 /****************************************************************
  *                            Removers                          *
  ****************************************************************/
-
+/********************************
+ *         Remove Hotel         *
+ ********************************/
     //Remove Hotel from Database
     public static void removeHotel(String searchHotelName){
         DatabaseManager.removeHotel(searchHotelName); 
     }
 
+/********************************
+ *         Remove Room          *
+ ********************************/
     //Remove Room from Current Hotel
-    public static void removeRoomFromCurrentHotel(Room newRoom){
+    public static void removeRoomHotel(Room newRoom){
         DatabaseManager.getCurrentHotel().removeRoom(newRoom.getRoomNumber());
+    }
+
+    //Remove Room from Hotel
+    public static void removeRoomHotel(Hotel hotel, Room newRoom){
+        hotel.removeRoom(newRoom.getRoomNumber());
     }
 
 
@@ -269,7 +307,7 @@ public class HotelManager {
         
         StringBuilder receipt = new StringBuilder();
 
-        for(Room room : getAllCurrentHotelRooms()){
+        for(Room room : getAllHotelRooms()){
             try{
                 receipt.append(room.getRoomInfo());
             }catch (Exception e){

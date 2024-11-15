@@ -385,7 +385,8 @@ public class DatabaseConnector {
     /********************************
      *         Remove Hotel         *
      ********************************/
-    public static void removeHotel(int hotelID) {
+    public static void removeHotel(Hotel hotel) {
+            int hotelID = HotelManager.getHotelID(hotel);
         try {
             StringBuilder deleteSQL = new StringBuilder();
             deleteSQL.append("DELETE FROM Hotels WHERE hotel_id = :hotel_id");

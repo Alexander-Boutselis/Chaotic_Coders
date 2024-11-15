@@ -50,15 +50,16 @@ public class RoomManager {
     	Room newRoom = new Room(roomID, roomNumber, numOfBeds, bedType, pricePerNight, roomDescription);
 
     	//Add Room to Current Hotel
-    	HotelManager.addRoomToCurrentHotel(newRoom);
+    	HotelManager.addRoomToHotel(newRoom);
+        DatabaseConnector.addRoom(newRoom);
     }
 
     public static void removeRoom(int roomNumber){
         Room roomToRemove;
         int indexOfRoom;
         roomToRemove = getHotelRoom(roomNumber);
-        indexOfRoom = HotelManager.getAllCurrentHotelRooms().indexOf(roomToRemove);
-        HotelManager.getAllCurrentHotelRooms().set(indexOfRoom, null);
+        indexOfRoom = HotelManager.getAllHotelRooms().indexOf(roomToRemove);
+        HotelManager.getAllHotelRooms().set(indexOfRoom, null);
         //HotelManager.addRemovedRoomNumber(HotelManager.getCurrentHotel(), roomNumber);
     }
 
@@ -77,7 +78,7 @@ public class RoomManager {
     	int nextRoomNumber = 1;
     	int roomNumber;
 
-    	for (Room room : HotelManager.getAllCurrentHotelRooms()){
+    	for (Room room : HotelManager.getAllHotelRooms()){
 
     		roomNumber = getRoomNumber(room);
     		if (roomNumber <= nextRoomNumber){
@@ -116,7 +117,7 @@ public class RoomManager {
 
     //Get Room from Current Hotel
     public static Room getHotelRoom(int searchRoomNumber){
-    	for (Room room : HotelManager.getAllCurrentHotelRooms()){
+    	for (Room room : HotelManager.getAllHotelRooms()){
     		if (room.getRoomNumber() == searchRoomNumber){
     			return room;
     		}
@@ -219,7 +220,7 @@ public class RoomManager {
             case "king":
                 basePrice = 150;
                 break;
-            case "california king":
+            case "suite":
                 basePrice = 200;
                 break;
             default:
