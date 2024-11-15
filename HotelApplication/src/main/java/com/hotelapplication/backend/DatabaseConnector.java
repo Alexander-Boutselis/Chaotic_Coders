@@ -300,9 +300,6 @@ public class DatabaseConnector {
     }
 
 
-
-
-
     //Add Room to databas
     public static void addRoom(Room room) {
         try {
@@ -447,18 +444,19 @@ public class DatabaseConnector {
             System.out.println("\n---------------------------------------------------------------------------------------------");
             System.out.println(String.format("%-10s %-10s %-15s %-15s %-15s %-15s %-15s", "Room ID", "Hotel ID", "Room Number", "Bed Type", "Num of Beds", "Price per Night", "Reservation ID"));
             System.out.println("---------------------------------------------------------------------------------------------");
+            
             query.map((rs, ctx) -> {
-                StringBuilder receipt = new StringBuilder();
-                receipt.append("Room ID: " + rs.getInt("room_id")).append("\n");
-                receipt.append("Hotel ID: " + rs.getInt("hotel_id")).append("\n");
-                receipt.append("Room Number: " + rs.getInt("room_number")).append("\n");
-                receipt.append("Bed Type: " + rs.getString("bed_type")).append("\n");
-                receipt.append("Num of Beds: " + rs.getInt("num_of_beds")).append("\n");
-                receipt.append("Price per Night: " + rs.getBigDecimal("price_per_night")).append("\n");
-                receipt.append("Reservation ID: " + rs.getInt("reservation_id")).append("\n");
-                System.out.println(receipt.toString());
+                System.out.println(String.format("%-10d %-10d %-15d %-15s %-15d %-15.2f %-15d",
+                        rs.getInt("room_id"),
+                        rs.getInt("hotel_id"),
+                        rs.getInt("room_number"),
+                        rs.getString("bed_type"),
+                        rs.getInt("num_of_beds"),
+                        rs.getBigDecimal("price_per_night"),
+                        rs.getInt("reservation_id")));
                 return null;
             }).list();
+            
             System.out.println("---------------------------------------------------------------------------------------------\n");
         } catch (Exception e) {
             System.err.println("Failed to print Rooms table: " + e.getMessage());
