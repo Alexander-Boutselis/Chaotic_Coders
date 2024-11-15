@@ -54,7 +54,7 @@ public class TestClass{
 		        for (int i = 0; i < numberOfRooms; i++){
 		        	RoomManager.createRoom(2, "queen","");
 		        	RoomManager.createRoom(3, "twin","");
-		        	RoomManager.createRoom(1, "california king","");
+		        	RoomManager.createRoom(1, "suite","");
 		        }
 		        passedTest++;
 

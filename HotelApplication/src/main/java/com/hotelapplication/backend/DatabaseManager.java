@@ -5,16 +5,6 @@ import java.util.ArrayList;
 
 public class DatabaseManager {
 
-    /*Functions:
-        Initialize
-        Add/Remove Hotel
-        Get Hotel
-        Add/Remove User
-        Get User
-        Get Current User
-        Sign-in/out
-    */
-
     //Single Instance of Database
     private static Database database = new Database();
 
@@ -29,17 +19,17 @@ public class DatabaseManager {
         DatabaseConnector.connect();
 
         //Create Initial Empty Hotel
-        HotelManager.createHotel(hotelName, "69420 TestAddress Ave, Test, Phase");
+       // HotelManager.createHotel(hotelName, "69420 TestAddress Ave, Test, Phase");
 
         //Set it as Current Hotel
-        setCurrentHotel(getHotel(hotelName));
+       // setCurrentHotel(getHotel(hotelName));
 
         //Loop to Generate Rooms
-        for (int i = 0; i < numberOfRooms; i++){
-            RoomManager.createRoom(2, "queen", "");
-            RoomManager.createRoom(3, "twin", "");
-            RoomManager.createRoom(1, "king", "");
-        }       
+       // for (int i = 0; i < numberOfRooms; i++){
+        //    RoomManager.createRoom(2, "queen", "");
+        //    RoomManager.createRoom(3, "twin", "");
+        //    RoomManager.createRoom(1, "king", "");
+        //}       
 
         //setCurrentHotel(null);
     }
