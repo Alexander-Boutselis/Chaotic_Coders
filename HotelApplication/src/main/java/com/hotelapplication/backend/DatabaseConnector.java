@@ -69,6 +69,11 @@ public class DatabaseConnector {
      *          Disconnect          *
      ********************************/
     public static void disconnect() {
+        //Clear Tables
+        emptyTable("Rooms");
+        emptyTable("Hotels");
+        emptyTable("Users");
+        emptyTable("Reservations");
         if (handle != null) {
             handle.close();
             System.out.println("Disconnected from database.");
