@@ -2,8 +2,8 @@ com/hotelapplication/Main.class
 com/hotelapplication/frontend/Login$3.class
 com/hotelapplication/backend/DatabaseConnector.class
 com/hotelapplication/frontend/AddRoom.class
-com/hotelapplication/frontend/UserPanel.class
 com/hotelapplication/frontend/SignUp$2.class
+com/hotelapplication/frontend/UserPanel.class
 com/hotelapplication/frontend/Login.class
 com/hotelapplication/backend/Reservation.class
 com/hotelapplication/frontend/SignUp$1.class

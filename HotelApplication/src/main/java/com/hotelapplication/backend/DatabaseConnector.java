@@ -4,6 +4,8 @@ import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.statement.Query;
 import java.util.List;
+import java.sql.Date;
+
 
 
 public class DatabaseConnector {
@@ -12,7 +14,6 @@ public class DatabaseConnector {
     private static final String JDBC_PASSWORD = "";
     private static Jdbi databaseConnector;
     private static Handle handle;
-
     //Create Database
     //Create Hotels Table
     //Create Rooms Table
@@ -242,7 +243,7 @@ public class DatabaseConnector {
         }
     }
 
-       /********************************
+    /********************************
      *       Empty Table Method     *
      ********************************/
     public static void emptyTable(String tableName) {
@@ -257,12 +258,13 @@ public class DatabaseConnector {
             String deleteSQL = "DELETE FROM " + tableName;
             handle.execute(deleteSQL);
 
-            // Reset auto-increment for Hotels table if necessary
+            // Reset auto-increment for Hotels and Users table if necessary
             if ("Hotels".equalsIgnoreCase(tableName)) {
                 handle.execute("ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH 1");
+            } else if ("Users".equalsIgnoreCase(tableName)) {
+                handle.execute("ALTER TABLE Users ALTER COLUMN user_id RESTART WITH 1");
             }
             System.out.println("All items removed from table: " + tableName);
-            
         } catch (Exception e) {
             System.err.println("Failed to empty table '" + tableName + "': " + e.getMessage());
         }
@@ -274,32 +276,36 @@ public class DatabaseConnector {
      /****************************************************************
      *                             Add                              *
      ****************************************************************/
+    /********************************
+     *           Add Hotel          *
+     ********************************/
     public static void addHotel(Hotel hotel) {
         try {
-            // Insert hotel without specifying hotel_id as it is auto-incremented
+            //Insert hotel without specifying hotel_id as it is auto-incremented
             String insertSQL = "INSERT INTO Hotels (name, address) VALUES (:name, :address)";
 
 
             
             int hotelID = handle.createUpdate(insertSQL)
-                    .bind("name", hotel.getHotelName())
-                    .bind("address", hotel.getHotelAddress())
+                    .bind("name", HotelManager.getHotelName(hotel))
+                    .bind("address", HotelManager.getHotelAddress(hotel))
                     .executeAndReturnGeneratedKeys("hotel_id")
                     .mapTo(int.class)
                     .one();
             
-            // Set the hotelID to the hotel object
-            //hotel.setHotelID(hotelID);
+            //Set the hotelID to the hotel object
             HotelManager.setHotelID(hotel, hotelID);
 
-            // Log success
+            //Log success
             System.out.println("New hotel added successfully with Hotel ID: " + hotelID + "\n");
         } catch (Exception e) {
             System.err.println("Failed to add hotel: " + e.getMessage());
         }
     }
 
-
+    /********************************
+     *           Add Room           *
+     ********************************/
     //Add Room to databas
     public static void addRoom(Room room) {
         try {
@@ -323,62 +329,31 @@ public class DatabaseConnector {
         }
     }
 
-
+    /********************************
+     *           Add Account          *
+     ********************************/
+    //Add user to the database
+    public static void addAccount(User user) {
+        try {
+            String insertSQL = "INSERT INTO Users (first_name, last_name, username, password, birthday, employee_num, start_date) VALUES (:first_name, :last_name, :username, :password, :birthday, :employee_num, :start_date)";
+            handle.createUpdate(insertSQL)
+                    .bind("first_name", AccountManager.getFirstName(user))
+                    .bind("last_name", AccountManager.getLastName(user))
+                    .bind("username", AccountManager.getUsername(user))
+                    .bind("password", AccountManager.getPassword(user))
+                    .bind("birthday", new Date(AccountManager.getBirthday(user).getTimeInMillis()))
+                    .bind("employee_num", (user instanceof Manager) ? AccountManager.getEmployeeNumber((Manager) user) : null)
+                    .bind("start_date", (user instanceof Manager) ? new Date(AccountManager.getEmployeeStartDate((Manager) user).getTimeInMillis()) : null)
+                    .execute();
+            System.out.println("User added successfully to the database.");
+        } catch (Exception e) {
+            System.err.println("Failed to add user to the database: " + e.getMessage());
+        }
+    }
     /****************************************************************
      *                            Update                            *
      ****************************************************************/
-    public static void updateHotel(Hotel hotel) {
-        try {
-            StringBuilder updateSQL = new StringBuilder();
-            updateSQL.append("UPDATE Hotels SET name = :name, address = :address WHERE hotel_id = :hotel_id");
-            handle.createUpdate(updateSQL.toString())
-                    .bind("hotel_id", hotel.getHotelID())
-                    .bind("name", hotel.getHotelName())
-                    .bind("address", hotel.getHotelAddress())
-                    .execute();
-            System.out.println("Hotel updated successfully.\n");
-        } catch (Exception e) {
-            System.err.println("Failed to update hotel: " + e.getMessage());
-        }
-    }
-/*
-    public static void updateRoom(Room room) {
-        try {
-            StringBuilder updateSQL = new StringBuilder();
-            updateSQL.append("UPDATE Rooms SET hotel_id = :hotel_id, room_number = :room_number, bed_type = :bed_type, ");
-            updateSQL.append("num_of_beds = :num_of_beds, price_per_night = :price_per_night, reservation_id = :reservation_id ");
-            updateSQL.append("WHERE room_id = :room_id");
-            handle.createUpdate(updateSQL.toString())
-                    .bind("room_id", room.getRoomID())
-                    .bind("hotel_id", room.getHotelID())
-                    .bind("room_number", room.getRoomNumber())
-                    .bind("bed_type", room.getBedType())
-                    .bind("num_of_beds", room.getNumOfBeds())
-                    .bind("price_per_night", room.getPricePerNight())
-                    .bind("reservation_id", room.getReservationID())
-                    .execute();
-            System.out.println("Room updated successfully.\n");
-        } catch (Exception e) {
-            System.err.println("Failed to update room: " + e.getMessage());
-        }
-    }
-
-    public static void updateUser(User user) {
-        try {
-            StringBuilder updateSQL = new StringBuilder();
-            updateSQL.append("UPDATE Users SET username = :username, password = :password, is_active = :is_active WHERE user_id = :user_id");
-            handle.createUpdate(updateSQL.toString())
-                    .bind("user_id", user.getUserID())
-                    .bind("username", user.getUsername())
-                    .bind("password", user.getPassword())
-                    .bind("is_active", user.isActive())
-                    .execute();
-            System.out.println("User updated successfully.\n");
-        } catch (Exception e) {
-            System.err.println("Failed to update user: " + e.getMessage());
-        }
-    }
-
+    
     /****************************************************************
      *                            Delete                            *
      ****************************************************************/
@@ -407,7 +382,7 @@ public class DatabaseConnector {
     /****************************************************************
      *                            Print                             *
      ****************************************************************/
-    // Print the Hotels table in the terminal
+    //Print the Hotels table in the terminal
     public static void printHotelsTable() {
         try {
             StringBuilder querySQL = new StringBuilder();
@@ -436,7 +411,7 @@ public class DatabaseConnector {
     }
 
 
-    // Print the Rooms table in the terminal
+    //Print the Rooms table in the terminal
     public static void printRoomsTable() {
         try {
             StringBuilder querySQL = new StringBuilder();
@@ -464,6 +439,35 @@ public class DatabaseConnector {
         }
     }
 
+    //Print the Users table in the terminal
+    public static void printUsersTable() {
+        try {
+            StringBuilder querySQL = new StringBuilder();
+            querySQL.append("SELECT * FROM Users");
+            Query query = handle.createQuery(querySQL.toString());
+
+            // Print the table header
+            System.out.println("\n-------------------------------------------------------------");
+            System.out.println(String.format("%-10s %-15s %-15s %-15s %-20s", "User ID", "First Name", "Last Name", "Username", "Birthday"));
+            System.out.println("-------------------------------------------------------------");
+
+            //Print each row in the Users table
+            query.map((rs, ctx) -> {
+                String userRow = String.format("%-10d %-15s %-15s %-15s %-20s",
+                        rs.getInt("user_id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("username"),
+                        rs.getDate("birthday"));
+                System.out.println(userRow);
+                return null;
+            }).list();
+
+            System.out.println("-------------------------------------------------------------\n");
+        } catch (Exception e) {
+            System.err.println("Failed to print Users table: " + e.getMessage());
+        }
+    }
 
     /****************************************************************
      *                             End                              *

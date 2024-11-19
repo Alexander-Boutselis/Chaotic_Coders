@@ -87,6 +87,7 @@ public class DatabaseManager {
     // Static method to add a user
     public static void addUser(User newUser) {
         database.addUser(newUser);
+        DatabaseConnector.addAccount(newUser);
     }
 
     // Static method to remove a user

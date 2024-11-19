@@ -46,14 +46,17 @@ public class Main{
         try {
             DatabaseConnector.printHotelsTable();
             DatabaseConnector.printRoomsTable();
+            DatabaseConnector.printUsersTable();
 
             promptForGUI(scanner);
             
             DatabaseConnector.printHotelsTable();
             DatabaseConnector.printRoomsTable();
+            DatabaseConnector.printUsersTable();
             //Clear Tables
             DatabaseConnector.emptyTable("Rooms");
             DatabaseConnector.emptyTable("Hotels");
+            DatabaseConnector.emptyTable("Users");
 
         } catch (Exception e) {
             System.err.println("Database not connected: " + e.getMessage());

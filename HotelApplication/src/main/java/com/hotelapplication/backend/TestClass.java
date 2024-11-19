@@ -70,18 +70,7 @@ public class TestClass{
 
 
 
-		        //System.out.println(HotelManager.getCurrentHotelAndRoomsInfo());
-		        //passedTest++;
-		        try{
-
-		        	for(Room room : HotelManager.getAllHotelRooms()){
-		        		DatabaseConnector.addRoom(room);
-		        	}
-		        	//DatabaseConnector.removeHotel(1);
-		        }catch(Exception e){
-		        	System.out.println("Failed to add hotel/rooms");
-
-		        }
+		        
 
 		        System.out.println("---1. Passed ---");
 
