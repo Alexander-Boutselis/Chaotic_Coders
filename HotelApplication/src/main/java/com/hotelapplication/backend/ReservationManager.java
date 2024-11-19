@@ -49,6 +49,7 @@ public class ReservationManager {
 		hotel.addReservation(newReservation);
 		user.addReservation(reservationNumber);
 		room.addReservationNumber(reservationNumber);
+		DatabaseConnector.addReservation(newReservation);
 		return newReservation;
 	}
 
@@ -144,6 +145,11 @@ public class ReservationManager {
 		return DatabaseManager.getCurrentHotel();
 	}
 
+	//Get the Assigned User
+	public static User getAssignedUser(Reservation reservation){
+		return reservation.getAssignedUser();
+	}
+	
 	/****************************************************************
  	*                  		Setters 	                        *
  	****************************************************************/
