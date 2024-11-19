@@ -5,6 +5,8 @@ import com.hotelapplication.frontend.*;
 
 
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -172,10 +174,72 @@ public class TestClass{
         	}*/
 
 			break;
-		//case 3:
-	    //    System.out.println("\n---Test Case 3---");
-	    //    System.out.println("---3. Passed ---");
+		case 3:
+	    	System.out.println("\n---Test Case 3---");
+			passedTest = 0;
+			try {
+				Hotel testHotel = HotelManager.getHotel("Test Hotel");
+				passedTest++;
 
+				//Create 3 standalone reservations
+				ReservationManager.createReservation(testHotel, AccountManager.getAccount("Testuser1"), 
+					ReservationManager.getNextUnusedNumber(testHotel), 
+					ReservationManager.calculateTotalPrice(RoomManager.getHotelRoom(1), 
+						ChronoUnit.DAYS.between(LocalDate.of(2024, 12, 11), LocalDate.of(2024, 12, 12))), 
+					RoomManager.getHotelRoom(1), 
+					LocalDate.of(2024, 12, 11), LocalDate.of(2024, 12, 12));
+				passedTest++;
+
+				ReservationManager.createReservation(testHotel, AccountManager.getAccount("Testuser2"), 
+					ReservationManager.getNextUnusedNumber(testHotel), 
+					ReservationManager.calculateTotalPrice(RoomManager.getHotelRoom(2), 
+						ChronoUnit.DAYS.between(LocalDate.of(2024, 12, 14), LocalDate.of(2024, 12, 15))), 
+					RoomManager.getHotelRoom(2), 
+					LocalDate.of(2024, 12, 14), LocalDate.of(2024, 12, 15));
+				passedTest++;
+
+				ReservationManager.createReservation(testHotel, AccountManager.getAccount("Testuser1"), 
+					ReservationManager.getNextUnusedNumber(testHotel), 
+					ReservationManager.calculateTotalPrice(RoomManager.getHotelRoom(3), 
+						ChronoUnit.DAYS.between(LocalDate.of(2024, 12, 16), LocalDate.of(2024, 12, 17))), 
+					RoomManager.getHotelRoom(3), 
+					LocalDate.of(2024, 12, 16), LocalDate.of(2024, 12, 17));
+				passedTest++;
+
+				//Test back-to-back reservation for same room
+				ReservationManager.createReservation(testHotel, AccountManager.getAccount("Testuser2"), 
+					ReservationManager.getNextUnusedNumber(testHotel), 
+					ReservationManager.calculateTotalPrice(RoomManager.getHotelRoom(2), 
+						ChronoUnit.DAYS.between(LocalDate.of(2024, 12, 18), LocalDate.of(2024, 12, 19))), 
+					RoomManager.getHotelRoom(2), 
+					LocalDate.of(2024, 12, 18), LocalDate.of(2024, 12, 19));
+				passedTest++;
+
+				ReservationManager.createReservation(testHotel, AccountManager.getAccount("Testuser1"), 
+					ReservationManager.getNextUnusedNumber(testHotel), 
+					ReservationManager.calculateTotalPrice(RoomManager.getHotelRoom(2), 
+						ChronoUnit.DAYS.between(LocalDate.of(2024, 12, 19), LocalDate.of(2024, 12, 20))), 
+					RoomManager.getHotelRoom(2), 
+					LocalDate.of(2024, 12, 19), LocalDate.of(2024, 12, 20));
+				passedTest++;
+
+				//Delete 2 reservations
+				ReservationManager.cancelReservation(testHotel, AccountManager.getAccount("Testuser2"), testHotel.getReservation(3));
+				passedTest++;
+
+				ReservationManager.cancelReservation(testHotel, AccountManager.getAccount("Testuser1"), testHotel.getReservation(4));
+				passedTest++;
+
+				//Print all reservations
+				for (Reservation reservation : testHotel.getAllReservations()) {
+					ReservationManager.printReservation(reservation);
+				}
+				passedTest++;
+			} catch (Exception e) {
+				System.out.println("Exception caught: " + e.getMessage());
+			}
+			System.out.println("Number of passed tries: " + passedTest);
+	    	System.out.println("---3. Passed ---");
 		default:
 
 			break;
