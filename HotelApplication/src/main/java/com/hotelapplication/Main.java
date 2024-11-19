@@ -62,7 +62,7 @@ public class Main{
         } catch (Exception e) {
             System.err.println("Database not connected: " + e.getMessage());
         }finally{
-            DatabaseConnector.disconnect();
+            GUIManager.closeApplication();
             //Close the scanner to avoid resource leaks
             scanner.close(); 
             System.exit(0);
