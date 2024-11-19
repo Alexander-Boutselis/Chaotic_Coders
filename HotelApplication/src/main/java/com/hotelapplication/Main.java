@@ -29,11 +29,12 @@ public class Main{
         Scanner scanner = new Scanner(System.in);
 
         try {
+            //DatabaseConnector.deleteDatabaseFile();
             DatabaseManager.initializeDatabase("Chaotic Coder Inn", 100);
-
             TestClass.testCases(0);
 
-            DatabaseManager.setCurrentHotel(DatabaseManager.getHotel("Chaotic Coder Inn"));
+            //DatabaseConnector.emptyDatabase();
+            //DatabaseManager.setCurrentHotel(DatabaseManager.getHotel("Chaotic Coder Inn"));
 
             HotelManager.printCurrentHotelInfo();
 
@@ -47,16 +48,20 @@ public class Main{
             DatabaseConnector.printHotelsTable();
             DatabaseConnector.printRoomsTable();
             DatabaseConnector.printUsersTable();
+            DatabaseConnector.printReservationsTable();
 
             promptForGUI(scanner);
             
             DatabaseConnector.printHotelsTable();
             DatabaseConnector.printRoomsTable();
             DatabaseConnector.printUsersTable();
+            DatabaseConnector.printReservationsTable();
+
             //Clear Tables
             DatabaseConnector.emptyTable("Rooms");
             DatabaseConnector.emptyTable("Hotels");
             DatabaseConnector.emptyTable("Users");
+            DatabaseConnector.emptyTable("Reservations");
 
         } catch (Exception e) {
             System.err.println("Database not connected: " + e.getMessage());

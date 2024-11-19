@@ -55,6 +55,10 @@ public class AccountManager{
 /****************************************************************
  *                          Getters                             *
  ****************************************************************/
+    //Get User ID
+    public static int getUserID(User user){
+        return user.getUserID();
+    }
 
     //Get Account from Database -------------------------------------REWORK
     public static User getAccount(String searchUsername){
@@ -124,6 +128,10 @@ public class AccountManager{
 /****************************************************************
  *                          Setters                             *
  ****************************************************************/
+   //Set User ID
+    public static void setUserID(User user, int userID){
+        user.setUserID(userID);
+    }
 
     //Set Username
     public static void setUsername(User user, String newUsername){
