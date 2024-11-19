@@ -139,6 +139,11 @@ public class ReservationManager {
 		return reservation.getEndDate();
 	}
 
+	//Get hotel
+	public static Hotel getHotel() {
+		return DatabaseManager.getCurrentHotel();
+	}
+
 	/****************************************************************
  	*                  		Setters 	                        *
  	****************************************************************/
