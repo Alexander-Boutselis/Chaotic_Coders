@@ -29,7 +29,7 @@ public class Main{
         Scanner scanner = new Scanner(System.in);
 
         try {
-            //DatabaseConnector.deleteDatabaseFile();
+            DatabaseConnector.deleteDatabaseFile();
             DatabaseManager.initializeDatabase("Chaotic Coder Inn", 100);
             TestClass.testCases(0);
 
