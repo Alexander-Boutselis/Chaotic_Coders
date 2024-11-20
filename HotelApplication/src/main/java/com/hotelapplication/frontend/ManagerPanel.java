@@ -7,7 +7,7 @@ import java.awt.*;
 public class ManagerPanel extends JFrame {
     public ManagerPanel() {
         setTitle("Manager Menu");
-        setSize(600, 700);
+        setSize(600, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -21,14 +21,23 @@ public class ManagerPanel extends JFrame {
         JButton editAccountButton = createModernButton("Edit My Account");
         JButton viewReservationsButton = createModernButton("View All Reservations");
         JButton editHotelButton = createModernButton("Edit Hotel");
-        
+
         JButton exitButton = createModernButton("Exit");
         JButton signOutButton = createModernButton("Sign Out");
 
+        // Exit Button Logic
         exitButton.addActionListener(e -> System.exit(0));
+        
+        // Sign-Out Button Logic
         signOutButton.addActionListener(e -> {
             this.dispose();
             SwingUtilities.invokeLater(() -> new Login().setVisible(true));  // Go back to login form
+        });
+
+        // Edit Account Button Logic
+        editAccountButton.addActionListener(e -> {
+            SwingUtilities.invokeLater(() -> new EditAccountForm().setVisible(true)); // Open the Edit Account form
+            this.dispose();
         });
 
         panel.add(selectHotelButton);
