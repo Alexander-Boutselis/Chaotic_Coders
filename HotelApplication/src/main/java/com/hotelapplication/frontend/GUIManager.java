@@ -18,18 +18,16 @@ public class GUIManager{
     // Private constructor to prevent instantiation
     private GUIManager() {}
 
-// Authentication method that returns a User object if login is successful
-public static String authenticateAndGetRole(String username, String password) {
-    User user = DatabaseManager.getUser(username);
-    if (user != null && user.getPassword().equals(password)) {
-        if (user instanceof Manager) {
-            return "Manager";
-        } else {
-            return "User";
+public static String accountSignIn(String username, String password) {
+    for (User user : DatabaseManager.getAllUsers()) {
+        if (user.getUsername().equals(username) && user.getPassword().equals(password) && user.getActiveStatus()) {
+            AccountManager.signIn(user);
+            return (user instanceof Manager) ? "Manager" : "User";
         }
     }
-    return null;  // Return null if no user is found or password does not match
+    return null; // Return null for incorrect login
 }
+
 
 
 /****************************************************************

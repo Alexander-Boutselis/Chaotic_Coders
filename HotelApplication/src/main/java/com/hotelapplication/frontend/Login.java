@@ -1,6 +1,6 @@
 package com.hotelapplication.frontend;
-import com.hotelapplication.backend.*;
 
+import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -91,6 +91,13 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+
         jLabel5.setText("Password");
 
         jButton1.setBackground(new java.awt.Color(0, 51, 51));
@@ -178,6 +185,26 @@ public class Login extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            
         // TODO add your handling code here:
     }                                           
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        String username = jTextField1.getText();
+        String password = jTextField2.getText();
+
+        // Authenticate user using GUIManager or backend logic
+        String role = GUIManager.accountSignIn(username, password);
+
+        if (role != null) {
+            if (role.equals("User")) {
+                new UserPanel().setVisible(true); // Open UserPanel
+            } else if (role.equals("Manager")) {
+                new ManagerPanel().setVisible(true); // Open ManagerPanel
+            }
+            this.dispose(); // Close Login form
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid username or password", "Login Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }   
+
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
