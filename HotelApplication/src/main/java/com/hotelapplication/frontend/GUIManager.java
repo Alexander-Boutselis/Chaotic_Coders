@@ -946,6 +946,63 @@ public static void runAppInTerminal(Scanner scanner){
  *View Hotel Reservations Screen*
  ********************************/
     public static void viewHotelReservationsScreen(Scanner scanner){
+        
+        Hotel hotel = ReservationManager.getHotel();
+
+        for (Reservation reservation : hotel.getAllReservations()) {
+            ReservationManager.printReservation(reservation);
+        }
+
+        double passedTotal = 0;
+        for (Reservation reservation : hotel.getAllReservations()) {
+            if (reservation.getEndDate().isBefore(LocalDate.now())) {
+                passedTotal = passedTotal + reservation.getTotalPrice();
+            }
+        }
+
+        double futureTotal = 0;
+        for (Reservation reservation : hotel.getAllReservations()) {
+            if (reservation.getStartDate().isAfter(LocalDate.now())) {
+                futureTotal = futureTotal + reservation.getTotalPrice();
+            }
+        }
+
+        double sumTotal = passedTotal + futureTotal;
+
+        System.out.println("The total amount earned for reservations that have passed is: " + passedTotal);
+        System.out.println("The total amount earned for reservations that are in the future is: " + futureTotal);
+        System.out.println("The total amount earned for all reservations is: " + sumTotal);
+
+        System.out.println();
+		System.out.println("Select an option.");
+        System.out.println("OPTION 1: Select Reservation");
+        System.out.println("OPTION 2: Go Back");
+        System.out.print("Type your selection: ");
+
+        String response = scanner.nextLine().trim();
+
+        switch (Integer.parseInt(response)) {
+            case 1:
+                System.out.println("Type in the reservation number of the reservation you would like to edit.");
+                String resNumber = scanner.nextLine().trim();
+
+                for (Reservation reservation : hotel.getAllReservations()) {
+                    if (reservation.getReservationNumber() == Integer.valueOf(resNumber)) {
+                        break;
+                    } else {
+                        System.out.println("This is not a valid reservation number, please try again.");
+                        return;
+                    }
+                }
+
+                Reservation res = hotel.getReservation(Integer.valueOf(resNumber));
+                viewReceiptScreen(res, scanner);
+            case 2: 
+                managerHomeScreen(scanner);
+            default:
+                return;
+        }
+    
         //Print All Reservations for this Hotel
         //Print Amount Earned (Reservation has passed)
         //Print Projected Earnings (Reservations in the future)
