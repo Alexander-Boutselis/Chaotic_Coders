@@ -160,14 +160,10 @@ public class ReservationManager {
 
 	//Get the hotel for a reservation
 	public static Hotel getHotelFromReservation(Reservation reservation) {
-		ArrayList<Hotel> allHotels = HotelManager.getAllHotels();
-		for (Hotel hotel : allHotels) {
-			ArrayList<Room> rooms = HotelManager.getAllHotelRooms(hotel);
-			if (rooms.contains(getRoom(reservation))) {
-				return hotel;
-			}
-		}
-		return null;
+		Room room = getRoom(reservation);
+		int roomID = room.getRoomID();
+		int hotelID = roomID / 1000;
+		return DatabaseManager.getHotel(hotelID);
 	}
 	
 	/****************************************************************
