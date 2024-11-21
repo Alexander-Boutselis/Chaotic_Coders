@@ -201,7 +201,7 @@ public class ReservationManager {
 	public static ArrayList<Room> filterRooms(ArrayList<Room> rooms, int roomSize, Hotel hotel, LocalDate startDate, LocalDate endDate) {
 		ArrayList<Room> newRoomList = new ArrayList<>();
 		for (Room room : rooms) {
-			if (room.getNumberOfBeds() >= roomSize) {
+			if (room.getNumberOfBeds() == roomSize) {
 				boolean isAvailable = true;
 				for (Reservation reservation : hotel.getAllReservations()) {
 					if (reservation.getRoom().equals(room)) {
