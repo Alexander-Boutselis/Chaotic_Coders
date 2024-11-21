@@ -182,7 +182,7 @@ public class DatabaseConnector {
             createUsersTable.append("birthday DATE, ");
             createUsersTable.append("start_date DATE, ");
             createUsersTable.append("employee_num INT)");
-            handle.execute(createUsersTable.toString());
+            getHandle().execute(createUsersTable.toString());
             System.out.println("Users table created/found.");
         } catch (Exception e) {
             System.err.println("Users table creation failed: " + e.getMessage());
@@ -291,12 +291,12 @@ public class DatabaseConnector {
     /********************************
      *        Add Reservation       *
      ********************************/
-    //Add reservation to the database
+    // Add reservation to the database
     public static void addReservation(Reservation reservation) {
         try {
             AccountManager.printAccountInfo(ReservationManager.getAssignedUser(reservation));
             String insertSQL = "INSERT INTO Reservations (user_id, room_id, hotel_id, check_in_date, check_out_date, total_cost) VALUES (:user_id, :room_id, :hotel_id, :check_in_date, :check_out_date, :total_cost)";
-            handle.createUpdate(insertSQL)
+            getHandle().createUpdate(insertSQL)
                     .bind("user_id", AccountManager.getUserID(ReservationManager.getAssignedUser(reservation)))
                     .bind("room_id", RoomManager.getRoomID(ReservationManager.getRoom(reservation)))
                     .bind("hotel_id", HotelManager.getHotelID(ReservationManager.getHotel()))
@@ -342,7 +342,7 @@ public class DatabaseConnector {
      *     Translate From Database  *
      ********************************/
     public static void translateFromDatabase() {
-        // Translate Users
+        //Translate Users
         if (getNumberOfItemsInTable("Users") > 0) {
             List<Integer> userIDs = getAllIdsFromTable("Users", "user_id");
             for (int userID : userIDs) {
@@ -350,7 +350,7 @@ public class DatabaseConnector {
             }
         }
 
-        // Translate Hotels
+        //Translate Hotels
         if (getNumberOfItemsInTable("Hotels") > 0) {
             List<Integer> hotelIDs = getAllIdsFromTable("Hotels", "hotel_id");
             for (int hotelID : hotelIDs) {
@@ -358,7 +358,7 @@ public class DatabaseConnector {
             }
         }
 
-        // Translate Rooms
+        //Translate Rooms
         if (getNumberOfItemsInTable("Rooms") > 0) {
             List<Integer> roomIDs = getAllIdsFromTable("Rooms", "room_id");
             for (int roomID : roomIDs) {
@@ -367,11 +367,10 @@ public class DatabaseConnector {
             }
         }
 
-        // Translate Reservations
+        //Translate Reservations
         if (getNumberOfItemsInTable("Reservations") > 0) {
             List<Integer> reservationIDs = getAllIdsFromTable("Reservations", "reservation_id");
             for (int reservationID : reservationIDs) {
-
                 ReservationManager.createReservationGivenReservation(translateReservationFromDatabase(reservationID));
             }
         }
@@ -422,7 +421,7 @@ public class DatabaseConnector {
                                 resultSet.getInt("employee_num"),
                                 resultSet.getString("first_name"),
                                 resultSet.getString("last_name"),
-                                Calendar.getInstance(), // Assuming birthday is converted to Calendar
+                                Calendar.getInstance(),
                                 resultSet.getString("username"),
                                 resultSet.getString("password")
                         );
@@ -430,7 +429,7 @@ public class DatabaseConnector {
                         return new User(
                                 resultSet.getString("first_name"),
                                 resultSet.getString("last_name"),
-                                Calendar.getInstance(), // Assuming birthday is converted to Calendar
+                                Calendar.getInstance(), 
                                 resultSet.getString("username"),
                                 resultSet.getString("password")
                         );
@@ -439,34 +438,28 @@ public class DatabaseConnector {
     }
 
     /********************************
-     *   Translate Manager Object   *
-     ********************************/
-    public static Manager translateManagerFromDatabase(int userId) {
-        String sqlQuery = "SELECT * FROM Users WHERE user_id = :userId";
-        return handle.createQuery(sqlQuery)
-                .bind("userId", userId)
-                .map((resultSet, statementContext) -> new Manager(
-                        resultSet.getInt("employee_num"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
-                        Calendar.getInstance(), // Assuming birthday is converted to Calendar
-                        resultSet.getString("username"),
-                        resultSet.getString("password")
-                )).one();
-    }
-
-    /********************************
      * Translate Reservation Object *
      ********************************/
     public static Reservation translateReservationFromDatabase(int reservationId) {
-        String sqlQuery = "SELECT * FROM Reservations WHERE reservation_id = :reservationId";
-        return handle.createQuery(sqlQuery)
+        String sqlQuery = "SELECT reservation.*, user.first_name, user.last_name, user.username, user.password, user.employee_num, room.room_number, room.num_of_beds, room.bed_type, room.price_per_night, room.room_description " +
+                          "FROM Reservations reservation " +
+                          "JOIN Users user ON reservation.user_id = user.user_id " +
+                          "JOIN Rooms room ON reservation.room_id = room.room_id " +
+                          "WHERE reservation.reservation_id = :reservationId";
+        return getHandle().createQuery(sqlQuery)
                 .bind("reservationId", reservationId)
                 .map((resultSet, statementContext) -> new Reservation(
-                        new User(resultSet.getString("first_name"), resultSet.getString("last_name"), Calendar.getInstance(), resultSet.getString("username"), resultSet.getString("password")),
+                        translateUserFromDatabase(resultSet.getInt("user_id")),
                         resultSet.getInt("reservation_id"),
                         resultSet.getDouble("total_cost"),
-                        new Room(resultSet.getInt("room_id"), resultSet.getInt("room_number"), resultSet.getInt("num_of_beds"), resultSet.getString("bed_type"), resultSet.getBigDecimal("price_per_night").doubleValue(), resultSet.getString("room_description")),
+                        new Room(
+                                resultSet.getInt("room_id"),
+                                resultSet.getInt("room_number"),
+                                resultSet.getInt("num_of_beds"),
+                                resultSet.getString("bed_type"),
+                                resultSet.getBigDecimal("price_per_night").doubleValue(),
+                                resultSet.getString("room_description") != null ? resultSet.getString("room_description") : ""
+                        ),
                         resultSet.getDate("check_in_date").toLocalDate(),
                         resultSet.getDate("check_out_date").toLocalDate()
                 )).one();
