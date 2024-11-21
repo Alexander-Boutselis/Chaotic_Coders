@@ -278,7 +278,8 @@ public class AccountManager{
         User newUser = new User(firstName, lastName, birthday, username, password);
 
         //Add to Database
-        DatabaseManager.addUser(newUser);
+        addAccount(newUser);
+        DatabaseConnector.addAccount(newUser);
 
         //Set Current User
         DatabaseManager.signIn(newUser);
@@ -298,7 +299,8 @@ public class AccountManager{
             Manager newManager = new Manager(DatabaseManager.nextEmployeeNumber(), firstName, lastName, birthday, username, password);
             
             //Add to Database
-            DatabaseManager.addUser(newManager);
+            addAccount(newManager);
+            DatabaseConnector.addAccount(newManager);
 
             //Set Current User
             DatabaseManager.signIn(newManager);
@@ -306,6 +308,7 @@ public class AccountManager{
         return;
     }//End of createManager
 
+    
 
 /****************************************************************
  *                           End                                *

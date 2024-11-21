@@ -12,20 +12,8 @@ import org.jdbi.v3.core.Handle;
 
 public class HotelManager {
 	
-    // Private constructor to prevent instantiation
+    //Private constructor to prevent instantiation
     private HotelManager() {}
-
-
-
-
-
-    
-/****************************************************************
- *                          Title                               *
- ****************************************************************/
-/********************************
- *          Sub Section         *
- ********************************/
 
 
 
@@ -33,7 +21,7 @@ public class HotelManager {
  *                     Create/Destroy Hotel                     *
  ****************************************************************/
 /********************************
- *         Create Hotel         *
+ *       Create New Hotel       *
  ********************************/
     public static void createHotel(String hotelName, String hotelAddress){
         try{
@@ -42,11 +30,13 @@ public class HotelManager {
 
             //Add Hotel to database
             DatabaseManager.addHotel(newHotel);
+            DatabaseConnector.addHotel(newHotel);
 
         }catch (Exception e) {
             System.out.println("Failed to create Hotel and Add to Database");
         }
     }
+
 /********************************
  *          Remove Hotel        *
  ********************************/
@@ -160,6 +150,11 @@ public class HotelManager {
     //Get Hotel by searching its name
     public static Hotel getHotel(String searchHotelName){
     	return DatabaseManager.getHotel(searchHotelName);
+    }
+
+    //Get Hotel by searching its hotelID
+    public static Hotel getHotel(int hotelID){
+        return DatabaseManager.getHotel(hotelID);
     }
 
 /********************************

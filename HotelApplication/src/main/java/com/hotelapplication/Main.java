@@ -29,9 +29,9 @@ public class Main{
         Scanner scanner = new Scanner(System.in);
 
         try {
-            DatabaseConnector.deleteDatabaseFile();
-            DatabaseManager.initializeDatabase("Chaotic Coder Inn", 100);
-            TestClass.testCases(0);
+            //DatabaseConnector.deleteDatabaseFile();
+            DatabaseConnector.initializeApplication();
+            //TestClass.testCases(0);
 
             //DatabaseConnector.emptyDatabase();
             //DatabaseManager.setCurrentHotel(DatabaseManager.getHotel("Chaotic Coder Inn"));
@@ -40,7 +40,8 @@ public class Main{
 
 
         } catch (Exception e) {
-            System.err.println("Database not connected: " + e.getMessage());
+            System.err.println("Ran into an Exception: " + e.getMessage());
+            e.printStackTrace(); // Print the stack trace for better debugging
         }
 
 

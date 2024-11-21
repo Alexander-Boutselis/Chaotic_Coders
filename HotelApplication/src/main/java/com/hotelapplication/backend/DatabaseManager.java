@@ -8,30 +8,21 @@ public class DatabaseManager {
     //Single Instance of Database
     private static Database database = new Database();
 
-    // Private constructor to prevent instantiation
+    //Private constructor to prevent instantiation
     private DatabaseManager() {}
+
+
+    //static {
+        // Register a shutdown hook to ensure database disconnection
+    //    Runtime.getRuntime().addShutdownHook(new Thread(() -> DatabaseConnector.disconnect()));
+    //}
 
     /****************************************************************
      *                    Initialize       *WIP                     *
      ****************************************************************/
-    // Initialization method to set up a hotel with n rooms
-    public static void initializeDatabase(String hotelName, int numberOfRooms) {
+    public static void initializeDatabase() {
+        //Try to connect to database, if it does not exist, create it
         DatabaseConnector.connect();
-
-        //Create Initial Empty Hotel
-       // HotelManager.createHotel(hotelName, "69420 TestAddress Ave, Test, Phase");
-
-        //Set it as Current Hotel
-       // setCurrentHotel(getHotel(hotelName));
-
-        //Loop to Generate Rooms
-       // for (int i = 0; i < numberOfRooms; i++){
-        //    RoomManager.createRoom(2, "queen", "");
-        //    RoomManager.createRoom(3, "twin", "");
-        //    RoomManager.createRoom(1, "king", "");
-        //}       
-
-        //setCurrentHotel(null);
     }
 
     /****************************************************************
@@ -41,7 +32,6 @@ public class DatabaseManager {
     // Static method to add a hotel
     public static void addHotel(Hotel hotel) {
         database.addHotel(hotel);
-        DatabaseConnector.addHotel(hotel);
     }
 
     // Static method to remove a hotel
@@ -49,9 +39,14 @@ public class DatabaseManager {
         database.removeHotel(hotel);
     }
 
-    // Static method to get a hotel
+    // Static method to get a hotel by name
     public static Hotel getHotel(String searchHotel) {
         return database.getHotel(searchHotel);
+    }
+
+    // Static method to get a hotel by ID
+    public static Hotel getHotel(int hotelID) {
+        return database.getHotel(hotelID);
     }
 
     public static ArrayList<Hotel> getAllHotels(){
@@ -87,7 +82,6 @@ public class DatabaseManager {
     // Static method to add a user
     public static void addUser(User newUser) {
         database.addUser(newUser);
-        DatabaseConnector.addAccount(newUser);
     }
 
     // Static method to remove a user

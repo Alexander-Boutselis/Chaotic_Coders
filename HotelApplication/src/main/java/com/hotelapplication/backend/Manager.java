@@ -17,7 +17,7 @@ public class Manager extends User{
 	private int employeeNumber;
     private Calendar startDate;
     private Calendar endDate;
-    private ArrayList<String> notifications;
+    //private ArrayList<String> notifications;
 
 
 	public Manager(int employeeNumber, String firstName, String lastName, Calendar birthday, String username, String password) {
@@ -25,9 +25,17 @@ public class Manager extends User{
         this.employeeNumber = employeeNumber;
         startDate = Calendar.getInstance();
         endDate = null;
-		notifications = new ArrayList<>();
+		//notifications = new ArrayList<>();
 	}
 
+
+    public Manager(int employeeNumber, String firstName, String lastName, Calendar birthday, String username, String password, Calendar startDate, Calendar endDate, boolean isActive) {
+        super(firstName, lastName, birthday, username, password, isActive);
+        this.employeeNumber = employeeNumber;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        //notifications = new ArrayList<>();
+    }
 
     /****************************************************************
      *                     Manager Info Methods                     *
@@ -109,22 +117,22 @@ public class Manager extends User{
      *      Get Notificaiton(s)     *
      ********************************/
     //Get All Notifications
-	public ArrayList<String> getNotifications() {
-        return notifications;
-    }
+	//public ArrayList<String> getNotifications() {
+    //    return notifications;
+    //}
 
     /********************************
      *    Add/Remove Notificaiton   *
      ********************************/
     //Add Notification
-    public void addNotification(String notification) {
-        this.notifications.add(notification);
-    }
+    //public void addNotification(String notification) {
+    //    this.notifications.add(notification);
+    //}
 
     //Remove Notification
-    public void removeNotification(String notification) {
-        this.notifications.remove(notification);
-    }
+    //public void removeNotification(String notification) {
+    //    this.notifications.remove(notification);
+    //}
 
 
 /****************************************************************

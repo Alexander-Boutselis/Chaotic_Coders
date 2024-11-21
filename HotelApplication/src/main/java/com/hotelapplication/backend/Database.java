@@ -150,10 +150,20 @@ total_cost      DECIMAL     Total cost of stay
         return currentHotel;
     }
 
-    //Get a Hotel object by comparing with another Hotel object using isEqualTo()
+    //Get a Hotel object by searching for its name
     public Hotel getHotel(String searchHotelName) {
         for (Hotel hotel : allHotels) {
             if (hotel.getHotelName().equals(searchHotelName)) {
+                return hotel;
+            }
+        }
+        return null; //If no matching object is found
+    }
+
+    //Get a Hotel object by searching for its hotelID
+    public Hotel getHotel(int hotelID) {
+        for (Hotel hotel : allHotels) {
+            if (hotel.getHotelID() == hotelID) {
                 return hotel;
             }
         }

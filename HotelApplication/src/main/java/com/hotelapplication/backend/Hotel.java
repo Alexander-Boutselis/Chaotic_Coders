@@ -18,7 +18,7 @@ public class Hotel{
 
 	//Empty Hotel
 	public Hotel(int hotelID, String hotelName, String address){
-		hotelID = hotelID;
+		this.hotelID = hotelID;
 		this.hotelName = hotelName;
 		this.address = address;
 		hotelRooms = new ArrayList<>();

@@ -21,19 +21,9 @@ public class DatabaseConnector {
     private static final String JDBC_PASSWORD = "";
     private static Jdbi databaseConnector;
     private static Handle handle;
-    //Create Database
-    //Create Hotels Table
-    //Create Rooms Table
-    //Create Users Table
-    //Create Reservaitons Table
-
-    //Connect/Disconnect to/from Database
-
-    //Method to Translate Hotel for Database
-    //Method to Translate Room for Database
-    //Method to Translate User for Database
-    //Method to Translate Reservation for Database
     
+
+        
     //Method to Translate Hotel to Object
     //Method to Translate Room to Object
     //Method to Translate User to Object
@@ -57,9 +47,8 @@ public class DatabaseConnector {
             //Check if Database is missing any of the 4 tables
             if(handle.createQuery("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME IN ('Hotels', 'Rooms', 'Users', 'Reservations')").mapTo(Integer.class).one() != 4){
                 createTables();
-            }else{
-                System.out.println("Oops shouldnt be here");
             }
+
         } catch (Exception e) {
             System.err.println("Connection failed: " + e.getMessage());
         }
@@ -69,11 +58,14 @@ public class DatabaseConnector {
      *          Disconnect          *
      ********************************/
     public static void disconnect() {
-        //Clear Tables
+        //Clear Tables --- Temporary
+        /*
         emptyTable("Rooms");
         emptyTable("Hotels");
         emptyTable("Users");
         emptyTable("Reservations");
+        */
+
         if (handle != null) {
             handle.close();
             System.out.println("Disconnected from database.");
@@ -88,6 +80,32 @@ public class DatabaseConnector {
             connect();
         }
         return handle;
+    }
+
+    /****************************************************************
+     *                Initialize Application Method                *
+     ****************************************************************/
+    public static void initializeApplication() {
+        try{
+            connect();
+
+
+
+            boolean hasData = handle.createQuery("SELECT COUNT(*) AS total FROM Hotels")
+                    .mapTo(Integer.class)
+                    .one() > 0;
+
+            if (!hasData) {
+                System.out.println("Database is empty. Initializing default data...");
+            } else {
+                System.out.println("Database has existing data.");
+                //Call database connector translate database
+                translateFromDatabase();
+            }           
+        }catch(Exception e){
+            System.err.println("Failed to Initialize Applicaiton: " + e.getMessage());
+            e.printStackTrace(); //Print the stack trace for better debugging
+        }
     }
 
 
@@ -139,8 +157,10 @@ public class DatabaseConnector {
             createRoomsTable.append("room_number INT, ");
             createRoomsTable.append("bed_type VARCHAR(50), ");
             createRoomsTable.append("num_of_beds INT, ");
-            createRoomsTable.append("price_per_night DECIMAL(10, 2))"); 
-            handle.execute(createRoomsTable.toString());
+            createRoomsTable.append("price_per_night DECIMAL(10, 2), ");
+            createRoomsTable.append("room_description VARCHAR(255)"); // Added room_description column
+            createRoomsTable.append(")");
+            getHandle().execute(createRoomsTable.toString());
             System.out.println("Rooms table created/found.");
         } catch (Exception e) {
             System.err.println("Rooms table creation failed: " + e.getMessage());
@@ -221,21 +241,22 @@ public class DatabaseConnector {
     /********************************
      *           Add Room           *
      ********************************/
-    //Add Room to database
+    // Add Room to database
     public static void addRoom(Room room) {
         try {
-            //Insert the room into the database
-            String insertSQL = "INSERT INTO Rooms (room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night) VALUES (:room_id, :hotel_id, :room_number, :bed_type, :num_of_beds, :price_per_night)";
+            // Insert the room into the database
+            String insertSQL = "INSERT INTO Rooms (room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, room_description) VALUES (:room_id, :hotel_id, :room_number, :bed_type, :num_of_beds, :price_per_night, :room_description)";
             
-            //Extract hotel ID from the first 2 digits of roomID
-            int hotelID = RoomManager.getRoomID(room) / 1000; 
-            handle.createUpdate(insertSQL)
+            // Extract hotel ID from the first 2 digits of roomID
+            int hotelID = RoomManager.getRoomID(room) / 1000;
+            getHandle().createUpdate(insertSQL)
                     .bind("room_id", RoomManager.getRoomID(room))
                     .bind("hotel_id", hotelID)
                     .bind("room_number", RoomManager.getRoomNumber(room))
                     .bind("bed_type", RoomManager.getBedType(room))
                     .bind("num_of_beds", RoomManager.getNumberOfBeds(room))
                     .bind("price_per_night", RoomManager.getPricePerNight(room))
+                    .bind("room_description", RoomManager.getRoomDescription(room)) // Binding room_description
                     .execute();
             System.out.println("New room added successfully");
         } catch (Exception e) {
@@ -292,6 +313,165 @@ public class DatabaseConnector {
     /****************************************************************
      *                            Update                            *
      ****************************************************************/
+    
+
+    /****************************************************************
+     *                            Query                             *
+     ****************************************************************/
+    /********************************
+     *     Get Number of Items      *
+     ********************************/
+    public static int getNumberOfItemsInTable(String tableName) {
+        String sqlQuery = "SELECT COUNT(*) FROM " + tableName;
+        return handle.createQuery(sqlQuery)
+                .mapTo(Integer.class)
+                .one();
+    }
+
+    /********************************
+     *      Get List of IDs         *
+     ********************************/
+    public static List<Integer> getAllIdsFromTable(String tableName, String idColumnName) {
+        String sqlQuery = "SELECT " + idColumnName + " FROM " + tableName;
+        return handle.createQuery(sqlQuery)
+                .mapTo(Integer.class)
+                .list();
+    }
+
+    /********************************
+     *     Translate From Database  *
+     ********************************/
+    public static void translateFromDatabase() {
+        // Translate Users
+        if (getNumberOfItemsInTable("Users") > 0) {
+            List<Integer> userIDs = getAllIdsFromTable("Users", "user_id");
+            for (int userID : userIDs) {
+                AccountManager.addAccount(translateUserFromDatabase(userID));
+            }
+        }
+
+        // Translate Hotels
+        if (getNumberOfItemsInTable("Hotels") > 0) {
+            List<Integer> hotelIDs = getAllIdsFromTable("Hotels", "hotel_id");
+            for (int hotelID : hotelIDs) {
+                HotelManager.addHotel(translateHotelFromDatabase(hotelID));
+            }
+        }
+
+        // Translate Rooms
+        if (getNumberOfItemsInTable("Rooms") > 0) {
+            List<Integer> roomIDs = getAllIdsFromTable("Rooms", "room_id");
+            for (int roomID : roomIDs) {
+                int hotelID = roomID / 1000;
+                HotelManager.addRoomToHotel(HotelManager.getHotel(hotelID),translateRoomFromDatabase(roomID));
+            }
+        }
+
+        // Translate Reservations
+        if (getNumberOfItemsInTable("Reservations") > 0) {
+            List<Integer> reservationIDs = getAllIdsFromTable("Reservations", "reservation_id");
+            for (int reservationID : reservationIDs) {
+
+                //translateReservationFromDatabase(reservationID);
+            }
+        }
+    }
+
+    /********************************
+     *    Translate Hotel Object    *
+     ********************************/
+    public static Hotel translateHotelFromDatabase(int hotelID) {
+        String sqlQuery = "SELECT * FROM Hotels WHERE hotel_id = :hotelId";
+        return handle.createQuery(sqlQuery)
+                .bind("hotelId", hotelID)
+                .map((resultSet, statementContext) -> new Hotel(
+                        resultSet.getInt("hotel_id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("address")
+                )).one();
+    }
+
+    /********************************
+     *     Translate Room Object    *
+     ********************************/
+    public static Room translateRoomFromDatabase(int roomId) {
+        String sqlQuery = "SELECT * FROM Rooms WHERE room_id = :roomId";
+        return getHandle().createQuery(sqlQuery)
+                .bind("roomId", roomId)
+                .map((resultSet, statementContext) -> new Room(
+                        resultSet.getInt("room_id"),
+                        resultSet.getInt("room_number"),
+                        resultSet.getInt("num_of_beds"),
+                        resultSet.getString("bed_type"),
+                        resultSet.getBigDecimal("price_per_night").doubleValue(),
+                        resultSet.getString("room_description") != null ? resultSet.getString("room_description") : ""
+                ))
+                .one();
+    }
+
+    /********************************
+     *    Translate User Object     *
+     ********************************/
+    public static User translateUserFromDatabase(int userId) {
+        String sqlQuery = "SELECT * FROM Users WHERE user_id = :userId";
+        return getHandle().createQuery(sqlQuery)
+                .bind("userId", userId)
+                .map((resultSet, statementContext) -> {
+                    if (resultSet.getObject("employee_num") != null) {
+                        return new Manager(
+                                resultSet.getInt("employee_num"),
+                                resultSet.getString("first_name"),
+                                resultSet.getString("last_name"),
+                                Calendar.getInstance(), // Assuming birthday is converted to Calendar
+                                resultSet.getString("username"),
+                                resultSet.getString("password")
+                        );
+                    } else {
+                        return new User(
+                                resultSet.getString("first_name"),
+                                resultSet.getString("last_name"),
+                                Calendar.getInstance(), // Assuming birthday is converted to Calendar
+                                resultSet.getString("username"),
+                                resultSet.getString("password")
+                        );
+                    }
+                }).one();
+    }
+
+    /********************************
+     *   Translate Manager Object   *
+     ********************************/
+    public static Manager translateManagerFromDatabase(int userId) {
+        String sqlQuery = "SELECT * FROM Users WHERE user_id = :userId";
+        return handle.createQuery(sqlQuery)
+                .bind("userId", userId)
+                .map((resultSet, statementContext) -> new Manager(
+                        resultSet.getInt("employee_num"),
+                        resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
+                        Calendar.getInstance(), // Assuming birthday is converted to Calendar
+                        resultSet.getString("username"),
+                        resultSet.getString("password")
+                )).one();
+    }
+
+    /********************************
+     * Translate Reservation Object *
+     ********************************/
+    public static Reservation translateReservationFromDatabase(int reservationId) {
+        String sqlQuery = "SELECT * FROM Reservations WHERE reservation_id = :reservationId";
+        return handle.createQuery(sqlQuery)
+                .bind("reservationId", reservationId)
+                .map((resultSet, statementContext) -> new Reservation(
+                        new User(resultSet.getString("first_name"), resultSet.getString("last_name"), Calendar.getInstance(), resultSet.getString("username"), resultSet.getString("password")),
+                        resultSet.getInt("reservation_id"),
+                        resultSet.getDouble("total_cost"),
+                        new Room(resultSet.getInt("room_id"), resultSet.getInt("room_number"), resultSet.getInt("num_of_beds"), resultSet.getString("bed_type"), resultSet.getBigDecimal("price_per_night").doubleValue(), resultSet.getString("room_description")),
+                        resultSet.getDate("check_in_date").toLocalDate(),
+                        resultSet.getDate("check_out_date").toLocalDate()
+                )).one();
+    }
+
     
     /****************************************************************
      *                            Delete                            *
@@ -393,10 +573,6 @@ public class DatabaseConnector {
         }
     }
 
-    /****************************************************************
-     *                            Query                             *
-     ****************************************************************/
-
 
     /****************************************************************
      *                            Print                             *
@@ -433,28 +609,29 @@ public class DatabaseConnector {
     /********************************
      *         Print Rooms Table    *
      ********************************/
-    // Print the Rooms table in the terminal
+    //Print the Rooms table in the terminal
     public static void printRoomsTable() {
         try {
             StringBuilder querySQL = new StringBuilder();
-            querySQL.append("SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night FROM Rooms");
-            Query query = handle.createQuery(querySQL.toString());
-            System.out.println("\n---------------------------------------------------------------------------------------------");
-            System.out.println(String.format("%-10s %-10s %-15s %-15s %-15s %-15s", "Room ID", "Hotel ID", "Room Number", "Bed Type", "Num of Beds", "Price per Night"));
-            System.out.println("---------------------------------------------------------------------------------------------");
+            querySQL.append("SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, room_description FROM Rooms");
+            Query query = getHandle().createQuery(querySQL.toString());
+            System.out.println("\n------------------------------------------------------------------------------------------------------");
+            System.out.println(String.format("%-10s %-10s %-15s %-15s %-15s %-15s %-15s", "Room ID", "Hotel ID", "Room Number", "Bed Type", "Num of Beds", "Price per Night", "Room Description"));
+            System.out.println("------------------------------------------------------------------------------------------------------");
             
             query.map((rs, ctx) -> {
-                System.out.println(String.format("%-10d %-10d %-15d %-15s %-15d %-15.2f",
+                System.out.println(String.format("%-10d %-10d %-15d %-15s %-15d %-15.2f %-15s",
                         rs.getInt("room_id"),
                         rs.getInt("hotel_id"),
                         rs.getInt("room_number"),
                         rs.getString("bed_type"),
                         rs.getInt("num_of_beds"),
-                        rs.getBigDecimal("price_per_night")));
+                        rs.getBigDecimal("price_per_night"),
+                        rs.getString("room_description") != null ? rs.getString("room_description") : ""));
                 return null;
             }).list();
             
-            System.out.println("---------------------------------------------------------------------------------------------\n");
+            System.out.println("------------------------------------------------------------------------------------------------------\n");
         } catch (Exception e) {
             System.err.println("Failed to print Rooms table: " + e.getMessage());
         }

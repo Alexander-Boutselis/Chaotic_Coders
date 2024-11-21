@@ -38,6 +38,15 @@ public class User {
         this.reservationNumbers = new ArrayList<>();
     }
 
+    public User(String firstName, String lastName, Calendar birthday, String username, String password, boolean isActive) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.username = username;
+        this.password = password;
+        this.isActive = isActive;
+        this.reservationNumbers = new ArrayList<>();
+    }
 
     /****************************************************************
      *                         User Info Methods                    *
