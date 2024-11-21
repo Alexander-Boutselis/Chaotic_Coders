@@ -53,6 +53,14 @@ public class ReservationManager {
 		return newReservation;
 	}
 
+	//Create reservation given reservation object
+	public static void createReservationGivenReservation(Reservation reservation) {
+		DatabaseManager.getCurrentHotel().addReservation(reservation);
+		DatabaseManager.getCurrentUser().addReservation(reservation.getReservationNumber());
+		getRoom(reservation).addReservationNumber(reservation.getReservationNumber());
+		DatabaseConnector.addReservation(reservation);
+	}
+
 	//Cancel reservation
 	public static void cancelReservation(Hotel hotel, User user, Reservation reservation) {
 		hotel.removeReservation(reservation);
