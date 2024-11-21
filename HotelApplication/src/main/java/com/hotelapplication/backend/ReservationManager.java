@@ -55,8 +55,9 @@ public class ReservationManager {
 
 	//Create reservation given reservation object
 	public static void createReservationGivenReservation(Reservation reservation) {
-		DatabaseManager.getCurrentHotel().addReservation(reservation);
-		DatabaseManager.getCurrentUser().addReservation(reservation.getReservationNumber());
+		getHotelFromReservation(reservation).addReservation(reservation);
+		User user = getAssignedUser(reservation);
+		user.addReservation(reservation.getReservationNumber());
 		getRoom(reservation).addReservationNumber(reservation.getReservationNumber());
 	}
 
@@ -155,6 +156,18 @@ public class ReservationManager {
 	//Get the Assigned User
 	public static User getAssignedUser(Reservation reservation){
 		return reservation.getAssignedUser();
+	}
+
+	//Get the hotel for a reservation
+	public static Hotel getHotelFromReservation(Reservation reservation) {
+		ArrayList<Hotel> allHotels = HotelManager.getAllHotels();
+		for (Hotel hotel : allHotels) {
+			ArrayList<Room> rooms = HotelManager.getAllHotelRooms(hotel);
+			if (rooms.contains(getRoom(reservation))) {
+				return hotel;
+			}
+		}
+		return null;
 	}
 	
 	/****************************************************************
