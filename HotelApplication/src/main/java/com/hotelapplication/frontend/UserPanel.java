@@ -52,7 +52,7 @@ public class UserPanel extends JFrame {
         JButton exitButton = createModernButton("Exit");
         JButton signOutButton = createModernButton("Sign Out");
 
-        exitButton.addActionListener(e -> System.exit(0));
+        exitButton.addActionListener(e -> GUIManager.closeApplication());
         signOutButton.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this, 
                     "Are you sure you want to sign out?", 

@@ -49,9 +49,10 @@ public static void runAppGUI() {
  *                           Exit Program                       *
  ****************************************************************/
 //Method to end program gracefully
-public static void closeApplication(){
+public static int closeApplication(){
     DatabaseConnector.disconnect();
     System.exit(0);
+    return 0;
 }
 
 

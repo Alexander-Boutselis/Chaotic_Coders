@@ -26,7 +26,7 @@ public class ManagerPanel extends JFrame {
         JButton signOutButton = createModernButton("Sign Out");
 
         // Exit Button Logic
-        exitButton.addActionListener(e -> System.exit(0));
+        exitButton.addActionListener(e -> GUIManager.closeApplication());
         
         // Sign-Out Button Logic
         signOutButton.addActionListener(e -> {
