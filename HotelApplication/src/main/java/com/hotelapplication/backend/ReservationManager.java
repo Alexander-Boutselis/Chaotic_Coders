@@ -58,7 +58,6 @@ public class ReservationManager {
 		DatabaseManager.getCurrentHotel().addReservation(reservation);
 		DatabaseManager.getCurrentUser().addReservation(reservation.getReservationNumber());
 		getRoom(reservation).addReservationNumber(reservation.getReservationNumber());
-		DatabaseConnector.addReservation(reservation);
 	}
 
 	//Cancel reservation

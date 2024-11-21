@@ -372,7 +372,7 @@ public class DatabaseConnector {
             List<Integer> reservationIDs = getAllIdsFromTable("Reservations", "reservation_id");
             for (int reservationID : reservationIDs) {
 
-                //translateReservationFromDatabase(reservationID);
+                ReservationManager.createReservationGivenReservation(translateReservationFromDatabase(reservationID));
             }
         }
     }
