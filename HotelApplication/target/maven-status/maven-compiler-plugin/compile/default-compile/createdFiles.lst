@@ -14,6 +14,7 @@ com/hotelapplication/backend/Room.class
 com/hotelapplication/backend/DatabaseManager.class
 com/hotelapplication/frontend/GUIManager.class
 com/hotelapplication/backend/TestClass.class
+com/hotelapplication/frontend/SignUp$3.class
 com/hotelapplication/frontend/Login$4.class
 com/hotelapplication/backend/ReservationManager.class
 com/hotelapplication/frontend/Login$2.class

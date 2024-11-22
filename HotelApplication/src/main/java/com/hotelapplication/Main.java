@@ -1,18 +1,14 @@
+//Main.java
 /**************************
- * Hotel Management Project*
+ *Hotel Management Project*
  * COMP 380/L             *
  **************************/
-    
-/****************************************************************
- *                          Title                               *
- ****************************************************************/
 
-/********************************
- *          Sub Section         *
- ********************************/
-
-//How to run
-//mvn clean compile exec:java
+/*
+Maven Commands:
+mvn clean compile exec:java
+mvn javadoc:javadoc
+*/
 package com.hotelapplication;
 import com.hotelapplication.frontend.*;
 import com.hotelapplication.backend.*;
