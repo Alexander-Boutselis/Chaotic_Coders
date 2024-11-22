@@ -310,9 +310,102 @@ public class DatabaseConnector {
         }
     }
 
-    /****************************************************************
-     *                            Update                            *
+   /****************************************************************
+     *                    Update Object in Database                *
      ****************************************************************/
+    /********************************
+     *         Update Hotel         *
+     ********************************/
+    public static boolean updateHotelInDatabase(Hotel hotel) {
+        try {
+            Handle handle = getHandle();
+            String updateSQL = "UPDATE Hotels SET name = :name, address = :address WHERE hotel_id = :hotel_id";
+            handle.createUpdate(updateSQL)
+                    .bind("hotel_id", HotelManager.getHotelID(hotel))
+                    .bind("name", HotelManager.getHotelName(hotel))
+                    .bind("address", HotelManager.getHotelAddress(hotel))
+                    .execute();
+            System.out.println("Hotel with ID " + HotelManager.getHotelID(hotel) + " updated successfully.");
+            return true;
+        } catch (Exception e) {
+            System.err.println("Failed to update hotel in database: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /********************************
+     *         Update Room          *
+     ********************************/
+    public static boolean updateRoomInDatabase(Room room) {
+        try {
+            Handle handle = getHandle();
+            String updateSQL = "UPDATE Rooms SET hotel_id = :hotel_id, room_number = :room_number, bed_type = :bed_type, num_of_beds = :num_of_beds, price_per_night = :price_per_night, room_description = :room_description WHERE room_id = :room_id";
+            int hotelId = RoomManager.getRoomID(room) / 1000; // Calculate hotel_id from room_id
+            handle.createUpdate(updateSQL)
+                    .bind("room_id", RoomManager.getRoomID(room))
+                    .bind("hotel_id", RoomManager.getRoomID(room) / 1000)
+                    .bind("room_number", RoomManager.getRoomNumber(room))
+                    .bind("bed_type", RoomManager.getBedType(room))
+                    .bind("num_of_beds", RoomManager.getNumberOfBeds(room))
+                    .bind("price_per_night", RoomManager.getPricePerNight(room))
+                    .bind("room_description", RoomManager.getRoomDescription(room))
+                    .execute();
+            System.out.println("Room with ID " + RoomManager.getRoomID(room) + " updated successfully.");
+            return true;
+        } catch (Exception e) {
+            System.err.println("Failed to update room in database: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /********************************
+     *         Update User          *
+     ********************************/
+    public static boolean updateUserInDatabase(User user) {
+        try {
+            Handle handle = getHandle();
+            String updateSQL = "UPDATE Users SET first_name = :first_name, last_name = :last_name, username = :username, password = :password, birthday = :birthday, start_date = :start_date, employee_num = :employee_num WHERE user_id = :user_id";
+            handle.createUpdate(updateSQL)
+                    .bind("user_id", AccountManager.getUserID(user))
+                    .bind("first_name", AccountManager.getFirstName(user))
+                    .bind("last_name", AccountManager.getLastName(user))
+                    .bind("username", AccountManager.getUsername(user))
+                    .bind("password", AccountManager.getPassword(user))
+                    .bind("birthday", AccountManager.getBirthday(user))
+                    .bind("start_date", user instanceof Manager ? AccountManager.getEmployeeStartDate((Manager) user) : null)
+                    .bind("employee_num", user instanceof Manager ? AccountManager.getEmployeeNumber((Manager) user) : null)
+                    .execute();
+            System.out.println("User with ID " + AccountManager.getUserID(user) + " updated successfully.");
+            return true;
+        } catch (Exception e) {
+            System.err.println("Failed to update user in database: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /********************************
+     *     Update Reservation       *
+     ********************************/
+    public static boolean updateReservationInDatabase(Reservation reservation) {
+        try {
+            Handle handle = getHandle();
+            String updateSQL = "UPDATE Reservations SET user_id = :user_id, room_id = :room_id, hotel_id = :hotel_id, check_in_date = :check_in_date, check_out_date = :check_out_date, total_cost = :total_cost WHERE reservation_id = :reservation_id";
+            handle.createUpdate(updateSQL)
+                    .bind("reservation_id", reservation.getReservationNumber())
+                    .bind("user_id", ReservationManager.getAssignedUser(reservation).getUserID())
+                    .bind("room_id", ReservationManager.getRoom(reservation).getRoomID())
+                    .bind("hotel_id", ReservationManager.getHotelFromReservation(reservation).getHotelID())
+                    .bind("check_in_date", ReservationManager.getStartDate(reservation))
+                    .bind("check_out_date", ReservationManager.getEndDate(reservation))
+                    .bind("total_cost", ReservationManager.getTotalPrice(reservation))
+                    .execute();
+            System.out.println("Reservation with ID " + reservation.getReservationNumber() + " updated successfully.");
+            return true;
+        } catch (Exception e) {
+            System.err.println("Failed to update reservation in database: " + e.getMessage());
+            return false;
+        }
+    }
     
 
     /****************************************************************
