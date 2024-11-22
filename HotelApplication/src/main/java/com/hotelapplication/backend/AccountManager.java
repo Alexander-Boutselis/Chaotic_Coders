@@ -131,52 +131,71 @@ public class AccountManager{
    //Set User ID
     public static void setUserID(User user, int userID){
         user.setUserID(userID);
+        DatabaseConnector.updateUserInDatabase(user);
+
     }
 
     //Set Username
     public static void setUsername(User user, String newUsername){
         user.setUsername(newUsername);
+        DatabaseConnector.updateUserInDatabase(user);
     }
 
     //Set First Name
     public static void setFirstName(User user, String newFirstName){
         user.setFirstName(newFirstName);
+        DatabaseConnector.updateUserInDatabase(user);
+
     }
 
     //Set Last Name
     public static void setLastName(User user, String newLastName){
         user.setLastName(newLastName);
+        DatabaseConnector.updateUserInDatabase(user);
+
     }
 
     //Set Name
     public static void setFullName(User user, String newFirstName, String newLastName){
         user.setFirstName(newFirstName);
         user.setLastName(newLastName);
+        DatabaseConnector.updateUserInDatabase(user);
+
     }
 
     //Set Birthday
     public static void setBirthday(User user, Calendar newBirthday){
         user.setBirthday(newBirthday);
+        DatabaseConnector.updateUserInDatabase(user);
+
     }
 
     //Set Password
     public static void setPassword(User user, String newPassword){
         user.setPassword(newPassword);
+        DatabaseConnector.updateUserInDatabase(user);
+
     }
 
     //Set Employee Number
     public static void setEmployeeNumber(Manager manager, int newEmployeeNumber){
         manager.setEmployeeNumber(newEmployeeNumber);
+        DatabaseConnector.updateUserInDatabase(manager);
+
     }
 
     //Set Start Date
     public static void setEmployeeStartDate(Manager manager, Calendar newStartDate){
         manager.setStartDate(newStartDate);
+        DatabaseConnector.updateUserInDatabase(manager);
+
     }
 
     //Set End Date
     public static void setEmployeeEndDate(Manager manager, Calendar newEndDate){
         manager.setEndDate(newEndDate);
+        DatabaseConnector.updateUserInDatabase(manager);
+
     }
 
 
@@ -241,6 +260,8 @@ public class AccountManager{
     //Remove Account from Database
     public static void removeAccount(User user){
         user.setActiveStatus(false);
+        DatabaseConnector.updateUserInDatabase(user);
+
     }
 
 

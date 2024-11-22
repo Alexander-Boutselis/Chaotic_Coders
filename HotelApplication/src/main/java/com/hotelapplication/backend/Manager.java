@@ -29,8 +29,8 @@ public class Manager extends User{
 	}
 
 
-    public Manager(int employeeNumber, String firstName, String lastName, Calendar birthday, String username, String password, Calendar startDate, Calendar endDate, boolean isActive) {
-        super(firstName, lastName, birthday, username, password, isActive);
+    public Manager(Integer userID, int employeeNumber, String firstName, String lastName, Calendar birthday, String username, String password, Calendar startDate, Calendar endDate, boolean isActive) {
+        super(userID, firstName, lastName, birthday, username, password, isActive);
         this.employeeNumber = employeeNumber;
         this.startDate = startDate;
         this.endDate = endDate;

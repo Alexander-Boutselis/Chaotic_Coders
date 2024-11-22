@@ -25,7 +25,7 @@ public static String accountSignIn(String username, String password) {
             return (user instanceof Manager) ? "Manager" : "User";
         }
     }
-    return null; // Return null for incorrect login
+    return null; //Return null for incorrect login
 }
 
 

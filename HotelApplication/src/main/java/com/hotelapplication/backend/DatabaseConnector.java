@@ -4,8 +4,9 @@ import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.statement.Query;
 import java.util.List;
-import java.sql.Date;
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.time.LocalDate;
 import java.nio.file.Path;
@@ -371,12 +372,15 @@ public class DatabaseConnector {
                     .bind("last_name", AccountManager.getLastName(user))
                     .bind("username", AccountManager.getUsername(user))
                     .bind("password", AccountManager.getPassword(user))
-                    .bind("birthday", AccountManager.getBirthday(user))
-                    .bind("start_date", user instanceof Manager ? AccountManager.getEmployeeStartDate((Manager) user) : null)
+                    .bind("birthday", user.getBirthday() != null ? new Date(user.getBirthday().getTimeInMillis()) : null)
+                    .bind("start_date", user instanceof Manager && ((Manager) user).getStartDate() != null ? new Timestamp(((Manager) user).getStartDate().getTimeInMillis()) : null)
                     .bind("employee_num", user instanceof Manager ? AccountManager.getEmployeeNumber((Manager) user) : null)
                     .execute();
             System.out.println("User with ID " + AccountManager.getUserID(user) + " updated successfully.");
             return true;
+        } catch (NullPointerException e) {
+            System.err.println("Failed to update user in database: User ID is null.");
+            return false;
         } catch (Exception e) {
             System.err.println("Failed to update user in database: " + e.getMessage());
             return false;
@@ -511,20 +515,26 @@ public class DatabaseConnector {
                 .map((resultSet, statementContext) -> {
                     if (resultSet.getObject("employee_num") != null) {
                         return new Manager(
+                                userId,
                                 resultSet.getInt("employee_num"),
                                 resultSet.getString("first_name"),
                                 resultSet.getString("last_name"),
                                 Calendar.getInstance(),
                                 resultSet.getString("username"),
-                                resultSet.getString("password")
+                                resultSet.getString("password"),
+                                Calendar.getInstance(),
+                                Calendar.getInstance(),
+                                true
                         );
                     } else {
                         return new User(
+                                userId,
                                 resultSet.getString("first_name"),
                                 resultSet.getString("last_name"),
-                                Calendar.getInstance(), 
+                                Calendar.getInstance(),
                                 resultSet.getString("username"),
-                                resultSet.getString("password")
+                                resultSet.getString("password"),
+                                true
                         );
                     }
                 }).one();

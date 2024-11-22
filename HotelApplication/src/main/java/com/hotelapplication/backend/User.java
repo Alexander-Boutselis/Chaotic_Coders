@@ -38,7 +38,8 @@ public class User {
         this.reservationNumbers = new ArrayList<>();
     }
 
-    public User(String firstName, String lastName, Calendar birthday, String username, String password, boolean isActive) {
+    public User(Integer userID, String firstName, String lastName, Calendar birthday, String username, String password, boolean isActive) {
+        this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
