@@ -9,66 +9,7 @@ import com.hotelapplication.frontend.*;
 import java.util.ArrayList;
 
 
-/****************************************************************
- *						Database Class							*
- ****************************************************************/
-public class Database { //Currently where data is stored, will eventually be replace with Database calls and returns
-
-    //Object Variables
-    private Hotel currentHotel;
-    private User currentUser;
-    private boolean signedIn;
-
-    //Database Variables
-    private boolean isConnected;
-    private ArrayList<Hotel> allHotels;
-    private ArrayList<User> allUsers;
-
-
-    //Database constructor
-    public Database(){
-        allHotels = new ArrayList<Hotel>();
-        allUsers = new ArrayList<User>();
-        currentUser = null;
-        currentHotel = null;
-        signedIn = false;
-        try{
-            
-        }catch(Exception e){
-            
-        }
-    }
-
-
-
-
-
-    //Method to Add Hotel to Database 
-    //Method to Add Room to Database 
-    //Method to Add User to Database 
-    //Method to Add Reservation to Database 
-
-    //Method to Query Hotel from Database
-    //Method to Query Room from Database
-    //Method to Query User from Database
-    //Method to Query Reservation from Database
-
-   
-
-    //Methods to Add/Remove Hotel from list
-    //Methods to Add/Remove Users from list
-
-    //Method to Get/Set Current Hotel/User
-    //Method to Get/Set Signed-in Status
-
-
-
-
-
-
-
 /*
-
 1. Hotels Table
 Name            Data Type   Notes
 hotel_id        INT (PK)    AUTO_INCREMENT
@@ -106,27 +47,64 @@ hotel_id        INT (FK)    Links to Hotels table
 check_in_date   DATE        Check-in date
 check_out_date  DATE        Check-out date
 total_cost      DECIMAL     Total cost of stay
-
 */
 
-	
 
+/**
+* The Database class represents an in-memory storage for managing hotel and user data.
+* It provides methods for adding, removing, and retrieving hotel and user information.
+* This implementation will eventually be replaced with actual database calls.
+* 
+* @author Alexander Boutselis
+*/
+public class Database {
 
+    //Object Variables
+    private Hotel currentHotel;
+    private User currentUser;
+    private boolean signedIn;
 
+    //Database Variables
+    private boolean isConnected;
+    private ArrayList<Hotel> allHotels;
+    private ArrayList<User> allUsers;
 
-	
     /****************************************************************
-     *                        Hotel Methods                         *
+     *                       Constructor                            *
      ****************************************************************/
-    /********************************
-     *       Add/Remove Hotel       *
-     ********************************/
-    //Add a Hotel object to the list
+    /**
+    * Constructs a new Database object, initializing the lists for hotels and users.
+    */
+    public Database() {
+        allHotels = new ArrayList<Hotel>();
+        allUsers = new ArrayList<User>();
+        currentUser = null;
+        currentHotel = null;
+        signedIn = false;
+        try {
+            //Placeholder for any future implementation
+        } catch (Exception e) {
+            //Handle exception
+        }
+    }
+
+    /****************************************************************
+     *                       Hotel Methods                          *
+     ****************************************************************/
+    /**
+    * Adds a hotel to the database.
+    *
+    * @param hotel The Hotel object to be added.
+    */
     public void addHotel(Hotel hotel) {
         allHotels.add(hotel);
     }
 
-    //Remove a Hotel object from the list by matching with isEqualTo()
+    /**
+    * Removes a hotel from the database by matching its name.
+    *
+    * @param hotelName The name of the hotel to be removed.
+    */
     public void removeHotel(String hotelName) {
         for (int i = 0; i < allHotels.size(); i++) {
             if (allHotels.get(i).equals(hotelName)) {
@@ -136,21 +114,30 @@ total_cost      DECIMAL     Total cost of stay
         }
     }
 
-
-    /********************************
-     *        Set/Get Hotel(s)      *
-     ********************************/
-    //Set Current Hotel
-    public void setCurrentHotel(Hotel hotel){
+    /**
+    * Sets the current hotel being managed.
+    *
+    * @param hotel The Hotel object to set as the current hotel.
+    */
+    public void setCurrentHotel(Hotel hotel) {
         currentHotel = hotel;
     }
 
-    //Get Current Hotel
-    public Hotel getCurrentHotel(){
+    /**
+    * Gets the current hotel being managed.
+    *
+    * @return The current Hotel object.
+    */
+    public Hotel getCurrentHotel() {
         return currentHotel;
     }
 
-    //Get a Hotel object by searching for its name
+    /**
+    * Gets a hotel from the database by its name.
+    *
+    * @param searchHotelName The name of the hotel to be searched.
+    * @return The Hotel object if found, otherwise null.
+    */
     public Hotel getHotel(String searchHotelName) {
         for (Hotel hotel : allHotels) {
             if (hotel.getHotelName().equals(searchHotelName)) {
@@ -160,7 +147,12 @@ total_cost      DECIMAL     Total cost of stay
         return null; //If no matching object is found
     }
 
-    //Get a Hotel object by searching for its hotelID
+    /**
+    * Gets a hotel from the database by its ID.
+    *
+    * @param hotelID The ID of the hotel to be searched.
+    * @return The Hotel object if found, otherwise null.
+    */
     public Hotel getHotel(int hotelID) {
         for (Hotel hotel : allHotels) {
             if (hotel.getHotelID() == hotelID) {
@@ -170,57 +162,74 @@ total_cost      DECIMAL     Total cost of stay
         return null; //If no matching object is found
     }
 
-    //Get all Hotels
-    public ArrayList<Hotel> getAllHotels(){
+    /**
+    * Gets all hotels from the database.
+    *
+    * @return A list of all Hotel objects.
+    */
+    public ArrayList<Hotel> getAllHotels() {
         return allHotels;
     }
 
-    /********************************
-     *          Print Hotel         *
-     ********************************/
-    //Print Current Hotel
-    public void printCurrentHotel(){
-        if(currentHotel != null){
-        System.out.println("Current Hotel: "+ currentHotel.getHotelName());
+    /**
+    * Prints the name of the current hotel.
+    */
+    public void printCurrentHotel() {
+        if (currentHotel != null) {
+            System.out.println("Current Hotel: " + currentHotel.getHotelName());
         }
-        return;
     }
 
-
     /****************************************************************
-     *                        User Methods                          *
+     *                       User Methods                           *
      ****************************************************************/
-    /********************************
-     *        Add/Remove User       *
-     ********************************/
-    //Add a User object to the list
+    /**
+    * Adds a user to the database.
+    *
+    * @param user The User object to be added.
+    */
     public void addUser(User user) {
         allUsers.add(user);
     }
 
-    //Remove a User object from the list by matching with isEqualTo()
+    /**
+    * Removes a user from the database by matching its username.
+    *
+    * @param searchUsername The username of the user to be removed.
+    */
     public void removeUser(String searchUsername) {
-        for(User user : allUsers){
-            if (user.getUsername().equals(searchUsername))
+        for (User user : allUsers) {
+            if (user.getUsername().equals(searchUsername)) {
                 allUsers.remove(user);
                 break; //Stop after removing the first match
+            }
         }
     }
 
-    /********************************
-     *         Set/Get User(s)      *
-     ********************************/
-    //Set Current User
-    public void setCurrentUser(User user){
+    /**
+    * Sets the current user.
+    *
+    * @param user The User object to set as the current user.
+    */
+    public void setCurrentUser(User user) {
         currentUser = user;
     }
 
-    //Get Current User
-    public User getCurrentUser(){
+    /**
+    * Gets the current user.
+    *
+    * @return The current User object.
+    */
+    public User getCurrentUser() {
         return currentUser;
     }
 
-    // Get a User object by comparing with another User object using isEqualTo()
+    /**
+    * Gets a user from the database by username.
+    *
+    * @param searchUser The username of the user to be searched.
+    * @return The User object if found, otherwise null.
+    */
     public User getUser(String searchUser) {
         for (User user : allUsers) {
             if (user.getUsername().equals(searchUser)) {
@@ -230,57 +239,46 @@ total_cost      DECIMAL     Total cost of stay
         return null; //If no matching object is found
     }
 
-    //Get all Users
-    public ArrayList<User> getAllUsers(){
+    /**
+    * Gets all users from the database.
+    *
+    * @return A list of all User objects.
+    */
+    public ArrayList<User> getAllUsers() {
         return allUsers;
     }
 
-    /********************************
-     *          Print User          *
-     ********************************/
-    //Print Current User
-    public void printCurrentUser(){
-        if(currentUser != null){
-        System.out.println("Current User: "+ currentUser.getName());
-        }else{
-
+    /**
+    * Prints the name of the current user.
+    */
+    public void printCurrentUser() {
+        if (currentUser != null) {
+            System.out.println("Current User: " + currentUser.getName());
         }
-        return;
     }
 
     /****************************************************************
      *                       Signed-In Methods                      *
      ****************************************************************/
-    /********************************
-     *        Set/Get Status        *
-     ********************************/
-    //Set Signed-In Status
-    public void setSignedInStatus(boolean status){
+    /**
+    * Sets the signed-in status.
+    *
+    * @param status The new signed-in status.
+    */
+    public void setSignedInStatus(boolean status) {
         signedIn = status;
     }
 
-    //Get Signed in Status
-    public boolean isSignedIn(){
+    /**
+    * Checks if a user is signed in.
+    *
+    * @return True if a user is signed in, otherwise false.
+    */
+    public boolean isSignedIn() {
         return signedIn;
     }
 
     /****************************************************************
-     *                      Connect to Database                     *
+     *                           End                                *
      ****************************************************************/
-    /********************************
-     *            Connect           *
-     ********************************/
-
-    /********************************
-     *        Query Database        *
-     ********************************/
-
-    /********************************
-     *       Send to Database       *
-     ********************************/
-
-
-	/****************************************************************
-	 *							End			    					*
-	 ****************************************************************/
 }//End of Database Class

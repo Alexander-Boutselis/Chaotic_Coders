@@ -1,3 +1,5 @@
+//DatabaseConnector.java
+
 package com.hotelapplication.backend;
 
 import org.jdbi.v3.core.Handle;
@@ -14,39 +16,38 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.io.IOException;
 
-
-
+/**
+ * The DatabaseConnector class is responsible for managing the connection
+ * to the H2 database, initializing tables, and handling operations related to
+ * Hotels, Rooms, Users, and Reservations.
+ * 
+ * @author Alexander Boutselis
+ * 
+ */
 public class DatabaseConnector {
     private static final String JDBC_URL = "jdbc:h2:~/HotelApplicationDatabase;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1";
     private static final String JDBC_USER = "dbUser";
     private static final String JDBC_PASSWORD = "";
     private static Jdbi databaseConnector;
     private static Handle handle;
-    
-
-        
-    //Method to Translate Hotel to Object
-    //Method to Translate Room to Object
-    //Method to Translate User to Object
-    //Method to Translate Reservation to Object
-
 
     /****************************************************************
      *                          Connections                         *
      ****************************************************************/
-    /********************************
-     *           Connect            *
-     ********************************/
+    /**
+     * Connects to the H2 database and creates the necessary tables
+     * if they do not exist.
+     */
     public static void connect() {
         try {
-            //Create/Connect to Database
+            // Create/Connect to Database
             databaseConnector = Jdbi.create(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
-            //Verify Database exists
+            // Verify Database exists
             handle = databaseConnector.open();
             System.out.println("Connection to H2 database successful!");
 
-            //Check if Database is missing any of the 4 tables
-            if(handle.createQuery("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME IN ('Hotels', 'Rooms', 'Users', 'Reservations')").mapTo(Integer.class).one() != 4){
+            // Check if Database is missing any of the 4 tables
+            if (handle.createQuery("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME IN ('Hotels', 'Rooms', 'Users', 'Reservations')").mapTo(Integer.class).one() != 4) {
                 createTables();
             }
 
@@ -55,29 +56,24 @@ public class DatabaseConnector {
         }
     }
 
-    /********************************    
-     *          Disconnect          *
-     ********************************/
+    /**
+     * Disconnects from the H2 database.
+     */
     public static void disconnect() {
-        //Clear Tables --- Temporary
-        /*
-        emptyTable("Rooms");
-        emptyTable("Hotels");
-        emptyTable("Users");
-        emptyTable("Reservations");
-        */
-
         if (handle != null) {
             handle.close();
             System.out.println("Disconnected from database.");
         }
     }
 
-    /********************************
-     *         Get Handle           *
-     ********************************/
+    /**
+     * Gets the current Handle for database operations. Connects to the database
+     * if the handle is null.
+     *
+     * @return The Handle object for executing database operations.
+     */
     public static Handle getHandle() {
-        if (handle == null){
+        if (handle == null) {
             connect();
         }
         return handle;
@@ -86,11 +82,13 @@ public class DatabaseConnector {
     /****************************************************************
      *                Initialize Application Method                *
      ****************************************************************/
+    /**
+     * Initializes the application by connecting to the database and checking if
+     * the database contains any data. If no data is found, it initializes default data.
+     */
     public static void initializeApplication() {
-        try{
+        try {
             connect();
-
-
 
             boolean hasData = handle.createQuery("SELECT COUNT(*) AS total FROM Hotels")
                     .mapTo(Integer.class)
@@ -100,19 +98,21 @@ public class DatabaseConnector {
                 System.out.println("Database is empty. Initializing default data...");
             } else {
                 System.out.println("Database has existing data.");
-                //Call database connector translate database
+                // Call database connector to translate database
                 translateFromDatabase();
-            }           
-        }catch(Exception e){
-            System.err.println("Failed to Initialize Applicaiton: " + e.getMessage());
-            e.printStackTrace(); //Print the stack trace for better debugging
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to Initialize Application: " + e.getMessage());
+            e.printStackTrace(); // Print the stack trace for better debugging
         }
     }
 
-
-/****************************************************************
- *                            Tables                            *
- ****************************************************************/
+    /****************************************************************
+     *                            Tables                            *
+     ****************************************************************/
+    /**
+     * Creates all the required tables in the H2 database if they do not exist.
+     */
     public static void createTables() {
         try {
             createHotelsTable();
@@ -129,9 +129,9 @@ public class DatabaseConnector {
         }
     }
 
-    /********************************
-     *          Hotel Table         *
-     ********************************/
+    /**
+     * Creates the Hotels table in the database if it does not exist.
+     */
     public static void createHotelsTable() {
         try {
             StringBuilder createHotelsTable = new StringBuilder();
@@ -146,9 +146,9 @@ public class DatabaseConnector {
         }
     }
 
-    /********************************
-     *          Rooms Table         *
-     ********************************/
+    /**
+     * Creates the Rooms table in the database if it does not exist.
+     */
     private static void createRoomsTable() {
         try {
             StringBuilder createRoomsTable = new StringBuilder();
@@ -168,9 +168,9 @@ public class DatabaseConnector {
         }
     }
 
-    /********************************
-     *          Users Table         *
-     ********************************/
+    /**
+     * Creates the Users table in the database if it does not exist.
+     */
     private static void createUsersTable() {
         try {
             StringBuilder createUsersTable = new StringBuilder();
@@ -190,9 +190,9 @@ public class DatabaseConnector {
         }
     }
 
-    /********************************
-     *      Reservations Table      *
-     ********************************/
+    /**
+     * Creates the Reservations table in the database if it does not exist.
+     */
     private static void createReservationsTable() {
         try {
             StringBuilder createReservationsTable = new StringBuilder();
@@ -211,15 +211,18 @@ public class DatabaseConnector {
         }
     }
 
+
     /****************************************************************
-     *                             Add                              *
+     *                        Add to Database                       *
      ****************************************************************/
-    /********************************
-     *           Add Hotel          *
-     ********************************/
+    /**
+     * Adds a new hotel to the database.
+     *
+     * @param hotel The hotel object to be added.
+     */
     public static void addHotel(Hotel hotel) {
         try {
-            //Insert hotel without specifying hotel_id as it is auto-incremented
+            // Insert hotel without specifying hotel_id as it is auto-incremented
             String insertSQL = "INSERT INTO Hotels (name, address) VALUES (:name, :address)";
 
             int hotelID = handle.createUpdate(insertSQL)
@@ -229,20 +232,21 @@ public class DatabaseConnector {
                     .mapTo(int.class)
                     .one();
             
-            //Set the hotelID to the hotel object
+            // Set the hotelID to the hotel object
             HotelManager.setHotelID(hotel, hotelID);
 
-            //Log success
+            // Log success
             System.out.println("New hotel added successfully with Hotel ID: " + hotelID + "\n");
         } catch (Exception e) {
             System.err.println("Failed to add hotel: " + e.getMessage());
         }
     }
 
-    /********************************
-     *           Add Room           *
-     ********************************/
-    // Add Room to database
+    /**
+     * Adds a new room to the database.
+     *
+     * @param room The room object to be added.
+     */
     public static void addRoom(Room room) {
         try {
             // Insert the room into the database
@@ -257,7 +261,7 @@ public class DatabaseConnector {
                     .bind("bed_type", RoomManager.getBedType(room))
                     .bind("num_of_beds", RoomManager.getNumberOfBeds(room))
                     .bind("price_per_night", RoomManager.getPricePerNight(room))
-                    .bind("room_description", RoomManager.getRoomDescription(room)) // Binding room_description
+                    .bind("room_description", RoomManager.getRoomDescription(room))
                     .execute();
             System.out.println("New room added successfully");
         } catch (Exception e) {
@@ -265,10 +269,11 @@ public class DatabaseConnector {
         }
     }
 
-    /********************************
-     *           Add Account        *
-     ********************************/
-    //Add user to the database
+    /**
+     * Adds a new user account to the database.
+     *
+     * @param user The user object to be added.
+     */
     public static void addAccount(User user) {
         try {
             String insertSQL = "INSERT INTO Users (first_name, last_name, username, password, birthday, employee_num, start_date) VALUES (:first_name, :last_name, :username, :password, :birthday, :employee_num, :start_date)";
@@ -289,10 +294,11 @@ public class DatabaseConnector {
         }
     }
 
-    /********************************
-     *        Add Reservation       *
-     ********************************/
-    // Add reservation to the database
+    /**
+     * Adds a new reservation to the database.
+     *
+     * @param reservation The reservation object to be added.
+     */
     public static void addReservation(Reservation reservation) {
         try {
             AccountManager.printAccountInfo(ReservationManager.getAssignedUser(reservation));
@@ -311,12 +317,15 @@ public class DatabaseConnector {
         }
     }
 
-   /****************************************************************
-     *                    Update Object in Database                *
+    /****************************************************************
+     *                        Update Database                       *
      ****************************************************************/
-    /********************************
-     *         Update Hotel         *
-     ********************************/
+    /**
+     * Updates an existing hotel in the database.
+     *
+     * @param hotel The hotel object containing updated information.
+     * @return true if the update was successful, false otherwise.
+     */
     public static boolean updateHotelInDatabase(Hotel hotel) {
         try {
             Handle handle = getHandle();
@@ -334,9 +343,12 @@ public class DatabaseConnector {
         }
     }
 
-    /********************************
-     *         Update Room          *
-     ********************************/
+    /**
+     * Updates an existing room in the database.
+     *
+     * @param room The room object containing updated information.
+     * @return true if the update was successful, false otherwise.
+     */
     public static boolean updateRoomInDatabase(Room room) {
         try {
             Handle handle = getHandle();
@@ -359,9 +371,12 @@ public class DatabaseConnector {
         }
     }
 
-    /********************************
-     *         Update User          *
-     ********************************/
+    /**
+     * Updates an existing user in the database.
+     *
+     * @param user The user object containing updated information.
+     * @return true if the update was successful, false otherwise.
+     */
     public static boolean updateUserInDatabase(User user) {
         try {
             Handle handle = getHandle();
@@ -387,9 +402,12 @@ public class DatabaseConnector {
         }
     }
 
-    /********************************
-     *     Update Reservation       *
-     ********************************/
+    /**
+     * Updates an existing reservation in the database.
+     *
+     * @param reservation The reservation object containing updated information.
+     * @return true if the update was successful, false otherwise.
+     */
     public static boolean updateReservationInDatabase(Reservation reservation) {
         try {
             Handle handle = getHandle();
@@ -410,14 +428,17 @@ public class DatabaseConnector {
             return false;
         }
     }
-    
+
 
     /****************************************************************
      *                            Query                             *
      ****************************************************************/
-    /********************************
-     *     Get Number of Items      *
-     ********************************/
+    /**
+     * Gets the number of items in the specified table.
+     *
+     * @param tableName the name of the table to query
+     * @return the number of items in the table
+     */
     public static int getNumberOfItemsInTable(String tableName) {
         String sqlQuery = "SELECT COUNT(*) FROM " + tableName;
         return handle.createQuery(sqlQuery)
@@ -428,6 +449,13 @@ public class DatabaseConnector {
     /********************************
      *      Get List of IDs         *
      ********************************/
+    /**
+     * Gets a list of IDs from the specified table.
+     *
+     * @param tableName the name of the table to query
+     * @param idColumnName the name of the column containing the IDs
+     * @return a list of IDs from the table
+     */
     public static List<Integer> getAllIdsFromTable(String tableName, String idColumnName) {
         String sqlQuery = "SELECT " + idColumnName + " FROM " + tableName;
         return handle.createQuery(sqlQuery)
@@ -438,8 +466,11 @@ public class DatabaseConnector {
     /********************************
      *     Translate From Database  *
      ********************************/
+    /**
+     * Translates data from the database into application objects.
+     */
     public static void translateFromDatabase() {
-        //Translate Users
+        // Translate Users
         if (getNumberOfItemsInTable("Users") > 0) {
             List<Integer> userIDs = getAllIdsFromTable("Users", "user_id");
             for (int userID : userIDs) {
@@ -447,7 +478,7 @@ public class DatabaseConnector {
             }
         }
 
-        //Translate Hotels
+        // Translate Hotels
         if (getNumberOfItemsInTable("Hotels") > 0) {
             List<Integer> hotelIDs = getAllIdsFromTable("Hotels", "hotel_id");
             for (int hotelID : hotelIDs) {
@@ -455,16 +486,16 @@ public class DatabaseConnector {
             }
         }
 
-        //Translate Rooms
+        // Translate Rooms
         if (getNumberOfItemsInTable("Rooms") > 0) {
             List<Integer> roomIDs = getAllIdsFromTable("Rooms", "room_id");
             for (int roomID : roomIDs) {
                 int hotelID = roomID / 1000;
-                HotelManager.addRoomToHotel(HotelManager.getHotel(hotelID),translateRoomFromDatabase(roomID));
+                HotelManager.addRoomToHotel(HotelManager.getHotel(hotelID), translateRoomFromDatabase(roomID));
             }
         }
 
-        //Translate Reservations
+        // Translate Reservations
         if (getNumberOfItemsInTable("Reservations") > 0) {
             List<Integer> reservationIDs = getAllIdsFromTable("Reservations", "reservation_id");
             for (int reservationID : reservationIDs) {
@@ -476,6 +507,12 @@ public class DatabaseConnector {
     /********************************
      *    Translate Hotel Object    *
      ********************************/
+    /**
+     * Translates a hotel from the database into a Hotel object.
+     *
+     * @param hotelID the ID of the hotel to translate
+     * @return the Hotel object corresponding to the hotelID
+     */
     public static Hotel translateHotelFromDatabase(int hotelID) {
         String sqlQuery = "SELECT * FROM Hotels WHERE hotel_id = :hotelId";
         return handle.createQuery(sqlQuery)
@@ -490,6 +527,12 @@ public class DatabaseConnector {
     /********************************
      *     Translate Room Object    *
      ********************************/
+    /**
+     * Translates a room from the database into a Room object.
+     *
+     * @param roomId the ID of the room to translate
+     * @return the Room object corresponding to the roomId
+     */
     public static Room translateRoomFromDatabase(int roomId) {
         String sqlQuery = "SELECT * FROM Rooms WHERE room_id = :roomId";
         return getHandle().createQuery(sqlQuery)
@@ -508,6 +551,12 @@ public class DatabaseConnector {
     /********************************
      *    Translate User Object     *
      ********************************/
+    /**
+     * Translates a user from the database into a User object.
+     *
+     * @param userId the ID of the user to translate
+     * @return the User object corresponding to the userId
+     */
     public static User translateUserFromDatabase(int userId) {
         String sqlQuery = "SELECT * FROM Users WHERE user_id = :userId";
         return getHandle().createQuery(sqlQuery)
@@ -524,8 +573,7 @@ public class DatabaseConnector {
                                 resultSet.getString("password"),
                                 Calendar.getInstance(),
                                 Calendar.getInstance(),
-                                true
-                        );
+                                true);
                     } else {
                         return new User(
                                 userId,
@@ -534,8 +582,7 @@ public class DatabaseConnector {
                                 Calendar.getInstance(),
                                 resultSet.getString("username"),
                                 resultSet.getString("password"),
-                                true
-                        );
+                                true);
                     }
                 }).one();
     }
@@ -543,6 +590,12 @@ public class DatabaseConnector {
     /********************************
      * Translate Reservation Object *
      ********************************/
+    /**
+     * Translates a reservation from the database into a Reservation object.
+     *
+     * @param reservationId the ID of the reservation to translate
+     * @return the Reservation object corresponding to the reservationId
+     */
     public static Reservation translateReservationFromDatabase(int reservationId) {
         String sqlQuery = "SELECT reservation.*, user.first_name, user.last_name, user.username, user.password, user.employee_num, room.room_number, room.num_of_beds, room.bed_type, room.price_per_night, room.room_description " +
                           "FROM Reservations reservation " +
@@ -568,234 +621,278 @@ public class DatabaseConnector {
                 )).one();
     }
 
-    
     /****************************************************************
-     *                            Delete                            *
-     ****************************************************************/
-    /********************************
-     *       Delete Database File   *
-     ********************************/
-    public static void deleteDatabaseFile() {
-        try {
-            String databaseFilePath = System.getProperty("user.home") + "/HotelApplicationDatabase.mv.db";
-            Path dbPath = Paths.get(databaseFilePath);
-            Files.deleteIfExists(dbPath);
-            System.out.println("Database file deleted successfully.");
-        } catch (IOException e) {
-            System.err.println("Failed to delete database file: " + e.getMessage());
-        }
+ *                            Delete                             *
+ ****************************************************************/
+
+/**
+ * Deletes the database file from the user's home directory.
+ */
+public static void deleteDatabaseFile() {
+    try {
+        String databaseFilePath = System.getProperty("user.home") + "/HotelApplicationDatabase.mv.db";
+        Path dbPath = Paths.get(databaseFilePath);
+        Files.deleteIfExists(dbPath);
+        System.out.println("Database file deleted successfully.");
+    } catch (IOException e) {
+        System.err.println("Failed to delete database file: " + e.getMessage());
     }
+}
 
-    /********************************
-     *           Drop Table         *
-     ********************************/
-    public static void dropTable(String tableName) {
-        try {
-            StringBuilder dropTableSQL = new StringBuilder();
-            dropTableSQL.append("DROP TABLE IF EXISTS ").append(tableName);
-            handle.execute(dropTableSQL.toString());
-            System.out.println("Table '" + tableName + "' dropped successfully (if it existed).");
-        } catch (Exception e) {
-            System.err.println("Failed to drop table '" + tableName + "': " + e.getMessage());
-        }
+/********************************
+ *           Drop Table         *
+ ********************************/
+
+/**
+ * Drops the specified table from the database.
+ *
+ * @param tableName the name of the table to drop
+ */
+public static void dropTable(String tableName) {
+    try {
+        StringBuilder dropTableSQL = new StringBuilder();
+        dropTableSQL.append("DROP TABLE IF EXISTS ").append(tableName);
+        handle.execute(dropTableSQL.toString());
+        System.out.println("Table '" + tableName + "' dropped successfully (if it existed).");
+    } catch (Exception e) {
+        System.err.println("Failed to drop table '" + tableName + "': " + e.getMessage());
     }
+}
 
-    /********************************
-     *       Empty Table Method     *
-     ********************************/
-    public static void emptyTable(String tableName) {
-        try {
-            // Delete all rows from the specified table
-            String deleteSQL = "DELETE FROM " + tableName;
-            handle.execute(deleteSQL);
+/********************************
+ *       Empty Table Method     *
+ ********************************/
 
-            // Reset auto-increment for Hotels, Users, Rooms, and Reservations table if necessary
-            if ("Hotels".equalsIgnoreCase(tableName)) {
-                handle.execute("ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH 1");
-            } else if ("Users".equalsIgnoreCase(tableName)) {
-                handle.execute("ALTER TABLE Users ALTER COLUMN user_id RESTART WITH 1");
-            } else if ("Reservations".equalsIgnoreCase(tableName)) {
-                handle.execute("ALTER TABLE Reservations ALTER COLUMN reservation_id RESTART WITH 1");
-            }
-            System.out.println("All items removed from table: " + tableName);
-        } catch (Exception e) {
-            System.err.println("Failed to empty table '" + tableName + "': " + e.getMessage());
-        }
-    }
+/**
+ * Deletes all rows from the specified table and resets its auto-increment value.
+ *
+ * @param tableName the name of the table to empty
+ */
+public static void emptyTable(String tableName) {
+    try {
+        // Delete all rows from the specified table
+        String deleteSQL = "DELETE FROM " + tableName;
+        handle.execute(deleteSQL);
 
-    /********************************
-     *       Empty Entire Database  *
-     ********************************/
-    public static void emptyDatabase() {
-        try {
-            // Disable foreign key checks
-            handle.execute("SET REFERENTIAL_INTEGRITY FALSE");
-            
-            // Delete all rows from all tables
-            handle.execute("DELETE FROM Reservations");
-            handle.execute("DELETE FROM Rooms");
-            handle.execute("DELETE FROM Users");
-            handle.execute("DELETE FROM Hotels");
-
-            // Reset auto-increment for all tables
+        // Reset auto-increment for Hotels, Users, Rooms, and Reservations table if necessary
+        if ("Hotels".equalsIgnoreCase(tableName)) {
             handle.execute("ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH 1");
+        } else if ("Users".equalsIgnoreCase(tableName)) {
             handle.execute("ALTER TABLE Users ALTER COLUMN user_id RESTART WITH 1");
-            handle.execute("ALTER TABLE Rooms ALTER COLUMN room_id RESTART WITH 1");
+        } else if ("Reservations".equalsIgnoreCase(tableName)) {
             handle.execute("ALTER TABLE Reservations ALTER COLUMN reservation_id RESTART WITH 1");
-
-            System.out.println("Database cleared successfully.");
-
-        } catch (Exception e) {
-            System.err.println("Failed to clear the database: " + e.getMessage());
-        } finally {
-            // Re-enable foreign key checks
-            handle.execute("SET REFERENTIAL_INTEGRITY TRUE");
         }
+        System.out.println("All items removed from table: " + tableName);
+    } catch (Exception e) {
+        System.err.println("Failed to empty table '" + tableName + "': " + e.getMessage());
     }
-    /********************************
-     *         Remove Hotel         *
-     ********************************/
-    public static void removeHotel(Hotel hotel) {
-        int hotelID = HotelManager.getHotelID(hotel);
-        try {
-            StringBuilder deleteSQL = new StringBuilder();
-            deleteSQL.append("DELETE FROM Hotels WHERE hotel_id = :hotel_id");
-            handle.createUpdate(deleteSQL.toString())
-                  .bind("hotel_id", hotelID)
-                  .execute();
-            System.out.println("Hotel with ID " + hotelID + " removed successfully.\n");
-        } catch (Exception e) {
-            System.err.println("Failed to remove hotel with ID " + hotelID + ": " + e.getMessage());
-        }
+}
+
+/********************************
+ *       Empty Entire Database  *
+ ********************************/
+
+/**
+ * Deletes all data from all tables in the database and resets auto-increment values.
+ */
+public static void emptyDatabase() {
+    try {
+        // Disable foreign key checks
+        handle.execute("SET REFERENTIAL_INTEGRITY FALSE");
+        
+        // Delete all rows from all tables
+        handle.execute("DELETE FROM Reservations");
+        handle.execute("DELETE FROM Rooms");
+        handle.execute("DELETE FROM Users");
+        handle.execute("DELETE FROM Hotels");
+
+        // Reset auto-increment for all tables
+        handle.execute("ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH 1");
+        handle.execute("ALTER TABLE Users ALTER COLUMN user_id RESTART WITH 1");
+        handle.execute("ALTER TABLE Rooms ALTER COLUMN room_id RESTART WITH 1");
+        handle.execute("ALTER TABLE Reservations ALTER COLUMN reservation_id RESTART WITH 1");
+
+        System.out.println("Database cleared successfully.");
+
+    } catch (Exception e) {
+        System.err.println("Failed to clear the database: " + e.getMessage());
+    } finally {
+        // Re-enable foreign key checks
+        handle.execute("SET REFERENTIAL_INTEGRITY TRUE");
     }
+}
 
+/********************************
+ *         Remove Hotel         *
+ ********************************/
 
-    /****************************************************************
-     *                            Print                             *
-     ****************************************************************/
-    //Print the Hotels table in the terminal
-    public static void printHotelsTable() {
-        try {
-            StringBuilder querySQL = new StringBuilder();
-            querySQL.append("SELECT * FROM Hotels");
-            Query query = handle.createQuery(querySQL.toString());
-
-            // Print the table header
-            System.out.println("\n-------------------------------------------------------------");
-            System.out.println(String.format("%-10s %-20s %-30s", "Hotel ID", "Name", "Address"));
-            System.out.println("-------------------------------------------------------------");
-
-            // Print each row in the Hotels table
-            query.map((rs, ctx) -> {
-                String hotelRow = String.format("%-10d %-20s %-30s", 
-                    rs.getInt("hotel_id"), 
-                    rs.getString("name"), 
-                    rs.getString("address"));
-                System.out.println(hotelRow);
-                return null;
-            }).list();
-
-            System.out.println("-------------------------------------------------------------\n");
-        } catch (Exception e) {
-            System.err.println("Failed to print Hotels table: " + e.getMessage());
-        }
+/**
+ * Removes a specific hotel from the Hotels table.
+ *
+ * @param hotel the Hotel object to remove
+ */
+public static void removeHotel(Hotel hotel) {
+    int hotelID = HotelManager.getHotelID(hotel);
+    try {
+        StringBuilder deleteSQL = new StringBuilder();
+        deleteSQL.append("DELETE FROM Hotels WHERE hotel_id = :hotel_id");
+        handle.createUpdate(deleteSQL.toString())
+              .bind("hotel_id", hotelID)
+              .execute();
+        System.out.println("Hotel with ID " + hotelID + " removed successfully.\n");
+    } catch (Exception e) {
+        System.err.println("Failed to remove hotel with ID " + hotelID + ": " + e.getMessage());
     }
+}
 
+/****************************************************************
+ *                            Print                             *
+ ****************************************************************/
 
-    /********************************
-     *         Print Rooms Table    *
-     ********************************/
-    //Print the Rooms table in the terminal
-    public static void printRoomsTable() {
-        try {
-            StringBuilder querySQL = new StringBuilder();
-            querySQL.append("SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, room_description FROM Rooms");
-            Query query = getHandle().createQuery(querySQL.toString());
-            System.out.println("\n------------------------------------------------------------------------------------------------------");
-            System.out.println(String.format("%-10s %-10s %-15s %-15s %-15s %-15s %-15s", "Room ID", "Hotel ID", "Room Number", "Bed Type", "Num of Beds", "Price per Night", "Room Description"));
-            System.out.println("------------------------------------------------------------------------------------------------------");
-            
-            query.map((rs, ctx) -> {
-                System.out.println(String.format("%-10d %-10d %-15d %-15s %-15d %-15.2f %-15s",
-                        rs.getInt("room_id"),
-                        rs.getInt("hotel_id"),
-                        rs.getInt("room_number"),
-                        rs.getString("bed_type"),
-                        rs.getInt("num_of_beds"),
-                        rs.getBigDecimal("price_per_night"),
-                        rs.getString("room_description") != null ? rs.getString("room_description") : ""));
-                return null;
-            }).list();
-            
-            System.out.println("------------------------------------------------------------------------------------------------------\n");
-        } catch (Exception e) {
-            System.err.println("Failed to print Rooms table: " + e.getMessage());
-        }
+/********************************
+ *     Print the Hotels table   *
+ ********************************/
+
+/**
+ * Prints all rows of the Hotels table in a formatted manner to the terminal.
+ */
+public static void printHotelsTable() {
+    try {
+        StringBuilder querySQL = new StringBuilder();
+        querySQL.append("SELECT * FROM Hotels");
+        Query query = handle.createQuery(querySQL.toString());
+
+        // Print the table header
+        System.out.println("\n-------------------------------------------------------------");
+        System.out.println(String.format("%-10s %-20s %-30s", "Hotel ID", "Name", "Address"));
+        System.out.println("-------------------------------------------------------------");
+
+        // Print each row in the Hotels table
+        query.map((rs, ctx) -> {
+            String hotelRow = String.format("%-10d %-20s %-30s", 
+                rs.getInt("hotel_id"), 
+                rs.getString("name"), 
+                rs.getString("address"));
+            System.out.println(hotelRow);
+            return null;
+        }).list();
+
+        System.out.println("-------------------------------------------------------------\n");
+    } catch (Exception e) {
+        System.err.println("Failed to print Hotels table: " + e.getMessage());
     }
+}
 
-    //Print the Users table in the terminal
-    public static void printUsersTable() {
-        try {
-            StringBuilder querySQL = new StringBuilder();
-            querySQL.append("SELECT * FROM Users");
-            Query query = handle.createQuery(querySQL.toString());
+/********************************
+ *      Print Rooms Table       *
+ ********************************/
 
-            // Print the table header
-            System.out.println("\n-------------------------------------------------------------");
-            System.out.println(String.format("%-10s %-15s %-15s %-15s %-20s", "User ID", "First Name", "Last Name", "Username", "Birthday"));
-            System.out.println("-------------------------------------------------------------");
-
-            //Print each row in the Users table
-            query.map((rs, ctx) -> {
-                String userRow = String.format("%-10d %-15s %-15s %-15s %-20s",
-                        rs.getInt("user_id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
-                        rs.getString("username"),
-                        rs.getDate("birthday"));
-                System.out.println(userRow);
-                return null;
-            }).list();
-
-            System.out.println("-------------------------------------------------------------\n");
-        } catch (Exception e) {
-            System.err.println("Failed to print Users table: " + e.getMessage());
-        }
+/**
+ * Prints all rows of the Rooms table in a formatted manner to the terminal.
+ */
+public static void printRoomsTable() {
+    try {
+        StringBuilder querySQL = new StringBuilder();
+        querySQL.append("SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, room_description FROM Rooms");
+        Query query = getHandle().createQuery(querySQL.toString());
+        System.out.println("\n------------------------------------------------------------------------------------------------------");
+        System.out.println(String.format("%-10s %-10s %-15s %-15s %-15s %-15s %-15s", "Room ID", "Hotel ID", "Room Number", "Bed Type", "Num of Beds", "Price per Night", "Room Description"));
+        System.out.println("------------------------------------------------------------------------------------------------------");
+        
+        query.map((rs, ctx) -> {
+            System.out.println(String.format("%-10d %-10d %-15d %-15s %-15d %-15.2f %-15s",
+                    rs.getInt("room_id"),
+                    rs.getInt("hotel_id"),
+                    rs.getInt("room_number"),
+                    rs.getString("bed_type"),
+                    rs.getInt("num_of_beds"),
+                    rs.getBigDecimal("price_per_night"),
+                    rs.getString("room_description") != null ? rs.getString("room_description") : ""));
+            return null;
+        }).list();
+        
+        System.out.println("------------------------------------------------------------------------------------------------------\n");
+    } catch (Exception e) {
+        System.err.println("Failed to print Rooms table: " + e.getMessage());
     }
+}
 
+/********************************
+ *      Print Users Table       *
+ ********************************/
 
-    //Print the Reservations table in the terminal
-    public static void printReservationsTable() {
-        try {
-            StringBuilder querySQL = new StringBuilder();
-            querySQL.append("SELECT * FROM Reservations");
-            Query query = handle.createQuery(querySQL.toString());
+/**
+ * Prints all rows of the Users table in a formatted manner to the terminal.
+ */
+public static void printUsersTable() {
+    try {
+        StringBuilder querySQL = new StringBuilder();
+        querySQL.append("SELECT * FROM Users");
+        Query query = handle.createQuery(querySQL.toString());
 
-            //Print the table header
-            System.out.println("\n-----------------------------------------------------------------------------------------------------");
-            System.out.println(String.format("%-15s %-10s %-10s %-10s %-15s %-15s %-15s", "Reservation ID", "User ID", "Room ID", "Hotel ID", "Check-In Date", "Check-Out Date", "Total Cost"));
-            System.out.println("-----------------------------------------------------------------------------------------------------");
+        // Print the table header
+        System.out.println("\n-------------------------------------------------------------");
+        System.out.println(String.format("%-10s %-15s %-15s %-15s %-20s", "User ID", "First Name", "Last Name", "Username", "Birthday"));
+        System.out.println("-------------------------------------------------------------");
 
-            // Print each row in the Reservations table
-            query.map((rs, ctx) -> {
-                String reservationRow = String.format("%-15d %-10d %-10d %-10d %-15s %-15s %-15.2f",
-                        rs.getInt("reservation_id"),
-                        rs.getInt("user_id"),
-                        rs.getInt("room_id"),
-                        rs.getInt("hotel_id"),
-                        rs.getDate("check_in_date"),
-                        rs.getDate("check_out_date"),
-                        rs.getBigDecimal("total_cost"));
-                System.out.println(reservationRow);
-                return null;
-            }).list();
+        //Print each row in the Users table
+        query.map((rs, ctx) -> {
+            String userRow = String.format("%-10d %-15s %-15s %-15s %-20s",
+                    rs.getInt("user_id"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getString("username"),
+                    rs.getDate("birthday"));
+            System.out.println(userRow);
+            return null;
+        }).list();
 
-            System.out.println("-----------------------------------------------------------------------------------------------------\n");
-        } catch (Exception e) {
-            System.err.println("Failed to print Reservations table: " + e.getMessage());
-        }
+        System.out.println("-------------------------------------------------------------\n");
+    } catch (Exception e) {
+        System.err.println("Failed to print Users table: " + e.getMessage());
     }
-    /****************************************************************
-     *                             End                              *
-     ****************************************************************/
+}
+
+/********************************
+ *    Print Reservations Table  *
+ ********************************/
+
+/**
+ * Prints all rows of the Reservations table in a formatted manner to the terminal.
+ */
+public static void printReservationsTable() {
+    try {
+        StringBuilder querySQL = new StringBuilder();
+        querySQL.append("SELECT * FROM Reservations");
+        Query query = handle.createQuery(querySQL.toString());
+
+        //Print the table header
+        System.out.println("\n-----------------------------------------------------------------------------------------------------");
+        System.out.println(String.format("%-15s %-10s %-10s %-10s %-15s %-15s %-15s", "Reservation ID", "User ID", "Room ID", "Hotel ID", "Check-In Date", "Check-Out Date", "Total Cost"));
+        System.out.println("-----------------------------------------------------------------------------------------------------");
+
+        // Print each row in the Reservations table
+        query.map((rs, ctx) -> {
+            String reservationRow = String.format("%-15d %-10d %-10d %-10d %-15s %-15s %-15.2f",
+                    rs.getInt("reservation_id"),
+                    rs.getInt("user_id"),
+                    rs.getInt("room_id"),
+                    rs.getInt("hotel_id"),
+                    rs.getDate("check_in_date"),
+                    rs.getDate("check_out_date"),
+                    rs.getBigDecimal("total_cost"));
+            System.out.println(reservationRow);
+            return null;
+        }).list();
+
+        System.out.println("-----------------------------------------------------------------------------------------------------\n");
+    } catch (Exception e) {
+        System.err.println("Failed to print Reservations table: " + e.getMessage());
+    }
+}
+
+/****************************************************************
+ *                             End                              *
+ ****************************************************************/
 }//End of DatabaseConnector Class
+

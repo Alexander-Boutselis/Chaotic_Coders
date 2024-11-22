@@ -13,7 +13,6 @@
 
 //How to run
 //mvn clean compile exec:java
-
 package com.hotelapplication;
 import com.hotelapplication.frontend.*;
 import com.hotelapplication.backend.*;
@@ -22,75 +21,86 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-//Start of Main
-public class Main{
+/**
+ * Main class of the HotelApplication. 
+ * This is the entry point of the application that initializes the database, 
+ * prompts for user interaction, and either launches a GUI or runs the program in the terminal.
+ */
+public class Main {
+    /**
+     * The main method serves as the entry point of the application.
+     * It initializes the application, prints tables, prompts the user for GUI or terminal operation,
+     * and handles resource cleanup and shutdown.
+     *
+     * @param args command-line arguments (not used in this application)
+     */
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
         try {
-            //DatabaseConnector.deleteDatabaseFile();
+            // Initialize the database and application
             DatabaseConnector.initializeApplication();
-            //TestClass.testCases(0);
-
-            //DatabaseConnector.emptyDatabase();
-            //DatabaseManager.setCurrentHotel(DatabaseManager.getHotel("Chaotic Coder Inn"));
-
             HotelManager.printCurrentHotelInfo();
-
-
         } catch (Exception e) {
             System.err.println("Ran into an Exception: " + e.getMessage());
             e.printStackTrace(); // Print the stack trace for better debugging
         }
 
-
         try {
+            // Print the current database tables for verification
             DatabaseConnector.printHotelsTable();
             DatabaseConnector.printRoomsTable();
             DatabaseConnector.printUsersTable();
             DatabaseConnector.printReservationsTable();
 
+            // Prompt the user to choose between GUI and terminal operation
             promptForGUI(scanner);
-            
+
+            // Print the database tables again to reflect any changes made during application use
             DatabaseConnector.printHotelsTable();
             DatabaseConnector.printRoomsTable();
             DatabaseConnector.printUsersTable();
             DatabaseConnector.printReservationsTable();
-
-           
 
         } catch (Exception e) {
             System.err.println("Database not connected: " + e.getMessage());
-        }finally{
+        } finally {
+            // Clean up and close the application
             GUIManager.closeApplication();
-            //Close the scanner to avoid resource leaks
-            scanner.close(); 
+            scanner.close(); // Close the scanner to avoid resource leaks
             System.exit(0);
         }
-    }//End of main 
+    } // End of main
 
-
-    public static void promptForGUI(Scanner scanner){
+    /**
+     * Prompts the user to decide whether to launch the application in GUI mode or run it in the terminal.
+     *
+     * @param scanner the Scanner object used to get user input
+     */
+    public static void promptForGUI(Scanner scanner) {
         String choice;
 
         System.out.println("\n---Launch GUI---");
-
         System.out.println("Would you like to launch the GUI (Y/N): ");
 
         choice = scanner.nextLine().toLowerCase();
 
-        if (choice.charAt(0)== 'y'){
+        if (choice.charAt(0) == 'y') {
+            // Launch the application GUI
             GUIManager.runAppGUI();
-        }else {
-            //Hotel App Run in terminal window
+        } else {
+            // Run the application in the terminal
             GUIManager.runAppInTerminal(scanner);
         }
-
     }
 
-
-    public static int debug(){
+    /**
+     * Debug method for setting the program state. Allows selection between different user states.
+     *
+     * @return an integer representing the selected state (1: Not Signed in, 2: User Signed in, 3: Manager Signed in, 4: Quit Program)
+     */
+    public static int debug() {
         Scanner scanner = new Scanner(System.in);
         int input;
         System.out.println("\n---State Options (DEBUG)---");
@@ -107,4 +117,4 @@ public class Main{
     /****************************************************************
      *                          End                                 *
      ****************************************************************/
-}//End of Main
+} // End of Main
