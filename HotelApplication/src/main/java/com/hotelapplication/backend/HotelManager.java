@@ -107,11 +107,14 @@ public class HotelManager {
     //Set Current Hotel Name
     public static void setHotelName(String newHotelName){
         DatabaseManager.getCurrentHotel().setHotelName(newHotelName);
+        DatabaseConnector.updateHotelInDatabase(DatabaseManager.getCurrentHotel());
     }
 
     //Set Hotel Name
     public static void setHotelName(Hotel hotel, String newHotelName){
        hotel.setHotelName(newHotelName);
+       DatabaseConnector.updateHotelInDatabase(hotel);
+
     }
 
 /********************************
@@ -120,11 +123,15 @@ public class HotelManager {
     //Set Current Hotel Id
     public static void setHotelID(int hotelID){
         DatabaseManager.getCurrentHotel().setHotelID(hotelID);
+        DatabaseConnector.updateHotelInDatabase(DatabaseManager.getCurrentHotel());
+
     }
 
     //Set Hotel Id
     public static void setHotelID(Hotel hotel, int hotelID){
         hotel.setHotelID(hotelID);
+        DatabaseConnector.updateHotelInDatabase(hotel);
+
     }
 
 /********************************
@@ -133,11 +140,15 @@ public class HotelManager {
     //Set Current Hotel Address
     public static void setHotelAddress(String hotelAddress){
         DatabaseManager.getCurrentHotel().setHotelAddress(hotelAddress);
+        DatabaseConnector.updateHotelInDatabase(DatabaseManager.getCurrentHotel());
+
     }
 
     //Set Hotel Address
     public static void setHotelAddress(Hotel hotel, String hotelAddress){
         hotel.setHotelAddress(hotelAddress);
+        DatabaseConnector.updateHotelInDatabase(hotel);
+
     }
 
 

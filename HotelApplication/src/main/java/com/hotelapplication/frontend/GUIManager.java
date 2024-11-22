@@ -841,8 +841,9 @@ public static void runAppInTerminal(Scanner scanner){
             System.out.println("1. Add Room");
             System.out.println("2. Remove Room");
             System.out.println("3. View All Rooms");
-            System.out.println("4. Delete Hotel");
-            System.out.println("5. Exit Hotel Edditer");
+            System.out.println("4. Edit Hotel Info");
+            System.out.println("5. Delete Hotel");
+            System.out.println("6. Cancel");
 
             System.out.print("Please enter a number: ");
             option = scanner.nextInt();
@@ -871,11 +872,15 @@ public static void runAppInTerminal(Scanner scanner){
                     viewHotelRoomsScreen(scanner);
                     break;
 
-                 case 4:
-                    viewHotelRoomsScreen(scanner);
+                case 4:
+                    editHotelInfoScreen(scanner);
                     break;
 
-                case 5:
+                 case 5:
+                    //Delete Hotel
+                    break;
+
+                case 6:
                     System.out.println("Exiting...");
                     running = false;
                     break;
@@ -917,7 +922,55 @@ public static void runAppInTerminal(Scanner scanner){
         }
     }    
 
+//********************************
+//    Edit Hotel Info Screen     *
+//********************************
+    public static void editHotelInfoScreen(Scanner scanner){
+        boolean running = true;
+        int option;
+        String userInput;
 
+        while (running){
+
+            //Prompt user to select what to change
+            System.out.println("\n---Edit Account Info---");
+            
+            //Print current User ifo
+            AccountManager.printCurrentUser();
+
+            System.out.println("1. Edit Hotel Name");
+            System.out.println("2. Edit Hotel Address");
+            System.out.println("3. Cancel");
+            System.out.print("Please enter a number: ");
+
+            option = scanner.nextInt();
+            scanner.nextLine(); 
+
+            switch(option){
+            case 1:
+                System.out.println("\n---Edit Hotel Name---");
+                System.out.println("Please enter new Hotel name: ");
+                userInput = scanner.nextLine();
+                HotelManager.setHotelName(userInput);
+            break;
+
+            case 2:
+                System.out.println("\n---Edit Hotel Address---");
+                System.out.println("Please enter new Hotel address: ");
+                userInput = scanner.nextLine();
+                HotelManager.setHotelAddress(userInput);
+            break;
+
+            case 3:
+                running = false;
+            break;
+
+            default:
+                System.out.println("Invalid Input");
+            break;
+            }
+        }
+    }
 
 //********************************
 //    View Hotel Room Screen     * Shared
