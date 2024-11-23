@@ -605,19 +605,13 @@ public class DatabaseConnector {
         return getHandle().createQuery(sqlQuery)
                 .bind("reservationId", reservationId)
                 .map((resultSet, statementContext) -> new Reservation(
-                        translateUserFromDatabase(resultSet.getInt("user_id")),
                         resultSet.getInt("reservation_id"),
-                        resultSet.getDouble("total_cost"),
-                        new Room(
-                                resultSet.getInt("room_id"),
-                                resultSet.getInt("room_number"),
-                                resultSet.getInt("num_of_beds"),
-                                resultSet.getString("bed_type"),
-                                resultSet.getBigDecimal("price_per_night").doubleValue(),
-                                resultSet.getString("room_description") != null ? resultSet.getString("room_description") : ""
-                        ),
+                        resultSet.getInt("user_id"),
+                        resultSet.getInt("room_id"),
+                        resultSet.getInt("hotel_id"),
                         resultSet.getDate("check_in_date").toLocalDate(),
-                        resultSet.getDate("check_out_date").toLocalDate()
+                        resultSet.getDate("check_out_date").toLocalDate(),
+                        resultSet.getDouble("total_cost")
                 )).one();
     }
 

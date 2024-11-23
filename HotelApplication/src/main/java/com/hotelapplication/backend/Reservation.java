@@ -39,39 +39,42 @@ public class Reservation {
 	*/
 
 	// Variables
-	private User assignedUser;
 	private int reservationNumber;
-	private double totalPrice;
-	private Room room;
+	private int assignedUserID;
+	private int roomID;
+	private int hotelID;
 	private LocalDate startDate;
 	private LocalDate endDate;
+	private double totalPrice;
 
 	// Constructor
-	public Reservation(User assignedUser, int reservationNumber, double totalPrice, Room room, LocalDate startDate, LocalDate endDate) {
-		this.assignedUser = assignedUser;
+	public Reservation(int reservationNumber, int assignedUserID, int roomID, int hotelID, LocalDate startDate, LocalDate endDate, double totalPrice) {
 		this.reservationNumber = reservationNumber;
-		this.totalPrice = totalPrice;
-		this.room = room;
+		this.assignedUserID = assignedUserID;
+		this.roomID = roomID;
+		this.hotelID = hotelID;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.totalPrice = totalPrice;
 	}
 
 	public Reservation(Reservation reservation) {
-		this.assignedUser = reservation.assignedUser;
 		this.reservationNumber = reservation.reservationNumber;
-		this.totalPrice = reservation.totalPrice;
-		this.room = reservation.room;
+		this.assignedUserID = reservation.assignedUserID;
+		this.roomID = reservation.roomID;
+		this.hotelID = reservation.hotelID;
 		this.startDate = reservation.startDate;
 		this.endDate = reservation.endDate;
+		this.totalPrice = reservation.totalPrice;
 	}
 
 /****************************************************************
  *                  		Getters 	                        *
  ****************************************************************/
 
-	//Get Assigned User
-	public User getAssignedUser() {
-		return assignedUser;
+	//Get Assigned User ID
+	public int getAssignedUserID() {
+		return assignedUserID;
 	}
 
 		//Get Reservation Number
@@ -84,9 +87,14 @@ public class Reservation {
 		return totalPrice;
 	}
 
-	//Get Room
-	public Room getRoom() {
-		return room;
+	//Get Room ID
+	public int getRoomID() {
+		return roomID;
+	}
+
+	//Get Hotel ID
+	public int getHotelID() {
+		return hotelID;
 	}
 
 	//Get Start Date
@@ -116,9 +124,9 @@ public class Reservation {
 /****************************************************************
  *                  		Setters 	                        *
  ****************************************************************/
-	//Set Assigned User
-	public void setAssignedUser(User assignedUser) {
-		this.assignedUser = assignedUser;
+	//Set Assigned User ID
+	public void setAssignedUserID(int assignedUserID) {
+		this.assignedUserID = assignedUserID;
 	}
 
 	//Set Reservation Number
@@ -131,9 +139,14 @@ public class Reservation {
 		this.totalPrice = totalPrice;
 	}
 
-	//Set Room
-	public void setRoom(Room room) {
-		this.room = room;
+	//Set Room ID
+	public void setRoomID(int roomID) {
+		this.roomID = roomID;
+	}
+
+	//Set Hotel ID
+	public void setHotelID(int hotelID) {
+		this.hotelID = hotelID;
 	}
 
 	//Set Start Date
@@ -180,13 +193,13 @@ public class Reservation {
 		receipt.append("--------------------------------\n");
 		receipt.append("Your reservation was successsful.\n");
 		receipt.append("Name: ");
-		receipt.append(assignedUser.getName());
+		receipt.append(DatabaseConnector.translateUserFromDatabase(assignedUserID).getName());
 		receipt.append("\n");
 		receipt.append("Reservation Number: ");
 		receipt.append(reservationNumber);
 		receipt.append("\n");
 		receipt.append("Username: ");
-		receipt.append(assignedUser.getUsername());
+		receipt.append(DatabaseConnector.translateUserFromDatabase(assignedUserID).getUsername());
 		receipt.append("\n");
 		receipt.append("Dates: ");
 		receipt.append(startDate);
@@ -202,19 +215,19 @@ public class Reservation {
 		receipt.append("Your room: \n");
 		receipt.append("--------------------------------\n");
 		receipt.append("Room number: ");
-		receipt.append(room.getRoomNumber());
+		receipt.append(DatabaseConnector.translateRoomFromDatabase(roomID).getRoomNumber());
 		receipt.append("\n");
 		receipt.append("Room description: ");
-		receipt.append(room.getRoomDescription());
+		receipt.append(DatabaseConnector.translateRoomFromDatabase(roomID).getRoomDescription());
 		receipt.append("\n");
 		receipt.append("Number of beds: ");
-		receipt.append(room.getNumberOfBeds());
+		receipt.append(DatabaseConnector.translateRoomFromDatabase(roomID).getNumberOfBeds());
 		receipt.append("\n");
 		receipt.append("Bed type: ");
-		receipt.append(room.getBedType());
+		receipt.append(DatabaseConnector.translateRoomFromDatabase(roomID).getBedType());
 		receipt.append("\n");
 		receipt.append("Nightly rate: ");
-		receipt.append(room.getPricePerNight());
+		receipt.append(DatabaseConnector.translateRoomFromDatabase(roomID).getPricePerNight());
 		receipt.append("\n");
 		receipt.append("--------------------------------\n");
 		receipt.append("TOTAL OWED: $");

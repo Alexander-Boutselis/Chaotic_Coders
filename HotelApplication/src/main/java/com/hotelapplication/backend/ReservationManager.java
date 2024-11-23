@@ -45,7 +45,7 @@ public class ReservationManager {
 
 	//Create reservation
 	public static Reservation createReservation(Hotel hotel, User user, int reservationNumber, double totalPrice, Room room, LocalDate startDate, LocalDate endDate) {
-		Reservation newReservation = new Reservation(user, reservationNumber, totalPrice, room, startDate, endDate);
+		Reservation newReservation = new Reservation(reservationNumber, user.getUserID(), room.getRoomID(), hotel.getHotelID(), startDate, endDate, totalPrice);
 		hotel.addReservation(newReservation);
 		user.addReservation(reservationNumber);
 		room.addReservationNumber(reservationNumber);
@@ -56,7 +56,7 @@ public class ReservationManager {
 	//Create reservation given reservation object
 	public static void createReservationGivenReservation(Reservation reservation) {
 		getHotelFromReservation(reservation).addReservation(reservation);
-		User user = getAssignedUser(reservation);
+		User user = DatabaseConnector.translateUserFromDatabase(getAssignedUserID(reservation));
 		user.addReservation(reservation.getReservationNumber());
 		getRoom(reservation).addReservationNumber(reservation.getReservationNumber());
 	}
@@ -73,7 +73,7 @@ public class ReservationManager {
 		Reservation newReservation = new Reservation(reservation);
 		hotel.removeReservation(reservation);
 		user.removeReservation(reservation.getReservationNumber());
-		newReservation.setAssignedUser(user);
+		newReservation.setAssignedUserID(user.getUserID());
 		hotel.addReservation(newReservation);
 		user.addReservation(newReservation.getReservationNumber());
 	}
@@ -135,7 +135,7 @@ public class ReservationManager {
 
 	//Get room
 	public static Room getRoom(Reservation reservation) {
-		return reservation.getRoom();
+		return DatabaseConnector.translateRoomFromDatabase(reservation.getRoomID());
 	}
 
 	//Get start date
@@ -153,9 +153,14 @@ public class ReservationManager {
 		return DatabaseManager.getCurrentHotel();
 	}
 
+	//Get the Assigned User ID
+	public static int getAssignedUserID(Reservation reservation){
+		return reservation.getAssignedUserID();
+	}
+
 	//Get the Assigned User
 	public static User getAssignedUser(Reservation reservation){
-		return reservation.getAssignedUser();
+		return DatabaseConnector.translateUserFromDatabase(reservation.getAssignedUserID());
 	}
 
 	//Get the hotel for a reservation
@@ -177,7 +182,7 @@ public class ReservationManager {
 
 	//Set room
 	public static void setRoom(Reservation reservation, Room room) {
-		reservation.setRoom(room);
+		reservation.setRoomID(room.getRoomID());
 	}
 
 	//Set start date
@@ -220,7 +225,7 @@ public class ReservationManager {
 			if (room.getNumberOfBeds() == roomSize) {
 				boolean isAvailable = true;
 				for (Reservation reservation : hotel.getAllReservations()) {
-					if (reservation.getRoom().equals(room)) {
+					if (DatabaseConnector.translateRoomFromDatabase(reservation.getRoomID()).equals(room)) {
 						LocalDate existingStart = reservation.getStartDate();
 						LocalDate existingEnd = reservation.getEndDate();
 
