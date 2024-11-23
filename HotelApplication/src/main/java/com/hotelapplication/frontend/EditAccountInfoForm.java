@@ -1,12 +1,24 @@
+//EditAccountInfoForm.java
+
 package com.hotelapplication.frontend;
 
-import com.hotelapplication.backend.*;
+// import com.hotelapplication.backend.*;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The EditAccountInfoForm class provides a GUI for users to update their account information,
+ * including full name, username, and password.
+ * 
+ * @author Minas Papazyan
+ */
 public class EditAccountInfoForm extends JFrame {
 
+    /**
+     * Constructs the EditAccountInfoForm GUI, initializing the fields with the user's
+     * current information and providing options to save or discard changes.
+     */
     public EditAccountInfoForm() {
         setTitle("Edit Account Info");
         setSize(400, 400);
@@ -19,6 +31,7 @@ public class EditAccountInfoForm extends JFrame {
         panel.setBackground(new Color(3, 45, 48));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        // Labels and input fields for user information
         JLabel nameLabel = new JLabel("Full Name:");
         nameLabel.setForeground(Color.WHITE);
         JTextField nameField = new JTextField();
@@ -31,7 +44,7 @@ public class EditAccountInfoForm extends JFrame {
         passwordLabel.setForeground(Color.WHITE);
         JPasswordField passwordField = new JPasswordField();
 
-        // Pre-fill the fields with current user info
+        // Pre-fill the fields with current user information
         User currentUser = DatabaseManager.getCurrentUser();
         if (currentUser != null) {
             String currentFirstName = currentUser.getFirstName();
@@ -47,6 +60,7 @@ public class EditAccountInfoForm extends JFrame {
         panel.add(passwordLabel);
         panel.add(passwordField);
 
+        // Save Changes Button
         JButton saveButton = createModernButton("Save Changes");
         saveButton.addActionListener(e -> {
             String fullName = nameField.getText().trim();
@@ -80,6 +94,7 @@ public class EditAccountInfoForm extends JFrame {
             SwingUtilities.invokeLater(() -> new UserPanel().setVisible(true));
         });
 
+        // Discard Changes Button
         JButton discardButton = createModernButton("Discard Changes");
         discardButton.addActionListener(e -> {
             this.dispose();
@@ -95,6 +110,12 @@ public class EditAccountInfoForm extends JFrame {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Creates a modern-styled JButton with the given text.
+     *
+     * @param text The text to display on the button.
+     * @return A styled JButton object.
+     */
     private JButton createModernButton(String text) {
         JButton button = new JButton(text);
         button.setFocusPainted(false);
@@ -106,6 +127,11 @@ public class EditAccountInfoForm extends JFrame {
         return button;
     }
 
+    /**
+     * The main method to test the EditAccountInfoForm GUI.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new EditAccountInfoForm().setVisible(true));
     }
