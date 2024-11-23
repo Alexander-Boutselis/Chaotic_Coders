@@ -1,7 +1,7 @@
 //ManagerPanel.java
 
 package com.hotelapplication.frontend;
-// import com.hotelapplication.backend.*;
+import com.hotelapplication.backend.*;
 
 import javax.swing.*;
 import java.awt.*;

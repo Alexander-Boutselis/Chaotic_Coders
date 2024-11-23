@@ -2,7 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package login.and.signup;
+package com.hotelapplication.frontend;
+import com.hotelapplication.backend.*;
 
 /**
  *
@@ -200,10 +201,7 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
     
     
-    /**
-     * @param args the command line arguments
-     */
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
