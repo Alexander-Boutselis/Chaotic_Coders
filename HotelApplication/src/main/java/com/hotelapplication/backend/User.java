@@ -3,11 +3,19 @@
 package com.hotelapplication.backend;
 import com.hotelapplication.frontend.*;
 
-
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+/**
+ * Represents a user in the hotel reservation system.
+ * 
+ * This class stores user details such as name, birthday, account information, 
+ * and reservations. It provides methods to manage user details and reservations.
+ * 
+ * @author Alexander Boutselis
+ * 
+ */
 public class User {
 
     //User Info
@@ -15,19 +23,22 @@ public class User {
     private String firstName;
     private String lastName;
     protected Calendar birthday = Calendar.getInstance();
-    //$ Balance - Create a Payment Manager
-
-    //Log in Info
     protected String username;
     private String password;
     protected boolean isActive;
 
     //User Reservations
     protected ArrayList<Integer> reservationNumbers;
-    //private ArrayList<Notification> notifications;
-
  
-    // Constructor
+    /**
+     * Constructs a User object with basic account details.
+     * 
+     * @param firstName The user's first name.
+     * @param lastName The user's last name.
+     * @param birthday The user's date of birth.
+     * @param username The username for the account.
+     * @param password The password for the account.
+     */
     public User(String firstName, String lastName, Calendar birthday, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,6 +49,17 @@ public class User {
         this.reservationNumbers = new ArrayList<>();
     }
 
+    /**
+     * Constructs a User object with detailed account and status information.
+     * 
+     * @param userID The unique ID of the user.
+     * @param firstName The user's first name.
+     * @param lastName The user's last name.
+     * @param birthday The user's date of birth.
+     * @param username The username for the account.
+     * @param password The password for the account.
+     * @param isActive The active status of the account.
+     */
     public User(Integer userID, String firstName, String lastName, Calendar birthday, String username, String password, boolean isActive) {
         this.userID = userID;
         this.firstName = firstName;
@@ -55,12 +77,21 @@ public class User {
     /********************************
      *        Set/Get userID        *
      ********************************/
-    //Set User ID
+    
+    /**
+     * Sets the user's unique ID.
+     * 
+     * @param userID The unique ID to assign to the user.
+     */
     public void setUserID(int userID){
         this.userID = userID;
     }
 
-    //Set User ID
+    /**
+     * Retrieves the user's unique ID.
+     * 
+     * @return The user's unique ID.
+     */
     public int getUserID(){
         return userID;
     }
@@ -68,27 +99,47 @@ public class User {
     /********************************
      *         Set/Get Name         *
      ********************************/
-    //Set First Name
+    /**
+     * Sets the user's first name.
+     * 
+     * @param firstName The first name of the user.
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    //Set Last Name
+    /**
+     * Sets the user's last name.
+     * 
+     * @param lastName The last name of the user.
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    //Get First Name
+    /**
+     * Retrieves the user's first name.
+     * 
+     * @return The user's first name.
+     */
     public String getFirstName(){
         return firstName;
     }
 
-    //Get Last Name
+    /**
+     * Retrieves the user's last name.
+     * 
+     * @return The user's last name.
+     */
     public String getLastName(){
         return lastName;
     }
 
-    //Get Full Name
+    /**
+     * Retrieves the user's full name by combining first and last names.
+     * 
+     * @return The user's full name.
+     */
     public String getName() {
         String nameCombiner;
         nameCombiner = firstName + " " + lastName;
@@ -98,12 +149,21 @@ public class User {
     /********************************
      *       Set/Get Birthday       *
      ********************************/
-    //Set Birthday
+    
+    /**
+     * Sets the user's date of birth.
+     * 
+     * @param birthday The user's date of birth as a Calendar object.
+     */
     public void setBirthday(Calendar birthday) {
         this.birthday = birthday;
     }
 
-    //Get Birthday
+    /**
+     * Retrieves the user's date of birth.
+     * 
+     * @return The user's date of birth as a Calendar object.
+     */
     public Calendar getBirthday() {
         return birthday;
     }
@@ -111,7 +171,12 @@ public class User {
     /********************************
      *          Print Info          *
      ********************************/
-    //Get Account Info toSting()
+    
+    /**
+     * Retrieves account information as a formatted string.
+     * 
+     * @return A string containing the user's account details.
+     */
     public String getAccountInfo(){
         StringBuilder accountInfo = new StringBuilder();
 
@@ -134,7 +199,9 @@ public class User {
         return accountInfo.toString();
     }
 
-    //Print Account info
+    /**
+     * Prints the user's account information to the console.
+     */
     public void printAccount(){
         System.out.println(getAccountInfo());
     }
@@ -146,12 +213,21 @@ public class User {
     /********************************
      *       Set/Get Username       *
      ********************************/
-    //Set Username
+    
+    /**
+     * Sets the user's username.
+     * 
+     * @param username The username to assign.
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    //Get Username
+    /**
+     * Retrieves the user's username.
+     * 
+     * @return The user's username.
+     */
     public String getUsername() {
         return username;
     }
@@ -159,16 +235,24 @@ public class User {
     /********************************
      *       Set/Get Password       *
      ********************************/
-    //Set Password
+    
+    /**
+     * Sets the user's password.
+     * 
+     * @param password The password to assign.
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    //Get Password
+    /**
+     * Retrieves the user's password.
+     * 
+     * @return The user's password.
+     */
     public String getPassword() {
         return password;
     }
-
 
     /****************************************************************
      *                     Reservation Methods                      *
@@ -177,7 +261,16 @@ public class User {
     /********************************
      *      Get Reservation(s)      *
      ********************************/
-    //Get Reservation based on its Reservation Number
+    
+    /**
+     * Retrieves a reservation number from the user's list of reservation numbers.
+     * 
+     * This method searches for a reservation number in the list of the user's reservations
+     * and returns the first match found. If no reservation number is found, it returns -1.
+     *
+     * @param searchReservationNumber The reservation number to search for.
+     * @return The found reservation number, or -1 if no match is found.
+     */
     public int getReservationNumber(int searchReservationNumber){
         for(int reservationNumber : reservationNumbers){
             return reservationNumber;
@@ -185,7 +278,14 @@ public class User {
         return -1;
     }
 
-    //Get All ReservationNumbers
+    /**
+     * Retrieves all reservation numbers associated with the user.
+     * 
+     * This method returns the entire list of reservation numbers that belong to the user.
+     * It can be used to get a list of all reservations made by the user.
+     *
+     * @return An ArrayList of reservation numbers.
+     */
     public ArrayList<Integer> getAllreservationNumbers() {
         return reservationNumbers;
     }
@@ -193,12 +293,21 @@ public class User {
     /********************************
      *    Add/Remove Reservation    *
      ********************************/
-    //Add Reservation Number
+    
+    /**
+     * Adds a reservation number to the user's list of reservations.
+     * 
+     * @param reservationNumber The reservation number to add.
+     */
     public void addReservation(int reservationNumber) {
         reservationNumbers.add(reservationNumber);
     }
 
-    //Remove Reservation Number
+    /**
+     * Removes a reservation number from the user's list of reservations.
+     * 
+     * @param reservationNumber The reservation number to remove.
+     */
     public void removeReservation(int reservationNumber) {
         for(int i = 0; i < reservationNumbers.size(); i++){
             if(reservationNumbers.get(i) == reservationNumber){
@@ -217,7 +326,13 @@ public class User {
     /********************************
      *            Equals            *
      ********************************/
-    //Checks if 2 Users names are equal
+    
+    /**
+     * Checks if the current user is equal to another user based on their usernames.
+     * 
+     * @param otherUser The other User object to compare.
+     * @return True if the usernames are equal; false otherwise.
+     */
     public boolean isEqualTo(User otherUser){
         if (username.equals(otherUser.username)) {
             return true;
@@ -229,12 +344,21 @@ public class User {
     /********************************
      *    Set/Get Active Status     *
      ********************************/
-    //Set Active Status
+    
+    /**
+     * Sets the user's active status.
+     * 
+     * @param newStatus The active status to assign.
+     */
     public void setActiveStatus(boolean newStatus){
         isActive = newStatus;
     }
 
-    //Get Active Status
+    /**
+     * Retrieves the user's active status.
+     * 
+     * @return True if the user is active; false otherwise.
+     */
     public boolean getActiveStatus(){
         return isActive;
     }

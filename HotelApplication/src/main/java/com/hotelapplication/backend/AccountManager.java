@@ -1,16 +1,5 @@
 //AccountManager.java
 
-
-
-/***********************************************************
- * Account Manager Class
- * 
- * Controller to create and edit user/manager accounts
- * 
- * User Number Counter
- * Employee Number Counter
-************************************************************/
-
 package com.hotelapplication.backend;
 import com.hotelapplication.frontend.*;
 
@@ -18,31 +7,17 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-//if (user instanceof Manager){} //For separating User and Manager, can be used for Rooms as well.
-
-
+/**
+ * Controller for creating and managing user and manager accounts in the hotel reservation system.
+ * 
+ * This class includes methods to create, edit, and remove user and manager accounts, as well as
+ * managing user login and unique username validation. It provides functionality to retrieve, 
+ * set, and compare user information, as well as manage their sign-in and sign-out processes.
+ * 
+ * @author Ethan Mojahedi
+ * 
+ */
 public class AccountManager{
-
-
-    /*Variables:
-        Manager Password
-    */
-
-    /*Functions:
-        Create User Account
-        Create Manager Account
-        Add/Remove Account
-        Get Account from Database
-        Set/Get Username
-        Check for Unique Username
-        isManager()
-        Edit User
-        Sign-In
-        Sign out
-        Get/Set CurrentUser
-        isEqualTo()
-        Print Account Info
-    */
 
     //Manager Password
     private static String managerPassword = "Manager";
@@ -50,52 +25,96 @@ public class AccountManager{
     // Private constructor to prevent instantiation
     private AccountManager() {}
 
-
-
 /****************************************************************
  *                          Getters                             *
  ****************************************************************/
-    //Get User ID
+    
+    /**
+     * Gets the User ID for a given user.
+     * 
+     * @param user The user whose ID is being retrieved.
+     * @return The User ID.
+     */
     public static int getUserID(User user){
         return user.getUserID();
     }
 
-    //Get Account from Database -------------------------------------REWORK
+    /**
+     * Retrieves the account associated with a specific username.
+     * 
+     * @param searchUsername The username of the account to retrieve.
+     * @return The User object associated with the provided username.
+     */
     public static User getAccount(String searchUsername){
         return DatabaseManager.getUser(searchUsername);
     }
 
-    //Get Username
+    /**
+     * Retrieves the username of a given user.
+     * 
+     * @param user The user whose username is being retrieved.
+     * @return The username of the user.
+     */
     public static String getUsername(User user){
         return user.getUsername();
     }
 
-    //Get First Name
+    /**
+     * Retrieves the first name of a given user.
+     * 
+     * @param user The user whose first name is being retrieved.
+     * @return The first name of the user.
+     */
     public static String getFirstName(User user){
         return user.getFirstName();
     }
 
-    //Get Last Name
+    /**
+     * Retrieves the last name of a given user.
+     * 
+     * @param user The user whose last name is being retrieved.
+     * @return The last name of the user.
+     */
     public static String getLastName(User user){
         return user.getLastName();
     }
 
-    //Get Name
+    /**
+     * Retrieves the full name (first + last name) of a given user.
+     * 
+     * @param user The user whose full name is being retrieved.
+     * @return The full name of the user.
+     */
     public static String getFullName(User user){
         return user.getName();
     }
 
-    //Get Birthday
+    /**
+     * Retrieves the birthday of a given user.
+     * 
+     * @param user The user whose birthday is being retrieved.
+     * @return The birthday of the user.
+     */
     public static Calendar getBirthday(User user){
         return user.getBirthday();
     }
 
-    //Get Password
+    /**
+     * Retrieves the password of a given user.
+     * 
+     * @param user The user whose password is being retrieved.
+     * @return The password of the user.
+     */
     public static String getPassword(User user){
         return user.getPassword();
     }
 
-    //Get All Reservation Numbers
+    /**
+     * Retrieves all reservation numbers associated with a given user.
+     * 
+     * @param user The user whose reservation numbers are being retrieved.
+     * @return A list of reservation numbers.
+     */
     public static ArrayList<Integer> getAllreservationNumbers(User user){
         return user.getAllreservationNumbers();
     }
@@ -105,22 +124,42 @@ public class AccountManager{
         return user.getAllNotifications();
     }*/
 
-    //Get Employee Number
+    /**
+     * Retrieves the employee number of a manager.
+     * 
+     * @param manager The manager whose employee number is being retrieved.
+     * @return The employee number of the manager.
+     */
     public static int getEmployeeNumber(Manager manager){
         return manager.getEmployeeNumber();
     }
 
-    //Get Start Date
+    /**
+     * Retrieves the start date of a manager's employment.
+     * 
+     * @param manager The manager whose start date is being retrieved.
+     * @return The start date of the manager's employment.
+     */
     public static Calendar getEmployeeStartDate(Manager manager){
         return manager.getStartDate();
     }
 
-    //Get End Date
+    /**
+     * Retrieves the end date of a manager's employment.
+     * 
+     * @param manager The manager whose end date is being retrieved.
+     * @return The end date of the manager's employment, or `null` if not set.
+     *
+     */
     public static Calendar getEmployeeEndDate(Manager manager){
         return manager.getEndDate();
     }
 
-    //Get Manager Password
+    /**
+     * Retrieves the manager password.
+     * 
+     * @return The manager password.
+     */
     public static String getManagerPassword(){
         return managerPassword;
     }
@@ -128,34 +167,61 @@ public class AccountManager{
 /****************************************************************
  *                          Setters                             *
  ****************************************************************/
-   //Set User ID
+    
+    /**
+     * Sets the User ID for a given user.
+     * 
+     * @param user The user whose ID is being set.
+     * @param userID The new User ID.
+     */
     public static void setUserID(User user, int userID){
         user.setUserID(userID);
         DatabaseConnector.updateUserInDatabase(user);
 
     }
 
-    //Set Username
+    /**
+     * Sets the username for a given user.
+     * 
+     * @param user The user whose username is being set.
+     * @param newUsername The new username.
+     */
     public static void setUsername(User user, String newUsername){
         user.setUsername(newUsername);
         DatabaseConnector.updateUserInDatabase(user);
     }
 
-    //Set First Name
+    /**
+     * Sets the first name for a given user.
+     * 
+     * @param user The user whose first name is being set.
+     * @param newFirstName The new first name.
+     */
     public static void setFirstName(User user, String newFirstName){
         user.setFirstName(newFirstName);
         DatabaseConnector.updateUserInDatabase(user);
 
     }
 
-    //Set Last Name
+    /**
+     * Sets the last name for a given user.
+     * 
+     * @param user The user whose last name is being set.
+     * @param newLastName The new last name.
+     */
     public static void setLastName(User user, String newLastName){
         user.setLastName(newLastName);
         DatabaseConnector.updateUserInDatabase(user);
 
     }
 
-    //Set Name
+    /**
+     * Sets the full name (first + last name) for a given user.
+     * 
+     * @param user The user whose full name is being set.
+     * @param newFirstName The new first name.
+     * @param newLastName The new last name.
+     */
     public static void setFullName(User user, String newFirstName, String newLastName){
         user.setFirstName(newFirstName);
         user.setLastName(newLastName);
@@ -163,35 +229,60 @@ public class AccountManager{
 
     }
 
-    //Set Birthday
+    /**
+     * Sets the birthday for a given user.
+     * 
+     * @param user The user whose birthday is being set.
+     * @param newBirthday The new birthday.
+     */
     public static void setBirthday(User user, Calendar newBirthday){
         user.setBirthday(newBirthday);
         DatabaseConnector.updateUserInDatabase(user);
 
     }
 
-    //Set Password
+    /**
+     * Sets the password for a given user.
+     * 
+     * @param user The user whose password is being set.
+     * @param newPassword The new password.
+     */
     public static void setPassword(User user, String newPassword){
         user.setPassword(newPassword);
         DatabaseConnector.updateUserInDatabase(user);
 
     }
 
-    //Set Employee Number
+    /**
+     * Sets the employee number for a manager.
+     * 
+     * @param manager The manager whose employee number is being set.
+     * @param newEmployeeNumber The new employee number.
+     */
     public static void setEmployeeNumber(Manager manager, int newEmployeeNumber){
         manager.setEmployeeNumber(newEmployeeNumber);
         DatabaseConnector.updateUserInDatabase(manager);
 
     }
 
-    //Set Start Date
+    /**
+     * Sets the start date for a manager's employment.
+     * 
+     * @param manager The manager whose start date is being set.
+     * @param newStartDate The new start date.
+     */
     public static void setEmployeeStartDate(Manager manager, Calendar newStartDate){
         manager.setStartDate(newStartDate);
         DatabaseConnector.updateUserInDatabase(manager);
 
     }
 
-    //Set End Date
+    /**
+     * Sets the end date for a manager's employment.
+     * 
+     * @param manager The manager whose end date is being set.
+     * @param newEndDate The new end date.
+     */
     public static void setEmployeeEndDate(Manager manager, Calendar newEndDate){
         manager.setEndDate(newEndDate);
         DatabaseConnector.updateUserInDatabase(manager);
@@ -203,7 +294,12 @@ public class AccountManager{
  *                         Booleans                             *
  ****************************************************************/
  
-    //Check if Account is Manager (isManager)
+    /**
+     * Checks if a given user is a manager.
+     * 
+     * @param user The user to check.
+     * @return `true` if the user is a manager, `false` otherwise.
+     */
     public static boolean isManager(User user){
         if (user instanceof Manager){
             return true;
@@ -212,7 +308,13 @@ public class AccountManager{
         }
     }
 
-    //Check if 2 Users are Equal (isEqual)
+    /**
+     * Checks if two users are equal based on their username.
+     * 
+     * @param user1 The first user.
+     * @param user2 The second user.
+     * @return `true` if the usernames are equal, `false` otherwise.
+     */
     public static boolean isEqual(User user1, User user2){
        if(user1.getUsername().equals(user2.getUsername())){
         return true;
@@ -221,7 +323,12 @@ public class AccountManager{
        }
     }
 
-    //Checks if a username is Unique (isUnique)
+   /**
+     * Checks if a given username is unique.
+     * 
+     * @param uniqueUsername The username to check.
+     * @return `true` if the username is unique, `false` otherwise.
+     */
     public static boolean isUniqueUsername(String uniqueUsername){
         for (User user : DatabaseManager.getAllUsers()){
             if(user.getUsername().equals(uniqueUsername)){
@@ -236,12 +343,18 @@ public class AccountManager{
  *                      Sign-in/out                             *
  ****************************************************************/
 
-    //Sign-in
+    /**
+     * Signs a user into the system.
+     * 
+     * @param user The user to sign in.
+     */
     public static void signIn(User user){
         DatabaseManager.signIn(user);
     }
 
-    //Sign-out
+    /**
+     * Signs the current user out of the system.
+     */
     public static void signOut(){
         DatabaseManager.signOut();
     }
@@ -252,12 +365,20 @@ public class AccountManager{
  *                     Add/Remove/Edit Account                  *
  ****************************************************************/
 
-    //Add Account to Database
+    /**
+     * Adds a new user account to the system.
+     * 
+     * @param newUser The user to add to the database.
+     */
     public static void addAccount(User newUser){
         DatabaseManager.addUser(newUser);
     }
 
-    //Remove Account from Database
+   /**
+     * Removes an account from the system by deactivating it.
+     * 
+     * @param user The user to remove from the system.
+     */
     public static void removeAccount(User user){
         user.setActiveStatus(false);
         DatabaseConnector.updateUserInDatabase(user);
@@ -269,17 +390,27 @@ public class AccountManager{
  *                          Print                               *
  ****************************************************************/
 
-    //Get User toString
+    /**
+     * Retrieves the account information of a given user.
+     * 
+     * @param user The user whose account information is being retrieved.
+     */
     public static String getAccountInfo(User user){
         return user.getAccountInfo();
     }
 
-    //Get Current User toString
+    /**
+     * Retrieves and prints the account information of a given user.
+     * 
+     * @param user The user whose account information is being printed.
+     */
     public static void printAccountInfo(User user){
         System.out.println(getAccountInfo(user));
     }
 
-    //Get Current User toString
+    /**
+     * Prints the account information of the current user.
+     */
     public static void printCurrentUser(){
         printAccountInfo(DatabaseManager.getCurrentUser());
     }
@@ -288,10 +419,17 @@ public class AccountManager{
 /****************************************************************
  *                        Create Account                        *
  ****************************************************************/
-    //********************************
-    //         Create User           *
-    //********************************
-       public static void createUser(String firstName, String lastName, Calendar birthday, String username, String password){
+    
+    /**
+     * Creates a new user account with the specified information.
+     * 
+     * @param firstName The user's first name.
+     * @param lastName The user's last name.
+     * @param birthday The user's birthday.
+     * @param username The user's desired username.
+     * @param password The user's desired password.
+     */
+    public static void createUser(String firstName, String lastName, Calendar birthday, String username, String password){
 
         if(isUniqueUsername(username)){
 
@@ -311,9 +449,15 @@ public class AccountManager{
         return;
    }//End of createUser
 
-    //********************************
-    //         Create Manager        *
-    //********************************
+   /**
+     * Creates a new manager account with the specified information.
+     * 
+     * @param firstName The manager's first name.
+     * @param lastName The manager's last name.
+     * @param birthday The manager's birthday.
+     * @param username The manager's desired username.
+     * @param password The manager's desired password.
+     */
    public static void createManager(String firstName, String lastName, Calendar birthday, String username, String password){  
 
             if(isUniqueUsername(username)){
@@ -328,8 +472,6 @@ public class AccountManager{
         }
         return;
     }//End of createManager
-
-    
 
 /****************************************************************
  *                           End                                *

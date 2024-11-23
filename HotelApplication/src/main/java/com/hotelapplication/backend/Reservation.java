@@ -1,13 +1,4 @@
-//Reservation.j
-
-/**************************************
-*Reservation Class should include:    *
-* Start and End Date of Reservation   *
-* Array of Room or Rooms reserved     *
-* User ID# associated with reservation*
-* Amount for total stay               *
-* Print Receipt                       *    
-***************************************/
+//Reservation.java
 
 package com.hotelapplication.backend;
 import com.hotelapplication.frontend.*;
@@ -16,29 +7,18 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+/**
+ * The Reservation class represents a single hotel reservation. It includes details such as
+ * the assigned user, room ID, hotel ID, start and end dates of the reservation, and total price.
+ * This class provides methods to manage and retrieve reservation details, calculate the stay duration,
+ * and print a receipt.
+ * 
+ * @author Ethan Mojahedi
+ * 
+ */
 public class Reservation {
 
-	/*Variables:
-		Assigned User
-		Reservation Number
-		Total Price 
-		Room Number Reserved (Can only reserve 1 room per reservation)
-		Start Date
-		End Date
-
-	*/
-	
-	/*Functions:
-		Get/Set Assigned User
-		Get/Set Total Price
-		Get/Set Room Number Reserved
-		Get/Set Start Date
-		Get/Set End Date
-		Calculate Duration of Stay
-		Print Reservation
-	*/
-
-	// Variables
+	// Private Fields
 	private int reservationNumber;
 	private int assignedUserID;
 	private int roomID;
@@ -47,7 +27,17 @@ public class Reservation {
 	private LocalDate endDate;
 	private double totalPrice;
 
-	// Constructor
+	/**
+     * Constructs a new Reservation object with specified details.
+     * 
+     * @param reservationNumber Unique reservation number.
+     * @param assignedUserID User ID associated with the reservation.
+     * @param roomID Room ID for the reservation.
+     * @param hotelID Hotel ID where the reservation was made.
+     * @param startDate Start date of the reservation.
+     * @param endDate End date of the reservation.
+     * @param totalPrice Total price for the reservation.
+     */
 	public Reservation(int reservationNumber, int assignedUserID, int roomID, int hotelID, LocalDate startDate, LocalDate endDate, double totalPrice) {
 		this.reservationNumber = reservationNumber;
 		this.assignedUserID = assignedUserID;
@@ -58,6 +48,11 @@ public class Reservation {
 		this.totalPrice = totalPrice;
 	}
 
+	/**
+     * Constructs a new Reservation object by copying another Reservation.
+     * 
+     * @param reservation The Reservation object to copy.
+     */
 	public Reservation(Reservation reservation) {
 		this.reservationNumber = reservation.reservationNumber;
 		this.assignedUserID = reservation.assignedUserID;
@@ -72,49 +67,85 @@ public class Reservation {
  *                  		Getters 	                        *
  ****************************************************************/
 
-	//Get Assigned User ID
+	/**
+     * Retrieves the assigned user ID for this reservation.
+     * 
+     * @return The assigned user ID.
+     */
 	public int getAssignedUserID() {
 		return assignedUserID;
 	}
 
-		//Get Reservation Number
+	/**
+     * Retrieves the reservation number for this reservation.
+     * 
+     * @return The reservation number.
+     */
 	public int getReservationNumber() {
 		return reservationNumber;
 	}
 
-	//Get Total Price
+	/**
+     * Retrieves the total price for this reservation.
+     * 
+     * @return The total price.
+     */
 	public double getTotalPrice() {
 		return totalPrice;
 	}
 
-	//Get Room ID
+	/**
+     * Retrieves the room ID for this reservation.
+     * 
+     * @return The room ID.
+     */
 	public int getRoomID() {
 		return roomID;
 	}
 
-	//Get Hotel ID
+	/**
+     * Retrieves the hotel ID for this reservation.
+     * 
+     * @return The hotel ID.
+     */
 	public int getHotelID() {
 		return hotelID;
 	}
 
-	//Get Start Date
+	/**
+     * Retrieves the start date for this reservation.
+     * 
+     * @return The start date.
+     */
 	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	//Get End Date
+	/**
+     * Retrieves the end date for this reservation.
+     * 
+     * @return The end date.
+     */
 	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	//Get Start Date as Calendar
+	/**
+     * Retrieves the start date for this reservation as a calendar.
+     * 
+     * @return The start date as a calendar.
+     */
 	public Calendar getStartDateAsCalendar() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfYear());
 		return calendar;
 	}
 
-	//Get End Date as Calendar
+	/**
+     * Retrieves the end date for this reservation as a calendar.
+     * 
+     * @return The end date as a calendar.
+     */
 	public Calendar getEndDateAsCalendar() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfYear());
@@ -124,47 +155,84 @@ public class Reservation {
 /****************************************************************
  *                  		Setters 	                        *
  ****************************************************************/
-	//Set Assigned User ID
+	
+ 	/**
+     * Sets the assigned user ID for this reservation.
+     * 
+     * @param assignedUserID The user ID to assign.
+     */
 	public void setAssignedUserID(int assignedUserID) {
 		this.assignedUserID = assignedUserID;
 	}
 
-	//Set Reservation Number
+	/**
+     * Sets the reservation number for this reservation.
+     * 
+     * @param reservationNumber The reservation number to set.
+     */
 	public void setReservationNumber(int reservationNumber) {
 		this.reservationNumber = reservationNumber;
 	}
 
-	//Set Total Price
+	/**
+     * Sets the total price for this reservation.
+     * 
+     * @param totalPrice The total price to set.
+     */
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
-	//Set Room ID
+	/**
+     * Sets the room ID for this reservation.
+     * 
+     * @param roomID The room ID to set.
+     */
 	public void setRoomID(int roomID) {
 		this.roomID = roomID;
 	}
 
-	//Set Hotel ID
+	/**
+     * Sets the hotel ID for this reservation.
+     * 
+     * @param hotelID The hotel ID to set.
+     */
 	public void setHotelID(int hotelID) {
 		this.hotelID = hotelID;
 	}
 
-	//Set Start Date
+	/**
+     * Sets the start date for this reservation.
+     * 
+     * @param startDate The start date to set.
+     */
 	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	//Set End Date
+	/**
+     * Sets the end date for this reservation.
+     * 
+     * @param endDate The end date to set.
+     */
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
-	//Set Start Date from Calendar
+	/**
+     * Sets the start date for this reservation from a calendar.
+     * 
+     * @param calendar The start date to set from a calendar.
+     */
 	public void setStartDateCalendar(Calendar calendar) {
 		this.startDate = LocalDate.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId());
 	}
 
-	//Set End Date from Calendar
+	/**
+     * Sets the end date for this reservation from a calendar.
+     * 
+     * @param calendar The end date to set from a calendar.
+     */
 	public void setEndDateCalendar(Calendar calendar) {
 		this.endDate = LocalDate.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId());
 	}
@@ -172,21 +240,38 @@ public class Reservation {
 /****************************************************************
  *                  		Calculations	                    *
  ****************************************************************/
-	// Calculate duration of stay
+	
+ 	/**
+     * Calculates the duration of stay in days (inclusive).
+     * 
+     * @param startDate The start date of the stay.
+     * @param endDate The end date of the stay.
+     * @return The total number of days for the stay.
+     */
 	public long calculateDays(LocalDate startDate, LocalDate endDate) {
 		return ChronoUnit.DAYS.between(startDate, endDate) + 1;
 	}
 
+	/**
+     * Calculates the duration of stay in nights.
+     * 
+     * @param startDate The start date of the stay.
+     * @param endDate The end date of the stay.
+     * @return The total number of nights for the stay.
+     */
 	public long calculateNights(LocalDate startDate, LocalDate endDate) {
 		return ChronoUnit.DAYS.between(startDate, endDate);
 	}
 
-
 /****************************************************************
  *                  			Print	       		            *
  ****************************************************************/
-	// Print reservation
-
+	
+	/**
+     * Generates a receipt for this reservation.
+     * 
+     * @return A formatted string containing reservation details.
+     */
 	public String getReceipt() {
 		StringBuilder receipt = new StringBuilder();
 		receipt.append("HOTEL RESERVATIONS\n");
@@ -237,6 +322,9 @@ public class Reservation {
 		return receipt.toString();
 	}
 
+	/**
+     * Prints the reservation details to the console.
+     */
 	public void printReservation() {
 		System.out.println(getReceipt());
 	}
@@ -245,6 +333,12 @@ public class Reservation {
 	 *                      Equals                                  *
 	 ****************************************************************/
 	
+	/**
+     * Compares this reservation to another to check equality by reservation number.
+     * 
+     * @param otherReservation The Reservation to compare against.
+     * @return true if reservation numbers are equal, false otherwise.
+     */
 	public boolean isEqualTo(Reservation otherReservation){
 		if (reservationNumber == otherReservation.reservationNumber) {
 			return true;
