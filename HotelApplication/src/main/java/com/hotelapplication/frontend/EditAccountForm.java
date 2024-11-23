@@ -1,11 +1,23 @@
+//EditAccountForm.java
+
 package com.hotelapplication.frontend;
-import com.hotelapplication.backend.*;
+// import com.hotelapplication.backend.*;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The EditAccountForm class represents the GUI for managing user account operations,
+ * including editing account information, signing out, and deleting the account.
+ * 
+ * @author Minas Papazyan
+ */
 public class EditAccountForm extends JFrame {
 
+    /**
+     * Constructs the EditAccountForm GUI with buttons for editing account info,
+     * signing out, deleting the account, and canceling.
+     */
     public EditAccountForm() {
         setTitle("Edit My Account");
         setSize(400, 400);
@@ -18,18 +30,19 @@ public class EditAccountForm extends JFrame {
         panel.setBackground(new Color(3, 45, 48));
         panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
+        // Create buttons
         JButton editInfoButton = createModernButton("Edit Account Info");
         JButton signOutButton = createModernButton("Sign Out");
         JButton deleteAccountButton = createModernButton("Delete Account");
         JButton cancelButton = createModernButton("Cancel");
 
-        // Edit Account Info Button
+        // Edit Account Info Button Action
         editInfoButton.addActionListener(e -> {
             SwingUtilities.invokeLater(() -> new EditAccountInfoForm().setVisible(true));
             this.dispose();
         });
 
-        // Sign Out Button
+        // Sign Out Button Action
         signOutButton.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this, 
                 "Are you sure you want to sign out?", 
@@ -41,7 +54,7 @@ public class EditAccountForm extends JFrame {
             }
         });
 
-        // Delete Account Button
+        // Delete Account Button Action
         deleteAccountButton.addActionListener(e -> {
             User currentUser = DatabaseManager.getCurrentUser();
             
@@ -66,16 +79,18 @@ public class EditAccountForm extends JFrame {
             }
         });
 
-        // Cancel Button
+        // Cancel Button Action
         cancelButton.addActionListener(e -> {
             this.dispose();
             SwingUtilities.invokeLater(() -> new UserPanel().setVisible(true));
         });
 
+        // Add buttons to the main panel
         panel.add(editInfoButton);
         panel.add(signOutButton);
         panel.add(deleteAccountButton);
         
+        // Create bottom panel for the Cancel button
         JPanel bottomPanel = new JPanel();
         bottomPanel.setBackground(new Color(3, 45, 48));
         bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -85,6 +100,12 @@ public class EditAccountForm extends JFrame {
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Creates a modern-styled button with the given text.
+     *
+     * @param text The text to display on the button.
+     * @return A styled JButton object.
+     */
     private JButton createModernButton(String text) {
         JButton button = new JButton(text);
         button.setFocusPainted(false);
@@ -96,6 +117,11 @@ public class EditAccountForm extends JFrame {
         return button;
     }
 
+    /**
+     * The main method to test the EditAccountForm GUI.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new EditAccountForm().setVisible(true));
     }
