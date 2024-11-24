@@ -286,7 +286,7 @@ public class RoomManager {
         System.out.println("2. Full");
         System.out.println("3. Queen");
         System.out.println("4. King");
-        System.out.println("5. California King");
+        System.out.println("5. Suite");
         System.out.println("6. Cancel");
         System.out.print("\nSelect Type of Bed: ");
 
@@ -308,7 +308,7 @@ public class RoomManager {
                 bedType = "king";
                 break;
             case 5:
-                bedType = "california king";
+                bedType = "suite";
                 break;
             case 6:
                 return;
