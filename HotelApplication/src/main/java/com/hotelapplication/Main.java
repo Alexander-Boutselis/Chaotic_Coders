@@ -3,7 +3,6 @@
  *Hotel Management Project*
  * COMP 380/L             *
  **************************/
-//test
 
 /*
 Maven Commands:
