@@ -37,7 +37,7 @@ public class Main {
         try {
             // Initialize the database and application
             DatabaseConnector.initializeApplication();
-            HotelManager.printCurrentHotelInfo();
+
         } catch (Exception e) {
             System.err.println("Ran into an Exception: " + e.getMessage());
             e.printStackTrace(); // Print the stack trace for better debugging

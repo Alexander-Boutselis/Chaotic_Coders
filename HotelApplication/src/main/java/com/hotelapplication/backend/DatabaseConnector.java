@@ -117,8 +117,8 @@ public class DatabaseConnector {
         try {
             createHotelsTable();
             createUsersTable();
-            createReservationsTable();
             createRoomsTable();
+            createReservationsTable();
 
             // Check that all tables were created successfully
             if (handle.createQuery("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME IN ('Hotels', 'Rooms', 'Users', 'Reservations')").mapTo(Integer.class).one() == 4) {
@@ -597,11 +597,7 @@ public class DatabaseConnector {
      * @return the Reservation object corresponding to the reservationId
      */
     public static Reservation translateReservationFromDatabase(int reservationId) {
-        String sqlQuery = "SELECT reservation.*, user.first_name, user.last_name, user.username, user.password, user.employee_num, room.room_number, room.num_of_beds, room.bed_type, room.price_per_night, room.room_description " +
-                          "FROM Reservations reservation " +
-                          "JOIN Users user ON reservation.user_id = user.user_id " +
-                          "JOIN Rooms room ON reservation.room_id = room.room_id " +
-                          "WHERE reservation.reservation_id = :reservationId";
+        String sqlQuery = "SELECT * FROM Reservations WHERE reservation_id = :reservationId";
         return getHandle().createQuery(sqlQuery)
                 .bind("reservationId", reservationId)
                 .map((resultSet, statementContext) -> new Reservation(
@@ -802,7 +798,7 @@ public class DatabaseConnector {
             System.err.println("Failed to print Rooms table: " + e.getMessage());
         }
     }
-
+    
     /********************************
      *      Print Users Table       *
      ********************************/
