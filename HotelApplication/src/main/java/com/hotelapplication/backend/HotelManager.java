@@ -377,6 +377,17 @@ public class HotelManager {
         hotel.removeReservation(reservation);
     }
 
+    /**
+     * Retrieves a specific reservation from the specified hotel by its ID.
+     *
+     * @param hotel The hotel containing the reservation.
+     * @param reservationID The ID of the reservation to retrieve.
+     * @return The reservation with the specified ID, or null if not found.
+     */
+    public static Reservation getReservation(Hotel hotel, int reservationID) {
+        return hotel.getReservation(reservationID);
+    }
+
     /****************************************************************
      *                     Print Hotel Info                         *
      ****************************************************************/

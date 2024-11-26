@@ -41,10 +41,10 @@ public class ReservationManager {
      * @return The created Reservation object.
      */
 	public static Reservation createReservation(Hotel hotel, User user, int reservationNumber, double totalPrice, Room room, LocalDate startDate, LocalDate endDate) {
-		Reservation newReservation = new Reservation(reservationNumber, user.getUserID(), room.getRoomID(), hotel.getHotelID(), startDate, endDate, totalPrice);
-		hotel.addReservation(newReservation);
-		user.addReservation(reservationNumber);
-		room.addReservationNumber(reservationNumber);
+		Reservation newReservation = new Reservation(reservationNumber, AccountManager.getUserID(user), RoomManager.getRoomID(room), HotelManager.getHotelID(hotel), startDate, endDate, totalPrice);
+		HotelManager.addReservation(hotel, newReservation);
+		AccountManager.addReservationToUser(user, reservationNumber);
+		RoomManager.addReservationToRoom(room, reservationNumber);
 		DatabaseConnector.addReservation(newReservation);
 		return newReservation;
 	}
@@ -55,10 +55,10 @@ public class ReservationManager {
      * @param reservation The Reservation object to be added.
      */
 	public static void createReservationGivenReservation(Reservation reservation) {
-		getHotelFromReservation(reservation).addReservation(reservation);
+		HotelManager.addReservation(getHotelFromReservation(reservation), reservation);
 		User user = DatabaseConnector.translateUserFromDatabase(getAssignedUserID(reservation));
-		user.addReservation(reservation.getReservationID());
-		getRoom(reservation).addReservationNumber(reservation.getReservationID());
+		AccountManager.addReservationToUser(user, reservation.getReservationID());
+		RoomManager.addReservationToRoom(getRoom(reservation), reservation.getReservationID());
 	}
 
 	/**
@@ -69,9 +69,9 @@ public class ReservationManager {
      * @param reservation The reservation to be canceled.
      */
 	public static void cancelReservation(Hotel hotel, User user, Reservation reservation) {
-		hotel.removeReservation(reservation);
-		user.removeReservation(reservation.getReservationID());
-		getRoom(reservation).removeReservationNumber(reservation.getReservationID());
+		HotelManager.removeReservation(hotel, reservation);
+		AccountManager.removeReservationFromUser(user, reservation.getReservationID());
+		RoomManager.removeReservationFromRoom(getRoom(reservation), reservation.getReservationID());
 	}
 
 	/**
@@ -84,11 +84,11 @@ public class ReservationManager {
      */
 	public static void assignUser(Hotel hotel, User user, Reservation reservation) {		
 		Reservation newReservation = new Reservation(reservation);
-		hotel.removeReservation(reservation);
-		user.removeReservation(reservation.getReservationID());
-		newReservation.setAssignedUserID(user.getUserID());
-		hotel.addReservation(newReservation);
-		user.addReservation(newReservation.getReservationID());
+		HotelManager.removeReservation(hotel, reservation);
+		AccountManager.removeReservationFromUser(user, reservation.getReservationID());
+		newReservation.setAssignedUserID(AccountManager.getUserID(user));
+		HotelManager.addReservation(hotel, newReservation);
+		AccountManager.addReservationToUser(user, newReservation.getReservationID());
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class ReservationManager {
      * @return The next available reservation number.
      */
 	public static int getNextUnusedNumber(Hotel hotel) {
-		ArrayList<Reservation> reservations = hotel.getAllReservations();
+		ArrayList<Reservation> reservations = HotelManager.getAllReservations(hotel);
 		ArrayList<Integer> reservationNumbers = new ArrayList<>();
 		for (Reservation reservation : reservations) {
 			reservationNumbers.add(reservation.getReservationID());
@@ -149,13 +149,13 @@ public class ReservationManager {
 	 */
 	public static void cleanupExpiredReservations(Hotel hotel) {
         LocalDate today = LocalDate.now();
-		ArrayList<Reservation> allReservations = hotel.getAllReservations();
+		ArrayList<Reservation> allReservations = HotelManager.getAllReservations(hotel);
         Iterator<Reservation> iterator = allReservations.iterator();
         while (iterator.hasNext()) {
             Reservation reservation = iterator.next();
             if (getEndDate(reservation).isBefore(today)) {
-				getAssignedUser(reservation).removeReservation(reservation.getReservationID());
-				getRoom(reservation).removeReservationNumber(reservation.getReservationID());
+				AccountManager.removeReservationFromUser(getAssignedUser(reservation), reservation.getReservationID());
+				RoomManager.removeReservationFromRoom(getRoom(reservation), reservation.getReservationID());
             }
         }
     }
@@ -281,7 +281,7 @@ public class ReservationManager {
      */
 	public static Hotel getHotelFromReservation(Reservation reservation) {
 		Room room = getRoom(reservation);
-		int roomID = room.getRoomID();
+		int roomID = RoomManager.getRoomID(room);
 		int hotelID = roomID / 1000;
 		return DatabaseManager.getHotel(hotelID);
 	}
@@ -296,8 +296,6 @@ public class ReservationManager {
 		User user = AccountManager.getAccount(userID);
 		return AccountManager.getAllreservationNumbers(user);
 	}
-	
-
 	
 	/****************************************************************
  	*                  		Setters 	                        *
@@ -355,7 +353,7 @@ public class ReservationManager {
      * @return The calculated total price.
      */
 	public static double calculateTotalPrice(Room room, long nights) {
-		double totalPrice = room.getPricePerNight() * nights;
+		double totalPrice = RoomManager.getPricePerNight(room) * nights;
 		return totalPrice;
 	}
 
@@ -398,9 +396,9 @@ public class ReservationManager {
 	public static ArrayList<Room> filterRooms(ArrayList<Room> rooms, int roomSize, Hotel hotel, LocalDate startDate, LocalDate endDate) {
 		ArrayList<Room> newRoomList = new ArrayList<>();
 		for (Room room : rooms) {
-			if (room.getNumberOfBeds() == roomSize) {
+			if (RoomManager.getNumberOfBeds(room) == roomSize) {
 				boolean isAvailable = true;
-				for (Reservation reservation : hotel.getAllReservations()) {
+				for (Reservation reservation : HotelManager.getAllReservations(hotel)) {
 					if (DatabaseConnector.translateRoomFromDatabase(reservation.getRoomID()).equals(room)) {
 						LocalDate existingStart = reservation.getStartDate();
 						LocalDate existingEnd = reservation.getEndDate();
@@ -427,7 +425,7 @@ public class ReservationManager {
 	public static void listRooms(ArrayList<Room> rooms) {
 		System.out.println("--------------------------------");
 		for (Room room : rooms) {
-			room.printRoomInfo();
+			RoomManager.printRoomInfo(RoomManager.getRoomNumber(room));;
         	System.out.println("--------------------------------");
 		}
 	}
@@ -441,7 +439,7 @@ public class ReservationManager {
      */
 	public static Room findRoomByRoomNumber(ArrayList<Room> rooms, int roomNumber) {
 		for (Room room : rooms) {
-			if (room.getRoomNumber() == roomNumber) {
+			if (RoomManager.getRoomNumber(room) == roomNumber) {
 				return room;
 			}
 		}
