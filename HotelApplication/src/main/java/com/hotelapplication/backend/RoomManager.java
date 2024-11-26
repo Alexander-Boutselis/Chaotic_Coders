@@ -55,6 +55,30 @@ public class RoomManager {
     }
 
     /****************************************************************
+     *               Add/Remove Reservation To Room                 *
+     ****************************************************************/
+
+    /**
+     * Adds a reservation ID to the specified room.
+     *
+     * @param room          The room to update.
+     * @param reservationID The reservation ID to add.
+     */
+    public static void addReservationToRoom(Room room, int reservationID) {
+        room.addReservationNumber(reservationID);
+    }
+
+    /**
+     * Removes a reservation ID from the specified room.
+     *
+     * @param room          The room to update.
+     * @param reservationID The reservation ID to remove.
+     */
+    public static void removeReservationFromRoom(Room room, int reservationID) {
+        room.removeReservationNumber(reservationID);
+    }
+
+    /****************************************************************
      *                          Getters                             *
      ****************************************************************/
     /**

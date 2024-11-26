@@ -395,6 +395,29 @@ public class AccountManager{
 
     }
 
+/****************************************************************
+ *              Add/Remove Reservation From Account             *
+ ****************************************************************/
+
+    /**
+     * Adds a reservation to the specified user's list of reservations.
+     * 
+     * @param user          The user to whom the reservation is being added.
+     * @param reservationID The unique ID of the reservation to add.
+     */
+    public static void addReservationToUser(User user, int reservationID) {
+        user.addReservation(reservationID);
+    }
+
+    /**
+     * Removes a reservation from the specified user's list of reservations.
+     * 
+     * @param user          The user from whom the reservation is being removed.
+     * @param reservationID The unique ID of the reservation to remove.
+     */
+    public static void removeReservationFromUser(User user, int reservationID) {
+        user.removeReservation(reservationID);
+    }
 
 /****************************************************************
  *                          Print                               *

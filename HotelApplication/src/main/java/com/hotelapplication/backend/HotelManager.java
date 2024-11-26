@@ -346,6 +346,17 @@ public class HotelManager {
     /****************************************************************
      *                          Reservation Data                    *
      ****************************************************************/
+    
+    /**
+     * Retrieves all reservations from the specified hotel.
+     *
+     * @param hotel The hotel from which to retrieve reservations.
+     * @return A list of all reservations in the hotel.
+     */
+    public static ArrayList<Reservation> getAllReservations(Hotel hotel) {
+        return hotel.getAllReservations();
+    }
+    
     /**
      * Adds a reservation to the specified hotel.
      *
@@ -354,6 +365,16 @@ public class HotelManager {
      */
     public static void addReservation(Hotel hotel, Reservation reservation) {
         hotel.addReservation(reservation);
+    }
+
+    /**
+     * Removes a reservation from the specified hotel.
+     *
+     * @param hotel The hotel object.
+     * @param reservation The reservation object to be removed.
+     */
+    public static void removeReservation(Hotel hotel, Reservation reservation) {
+        hotel.removeReservation(reservation);
     }
 
     /****************************************************************

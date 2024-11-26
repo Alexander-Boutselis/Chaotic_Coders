@@ -137,6 +137,16 @@ public class ReservationManager {
 		}
 	}
 
+	/**
+	 * Cleans up expired reservations in the hotel system.
+	 * 
+	 * This method iterates through all reservations in the hotel and identifies those 
+	 * with an end date before the current date. It removes these expired reservations 
+	 * from the user's reservation list and the room's reservation list, leaving the 
+	 * reservation only stored in the hotel's records for archival purposes.
+	 * 
+	 * @param hotel The hotel object containing reservations and associated data.
+	 */
 	public static void cleanupExpiredReservations(Hotel hotel) {
         LocalDate today = LocalDate.now();
 		ArrayList<Reservation> allReservations = hotel.getAllReservations();
@@ -144,12 +154,8 @@ public class ReservationManager {
         while (iterator.hasNext()) {
             Reservation reservation = iterator.next();
             if (getEndDate(reservation).isBefore(today)) {
-				// Remove reservation from user view
 				getAssignedUser(reservation).removeReservation(reservation.getReservationID());
-				// Remove reservation from room
 				getRoom(reservation).removeReservationNumber(reservation.getReservationID());
-				// Now, the reservation will only be stored in the hotel when the date has passed
-				// This will be used to reference for manager view + records
             }
         }
     }
@@ -166,6 +172,16 @@ public class ReservationManager {
      */
 	public static Reservation getReservation(int reservationID) {
 		return DatabaseConnector.translateReservationFromDatabase(reservationID);
+	}
+
+	/**
+     * Retrieves the reservation ID of a reservation.
+     * 
+     * @param reservation The reservation to retrieve the ID number from.
+     * @return The ID number of the reservation.
+     */
+	public static int getReservationID(Reservation reservation) {
+		return reservation.getReservationID();
 	}
 
 	/**
@@ -281,6 +297,7 @@ public class ReservationManager {
 		return AccountManager.getAllreservationNumbers(user);
 	}
 	
+
 	
 	/****************************************************************
  	*                  		Setters 	                        *
