@@ -82,7 +82,11 @@ public class EditAccountForm extends JFrame {
         // Cancel Button Action
         cancelButton.addActionListener(e -> {
             this.dispose();
-            SwingUtilities.invokeLater(() -> new UserPanel().setVisible(true));
+            if (DatabaseManager.getCurrentUser() instanceof Manager) {
+                SwingUtilities.invokeLater(() -> new ManagerPanel().setVisible(true));
+            } else {
+                SwingUtilities.invokeLater(() -> new UserPanel().setVisible(true));
+            }
         });
 
         // Add buttons to the main panel
