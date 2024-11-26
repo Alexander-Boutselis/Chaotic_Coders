@@ -90,15 +90,25 @@ public class EditAccountInfoForm extends JFrame {
 
             JOptionPane.showMessageDialog(this, "Changes saved successfully!");
             this.dispose();
-            SwingUtilities.invokeLater(() -> new UserPanel().setVisible(true));
+            if (DatabaseManager.getCurrentUser() instanceof Manager) {
+                SwingUtilities.invokeLater(() -> new ManagerPanel().setVisible(true));
+            } else {
+                SwingUtilities.invokeLater(() -> new UserPanel().setVisible(true));
+            }
+            
         });
 
         // Discard Changes Button
         JButton discardButton = createModernButton("Discard Changes");
         discardButton.addActionListener(e -> {
             this.dispose();
-            SwingUtilities.invokeLater(() -> new EditAccountForm().setVisible(true));
+            if (DatabaseManager.getCurrentUser() instanceof Manager) {
+                SwingUtilities.invokeLater(() -> new ManagerPanel().setVisible(true));
+            } else {
+                SwingUtilities.invokeLater(() -> new UserPanel().setVisible(true));
+            }
         });
+        
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(3, 45, 48));
