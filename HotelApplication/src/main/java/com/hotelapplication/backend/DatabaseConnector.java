@@ -413,7 +413,7 @@ public class DatabaseConnector {
             Handle handle = getHandle();
             String updateSQL = "UPDATE Reservations SET user_id = :user_id, room_id = :room_id, hotel_id = :hotel_id, check_in_date = :check_in_date, check_out_date = :check_out_date, total_cost = :total_cost WHERE reservation_id = :reservation_id";
             handle.createUpdate(updateSQL)
-                    .bind("reservation_id", reservation.getReservationNumber())
+                    .bind("reservation_id", reservation.getReservationID())
                     .bind("user_id", ReservationManager.getAssignedUser(reservation).getUserID())
                     .bind("room_id", ReservationManager.getRoom(reservation).getRoomID())
                     .bind("hotel_id", ReservationManager.getHotelFromReservation(reservation).getHotelID())
@@ -421,7 +421,7 @@ public class DatabaseConnector {
                     .bind("check_out_date", ReservationManager.getEndDate(reservation))
                     .bind("total_cost", ReservationManager.getTotalPrice(reservation))
                     .execute();
-            System.out.println("Reservation with ID " + reservation.getReservationNumber() + " updated successfully.");
+            System.out.println("Reservation with ID " + reservation.getReservationID() + " updated successfully.");
             return true;
         } catch (Exception e) {
             System.err.println("Failed to update reservation in database: " + e.getMessage());

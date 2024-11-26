@@ -332,7 +332,7 @@ public class Database {
     */
     public void printReservation(Reservation reservation) {
         if (reservation != null) {
-            System.out.println("Reservation: " + reservation.getDetails());
+            System.out.println("Reservation: " + reservation.getReceipt());
         }
     }
 

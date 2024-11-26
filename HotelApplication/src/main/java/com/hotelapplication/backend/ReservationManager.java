@@ -55,13 +55,10 @@ public class ReservationManager {
      * @param reservation The Reservation object to be added.
      */
 	public static void createReservationGivenReservation(Reservation reservation) {
-		
-		/*
 		getHotelFromReservation(reservation).addReservation(reservation);
 		User user = DatabaseConnector.translateUserFromDatabase(getAssignedUserID(reservation));
-		user.addReservation(reservation.getReservationNumber());
-		getRoom(reservation).addReservationNumber(reservation.getReservationNumber());
-		*/
+		user.addReservation(reservation.getReservationID());
+		getRoom(reservation).addReservationNumber(reservation.getReservationID());
 	}
 
 	/**
@@ -73,8 +70,8 @@ public class ReservationManager {
      */
 	public static void cancelReservation(Hotel hotel, User user, Reservation reservation) {
 		hotel.removeReservation(reservation);
-		user.removeReservation(reservation.getReservationNumber());
-		getRoom(reservation).removeReservationNumber(reservation.getReservationNumber());
+		user.removeReservation(reservation.getReservationID());
+		getRoom(reservation).removeReservationNumber(reservation.getReservationID());
 	}
 
 	/**
@@ -88,10 +85,10 @@ public class ReservationManager {
 	public static void assignUser(Hotel hotel, User user, Reservation reservation) {		
 		Reservation newReservation = new Reservation(reservation);
 		hotel.removeReservation(reservation);
-		user.removeReservation(reservation.getReservationNumber());
+		user.removeReservation(reservation.getReservationID());
 		newReservation.setAssignedUserID(user.getUserID());
 		hotel.addReservation(newReservation);
-		user.addReservation(newReservation.getReservationNumber());
+		user.addReservation(newReservation.getReservationID());
 	}
 
 	/**
@@ -104,7 +101,7 @@ public class ReservationManager {
 		ArrayList<Reservation> reservations = hotel.getAllReservations();
 		ArrayList<Integer> reservationNumbers = new ArrayList<>();
 		for (Reservation reservation : reservations) {
-			reservationNumbers.add(reservation.getReservationNumber());
+			reservationNumbers.add(reservation.getReservationID());
 		}
 		Collections.sort(reservationNumbers);
 		int nextNumber = 0;
@@ -140,6 +137,23 @@ public class ReservationManager {
 		}
 	}
 
+	public static void cleanupExpiredReservations(Hotel hotel) {
+        LocalDate today = LocalDate.now();
+		ArrayList<Reservation> allReservations = hotel.getAllReservations();
+        Iterator<Reservation> iterator = allReservations.iterator();
+        while (iterator.hasNext()) {
+            Reservation reservation = iterator.next();
+            if (getEndDate(reservation).isBefore(today)) {
+				// Remove reservation from user view
+				getAssignedUser(reservation).removeReservation(reservation.getReservationID());
+				// Remove reservation from room
+				getRoom(reservation).removeReservationNumber(reservation.getReservationID());
+				// Now, the reservation will only be stored in the hotel when the date has passed
+				// This will be used to reference for manager view + records
+            }
+        }
+    }
+
 	/****************************************************************
  	*                  		Getters 	                   		    *
  	****************************************************************/
@@ -151,8 +165,7 @@ public class ReservationManager {
      * @return The Reservation object.
      */
 	public static Reservation getReservation(int reservationID) {
-		
-	return reservation.calculateNights(reservation.getStartDate(), reservation.getEndDate());
+		return DatabaseConnector.translateReservationFromDatabase(reservationID);
 	}
 
 	/**
@@ -162,7 +175,7 @@ public class ReservationManager {
      * @return The duration in nights.
      */
 	public static long getDurationInNights(Reservation reservation) {
-	return reservation.calculateNights(reservation.getStartDate(), reservation.getEndDate());
+		return reservation.calculateNights(reservation.getStartDate(), reservation.getEndDate());
 	}
 
 	/**
@@ -348,8 +361,7 @@ public class ReservationManager {
      * @param reservationID The reservation to print via its ID.
      */
 	public static void printReservation(int reservationID) {
-
-		reservation.printReservation();
+		DatabaseConnector.translateReservationFromDatabase(reservationID).printReservation();
 	}
 
 	/****************************************************************

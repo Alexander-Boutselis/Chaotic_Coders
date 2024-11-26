@@ -203,7 +203,7 @@ public class Hotel {
      */
     public Reservation getReservation(int searchReservationNumber) {
         for (Reservation reservation : allReservations) {
-            if (reservation.getReservationNumber() == searchReservationNumber) {
+            if (reservation.getReservationID() == searchReservationNumber) {
                 return reservation;
             }
         }

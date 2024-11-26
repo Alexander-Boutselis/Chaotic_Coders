@@ -19,7 +19,7 @@ import java.util.*;
 public class Reservation {
 
 	// Private Fields
-	private int reservationNumber;
+	private int reservationID;
 	private int assignedUserID;
 	private int roomID;
 	private int hotelID;
@@ -30,7 +30,7 @@ public class Reservation {
 	/**
      * Constructs a new Reservation object with specified details.
      * 
-     * @param reservationNumber Unique reservation number.
+     * @param reservationID Unique reservation ID.
      * @param assignedUserID User ID associated with the reservation.
      * @param roomID Room ID for the reservation.
      * @param hotelID Hotel ID where the reservation was made.
@@ -38,8 +38,8 @@ public class Reservation {
      * @param endDate End date of the reservation.
      * @param totalPrice Total price for the reservation.
      */
-	public Reservation(int reservationNumber, int assignedUserID, int roomID, int hotelID, LocalDate startDate, LocalDate endDate, double totalPrice) {
-		this.reservationNumber = reservationNumber;
+	public Reservation(int reservationID, int assignedUserID, int roomID, int hotelID, LocalDate startDate, LocalDate endDate, double totalPrice) {
+		this.reservationID = reservationID;
 		this.assignedUserID = assignedUserID;
 		this.roomID = roomID;
 		this.hotelID = hotelID;
@@ -54,7 +54,7 @@ public class Reservation {
      * @param reservation The Reservation object to copy.
      */
 	public Reservation(Reservation reservation) {
-		this.reservationNumber = reservation.reservationNumber;
+		this.reservationID = reservation.reservationID;
 		this.assignedUserID = reservation.assignedUserID;
 		this.roomID = reservation.roomID;
 		this.hotelID = reservation.hotelID;
@@ -81,8 +81,8 @@ public class Reservation {
      * 
      * @return The reservation number.
      */
-	public int getReservationNumber() {
-		return reservationNumber;
+	public int getReservationID() {
+		return reservationID;
 	}
 
 	/**
@@ -170,8 +170,8 @@ public class Reservation {
      * 
      * @param reservationNumber The reservation number to set.
      */
-	public void setReservationNumber(int reservationNumber) {
-		this.reservationNumber = reservationNumber;
+	public void setReservationID(int reservationID) {
+		this.reservationID = reservationID;
 	}
 
 	/**
@@ -280,8 +280,8 @@ public class Reservation {
 		receipt.append("Name: ");
 		receipt.append(DatabaseConnector.translateUserFromDatabase(assignedUserID).getName());
 		receipt.append("\n");
-		receipt.append("Reservation Number: ");
-		receipt.append(reservationNumber);
+		receipt.append("Reservation ID: ");
+		receipt.append(reservationID);
 		receipt.append("\n");
 		receipt.append("Username: ");
 		receipt.append(DatabaseConnector.translateUserFromDatabase(assignedUserID).getUsername());
@@ -340,7 +340,7 @@ public class Reservation {
      * @return true if reservation numbers are equal, false otherwise.
      */
 	public boolean isEqualTo(Reservation otherReservation){
-		if (reservationNumber == otherReservation.reservationNumber) {
+		if (reservationID == otherReservation.reservationID) {
 			return true;
 		} else {
 			return false;

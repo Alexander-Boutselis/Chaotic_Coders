@@ -223,17 +223,6 @@ public static void runAppInTerminal(String screen){
 
         System.out.println("--------------------------Edit Hotel Room---------------------------");
     break;
-
-    /********************************
-     *        Edit Hotel Room       *
-     ********************************/
-    case "Edit Hotel Room":
-        System.out.println("--------------------------Edit Hotel Room---------------------------");
-
-        //
-
-        System.out.println("--------------------------Edit Hotel Room---------------------------");
-    break;
     }
 }
 
@@ -1220,7 +1209,7 @@ public static void runAppInTerminal(Scanner scanner){
                 String resNumber = scanner.nextLine().trim();
 
                 for (Reservation reservation : hotel.getAllReservations()) {
-                    if (reservation.getReservationNumber() == Integer.valueOf(resNumber)) {
+                    if (reservation.getReservationID() == Integer.valueOf(resNumber)) {
                         break;
                     } else {
                         System.out.println("This is not a valid reservation number, please try again.");
