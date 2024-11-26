@@ -256,22 +256,6 @@ public class Database {
         return null; //If no matching object is found
     }
 
-
-    /**
-    * Gets a user from the database by user ID.
-    *
-    * @param userID The ID of the user to be searched.
-    * @return The User object if found, otherwise null.
-    */
-    public User getUser(int userID) {
-        for (User user : allUsers) {
-            if (user.getUserID() == userID) {
-                return user;
-            }
-        }
-        return null; //If no matching object is found
-    }
-
     /**
     * Gets all users from the database.
     *
@@ -298,7 +282,6 @@ public class Database {
     * Adds a reservation to the database.
     *
     * @param reservation The Reservation object to be added.
-    * @return void
     */
     public void addReservation(Reservation reservation) {
         allReservations.add(reservation);
@@ -308,7 +291,6 @@ public class Database {
     * Removes a reservation from the database by matching its reservation ID.
     *
     * @param reservationID The ID of the reservation to be removed.
-    * @return void
     */
     public void removeReservation(int reservationID) {
         for (Reservation reservation : allReservations) {
@@ -347,7 +329,6 @@ public class Database {
     * Prints the details of the given reservation.
     *
     * @param reservation The Reservation object whose details are to be printed.
-    * @return void
     */
     public void printReservation(Reservation reservation) {
         if (reservation != null) {
