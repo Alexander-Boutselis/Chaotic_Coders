@@ -68,6 +68,7 @@ public class Database {
     private boolean isConnected;
     private ArrayList<Hotel> allHotels;
     private ArrayList<User> allUsers;
+    private ArrayList<Reservation> allReservations;
 
     /****************************************************************
      *                       Constructor                            *
@@ -78,6 +79,7 @@ public class Database {
     public Database() {
         allHotels = new ArrayList<Hotel>();
         allUsers = new ArrayList<User>();
+        allReservations = new ArrayList<Reservation>();
         currentUser = null;
         currentHotel = null;
         signedIn = false;
@@ -240,6 +242,37 @@ public class Database {
     }
 
     /**
+    * Gets a user from the database by ID.
+    *
+    * @param userID The ID of the user to be searched.
+    * @return The User object if found, otherwise null.
+    */
+    public User getUser(int userID) {
+        for (User user : allUsers) {
+            if (user.getUserID() == userID) {
+                return user;
+            }
+        }
+        return null; //If no matching object is found
+    }
+
+
+    /**
+    * Gets a user from the database by user ID.
+    *
+    * @param userID The ID of the user to be searched.
+    * @return The User object if found, otherwise null.
+    */
+    public User getUser(int userID) {
+        for (User user : allUsers) {
+            if (user.getUserID() == userID) {
+                return user;
+            }
+        }
+        return null; //If no matching object is found
+    }
+
+    /**
     * Gets all users from the database.
     *
     * @return A list of all User objects.
@@ -254,6 +287,71 @@ public class Database {
     public void printCurrentUser() {
         if (currentUser != null) {
             System.out.println("Current User: " + currentUser.getName());
+        }
+    }
+
+
+    /****************************************************************
+     *                      Reservation Methods                     *
+     ****************************************************************/
+    /**
+    * Adds a reservation to the database.
+    *
+    * @param reservation The Reservation object to be added.
+    * @return void
+    */
+    public void addReservation(Reservation reservation) {
+        allReservations.add(reservation);
+    }
+
+    /**
+    * Removes a reservation from the database by matching its reservation ID.
+    *
+    * @param reservationID The ID of the reservation to be removed.
+    * @return void
+    */
+    public void removeReservation(int reservationID) {
+        for (Reservation reservation : allReservations) {
+            if (reservation.getReservationID() == reservationID) {
+                allReservations.remove(reservation);
+                break; // Stop after removing the first match
+            }
+        }
+    }
+
+    /**
+    * Gets a reservation from the database by ID.
+    *
+    * @param reservationID The ID of the reservation to be searched.
+    * @return The Reservation object if found, otherwise null.
+    */
+    public Reservation getReservation(int reservationID) {
+        for (Reservation reservation : allReservations) {
+            if (reservation.getReservationID() == reservationID) {
+                return reservation;
+            }
+        }
+        return null; // If no matching object is found
+    }
+
+    /**
+    * Gets all reservations from the database.
+    *
+    * @return A list of all Reservation objects.
+    */
+    public ArrayList<Reservation> getAllReservations() {
+        return allReservations;
+    }
+
+    /**
+    * Prints the details of the given reservation.
+    *
+    * @param reservation The Reservation object whose details are to be printed.
+    * @return void
+    */
+    public void printReservation(Reservation reservation) {
+        if (reservation != null) {
+            System.out.println("Reservation: " + reservation.getDetails());
         }
     }
 

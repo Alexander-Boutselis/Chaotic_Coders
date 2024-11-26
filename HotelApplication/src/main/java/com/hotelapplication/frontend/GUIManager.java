@@ -58,8 +58,184 @@ public static int closeApplication(){
 
 
 
+/****************************************************************
+ *                   Print Window in Terminal                   *
+ ****************************************************************/
 
+public static void runAppInTerminal(String screen){
+    boolean running = true;
 
+        System.out.println("--------------------------------------------------------------------");
+
+    switch (screen) {         
+    /********************************
+     *         Not Signed-in        *
+     ********************************/
+    case "Sign-in":
+        System.out.println("---------------------------Sign-In Screen---------------------------");
+
+        //Call Sign in screen
+
+        System.out.println("---------------------------Sign-In Screen---------------------------");
+    break;
+
+    /********************************
+     *           Signed-up          *
+     ********************************/
+    case "Sign-up":
+        System.out.println("---------------------------Sign-Up Screen---------------------------");
+
+        //
+
+        System.out.println("---------------------------Sign-Up Screen---------------------------");
+    break;
+
+    /********************************
+     *           User Home          *
+     ********************************/
+    case "User Home":
+        System.out.println("-----------------------------User Home------------------------------");
+
+        //
+
+        System.out.println("-----------------------------User Home------------------------------");
+    break;
+
+    /********************************
+     *         Manager Home         *
+     ********************************/
+    case "Manager Home":
+        System.out.println("----------------------------Manager Home----------------------------");
+
+        //
+
+        System.out.println("----------------------------Manager Home----------------------------");
+    break;
+
+    /********************************
+     *         Select Hotel         *
+     ********************************/
+    case "Select Hotel":
+        System.out.println("----------------------------Select Hotel----------------------------");
+
+        //
+
+        System.out.println("----------------------------Select Hotel----------------------------");
+    break;
+
+    /********************************
+     *         Edit Account         *
+     ********************************/
+    case "Edit Account":
+        System.out.println("----------------------------Edit Account----------------------------");
+
+        //
+
+        System.out.println("----------------------------Edit Account----------------------------");
+    break;
+
+    /********************************
+     *       Make Reservation       *
+     ********************************/
+    case "Make Reservation":
+        System.out.println("--------------------------Make Reservation--------------------------");
+
+        //
+
+        System.out.println("--------------------------Make Reservation--------------------------");
+    break;
+
+    /********************************
+     *       View Reservations      *
+     ********************************/
+    case "View Reservations":
+        System.out.println("--------------------------View Reservations-------------------------");
+
+        //If the current User is a manager show all reservations
+
+        //If the current User is a user show only the users reservations
+
+        System.out.println("--------------------------View Reservations-------------------------");
+    break;
+
+    /********************************
+     *         View Receipt         *
+     ********************************/
+    case "View Receipt":
+        System.out.println("----------------------------View Receipt----------------------------");
+
+        //
+
+        System.out.println("----------------------------View Receipt----------------------------");
+    break;
+
+    /********************************
+     *          Edit Hotel          *
+     ********************************/
+    case "Edit Hotel":
+        System.out.println("-----------------------------Edit Hotel-----------------------------");
+
+        //
+
+        System.out.println("-----------------------------Edit Hotel-----------------------------");
+    break;
+
+    /********************************
+     *         Create Hotel         *
+     ********************************/
+    case "Create Hotel":
+        System.out.println("----------------------------Create Hotel----------------------------");
+
+        //
+
+        System.out.println("----------------------------Create Hotel----------------------------");
+    break;
+
+    /********************************
+     *        Edit User Info        *
+     ********************************/
+    case "Edit User Info":
+        System.out.println("---------------------------Edit User Info---------------------------");
+
+        //
+
+        System.out.println("---------------------------Edit User Info---------------------------");
+    break;
+
+    /********************************
+     *       View Hotel Rooms       *
+     ********************************/
+    case "View Hotel Rooms":
+        System.out.println("--------------------------View Hotel Rooms--------------------------");
+
+        //
+
+        System.out.println("--------------------------View Hotel Rooms--------------------------");
+    break;
+
+    /********************************
+     *        Edit Hotel Room       *
+     ********************************/
+    case "Edit Hotel Room":
+        System.out.println("--------------------------Edit Hotel Room---------------------------");
+
+        //
+
+        System.out.println("--------------------------Edit Hotel Room---------------------------");
+    break;
+
+    /********************************
+     *        Edit Hotel Room       *
+     ********************************/
+    case "Edit Hotel Room":
+        System.out.println("--------------------------Edit Hotel Room---------------------------");
+
+        //
+
+        System.out.println("--------------------------Edit Hotel Room---------------------------");
+    break;
+    }
+}
 
 
 
@@ -528,13 +704,9 @@ public static void runAppInTerminal(Scanner scanner){
 
     }
 
-    
-
-
-
-//********************************
-//        Edit User Account      * Shared
-//********************************
+/********************************
+ *       Edit User Account      * Shared
+ ********************************/
     public static void editAccountScreen(){
 
         Scanner scanner = new Scanner(System.in);
@@ -707,6 +879,26 @@ public static void runAppInTerminal(Scanner scanner){
 //    View User Reservations     *
 //********************************
     public static void viewUsersReservationsScreen(Scanner scanner){
+
+        //Check if current user has Reservations
+        ArrayList<Integer> reservationIDs = AccountManager.getAllreservationNumbers(DatabaseManager.getCurrentUser());
+        if(reservationIDs.size() < 1){
+            System.out.println("You have no current reservations.");
+            return;
+        }
+
+        //Loop through Reservation IDs and display them
+        for (int id : reservationIDs) {
+            
+        }
+
+
+
+
+
+
+
+
         
         if (DatabaseManager.getCurrentUser().getAllreservationNumbers().isEmpty()) {
 			System.out.println("You have no current reservations.");
@@ -982,18 +1174,6 @@ public static void runAppInTerminal(Scanner scanner){
             //Edit Room
             //Cancel
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /********************************
  *View Hotel Reservations Screen*

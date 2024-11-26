@@ -131,6 +131,16 @@ public class DatabaseManager {
     }
 
     /**
+    * Retrieves a user from the database by its username.
+    *
+    * @param userID The ID of the user to be searched.
+    * @return The User object if found, otherwise null.
+    */
+    public static User getUser(int userID) {
+        return database.getUser(userID);
+    }
+
+    /**
     * Retrieves all users from the database.
     *
     * @return A list of all User objects.

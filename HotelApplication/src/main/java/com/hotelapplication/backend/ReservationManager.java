@@ -55,10 +55,13 @@ public class ReservationManager {
      * @param reservation The Reservation object to be added.
      */
 	public static void createReservationGivenReservation(Reservation reservation) {
+		
+		/*
 		getHotelFromReservation(reservation).addReservation(reservation);
 		User user = DatabaseConnector.translateUserFromDatabase(getAssignedUserID(reservation));
 		user.addReservation(reservation.getReservationNumber());
 		getRoom(reservation).addReservationNumber(reservation.getReservationNumber());
+		*/
 	}
 
 	/**
@@ -138,8 +141,19 @@ public class ReservationManager {
 	}
 
 	/****************************************************************
- 	*                  		Getters 	                        *
+ 	*                  		Getters 	                   		    *
  	****************************************************************/
+
+	/**
+     * Get a reservation from list of reservations.
+     * 
+     * @param reservationID The ID of the reservation we want.
+     * @return The Reservation object.
+     */
+	public static Reservation getReservation(int reservationID) {
+		
+	return reservation.calculateNights(reservation.getStartDate(), reservation.getEndDate());
+	}
 
 	/**
      * Calculates the duration of a reservation in nights.
@@ -242,6 +256,18 @@ public class ReservationManager {
 		int hotelID = roomID / 1000;
 		return DatabaseManager.getHotel(hotelID);
 	}
+
+	/**
+     * Retrieves the hotel object assigned to a reservation.
+     * 
+     * @param userID The ID of the user with reservations
+     * @return List of Reservation IDs
+     */
+	public static ArrayList<Integer> getReservationsFromUser(int userID) {
+		User user = AccountManager.getAccount(userID);
+		return AccountManager.getAllreservationNumbers(user);
+	}
+	
 	
 	/****************************************************************
  	*                  		Setters 	                        *
@@ -313,6 +339,16 @@ public class ReservationManager {
      * @param reservation The reservation to print.
      */
 	public static void printReservation(Reservation reservation) {
+		reservation.printReservation();
+	}
+
+	/**
+     * Prints the details of a reservation to the console.
+     * 
+     * @param reservationID The reservation to print via its ID.
+     */
+	public static void printReservation(int reservationID) {
+
 		reservation.printReservation();
 	}
 

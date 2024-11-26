@@ -50,6 +50,16 @@ public class AccountManager{
     }
 
     /**
+     * Retrieves the account associated with a specific username.
+     * 
+     * @param userID The username of the account to retrieve.
+     * @return The User object associated with the provided username.
+     */
+    public static User getAccount(int userID){
+        return DatabaseManager.getUser(userID);
+    }
+
+    /**
      * Retrieves the username of a given user.
      * 
      * @param user The user whose username is being retrieved.
