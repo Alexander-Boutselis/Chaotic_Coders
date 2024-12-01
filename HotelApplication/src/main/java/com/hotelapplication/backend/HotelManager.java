@@ -414,6 +414,28 @@ public class HotelManager {
     }
 
     /**
+     * Gets the information of all rooms in the given hotel.
+     *
+     * @return A string containing information about all rooms.
+     */
+    public static String getAllHotelRoomsInfo(Hotel hotel) {
+        StringBuilder receipt = new StringBuilder();
+        for (Room room : getAllHotelRooms(hotel)) {
+            try {
+                receipt.append(room.getRoomInfo());
+            } catch (Exception e) {
+                receipt.append("\n***********************\n");
+                receipt.append("Room #: null");
+                receipt.append("\n");
+                receipt.append("Price per Night: null");
+                receipt.append("\n");
+                receipt.append("Description: null\n");
+            }
+        }
+        return receipt.toString();
+    }
+
+    /**
      * Gets the information of the current hotel.
      *
      * @return A string containing information about the current hotel.
@@ -447,10 +469,31 @@ public class HotelManager {
     }
 
     /**
+     * Gets the information of the passed hotel and all its rooms.
+     *
+     * @return A string containing information about the hotel and its rooms.
+     */
+    public static String getHotelAndRoomsInfo(Hotel hotel) {
+        StringBuilder receipt = new StringBuilder();
+        receipt.append("\n--------------------------------\n");
+        receipt.append(getHotelInfo(hotel));
+        receipt.append(getAllHotelRoomsInfo(hotel));
+        receipt.append("\n--------------------------------\n");
+        return receipt.toString();
+    }
+
+    /**
      * Prints information about the current hotel.
      */
     public static void printCurrentHotelInfo() {
         System.out.println(getCurrentHotelInfo());
+    }
+
+    /**
+     * Prints information about the given hotel.
+     */
+    public static void printHotelInfo(Hotel hotel) {
+        System.out.println(getHotelInfo(hotel));
     }
 
     /****************************************************************

@@ -44,20 +44,17 @@ public class Main {
         }
 
         try {
+            // Prompt the user to choose between GUI and terminal operation
+            TestClass.runTestCases();
+            promptForGUI(scanner);
+
             // Print the current database tables for verification
             DatabaseConnector.printHotelsTable();
             DatabaseConnector.printRoomsTable();
             DatabaseConnector.printUsersTable();
             DatabaseConnector.printReservationsTable();
-
-            // Prompt the user to choose between GUI and terminal operation
-            promptForGUI(scanner);
-
-            // Print the database tables again to reflect any changes made during application use
-            DatabaseConnector.printHotelsTable();
-            DatabaseConnector.printRoomsTable();
-            DatabaseConnector.printUsersTable();
-            DatabaseConnector.printReservationsTable();
+            //TestClass.testPrints();
+            
 
         } catch (Exception e) {
             System.err.println("Database not connected: " + e.getMessage());
@@ -87,6 +84,7 @@ public class Main {
             GUIManager.runAppGUI();
         } else {
             // Run the application in the terminal
+
             GUIManager.runAppInTerminal(scanner);
         }
     }

@@ -558,6 +558,7 @@ public class DatabaseConnector {
      * @return the User object corresponding to the userId
      */
     public static User translateUserFromDatabase(int userId) {
+        try{    
         String sqlQuery = "SELECT * FROM Users WHERE user_id = :userId";
         return getHandle().createQuery(sqlQuery)
                 .bind("userId", userId)
@@ -585,6 +586,9 @@ public class DatabaseConnector {
                                 true);
                     }
                 }).one();
+        }catch(Exception e){
+            return null;
+        }
     }
 
     /********************************
@@ -708,27 +712,141 @@ public class DatabaseConnector {
         }
     }
 
+  
     /********************************
-     *         Remove Hotel         *
+     *  Remove Object from Database *
      ********************************/
     /**
-     * Removes a specific hotel from the Hotels table.
+     * Removes a specific object (Hotel, Room, User, Manager, or Reservation) from the database by its ID and resets the auto-increment value.
      *
-     * @param hotel the Hotel object to remove
+     * @param itemType the type of the item to remove (can be "Hotel", "Room", "User", "Manager", or "Reservation")
+     * @param id the ID of the item to remove
      */
-    public static void removeHotel(Hotel hotel) {
-        int hotelID = HotelManager.getHotelID(hotel);
+    public static void removeObjectFromDatabase(String itemType, int id) {
         try {
-            StringBuilder deleteSQL = new StringBuilder();
-            deleteSQL.append("DELETE FROM Hotels WHERE hotel_id = :hotel_id");
-            handle.createUpdate(deleteSQL.toString())
-                  .bind("hotel_id", hotelID)
-                  .execute();
-            System.out.println("Hotel with ID " + hotelID + " removed successfully.\n");
+            String deleteSQL;
+            String resetSQL;
+            itemType = itemType.toLowerCase();
+
+            switch (itemType) {
+                case "hotel":
+                    deleteSQL = "DELETE FROM Hotels WHERE hotel_id = :id";
+                    handle.createUpdate(deleteSQL)
+                          .bind("id", id)
+                          .execute();
+                    resetSQL = "ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH (SELECT MAX(hotel_id) + 1 FROM Hotels)";
+                    handle.execute(resetSQL);
+                    System.out.println("Hotel with ID " + id + " removed successfully.\n");
+                    break;
+                case "room":
+                    deleteSQL = "DELETE FROM Rooms WHERE room_id = :id";
+                    handle.createUpdate(deleteSQL)
+                          .bind("id", id)
+                          .execute();
+                    resetSQL = "ALTER TABLE Rooms ALTER COLUMN room_id RESTART WITH (SELECT MAX(room_id) + 1 FROM Rooms)";
+                    handle.execute(resetSQL);
+                    System.out.println("Room with ID " + id + " removed successfully.\n");
+                    break;
+                case "manager":
+                case "user":
+                    deleteSQL = "DELETE FROM Users WHERE user_id = :id";
+                    handle.createUpdate(deleteSQL)
+                          .bind("id", id)
+                          .execute();
+                    resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT MAX(user_id) + 1 FROM Users)";
+                    handle.execute(resetSQL);
+                    System.out.println(itemType + " with ID " + id + " removed successfully.\n");
+                    break;
+                case "reservation":
+                    deleteSQL = "DELETE FROM Reservations WHERE reservation_id = :id";
+                    handle.createUpdate(deleteSQL)
+                          .bind("id", id)
+                          .execute();
+                    resetSQL = "ALTER TABLE Reservations ALTER COLUMN reservation_id RESTART WITH (SELECT MAX(reservation_id) + 1 FROM Reservations)";
+                    handle.execute(resetSQL);
+                    System.out.println("Reservation with ID " + id + " removed successfully.\n");
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unsupported item type: " + itemType);
+            }
         } catch (Exception e) {
-            System.err.println("Failed to remove hotel with ID " + hotelID + ": " + e.getMessage());
+            System.err.println("Failed to remove item by ID: " + e.getMessage());
         }
     }
+
+        
+    /********************************
+     *    Remove Item from Database   *
+     ********************************/
+    /**
+     * Removes a specific item (Hotel, Room, User, Manager, or Reservation) from the database.
+     *
+     * @param item the item to remove (can be Hotel, Room, User, Reservation, or Manager)
+     */
+    public static void removeItemFromDatabase(Object item) {
+        try {
+            StringBuilder deleteSQL = new StringBuilder();
+            String resetSQL;
+            if (item instanceof Hotel) {
+                Hotel hotel = (Hotel) item;
+                int hotelID = HotelManager.getHotelID(hotel);
+                deleteSQL.append("DELETE FROM Hotels WHERE hotel_id = :hotel_id");
+                handle.createUpdate(deleteSQL.toString())
+                      .bind("hotel_id", hotelID)
+                      .execute();
+                resetSQL = "ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH (SELECT MAX(hotel_id) + 1 FROM Hotels)";
+                handle.execute(resetSQL);
+                System.out.println("Hotel with ID " + hotelID + " removed successfully.\n");
+            } else if (item instanceof Room) {
+                Room room = (Room) item;
+                int roomID = RoomManager.getRoomID(room);
+                deleteSQL.append("DELETE FROM Rooms WHERE room_id = :room_id");
+                handle.createUpdate(deleteSQL.toString())
+                      .bind("room_id", roomID)
+                      .execute();
+                resetSQL = "ALTER TABLE Rooms ALTER COLUMN room_id RESTART WITH (SELECT MAX(room_id) + 1 FROM Rooms)";
+                handle.execute(resetSQL);
+                System.out.println("Room with ID " + roomID + " removed successfully.\n");
+            } else if (item instanceof Manager) {
+                Manager manager = (Manager) item;
+                int managerID = AccountManager.getUserID(manager);
+                deleteSQL.append("DELETE FROM Users WHERE user_id = :user_id");
+                handle.createUpdate(deleteSQL.toString())
+                      .bind("user_id", managerID)
+                      .execute();
+                resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT MAX(user_id) + 1 FROM Users)";
+                handle.execute(resetSQL);
+                System.out.println("Manager with ID " + managerID + " removed successfully.\n");
+            } else if (item instanceof User) {
+                User user = (User) item;
+                int userID = AccountManager.getUserID(user);
+                deleteSQL.append("DELETE FROM Users WHERE user_id = :user_id");
+                handle.createUpdate(deleteSQL.toString())
+                      .bind("user_id", userID)
+                      .execute();
+                resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT MAX(user_id) + 1 FROM Users)";
+                handle.execute(resetSQL);
+                System.out.println("User with ID " + userID + " removed successfully.\n");
+            } else if (item instanceof Reservation) {
+                Reservation reservation = (Reservation) item;
+                int reservationID = ReservationManager.getReservationID(reservation);
+                deleteSQL.append("DELETE FROM Reservations WHERE reservation_id = :reservation_id");
+                handle.createUpdate(deleteSQL.toString())
+                      .bind("reservation_id", reservationID)
+                      .execute();
+                resetSQL = "ALTER TABLE Reservations ALTER COLUMN reservation_id RESTART WITH (SELECT MAX(reservation_id) + 1 FROM Reservations)";
+                handle.execute(resetSQL);
+                System.out.println("Reservation with ID " + reservationID + " removed successfully.\n");
+            } else {
+                throw new IllegalArgumentException("Unsupported item type: " + item.getClass().getName());
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to remove item: " + e.getMessage());
+        }
+    }
+
+
+
 
     /****************************************************************
      *                            Print                             *

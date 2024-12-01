@@ -92,7 +92,7 @@ public class User {
      * 
      * @return The user's unique ID.
      */
-    public int getUserID(){
+    public Integer getUserID(){
         return userID;
     }
 

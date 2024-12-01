@@ -21,7 +21,7 @@ public class TestClass{
 
     // Private constructor to prevent instantiation
     private TestClass() {}
-
+/*
 	public static void testCases(int choice){
 
 		int numberOfCases = 10;
@@ -167,11 +167,11 @@ public class TestClass{
 
 				
 		        System.out.println("---2. Passed ---");
-	    	/*} catch (Exception e) {
+	    	} catch (Exception e) {
         		// Handle any exceptions that were thrown
         		System.out.println("Exception caught: " + e.getMessage());
         		System.out.println("Number of passed tries: " + passedTest);
-        	}*/
+        	}
 
 			break;
 		case 3:
@@ -247,9 +247,202 @@ public class TestClass{
 		}
 
 	}
+*/
 
 	
+	/********************************
+	 *        Run Test Cases        *
+	 ********************************/
+	/**
+	 * Runs a set of test cases for various operations.
+	 */
+	public static void runTestCases() {
+	    int passedTest = 0;
+	    int numOfTests = 1;
 
+	    try {
+	        System.out.println("---Running Test Cases---");
+
+	        System.out.println(String.format("---Test #%d: Create User---", numOfTests));
+	        Calendar birthday = new GregorianCalendar(0, 0, 0);
+	        User testUser = new User("Test", "User", birthday, "TestUser", "Password");
+	        if (testUser != null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+	        System.out.println(String.format("---Test #%d: Add User to Database---", numOfTests));
+	        DatabaseConnector.addAccount(testUser);
+	        if (testUser.getUserID() != null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+	        System.out.println(String.format("---Test #%d: Sign in---", numOfTests));
+	        DatabaseManager.signIn(testUser);
+	        if (DatabaseManager.isSignedIn()) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+	        System.out.println(String.format("---Test #%d: Sign out---", numOfTests));
+	        DatabaseManager.signOut();
+	        if (!DatabaseManager.isSignedIn()) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+	        System.out.println(String.format("---Test #%d: Create Manager---", numOfTests));
+	        Manager testManager = new Manager(DatabaseManager.nextEmployeeNumber(), "Test", "User", birthday, "TestManager", "Password");
+	        if (testManager != null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+	        System.out.println(String.format("---Test #%d: Add Manager to Database---", numOfTests));
+	        DatabaseConnector.addAccount(testManager);
+	        if (testManager.getUserID() != null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+	        System.out.println(String.format("---Test #%d: Sign in Manager---", numOfTests));
+	        DatabaseManager.signIn(testManager);
+	        if (DatabaseManager.isSignedIn()) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+	        System.out.println(String.format("---Test #%d: Sign out Manager---", numOfTests));
+	        DatabaseManager.signOut();
+	        if (!DatabaseManager.isSignedIn()) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+	        System.out.println(String.format("---Test #%d: Create Hotel---", numOfTests));
+	        Hotel testHotel = new Hotel("TestHotel", "123 Address St, City, State");
+	        if (testHotel != null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+
+	        
+
+
+
+
+
+
+
+
+	        System.out.println(String.format("---Test #%d: Remove User from Database---", numOfTests));
+	        DatabaseConnector.removeObjectFromDatabase("User", testUser.getUserID());
+	        if (DatabaseConnector.translateUserFromDatabase(testUser.getUserID()) == null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+	        System.out.println(String.format("---Test #%d: Remove Manager from Database---", numOfTests));
+	        DatabaseConnector.removeItemFromDatabase(testManager);
+	        if (DatabaseConnector.translateUserFromDatabase(testManager.getUserID()) == null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+
+	    } catch (Exception e) {
+	        System.out.println("Test Encountered an error: " + e);
+
+	    } finally {
+	        System.out.println("\nNumber of Tests Run: " + numOfTests);
+	        System.out.println("\nNumber of Tests Passed: " + passedTest);
+	    }
+	}
+
+
+	
+	public static void testPrints(){
+
+
+	    System.out.println("\n-----Printing Objects in Applicaiton-----");
+	    System.out.println("\t---Printing Users---");
+	    //Get all Users Objects
+	    ArrayList<User> allUsers = DatabaseManager.getAllUsers();
+
+	    //Loop through and print each account
+	    for (User user : allUsers){
+	    AccountManager.printAccountInfo(user);
+	    }
+
+	    System.out.println("-----Printing Objects in Database-----");
+	    System.out.println("\t---Printing Users---");
+        DatabaseConnector.printUsersTable();
+
+
+	    System.out.println("-----Printing Objects in Applicaiton-----");
+	    System.out.println("\t---Printing Hotels and Rooms---");
+	    //Get all Hotel Objects
+	    ArrayList<Hotel> allHotels = DatabaseManager.getAllHotels();
+	    ArrayList<Reservation> allReservations = new ArrayList<Reservation>();
+		//Get all Reservation Objects
+
+	    //Loop through and print each Hotel
+	    for (Hotel hotel : allHotels){
+	    System.out.println(HotelManager.getHotelAndRoomsInfo(hotel));
+	    allReservations.addAll(HotelManager.getAllReservations(hotel));
+	    }
+	    System.out.println("-----Printing Objects in Database-----");
+	    System.out.println("\t---Printing Hotels and Rooms---");
+	    DatabaseConnector.printHotelsTable();
+        DatabaseConnector.printRoomsTable();
+
+	    System.out.println("-----Printing Objects in Applicaiton-----");
+	    System.out.println("\t---Printing Reservations---");
+
+	    //Loop through and print each account
+	    for (Reservation reservation : allReservations){
+	    ReservationManager.printReservation(reservation);
+	    }
+	    
+	    System.out.println("-----Printing Objects in Database-----");
+	    System.out.println("\t---Printing Reservations---");
+        DatabaseConnector.printReservationsTable();
+
+
+	}
 
 
 /****************************************************************
