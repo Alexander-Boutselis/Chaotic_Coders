@@ -161,7 +161,7 @@ public class Database {
                 return hotel;
             }
         }
-        return null; //If no matching object is found
+        return null;
     }
 
     /**

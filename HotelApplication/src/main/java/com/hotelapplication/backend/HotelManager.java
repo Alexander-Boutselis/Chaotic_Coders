@@ -254,6 +254,16 @@ public class HotelManager {
         return hotel.getAllRooms();
     }
 
+    /**
+     * Gets a Room Object from a Hotel.
+     *
+     * @param roomID The Room ID integer.
+     * @return A Room Object.
+     */
+    public static Room getRoom(int roomID) {
+        return DatabaseConnector.translateRoomFromDatabase(roomID);
+    }
+
     /****************************************************************
      *                            Adders                            *
      ****************************************************************/

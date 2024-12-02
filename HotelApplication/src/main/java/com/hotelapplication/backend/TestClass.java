@@ -387,10 +387,8 @@ public class TestClass{
 
 	        System.out.println(String.format("---Test #%d: Create Room---", numOfTests));
 	        int roomNumber = RoomManager.getNextRoomNumber();  // Get next room number
-	        double pricePerNight = RoomManager.calcPricePerNight(roomNumber, 2, "queen");  // Calculate price per night
+	        double pricePerNight = RoomManager.calcPricePerNight(roomNumber, 2, "queen");  
 	        int roomID = HotelManager.getHotelID(HotelManager.getCurrentHotel()) * 1000 + roomNumber;
-
-	        // Create Room
 	        Room testRoom = new Room(roomID, roomNumber, 2, "queen", pricePerNight, "");
 	        if (testRoom != null) {
 	            passedTest++;
@@ -415,24 +413,22 @@ public class TestClass{
 
 			System.out.println(String.format("---Test #%d: Add Room to Hotel---", numOfTests));
 	        HotelManager.addRoomToHotel(testHotel,testRoom);
-	        if (DatabaseConnector.translateRoomFromDatabase(roomID) != null) {
+	        if (HotelManager.getRoom(roomID) != null) {
 	            passedTest++;
 	            System.out.println("Test #" + numOfTests + ": Passed\n");
 	        } else {
 	            System.out.println("Test #" + numOfTests + ": Failed\n");
 	        }
 	        numOfTests++;
-	        // Add Room to Current Hotel
-	        HotelManager.addRoomToHotel(testRoom);
+
+
+
 
 
 
 
 
             DatabaseConnector.printAllTables();
-
-
-
 
 
 	        System.out.println(String.format("---Test #%d: Remove Room from Database---", numOfTests));
@@ -479,8 +475,10 @@ public class TestClass{
 	        System.out.println("Test Encountered an error: " + e);
 
 	    } finally {
-	        System.out.println("\nNumber of Tests Run: " + numOfTests);
-	        System.out.println("\nNumber of Tests Passed: " + passedTest);
+	    	DatabaseConnector.emptyDatabase();
+
+	        System.out.println("Number of Tests Run: " + numOfTests);
+	        System.out.println("Number of Tests Passed: " + passedTest);
 	    }
 	}
 

@@ -168,7 +168,7 @@ public class Reservation {
 	/**
      * Sets the reservation number for this reservation.
      * 
-     * @param reservationNumber The reservation number to set.
+     * @param reservationID The reservation number to set.
      */
 	public void setReservationID(int reservationID) {
 		this.reservationID = reservationID;

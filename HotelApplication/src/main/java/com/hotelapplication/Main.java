@@ -6,7 +6,7 @@
 
 /*
 Maven Commands:
-mvn clean compile exec:java
+mvn compile exec:java
 mvn javadoc:javadoc
 */
 package com.hotelapplication;
@@ -50,10 +50,8 @@ public class Main {
             promptForGUI(scanner);
 
             // Print the current database tables for verification
-            DatabaseConnector.printHotelsTable();
-            DatabaseConnector.printRoomsTable();
-            DatabaseConnector.printUsersTable();
-            DatabaseConnector.printReservationsTable();
+            DatabaseConnector.printAllTables();
+           
             //TestClass.testPrints();
             
 

@@ -713,7 +713,6 @@ public class DatabaseConnector {
             // Reset auto-increment for all tables
             handle.execute("ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH 1");
             handle.execute("ALTER TABLE Users ALTER COLUMN user_id RESTART WITH 1");
-            handle.execute("ALTER TABLE Rooms ALTER COLUMN room_id RESTART WITH 1");
             handle.execute("ALTER TABLE Reservations ALTER COLUMN reservation_id RESTART WITH 1");
 
             System.out.println("Database cleared successfully.");
@@ -738,42 +737,43 @@ public class DatabaseConnector {
      */
     public static void removeObjectFromDatabase(String itemType, int id) {
         try {
-            String deleteSQL;
+            StringBuilder deleteSQL = new StringBuilder();
             String resetSQL;
             itemType = itemType.toLowerCase();
 
             switch (itemType) {
                 case "hotel":
-                    deleteSQL = "DELETE FROM Hotels WHERE hotel_id = :id";
-                    handle.createUpdate(deleteSQL)
+                    deleteSQL.append("DELETE FROM Hotels WHERE hotel_id = :id");
+                    handle.createUpdate(deleteSQL.toString())
                           .bind("id", id)
                           .execute();
-                    resetSQL = "ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH (SELECT MAX(hotel_id) + 1 FROM Hotels)";
+                    resetSQL = "ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH (SELECT COALESCE(MAX(hotel_id), 0) + 1 FROM Hotels)";
                     handle.execute(resetSQL);
                     System.out.println("Hotel with ID " + id + " removed successfully.\n");
                     break;
                 case "room":
-                    deleteSQL = "DELETE FROM Rooms WHERE room_id = :id";
-                    handle.createUpdate(deleteSQL)
+                    deleteSQL.append("DELETE FROM Rooms WHERE room_id = :id");
+                    handle.createUpdate(deleteSQL.toString())
                           .bind("id", id)
                           .execute();
                     System.out.println("Room with ID " + id + " removed successfully.\n");
                     break;
                 case "user":
-                    deleteSQL = "DELETE FROM Users WHERE user_id = :id";
-                    handle.createUpdate(deleteSQL)
+                case "manager":
+                    deleteSQL.append("DELETE FROM Users WHERE user_id = :id");
+                    handle.createUpdate(deleteSQL.toString())
                           .bind("id", id)
                           .execute();
-                    resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT MAX(user_id) + 1 FROM Users)";
+                    resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT COALESCE(MAX(user_id), 0) + 1 FROM Users)";
                     handle.execute(resetSQL);
                     System.out.println(itemType + " with ID " + id + " removed successfully.\n");
                     break;
                 case "reservation":
-                    deleteSQL = "DELETE FROM Reservations WHERE reservation_id = :id";
-                    handle.createUpdate(deleteSQL)
+                    deleteSQL.append("DELETE FROM Reservations WHERE reservation_id = :id");
+                    handle.createUpdate(deleteSQL.toString())
                           .bind("id", id)
                           .execute();
-                    resetSQL = "ALTER TABLE Reservations ALTER COLUMN reservation_id RESTART WITH (SELECT MAX(reservation_id) + 1 FROM Reservations)";
+                    resetSQL = "ALTER TABLE Reservations ALTER COLUMN reservation_id RESTART WITH (SELECT COALESCE(MAX(reservation_id), 0) + 1 FROM Reservations)";
                     handle.execute(resetSQL);
                     System.out.println("Reservation with ID " + id + " removed successfully.\n");
                     break;
