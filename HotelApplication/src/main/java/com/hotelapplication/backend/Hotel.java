@@ -68,7 +68,7 @@ public class Hotel {
      *
      * @return The ID of the hotel.
      */
-    public int getHotelID() {
+    public Integer getHotelID() {
         return hotelID;
     }
 

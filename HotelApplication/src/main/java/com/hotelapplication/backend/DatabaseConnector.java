@@ -504,6 +504,7 @@ public class DatabaseConnector {
         }
     }
 
+
     /********************************
      *    Translate Hotel Object    *
      ********************************/
@@ -514,14 +515,18 @@ public class DatabaseConnector {
      * @return the Hotel object corresponding to the hotelID
      */
     public static Hotel translateHotelFromDatabase(int hotelID) {
-        String sqlQuery = "SELECT * FROM Hotels WHERE hotel_id = :hotelId";
-        return handle.createQuery(sqlQuery)
-                .bind("hotelId", hotelID)
-                .map((resultSet, statementContext) -> new Hotel(
-                        resultSet.getInt("hotel_id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("address")
-                )).one();
+        try {
+            String sqlQuery = "SELECT * FROM Hotels WHERE hotel_id = :hotelId";
+            return handle.createQuery(sqlQuery)
+                    .bind("hotelId", hotelID)
+                    .map((resultSet, statementContext) -> new Hotel(
+                            resultSet.getInt("hotel_id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("address")
+                    )).one();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /********************************
@@ -534,18 +539,22 @@ public class DatabaseConnector {
      * @return the Room object corresponding to the roomId
      */
     public static Room translateRoomFromDatabase(int roomId) {
-        String sqlQuery = "SELECT * FROM Rooms WHERE room_id = :roomId";
-        return getHandle().createQuery(sqlQuery)
-                .bind("roomId", roomId)
-                .map((resultSet, statementContext) -> new Room(
-                        resultSet.getInt("room_id"),
-                        resultSet.getInt("room_number"),
-                        resultSet.getInt("num_of_beds"),
-                        resultSet.getString("bed_type"),
-                        resultSet.getBigDecimal("price_per_night").doubleValue(),
-                        resultSet.getString("room_description") != null ? resultSet.getString("room_description") : ""
-                ))
-                .one();
+        try {
+            String sqlQuery = "SELECT * FROM Rooms WHERE room_id = :roomId";
+            return getHandle().createQuery(sqlQuery)
+                    .bind("roomId", roomId)
+                    .map((resultSet, statementContext) -> new Room(
+                            resultSet.getInt("room_id"),
+                            resultSet.getInt("room_number"),
+                            resultSet.getInt("num_of_beds"),
+                            resultSet.getString("bed_type"),
+                            resultSet.getBigDecimal("price_per_night").doubleValue(),
+                            resultSet.getString("room_description") != null ? resultSet.getString("room_description") : ""
+                    ))
+                    .one();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /********************************
@@ -558,35 +567,35 @@ public class DatabaseConnector {
      * @return the User object corresponding to the userId
      */
     public static User translateUserFromDatabase(int userId) {
-        try{    
-        String sqlQuery = "SELECT * FROM Users WHERE user_id = :userId";
-        return getHandle().createQuery(sqlQuery)
-                .bind("userId", userId)
-                .map((resultSet, statementContext) -> {
-                    if (resultSet.getObject("employee_num") != null) {
-                        return new Manager(
-                                userId,
-                                resultSet.getInt("employee_num"),
-                                resultSet.getString("first_name"),
-                                resultSet.getString("last_name"),
-                                Calendar.getInstance(),
-                                resultSet.getString("username"),
-                                resultSet.getString("password"),
-                                Calendar.getInstance(),
-                                Calendar.getInstance(),
-                                true);
-                    } else {
-                        return new User(
-                                userId,
-                                resultSet.getString("first_name"),
-                                resultSet.getString("last_name"),
-                                Calendar.getInstance(),
-                                resultSet.getString("username"),
-                                resultSet.getString("password"),
-                                true);
-                    }
-                }).one();
-        }catch(Exception e){
+        try {    
+            String sqlQuery = "SELECT * FROM Users WHERE user_id = :userId";
+            return getHandle().createQuery(sqlQuery)
+                    .bind("userId", userId)
+                    .map((resultSet, statementContext) -> {
+                        if (resultSet.getObject("employee_num") != null) {
+                            return new Manager(
+                                    userId,
+                                    resultSet.getInt("employee_num"),
+                                    resultSet.getString("first_name"),
+                                    resultSet.getString("last_name"),
+                                    Calendar.getInstance(),
+                                    resultSet.getString("username"),
+                                    resultSet.getString("password"),
+                                    Calendar.getInstance(),
+                                    Calendar.getInstance(),
+                                    true);
+                        } else {
+                            return new User(
+                                    userId,
+                                    resultSet.getString("first_name"),
+                                    resultSet.getString("last_name"),
+                                    Calendar.getInstance(),
+                                    resultSet.getString("username"),
+                                    resultSet.getString("password"),
+                                    true);
+                        }
+                    }).one();
+        } catch (Exception e) {
             return null;
         }
     }
@@ -601,19 +610,24 @@ public class DatabaseConnector {
      * @return the Reservation object corresponding to the reservationId
      */
     public static Reservation translateReservationFromDatabase(int reservationId) {
-        String sqlQuery = "SELECT * FROM Reservations WHERE reservation_id = :reservationId";
-        return getHandle().createQuery(sqlQuery)
-                .bind("reservationId", reservationId)
-                .map((resultSet, statementContext) -> new Reservation(
-                        resultSet.getInt("reservation_id"),
-                        resultSet.getInt("user_id"),
-                        resultSet.getInt("room_id"),
-                        resultSet.getInt("hotel_id"),
-                        resultSet.getDate("check_in_date").toLocalDate(),
-                        resultSet.getDate("check_out_date").toLocalDate(),
-                        resultSet.getDouble("total_cost")
-                )).one();
+        try {
+            String sqlQuery = "SELECT * FROM Reservations WHERE reservation_id = :reservationId";
+            return getHandle().createQuery(sqlQuery)
+                    .bind("reservationId", reservationId)
+                    .map((resultSet, statementContext) -> new Reservation(
+                            resultSet.getInt("reservation_id"),
+                            resultSet.getInt("user_id"),
+                            resultSet.getInt("room_id"),
+                            resultSet.getInt("hotel_id"),
+                            resultSet.getDate("check_in_date").toLocalDate(),
+                            resultSet.getDate("check_out_date").toLocalDate(),
+                            resultSet.getDouble("total_cost")
+                    )).one();
+        } catch (Exception e) {
+            return null;
+        }
     }
+
 
     /****************************************************************
      *                            Delete                             *
@@ -743,11 +757,8 @@ public class DatabaseConnector {
                     handle.createUpdate(deleteSQL)
                           .bind("id", id)
                           .execute();
-                    resetSQL = "ALTER TABLE Rooms ALTER COLUMN room_id RESTART WITH (SELECT MAX(room_id) + 1 FROM Rooms)";
-                    handle.execute(resetSQL);
                     System.out.println("Room with ID " + id + " removed successfully.\n");
                     break;
-                case "manager":
                 case "user":
                     deleteSQL = "DELETE FROM Users WHERE user_id = :id";
                     handle.createUpdate(deleteSQL)
@@ -774,76 +785,75 @@ public class DatabaseConnector {
         }
     }
 
-        
-    /********************************
-     *    Remove Item from Database   *
-     ********************************/
-    /**
-     * Removes a specific item (Hotel, Room, User, Manager, or Reservation) from the database.
-     *
-     * @param item the item to remove (can be Hotel, Room, User, Reservation, or Manager)
-     */
-    public static void removeItemFromDatabase(Object item) {
-        try {
-            StringBuilder deleteSQL = new StringBuilder();
-            String resetSQL;
-            if (item instanceof Hotel) {
-                Hotel hotel = (Hotel) item;
-                int hotelID = HotelManager.getHotelID(hotel);
-                deleteSQL.append("DELETE FROM Hotels WHERE hotel_id = :hotel_id");
-                handle.createUpdate(deleteSQL.toString())
-                      .bind("hotel_id", hotelID)
-                      .execute();
-                resetSQL = "ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH (SELECT MAX(hotel_id) + 1 FROM Hotels)";
-                handle.execute(resetSQL);
-                System.out.println("Hotel with ID " + hotelID + " removed successfully.\n");
-            } else if (item instanceof Room) {
-                Room room = (Room) item;
-                int roomID = RoomManager.getRoomID(room);
-                deleteSQL.append("DELETE FROM Rooms WHERE room_id = :room_id");
-                handle.createUpdate(deleteSQL.toString())
-                      .bind("room_id", roomID)
-                      .execute();
-                resetSQL = "ALTER TABLE Rooms ALTER COLUMN room_id RESTART WITH (SELECT MAX(room_id) + 1 FROM Rooms)";
-                handle.execute(resetSQL);
-                System.out.println("Room with ID " + roomID + " removed successfully.\n");
-            } else if (item instanceof Manager) {
-                Manager manager = (Manager) item;
-                int managerID = AccountManager.getUserID(manager);
-                deleteSQL.append("DELETE FROM Users WHERE user_id = :user_id");
-                handle.createUpdate(deleteSQL.toString())
-                      .bind("user_id", managerID)
-                      .execute();
-                resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT MAX(user_id) + 1 FROM Users)";
-                handle.execute(resetSQL);
-                System.out.println("Manager with ID " + managerID + " removed successfully.\n");
-            } else if (item instanceof User) {
-                User user = (User) item;
-                int userID = AccountManager.getUserID(user);
-                deleteSQL.append("DELETE FROM Users WHERE user_id = :user_id");
-                handle.createUpdate(deleteSQL.toString())
-                      .bind("user_id", userID)
-                      .execute();
-                resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT MAX(user_id) + 1 FROM Users)";
-                handle.execute(resetSQL);
-                System.out.println("User with ID " + userID + " removed successfully.\n");
-            } else if (item instanceof Reservation) {
-                Reservation reservation = (Reservation) item;
-                int reservationID = ReservationManager.getReservationID(reservation);
-                deleteSQL.append("DELETE FROM Reservations WHERE reservation_id = :reservation_id");
-                handle.createUpdate(deleteSQL.toString())
-                      .bind("reservation_id", reservationID)
-                      .execute();
-                resetSQL = "ALTER TABLE Reservations ALTER COLUMN reservation_id RESTART WITH (SELECT MAX(reservation_id) + 1 FROM Reservations)";
-                handle.execute(resetSQL);
-                System.out.println("Reservation with ID " + reservationID + " removed successfully.\n");
-            } else {
-                throw new IllegalArgumentException("Unsupported item type: " + item.getClass().getName());
-            }
-        } catch (Exception e) {
-            System.err.println("Failed to remove item: " + e.getMessage());
+   
+
+/********************************
+ *   Remove Item from Database  *
+ ********************************/
+/**
+ * Removes a specific item (Hotel, Room, User, Manager, or Reservation) from the database.
+ *
+ * @param item the item to remove (can be Hotel, Room, User, Reservation, or Manager)
+ */
+public static void removeItemFromDatabase(Object item) {
+    try {
+        StringBuilder deleteSQL = new StringBuilder();
+        String resetSQL;
+        if (item instanceof Hotel) {
+            Hotel hotel = (Hotel) item;
+            int hotelID = HotelManager.getHotelID(hotel);
+            deleteSQL.append("DELETE FROM Hotels WHERE hotel_id = :hotel_id");
+            handle.createUpdate(deleteSQL.toString())
+                  .bind("hotel_id", hotelID)
+                  .execute();
+            resetSQL = "ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH (SELECT COALESCE(MAX(hotel_id), 0) + 1 FROM Hotels)";
+            handle.execute(resetSQL);
+            System.out.println("Hotel with ID " + hotelID + " removed successfully.\n");
+        } else if (item instanceof Room) {
+            Room room = (Room) item;
+            int roomID = RoomManager.getRoomID(room);
+            deleteSQL.append("DELETE FROM Rooms WHERE room_id = :room_id");
+            handle.createUpdate(deleteSQL.toString())
+                  .bind("room_id", roomID)
+                  .execute();
+            System.out.println("Room with ID " + roomID + " removed successfully.\n");
+        } else if (item instanceof Manager) {
+            Manager manager = (Manager) item;
+            int managerID = AccountManager.getUserID(manager);
+            deleteSQL.append("DELETE FROM Users WHERE user_id = :user_id");
+            handle.createUpdate(deleteSQL.toString())
+                  .bind("user_id", managerID)
+                  .execute();
+            resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT COALESCE(MAX(user_id), 0) + 1 FROM Users)";
+            handle.execute(resetSQL);
+            System.out.println("Manager with ID " + managerID + " removed successfully.\n");
+        } else if (item instanceof User) {
+            User user = (User) item;
+            int userID = AccountManager.getUserID(user);
+            deleteSQL.append("DELETE FROM Users WHERE user_id = :user_id");
+            handle.createUpdate(deleteSQL.toString())
+                  .bind("user_id", userID)
+                  .execute();
+            resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT COALESCE(MAX(user_id), 0) + 1 FROM Users)";
+            handle.execute(resetSQL);
+            System.out.println("User with ID " + userID + " removed successfully.\n");
+        } else if (item instanceof Reservation) {
+            Reservation reservation = (Reservation) item;
+            int reservationID = ReservationManager.getReservationID(reservation);
+            deleteSQL.append("DELETE FROM Reservations WHERE reservation_id = :reservation_id");
+            handle.createUpdate(deleteSQL.toString())
+                  .bind("reservation_id", reservationID)
+                  .execute();
+            resetSQL = "ALTER TABLE Reservations ALTER COLUMN reservation_id RESTART WITH (SELECT COALESCE(MAX(reservation_id), 0) + 1 FROM Reservations)";
+            handle.execute(resetSQL);
+            System.out.println("Reservation with ID " + reservationID + " removed successfully.\n");
+        } else {
+            throw new IllegalArgumentException("Unsupported item type: " + item.getClass().getName());
         }
+    } catch (Exception e) {
+        System.err.println("Failed to remove item: " + e.getMessage());
     }
+}
 
 
 
@@ -851,6 +861,23 @@ public class DatabaseConnector {
     /****************************************************************
      *                            Print                             *
      ****************************************************************/
+    /********************************
+     *        Print all Tables      *
+     ********************************/
+    /**
+     * Prints all Tables in the database
+     */
+    public static void printAllTables() {
+        try {
+            printHotelsTable();
+            printRoomsTable();
+            printUsersTable();
+            printReservationsTable();
+        } catch (Exception e) {
+            System.err.println("Failed to print tables: " + e.getMessage());
+        }
+    }
+
     /********************************
      *     Print the Hotels table   *
      ********************************/

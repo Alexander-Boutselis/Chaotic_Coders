@@ -274,6 +274,7 @@ public class TestClass{
 	        }
 	        numOfTests++;
 
+
 	        System.out.println(String.format("---Test #%d: Add User to Database---", numOfTests));
 	        DatabaseConnector.addAccount(testUser);
 	        if (testUser.getUserID() != null) {
@@ -283,6 +284,7 @@ public class TestClass{
 	            System.out.println("Test #" + numOfTests + ": Failed\n");
 	        }
 	        numOfTests++;
+
 
 	        System.out.println(String.format("---Test #%d: Sign in---", numOfTests));
 	        DatabaseManager.signIn(testUser);
@@ -294,6 +296,7 @@ public class TestClass{
 	        }
 	        numOfTests++;
 
+
 	        System.out.println(String.format("---Test #%d: Sign out---", numOfTests));
 	        DatabaseManager.signOut();
 	        if (!DatabaseManager.isSignedIn()) {
@@ -303,6 +306,7 @@ public class TestClass{
 	            System.out.println("Test #" + numOfTests + ": Failed\n");
 	        }
 	        numOfTests++;
+
 
 	        System.out.println(String.format("---Test #%d: Create Manager---", numOfTests));
 	        Manager testManager = new Manager(DatabaseManager.nextEmployeeNumber(), "Test", "User", birthday, "TestManager", "Password");
@@ -314,6 +318,7 @@ public class TestClass{
 	        }
 	        numOfTests++;
 
+
 	        System.out.println(String.format("---Test #%d: Add Manager to Database---", numOfTests));
 	        DatabaseConnector.addAccount(testManager);
 	        if (testManager.getUserID() != null) {
@@ -323,6 +328,7 @@ public class TestClass{
 	            System.out.println("Test #" + numOfTests + ": Failed\n");
 	        }
 	        numOfTests++;
+
 
 	        System.out.println(String.format("---Test #%d: Sign in Manager---", numOfTests));
 	        DatabaseManager.signIn(testManager);
@@ -334,6 +340,7 @@ public class TestClass{
 	        }
 	        numOfTests++;
 
+
 	        System.out.println(String.format("---Test #%d: Sign out Manager---", numOfTests));
 	        DatabaseManager.signOut();
 	        if (!DatabaseManager.isSignedIn()) {
@@ -343,6 +350,7 @@ public class TestClass{
 	            System.out.println("Test #" + numOfTests + ": Failed\n");
 	        }
 	        numOfTests++;
+
 
 	        System.out.println(String.format("---Test #%d: Create Hotel---", numOfTests));
 	        Hotel testHotel = new Hotel("TestHotel", "123 Address St, City, State");
@@ -355,17 +363,101 @@ public class TestClass{
 	        numOfTests++;
 
 
-	        
+	        System.out.println(String.format("---Test #%d: Add Hotel to Database---", numOfTests));
+	        DatabaseConnector.addHotel(testHotel);
+	        if (testHotel.getHotelID() != null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+
+	        System.out.println(String.format("---Test #%d: Set Current Hotel---", numOfTests));
+	        DatabaseManager.setCurrentHotel(testHotel);
+	        if (DatabaseManager.getCurrentHotel().getHotelID() == testHotel.getHotelID()) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+
+	        System.out.println(String.format("---Test #%d: Create Room---", numOfTests));
+	        int roomNumber = RoomManager.getNextRoomNumber();  // Get next room number
+	        double pricePerNight = RoomManager.calcPricePerNight(roomNumber, 2, "queen");  // Calculate price per night
+	        int roomID = HotelManager.getHotelID(HotelManager.getCurrentHotel()) * 1000 + roomNumber;
+
+	        // Create Room
+	        Room testRoom = new Room(roomID, roomNumber, 2, "queen", pricePerNight, "");
+	        if (testRoom != null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+
+	        System.out.println(String.format("---Test #%d: Add Room to Database---", numOfTests));
+	        DatabaseConnector.addRoom(testRoom);
+	        if (DatabaseConnector.translateRoomFromDatabase(roomID) != null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+
+
+			System.out.println(String.format("---Test #%d: Add Room to Hotel---", numOfTests));
+	        HotelManager.addRoomToHotel(testHotel,testRoom);
+	        if (DatabaseConnector.translateRoomFromDatabase(roomID) != null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+	        // Add Room to Current Hotel
+	        HotelManager.addRoomToHotel(testRoom);
 
 
 
 
 
+            DatabaseConnector.printAllTables();
 
 
+
+
+
+	        System.out.println(String.format("---Test #%d: Remove Room from Database---", numOfTests));
+	        DatabaseConnector.removeItemFromDatabase(testRoom);
+	        if (DatabaseConnector.translateRoomFromDatabase(testRoom.getRoomID()) == null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+	        System.out.println(String.format("---Test #%d: Remove Hotel from Database---", numOfTests));
+	        DatabaseConnector.removeItemFromDatabase(testHotel);
+	        if (DatabaseConnector.translateHotelFromDatabase(testHotel.getHotelID()) == null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
 
 	        System.out.println(String.format("---Test #%d: Remove User from Database---", numOfTests));
-	        DatabaseConnector.removeObjectFromDatabase("User", testUser.getUserID());
+	        DatabaseConnector.removeItemFromDatabase(testUser);
+	        
 	        if (DatabaseConnector.translateUserFromDatabase(testUser.getUserID()) == null) {
 	            passedTest++;
 	            System.out.println("Test #" + numOfTests + ": Passed\n");

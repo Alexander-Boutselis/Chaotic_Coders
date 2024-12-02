@@ -35,6 +35,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         try {
+            //DatabaseConnector.deleteDatabaseFile();
             // Initialize the database and application
             DatabaseConnector.initializeApplication();
 
