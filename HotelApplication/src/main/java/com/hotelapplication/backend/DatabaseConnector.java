@@ -303,14 +303,15 @@ public class DatabaseConnector {
         try {
             AccountManager.printAccountInfo(ReservationManager.getAssignedUser(reservation));
             String insertSQL = "INSERT INTO Reservations (user_id, room_id, hotel_id, check_in_date, check_out_date, total_cost) VALUES (:user_id, :room_id, :hotel_id, :check_in_date, :check_out_date, :total_cost)";
-            getHandle().createUpdate(insertSQL)
+            int reservationID = handle.createUpdate(insertSQL)
                     .bind("user_id", AccountManager.getUserID(ReservationManager.getAssignedUser(reservation)))
                     .bind("room_id", RoomManager.getRoomID(ReservationManager.getRoom(reservation)))
                     .bind("hotel_id", HotelManager.getHotelID(ReservationManager.getHotel()))
                     .bind("check_in_date", Date.valueOf(ReservationManager.getStartDate(reservation)))
                     .bind("check_out_date", Date.valueOf(ReservationManager.getEndDate(reservation)))
                     .bind("total_cost", ReservationManager.getTotalPrice(reservation))
-                    .execute();
+                    .executeAndReturnGeneratedKeys("reservation_id").mapTo(int.class).one();
+            ReservationManager.setReservationID(reservation, reservationID);
             System.out.println("Reservation added successfully to the database.");
         } catch (Exception e) {
             System.err.println("Failed to add reservation to the database: " + e.getMessage());

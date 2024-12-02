@@ -422,14 +422,43 @@ public class TestClass{
 	        numOfTests++;
 
 
+	        System.out.println(String.format("---Test #%d: Create Reservation---", numOfTests));
+	        LocalDate startDate = LocalDate.of(2024,12,17);
+	        LocalDate endDate = LocalDate.of(2024,12,31);
 
+	        Reservation testReservation = new Reservation(null, testUser.getUserID(), roomID, testHotel.getHotelID(), startDate, endDate, 420.69);
+	        if (testReservation != null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
 
-
+	        System.out.println(String.format("---Test #%d: Add Reservation to Database---", numOfTests));
+	        DatabaseConnector.addReservation(testReservation);
+	        if (DatabaseConnector.translateReservationFromDatabase(testReservation.getReservationID()) != null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
 
 
 
             DatabaseConnector.printAllTables();
 
+
+            System.out.println(String.format("---Test #%d: Remove Reservation from Database---", numOfTests));
+	        DatabaseConnector.removeItemFromDatabase(testReservation);
+	        if (DatabaseConnector.translateReservationFromDatabase(testReservation.getReservationID()) == null) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
 
 	        System.out.println(String.format("---Test #%d: Remove Room from Database---", numOfTests));
 	        DatabaseConnector.removeItemFromDatabase(testRoom);
@@ -475,7 +504,7 @@ public class TestClass{
 	        System.out.println("Test Encountered an error: " + e);
 
 	    } finally {
-	    	DatabaseConnector.emptyDatabase();
+	    	//DatabaseConnector.emptyDatabase();
 
 	        System.out.println("Number of Tests Run: " + numOfTests);
 	        System.out.println("Number of Tests Passed: " + passedTest);

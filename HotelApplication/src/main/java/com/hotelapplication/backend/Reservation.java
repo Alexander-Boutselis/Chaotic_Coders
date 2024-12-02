@@ -19,7 +19,7 @@ import java.util.*;
 public class Reservation {
 
 	// Private Fields
-	private int reservationID;
+	private Integer reservationID;
 	private int assignedUserID;
 	private int roomID;
 	private int hotelID;
@@ -38,7 +38,7 @@ public class Reservation {
      * @param endDate End date of the reservation.
      * @param totalPrice Total price for the reservation.
      */
-	public Reservation(int reservationID, int assignedUserID, int roomID, int hotelID, LocalDate startDate, LocalDate endDate, double totalPrice) {
+	public Reservation(Integer reservationID, int assignedUserID, int roomID, int hotelID, LocalDate startDate, LocalDate endDate, double totalPrice) {
 		this.reservationID = reservationID;
 		this.assignedUserID = assignedUserID;
 		this.roomID = roomID;
@@ -48,6 +48,7 @@ public class Reservation {
 		this.totalPrice = totalPrice;
 	}
 
+	
 	/**
      * Constructs a new Reservation object by copying another Reservation.
      * 
