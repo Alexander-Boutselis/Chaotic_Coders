@@ -446,6 +446,97 @@ public class TestClass{
 	        numOfTests++;
 
 
+            DatabaseConnector.printAllTables();
+
+
+            System.out.println(String.format("---Test #%d: Edit User First Name---", numOfTests));
+	        AccountManager.setFirstName(testUser, "User");
+	        if (testUser.getFirstName().equals("User")) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+            System.out.println(String.format("---Test #%d: Edit User Last Name---", numOfTests));
+	        AccountManager.setLastName(testUser, "Test");
+	        if (testUser.getLastName().equals("Test")) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+            System.out.println(String.format("---Test #%d: Edit Username---", numOfTests));
+	        AccountManager.setUsername(testUser, "NewUsername");
+	        if (testUser.getUsername().equals("NewUsername")) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+            System.out.println(String.format("---Test #%d: Update User in Database---", numOfTests));
+            DatabaseConnector.updateUserInDatabase(testUser);
+	        if (DatabaseConnector.translateUserFromDatabase(testUser.getUserID()).getUsername().equals("NewUsername")) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+            System.out.println(String.format("---Test #%d: Edit Hotel Name---", numOfTests));
+            HotelManager.setHotelName(testHotel, "New Hotel Name");
+	        if (testHotel.getHotelName().equals("New Hotel Name")) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+            System.out.println(String.format("---Test #%d: Edit Hotel Address---", numOfTests));
+            HotelManager.setHotelAddress(testHotel, "New Address");
+	        if (testHotel.getHotelAddress().equals("New Address")) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+            System.out.println(String.format("---Test #%d: Update Hotel in Database---", numOfTests));
+            DatabaseConnector.updateHotelInDatabase(testHotel);
+	        if (DatabaseConnector.translateHotelFromDatabase(testHotel.getHotelID()).getHotelName().equals("New Hotel Name")) {
+	            passedTest++;
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+            //Edit Bed Type in Room
+
+            //Edit Number of Beds in Room
+
+            //Edit Price Per Night for Room
+
+            //Edit Room Description
+
+            //Update Room in Database
+
+            //Edit Reservation Start Date
+
+            //Edit Reservation End Date
+
+            //Edit Reservation Total Price
+
+            //Update Reservation in Database
+
 
             DatabaseConnector.printAllTables();
 
