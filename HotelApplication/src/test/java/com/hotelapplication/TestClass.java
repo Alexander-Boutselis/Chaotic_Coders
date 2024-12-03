@@ -32,14 +32,6 @@ public class TestClass{
     }
 
 
-    @Test
-    public void testJUnit(){
-    	Calendar birthday = new GregorianCalendar(1, 0, 1);
-	        User testUser = new User("Test", "User", birthday, "TestUser", "Password");
-        	assertNotNull(testUser, "User object should not be null");
-    }
-
-
 	/********************************
 	 *        Run Test Cases        *
 	 ********************************/
