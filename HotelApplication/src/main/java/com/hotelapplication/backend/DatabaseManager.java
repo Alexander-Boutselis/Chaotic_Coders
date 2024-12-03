@@ -22,18 +22,7 @@ public class DatabaseManager {
     //Private constructor to prevent instantiation
     private DatabaseManager() {}
 
-    /****************************************************************
-     *                           Initialize                         *
-     ****************************************************************/
-    /**
-    * Initializes the database by attempting to connect.
-    */
-    public static void initializeDatabase() {
-        //Try to connect to database, if it does not exist, create it
-        DatabaseConnector.connect();
-    }
-
-
+    
     /****************************************************************
      *                           Hotel Data                         *
      ****************************************************************/
@@ -238,6 +227,64 @@ public class DatabaseManager {
     public static boolean isSignedIn() {
         return database.isSignedIn();
     }
+
+
+
+    /****************************************************************
+     *                           Prints                             *
+     ****************************************************************/
+    /**
+    * Prints both the objects in the app and the database to compare. Used for Debugging.
+    */
+    public static void testPrints(){
+
+        System.out.println("\n-----Printing Objects in Applicaiton-----");
+        System.out.println("\t---Printing Users---");
+        //Get all Users Objects
+        ArrayList<User> allUsers = DatabaseManager.getAllUsers();
+
+        //Loop through and print each account
+        for (User user : allUsers){
+        AccountManager.printAccountInfo(user);
+        }
+
+        System.out.println("-----Printing Objects in Database-----");
+        System.out.println("\t---Printing Users---");
+        DatabaseConnector.printUsersTable();
+
+
+        System.out.println("-----Printing Objects in Applicaiton-----");
+        System.out.println("\t---Printing Hotels and Rooms---");
+        //Get all Hotel Objects
+        ArrayList<Hotel> allHotels = DatabaseManager.getAllHotels();
+        ArrayList<Reservation> allReservations = new ArrayList<Reservation>();
+        //Get all Reservation Objects
+
+        //Loop through and print each Hotel
+        for (Hotel hotel : allHotels){
+        System.out.println(HotelManager.getHotelAndRoomsInfo(hotel));
+        allReservations.addAll(HotelManager.getAllReservations(hotel));
+        }
+        System.out.println("-----Printing Objects in Database-----");
+        System.out.println("\t---Printing Hotels and Rooms---");
+        DatabaseConnector.printHotelsTable();
+        DatabaseConnector.printRoomsTable();
+
+        System.out.println("-----Printing Objects in Applicaiton-----");
+        System.out.println("\t---Printing Reservations---");
+
+        //Loop through and print each account
+        for (Reservation reservation : allReservations){
+        ReservationManager.printReservation(reservation);
+        }
+        
+        System.out.println("-----Printing Objects in Database-----");
+        System.out.println("\t---Printing Reservations---");
+        DatabaseConnector.printReservationsTable();
+
+
+    }
+
 
     /****************************************************************
      *                           End                                *

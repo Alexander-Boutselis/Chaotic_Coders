@@ -29,14 +29,18 @@ public class HotelManager {
      *
      * @param hotelName The name of the hotel.
      * @param hotelAddress The address of the hotel.
+     * 
+     * @return newHotel Object
      */
-    public static void createHotel(String hotelName, String hotelAddress) {
+    public static Hotel createHotel(String hotelName, String hotelAddress) {
         try {
             Hotel newHotel = new Hotel(hotelName, hotelAddress);
             DatabaseManager.addHotel(newHotel);
             DatabaseConnector.addHotel(newHotel);
+            return newHotel;
         } catch (Exception e) {
             System.out.println("Failed to create Hotel and Add to Database");
+            return null;
         }
     }
 

@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * The DatabaseConnector class is responsible for managing the connection
@@ -83,6 +84,59 @@ public class DatabaseConnector {
      *                Initialize Application Method                *
      ****************************************************************/
     /**
+     * Initializes default data for the application on the first app run.
+     * 
+     * @param numOfRooms number of rooms to create by default.
+     */
+    public static void generateDefaultState(int numOfRooms) {
+
+        Calendar birthday = Calendar.getInstance();
+        AccountManager.createUser("Default", "User", birthday, "User", "Password");
+        AccountManager.createManager("Default", "Manager", birthday, "Manager", "Password");
+        AccountManager.signOut();
+        Hotel defaultHotel = HotelManager.createHotel("Default Hotel", "Default Address, City, State");
+        DatabaseManager.setCurrentHotel(defaultHotel);
+        String bedType = "";
+        Random random = new Random();
+        int randomNumber;
+        for (int i = 0; i < numOfRooms; i++) {
+            randomNumber = random.nextInt(5)+1;
+            switch (randomNumber) {
+            case 1:
+                bedType = "twin";
+                randomNumber = random.nextInt(4)+1;
+                RoomManager.createRoom(randomNumber, bedType,"");
+                break;
+            case 2:
+                bedType = "full";
+                randomNumber = random.nextInt(4)+1;
+                RoomManager.createRoom(randomNumber, bedType,"");
+                break;
+            case 3:
+                bedType = "queen";
+                randomNumber = random.nextInt(4)+1;
+                RoomManager.createRoom(randomNumber, bedType,"");
+                break;
+            case 4:
+                bedType = "king";
+                randomNumber = random.nextInt(4)+1;
+                RoomManager.createRoom(randomNumber, bedType,"");
+                break;
+            case 5:
+                bedType = "suite";
+                randomNumber = random.nextInt(4)+1;
+                RoomManager.createRoom(randomNumber, bedType,"");
+                break;
+            default:
+                break;
+            }
+        }
+
+        DatabaseManager.testPrints();
+
+
+    }
+    /**
      * Initializes the application by connecting to the database and checking if
      * the database contains any data. If no data is found, it initializes default data.
      */
@@ -96,6 +150,7 @@ public class DatabaseConnector {
 
             if (!hasData) {
                 System.out.println("Database is empty. Initializing default data...");
+                generateDefaultState(300);
             } else {
                 System.out.println("Database has existing data.");
                 // Call database connector to translate database
@@ -106,6 +161,8 @@ public class DatabaseConnector {
             e.printStackTrace(); // Print the stack trace for better debugging
         }
     }
+
+
 
     /****************************************************************
      *                            Tables                            *
