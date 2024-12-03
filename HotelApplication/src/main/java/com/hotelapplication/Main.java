@@ -6,8 +6,7 @@
 
 /*
 Maven Commands:
-mvn compile exec:java
-mvn javadoc:javadoc
+mvn clean compile javadoc:javadoc exec:java
 */
 package com.hotelapplication;
 import com.hotelapplication.frontend.*;
@@ -46,7 +45,7 @@ public class Main {
 
         try {
             // Prompt the user to choose between GUI and terminal operation
-            TestClass.runTestCases();
+            //TestClass.runTestCases();
             promptForGUI(scanner);
 
             // Print the current database tables for verification

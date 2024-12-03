@@ -345,7 +345,7 @@ public class ReservationManager {
      * Updates the total price of a reservation.
      * 
      * @param reservation The reservation to update.
-     * @param price The new total price.
+     * @param reservationID The new reservation ID.
      */
 	public static void setReservationID(Reservation reservation, int reservationID) {
 		reservation.setReservationID(reservationID);

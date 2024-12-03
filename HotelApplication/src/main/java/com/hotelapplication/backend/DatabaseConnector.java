@@ -354,7 +354,6 @@ public class DatabaseConnector {
         try {
             Handle handle = getHandle();
             String updateSQL = "UPDATE Rooms SET hotel_id = :hotel_id, room_number = :room_number, bed_type = :bed_type, num_of_beds = :num_of_beds, price_per_night = :price_per_night, room_description = :room_description WHERE room_id = :room_id";
-            int hotelId = RoomManager.getRoomID(room) / 1000; // Calculate hotel_id from room_id
             handle.createUpdate(updateSQL)
                     .bind("room_id", RoomManager.getRoomID(room))
                     .bind("hotel_id", RoomManager.getRoomID(room) / 1000)
@@ -417,7 +416,7 @@ public class DatabaseConnector {
                     .bind("reservation_id", reservation.getReservationID())
                     .bind("user_id", ReservationManager.getAssignedUser(reservation).getUserID())
                     .bind("room_id", ReservationManager.getRoom(reservation).getRoomID())
-                    .bind("hotel_id", ReservationManager.getHotelFromReservation(reservation).getHotelID())
+                    .bind("hotel_id", ReservationManager.getRoom(reservation).getRoomID() / 1000)
                     .bind("check_in_date", ReservationManager.getStartDate(reservation))
                     .bind("check_out_date", ReservationManager.getEndDate(reservation))
                     .bind("total_cost", ReservationManager.getTotalPrice(reservation))
