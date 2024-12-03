@@ -25,13 +25,20 @@ import org.junit.jupiter.api.Test;
 public class TestClass{
 
 
-    // Private constructor to prevent instantiation
-    private TestClass() {}
 
 	@BeforeAll
     public static void setUp() {
         DatabaseConnector.connect();
     }
+
+
+    @Test
+    public void testJUnit(){
+    	Calendar birthday = new GregorianCalendar(1, 0, 1);
+	        User testUser = new User("Test", "User", birthday, "TestUser", "Password");
+        	assertNotNull(testUser, "User object should not be null");
+    }
+
 
 	/********************************
 	 *        Run Test Cases        *
@@ -41,7 +48,7 @@ public class TestClass{
 	 * 
 	 */
 	@Test
-	public static void runTestCases() {
+	public void testCases() {
 	    int passedTest = 0;
 	    int numOfTests = 1;
 
