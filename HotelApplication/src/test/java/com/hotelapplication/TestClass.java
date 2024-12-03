@@ -33,6 +33,7 @@ public class TestClass{
 	@Test
     public void testConnection() {
     	DatabaseConnector.connect();
+	DatabaseConnector.emptyDatabase();
     	handle = DatabaseConnector.getHandle();
     }
 
