@@ -1,6 +1,6 @@
 //TestClass.java
 
-package com.hotelapplication.hotelapplication;
+package com.hotelapplication;
 
 import com.hotelapplication.frontend.*;
 import com.hotelapplication.backend.*;
@@ -33,7 +33,7 @@ public class TestClass{
 
 	@BeforeAll
     public void testConnection() {
-    	//DatabaseConnector.connect();
+    	DatabaseConnector.connect();
     	handle = DatabaseConnector.getHandle();
     }
 
