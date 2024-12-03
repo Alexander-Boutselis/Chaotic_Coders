@@ -132,6 +132,7 @@ public class DatabaseConnector {
             }
         }
 
+
         DatabaseManager.testPrints();
 
 
@@ -150,7 +151,7 @@ public class DatabaseConnector {
 
             if (!hasData) {
                 System.out.println("Database is empty. Initializing default data...");
-                generateDefaultState(300);
+                generateDefaultState(150);
             } else {
                 System.out.println("Database has existing data.");
                 // Call database connector to translate database
