@@ -19,19 +19,18 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 
-
-
-
 public class TestClass{
-
 
 	public int numOfTests = 1;
 	public Handle handle;
 	public User testUser;
 	public Manager testManager;
+	public Reservation testReservation;
+	public Room testRoom;
+	public Hotel testHotel;
 	
 
-	@BeforeAll
+	@Test
     public void testConnection() {
     	DatabaseConnector.connect();
     	handle = DatabaseConnector.getHandle();
@@ -39,116 +38,230 @@ public class TestClass{
 
     @Test
     public void testUserCreation(){
-        numOfTests++;
     	System.out.println(String.format("---Test #%d: Create User---", numOfTests));
 	    Calendar birthday = new GregorianCalendar(1, 0, 1);
 	    testUser = new User("Test", "User", birthday, "TestUser", "Password");
     	assertNotNull(testUser);
+        numOfTests++;
     }
 
     @Test
     public void testAddUserToDatabase(){
-        numOfTests++;	        
         System.out.println(String.format("---Test #%d: Add User to Database---", numOfTests));
         DatabaseConnector.addAccount(testUser);
         assertNotNull(testUser.getUserID());
     	DatabaseConnector.printUsersTable();
+        numOfTests++;	        
     }
 
     @Test
     public void testUserSignIn(){
-        numOfTests++;
     	System.out.println(String.format("---Test #%d: Sign in---", numOfTests));
         DatabaseManager.signIn(testUser);
         assertTrue(DatabaseManager.isSignedIn());
+        numOfTests++;
     }
 
     @Test
     public void testUserSignOut(){
-        numOfTests++;
     	System.out.println(String.format("---Test #%d: Sign out---", numOfTests));
         DatabaseManager.signOut();
         assertFalse(DatabaseManager.isSignedIn());
+        numOfTests++;
     }
 
     @Test
     public void testManagerCreation(){
-	    numOfTests++;
 	    System.out.println(String.format("---Test #%d: Create Manager---", numOfTests));
 	    Calendar birthday = new GregorianCalendar(1, 0, 1);
 	    testManager = new Manager(DatabaseManager.nextEmployeeNumber(), "Test", "Manager", birthday, "TestManager", "Password");
     	assertNotNull(testManager);
+	    numOfTests++;
 
     }
 
     @Test
     public void testAddManagerToDatabase(){
-	    numOfTests++;
 	    System.out.println(String.format("---Test #%d: Add Manager to Database---", numOfTests));
 	    DatabaseConnector.addAccount(testManager);
     	assertNotNull(testManager.getUserID());
     	DatabaseConnector.printUsersTable();
+	    numOfTests++;
     }
 
     @Test
     public void testManagerSignIn(){
-	    numOfTests++;
 	    System.out.println(String.format("---Test #%d: Sign in Manager---", numOfTests));
 	    DatabaseManager.signIn(testManager);
         assertTrue(DatabaseManager.isSignedIn());
+	    numOfTests++;
     }
 
     @Test
     public void testManagerSignOut(){
-	    numOfTests++;
 	    System.out.println(String.format("---Test #%d: Sign out Manager---", numOfTests));
 	    DatabaseManager.signOut();
         assertFalse(DatabaseManager.isSignedIn());
+	    numOfTests++;
     }
 
 	@Test
 	public void testEditUserFirstName(){
-        numOfTests++;
     	System.out.println(String.format("---Test #%d: Edit User First Name---", numOfTests));
         AccountManager.setFirstName(testUser, "User");
         assertTrue(testUser.getFirstName().equals("User"));
+        numOfTests++;
 	}
 
 	@Test
 	public void testEditUserLastName(){
-        numOfTests++;
         System.out.println(String.format("---Test #%d: Edit User Last Name---", numOfTests));
         AccountManager.setLastName(testUser, "Test");
         assertTrue(testUser.getLastName().equals("Test"));
+        numOfTests++;
 	}
 
 	@Test
 	public void testEditUserUesername(){
-        numOfTests++;
         System.out.println(String.format("---Test #%d: Edit Username---", numOfTests));
         AccountManager.setUsername(testUser, "NewUsername");
         assertTrue(testUser.getUsername().equals("NewUsername"));
+        numOfTests++;
 	}
 
 	@Test
 	public void testUpdateUserInDatabase(){
-        numOfTests++;
         System.out.println(String.format("---Test #%d: Update User in Database---", numOfTests));
         DatabaseConnector.updateUserInDatabase(testUser);
         assertTrue(DatabaseConnector.translateUserFromDatabase(testUser.getUserID()).getUsername().equals("NewUsername"));
     	DatabaseConnector.printUsersTable();
+        numOfTests++;
 	}
 
 
 	//Add Hotel Methods Here
-
-
+	@Test
+	public void testHotelCreation() {
+		System.out.println(String.format("---Test #%d: Create Hotel---", numOfTests));
+		testHotel = new Hotel("TestHotel", "123 Address St, City, State");
+		assertNotNull(testHotel, "Failed to create Hotel");
+		System.out.println("Passed");
+		numOfTests++;
+	}
+	
+	@Test
+	public void testAddHotelToDatabase() {
+		System.out.println(String.format("---Test #%d: Add Hotel to Database---", numOfTests));
+		DatabaseConnector.addHotel(testHotel);
+		assertNotNull(testHotel.getHotelID(), "Failed to add Hotel to database");
+		DatabaseConnector.printHotelsTable();
+		System.out.println("Passed");
+		numOfTests++;
+	}
+	
+	@Test
+	public void testEditHotelName() {
+		System.out.println(String.format("---Test #%d: Edit Hotel Name---", numOfTests));
+		HotelManager.setHotelName(testHotel, "New Hotel Name");
+		assertEquals("New Hotel Name", testHotel.getHotelName(), "Failed to edit Hotel name");
+		System.out.println("Passed");
+		numOfTests++;
+	}
+	
+	@Test
+	public void testEditHotelAddress() {
+		System.out.println(String.format("---Test #%d: Edit Hotel Address---", numOfTests));
+		HotelManager.setHotelAddress(testHotel, "New Address");
+		assertEquals("New Address", testHotel.getHotelAddress(), "Failed to edit Hotel address");
+		System.out.println("Passed");
+		numOfTests++;
+	}
+	
+	@Test
+	public void testUpdateHotelInDatabase() {
+		System.out.println(String.format("---Test #%d: Update Hotel in Database---", numOfTests));
+		DatabaseConnector.updateHotelInDatabase(testHotel);
+		Hotel updatedHotel = DatabaseConnector.translateHotelFromDatabase(testHotel.getHotelID());
+		assertEquals("New Hotel Name", updatedHotel.getHotelName(), "Failed to update Hotel name in database");
+		assertEquals("New Address", updatedHotel.getHotelAddress(), "Failed to update Hotel address in database");
+		System.out.println("Passed");
+		numOfTests++;
+	}
 
 	//Add Room Methods Here
 
 
 
 	//Add Reservation Methods Here
+	@Test
+	public void testCreateReservation() {
+		System.out.println(String.format("---Test #%d: Create Reservation---", numOfTests));
+		LocalDate startDate = LocalDate.of(2024, 12, 17);
+		LocalDate endDate = LocalDate.of(2024, 12, 31);
+		testReservation = new Reservation(
+			null, 
+			testUser.getUserID(), 
+			testRoom.getRoomID(), 
+			testHotel.getHotelID(), 
+			startDate, 
+			endDate, 
+			420.69);
+		assertNotNull(testReservation, "Failed");
+		System.out.println("Passed");
+		numOfTests++;
+	}
+
+	@Test
+	public void testAddReservationToDatabase() {
+		System.out.println(String.format("---Test #%d: Add Reservation to Database---", numOfTests));
+		DatabaseConnector.addReservation(testReservation);
+    	assertNotNull(DatabaseConnector.translateReservationFromDatabase(testReservation.getReservationID()), "Failed");
+    	System.out.println("Passed");
+    	numOfTests++;
+	}
+
+	@Test
+	public void testEditReservationStartDate() {
+		System.out.println(String.format("---Test #%d: Edit Reservation Start Date---", numOfTests));
+    	LocalDate newStartDate = LocalDate.of(1111, 1, 11);
+    	ReservationManager.setStartDate(testReservation, newStartDate);
+    	assertEquals(newStartDate, testReservation.getStartDate(), "Failed");
+    	System.out.println("Passed");
+    	numOfTests++;
+	}
+
+	@Test
+	public void testEditReservationEndDate() {
+		System.out.println(String.format("---Test #%d: Edit Reservation End Date---", numOfTests));
+		LocalDate newEndDate = LocalDate.of(2222, 2, 22);
+		ReservationManager.setEndDate(testReservation, newEndDate);
+		assertEquals(newEndDate, testReservation.getEndDate(), "Failed");
+		System.out.println("Passed");
+		numOfTests++;
+	}
+
+	@Test
+	public void testEditReservationTotalPrice() {
+		System.out.println(String.format("---Test #%d: Edit Reservation Total Price---", numOfTests));
+		double newTotalPrice = 123.45;
+		ReservationManager.setTotalPrice(testReservation, newTotalPrice);
+		assertEquals(newTotalPrice, testReservation.getTotalPrice(), "Failed");
+		System.out.println("Passed");
+		numOfTests++;
+	}
+
+	@Test
+	public void testUpdateReservationInDatabase() {
+		System.out.println(String.format("---Test #%d: Update Reservation in Database---", numOfTests));
+		double updatedPrice = 150.00;
+		ReservationManager.setTotalPrice(testReservation, updatedPrice);
+		DatabaseConnector.updateReservationInDatabase(testReservation);
+		assertEquals(updatedPrice, 
+			DatabaseConnector.translateReservationFromDatabase(testReservation.getReservationID()).getTotalPrice(), 
+			"Failed");
+		System.out.println("Passed");
+		numOfTests++;
+	}
 
 
 
@@ -160,41 +273,56 @@ public class TestClass{
 
 
 	//Add Remove Reservation Method Here
-
+	@Test
+	public void testRemoveReservationFromDatabase() {
+		System.out.println(String.format("---Test #%d: Remove Reservation from Database---", numOfTests));
+		DatabaseConnector.removeItemFromDatabase(testReservation);
+		assertNull(DatabaseConnector.translateReservationFromDatabase(testReservation.getReservationID()), "Failed");
+		System.out.println("Passed");
+		numOfTests++;
+	}
 
 	//Add Remove Room Method Here
 
 
 
 	//Add Remove Hotel Method Here
-
+	@Test
+	public void testRemoveHotelFromDatabase() {
+		System.out.println(String.format("---Test #%d: Remove Hotel from Database---", numOfTests));
+		DatabaseConnector.removeItemFromDatabase(testHotel);
+		assertNull(DatabaseConnector.translateHotelFromDatabase(testHotel.getHotelID()), "Failed to remove Hotel from database");
+		DatabaseConnector.printHotelsTable();
+		System.out.println("Passed");
+		numOfTests++;
+	}
 
 
 	@Test
 	public void testRemoveUserfromDatabase(){
-        numOfTests++;
         System.out.println(String.format("---Test #%d: Remove User from Database---", numOfTests));
         DatabaseConnector.removeItemFromDatabase(testUser);
         assertNull(DatabaseConnector.translateUserFromDatabase(testUser.getUserID()));
     	DatabaseConnector.printUsersTable();
+        numOfTests++;
     }
 
     @Test
 	public void testRemoveManagerfromDatabase(){
-        numOfTests++;
         System.out.println(String.format("---Test #%d: Remove Manager from Database---", numOfTests));
         DatabaseConnector.removeItemFromDatabase(testManager);
         assertNull(DatabaseConnector.translateUserFromDatabase(testManager.getUserID()));
     	DatabaseConnector.printUsersTable();
+        numOfTests++;
     }
 
 
-	@Test
-    public void testEmptyDatabase() {
-		DatabaseConnector.emptyDatabase();
-      //DatabaseConnector.printAllTables();
+	//@Test
+    //public void testEmptyDatabase() {
+	//	DatabaseConnector.emptyDatabase();
+        //DatabaseConnector.printAllTables();
 
-    }
+    //}
 
 
 
