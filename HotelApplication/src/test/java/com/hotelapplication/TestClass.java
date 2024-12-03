@@ -145,6 +145,7 @@ public class TestClass{
 	public void testHotelCreation() {
 		System.out.println(String.format("---Test #%d: Create Hotel---", numOfTests));
 		testHotel = new Hotel("TestHotel", "123 Address St, City, State");
+		DatabaseManager.setCurrentHotel(testHotel);
 		assertNotNull(testHotel, "Failed to create Hotel");
 		System.out.println("Passed");
 		numOfTests++;
@@ -190,7 +191,103 @@ public class TestClass{
 	}
 
 	//Add Room Methods Here
+	/********************************
+	 *        Run Test Cases        *
+	 ********************************/
+	/**
+	 * Runs a set of test cases that create objects, add them to the database, update the objects, update items in database, and delete objects from database.
+	 * 
+	 */
+    
+	@Test
+	public void testCases() {
 
+	        System.out.println(String.format("---Test #%d: Create Room---", numOfTests));
+	        int roomNumber = RoomManager.getNextRoomNumber();  // Get next room number
+	        double pricePerNight = RoomManager.calcPricePerNight(roomNumber, 2, "queen");  
+	        int roomID = HotelManager.getHotelID(HotelManager.getCurrentHotel()) * 1000 + roomNumber;
+	        testRoom = new Room(roomID, roomNumber, 2, "queen", pricePerNight, "");
+	        if (testRoom != null) {
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+
+	        System.out.println(String.format("---Test #%d: Add Room to Database---", numOfTests));
+	        DatabaseConnector.addRoom(testRoom);
+	        if (DatabaseConnector.translateRoomFromDatabase(roomID) != null) {
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+
+
+			System.out.println(String.format("---Test #%d: Add Room to Hotel---", numOfTests));
+	        HotelManager.addRoomToHotel(testHotel,testRoom);
+	        if (HotelManager.getRoom(roomID) != null) {
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+
+	       
+
+            System.out.println(String.format("---Test #%d: Edit Room Bed Type---", numOfTests));
+            RoomManager.setBedType(testRoom, "twin");
+	        if (testRoom.getBedType().equals("twin")) {
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+            System.out.println(String.format("---Test #%d: Edit Number of Beds in Room---", numOfTests));
+            RoomManager.setNumberOfBeds(testRoom, 1);
+	        if (testRoom.getNumberOfBeds() == 1) {
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+            System.out.println(String.format("---Test #%d: Edit Room Price Per Night---", numOfTests));
+            RoomManager.setPricePerNight(testRoom, 130.00);
+	        if (testRoom.getPricePerNight() == 130.00) {
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+            System.out.println(String.format("---Test #%d: Edit Room Description---", numOfTests));
+            RoomManager.setRoomDescription(testRoom, "Updated Room Description");
+	        if (testRoom.getRoomDescription().equals("Updated Room Description")) {
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+            System.out.println(String.format("---Test #%d: Update Room in Database---", numOfTests));
+            DatabaseConnector.updateRoomInDatabase(testRoom);
+	        if (DatabaseConnector.translateRoomFromDatabase(testRoom.getRoomID()).getRoomDescription().equals("Updated Room Description")) {
+	            System.out.println("Test #" + numOfTests + ": Passed\n");
+	        } else {
+	            System.out.println("Test #" + numOfTests + ": Failed\n");
+	        }
+	        numOfTests++;
+
+            
+	        
+	
+	        
+	}
 
 
 	//Add Reservation Methods Here
@@ -284,8 +381,17 @@ public class TestClass{
 	}
 
 	//Add Remove Room Method Here
-
-
+	@Test
+	public void testRemoveRoomFromDatabase() {
+		System.out.println(String.format("---Test #%d: Remove Room from Database---", numOfTests));
+    	DatabaseConnector.removeItemFromDatabase(testRoom);
+    	if (DatabaseConnector.translateRoomFromDatabase(testRoom.getRoomID()) == null) {
+    	    System.out.println("Test #" + numOfTests + ": Passed\n");
+    	} else {
+    	    System.out.println("Test #" + numOfTests + ": Failed\n");
+    	}
+    	numOfTests++;
+	}
 
 	//Add Remove Hotel Method Here
 	@Test
@@ -327,294 +433,8 @@ public class TestClass{
 
 
 
-	/********************************
-	 *        Run Test Cases        *
-	 ********************************/
-	/**
-	 * Runs a set of test cases that create objects, add them to the database, update the objects, update items in database, and delete objects from database.
-	 * 
-	 */
-    /*
-	@Test
-	public void testCases() {
+	
 
-	    try {
-	        System.out.println("---Running Test Cases---");
-
-	        
-
-	        
-   
-
-
-	    
-
-
-	        System.out.println(String.format("---Test #%d: Create Hotel---", numOfTests));
-	        Hotel testHotel = new Hotel("TestHotel", "123 Address St, City, State");
-	        if (testHotel != null) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-
-	        System.out.println(String.format("---Test #%d: Add Hotel to Database---", numOfTests));
-	        DatabaseConnector.addHotel(testHotel);
-	        if (testHotel.getHotelID() != null) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-
-	        System.out.println(String.format("---Test #%d: Set Current Hotel---", numOfTests));
-	        DatabaseManager.setCurrentHotel(testHotel);
-	        if (DatabaseManager.getCurrentHotel().getHotelID() == testHotel.getHotelID()) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-
-	        System.out.println(String.format("---Test #%d: Create Room---", numOfTests));
-	        int roomNumber = RoomManager.getNextRoomNumber();  // Get next room number
-	        double pricePerNight = RoomManager.calcPricePerNight(roomNumber, 2, "queen");  
-	        int roomID = HotelManager.getHotelID(HotelManager.getCurrentHotel()) * 1000 + roomNumber;
-	        Room testRoom = new Room(roomID, roomNumber, 2, "queen", pricePerNight, "");
-	        if (testRoom != null) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-
-	        System.out.println(String.format("---Test #%d: Add Room to Database---", numOfTests));
-	        DatabaseConnector.addRoom(testRoom);
-	        if (DatabaseConnector.translateRoomFromDatabase(roomID) != null) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-
-
-			System.out.println(String.format("---Test #%d: Add Room to Hotel---", numOfTests));
-	        HotelManager.addRoomToHotel(testHotel,testRoom);
-	        if (HotelManager.getRoom(roomID) != null) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-
-	        System.out.println(String.format("---Test #%d: Create Reservation---", numOfTests));
-	        LocalDate startDate = LocalDate.of(2024,12,17);
-	        LocalDate endDate = LocalDate.of(2024,12,31);
-
-	        Reservation testReservation = new Reservation(null, testUser.getUserID(), roomID, testHotel.getHotelID(), startDate, endDate, 420.69);
-	        if (testReservation != null) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-	        System.out.println(String.format("---Test #%d: Add Reservation to Database---", numOfTests));
-	        DatabaseConnector.addReservation(testReservation);
-	        if (DatabaseConnector.translateReservationFromDatabase(testReservation.getReservationID()) != null) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-
-            DatabaseConnector.printAllTables();
-
-            System.out.println(String.format("---Test #%d: Edit Hotel Name---", numOfTests));
-            HotelManager.setHotelName(testHotel, "New Hotel Name");
-	        if (testHotel.getHotelName().equals("New Hotel Name")) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-            System.out.println(String.format("---Test #%d: Edit Hotel Address---", numOfTests));
-            HotelManager.setHotelAddress(testHotel, "New Address");
-	        if (testHotel.getHotelAddress().equals("New Address")) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-            System.out.println(String.format("---Test #%d: Update Hotel in Database---", numOfTests));
-            DatabaseConnector.updateHotelInDatabase(testHotel);
-	        if (DatabaseConnector.translateHotelFromDatabase(testHotel.getHotelID()).getHotelName().equals("New Hotel Name")) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-            System.out.println(String.format("---Test #%d: Edit Room Bed Type---", numOfTests));
-            RoomManager.setBedType(testRoom, "twin");
-	        if (testRoom.getBedType().equals("twin")) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-            System.out.println(String.format("---Test #%d: Edit Number of Beds in Room---", numOfTests));
-            RoomManager.setNumberOfBeds(testRoom, 1);
-	        if (testRoom.getNumberOfBeds() == 1) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-            System.out.println(String.format("---Test #%d: Edit Room Price Per Night---", numOfTests));
-            RoomManager.setPricePerNight(testRoom, 130.00);
-	        if (testRoom.getPricePerNight() == 130.00) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-            System.out.println(String.format("---Test #%d: Edit Room Description---", numOfTests));
-            RoomManager.setRoomDescription(testRoom, "Updated Room Description");
-	        if (testRoom.getRoomDescription().equals("Updated Room Description")) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-            System.out.println(String.format("---Test #%d: Update Room in Database---", numOfTests));
-            DatabaseConnector.updateRoomInDatabase(testRoom);
-	        if (DatabaseConnector.translateRoomFromDatabase(testRoom.getRoomID()).getRoomDescription().equals("Updated Room Description")) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-            System.out.println(String.format("---Test #%d: Edit Reservation Start Date---", numOfTests));
-            startDate = LocalDate.of(1111,1,11);
-            ReservationManager.setStartDate(testReservation, startDate);
-	        if (testReservation.getStartDate().isEqual(startDate)) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-            System.out.println(String.format("---Test #%d: Edit Reservation End Date---", numOfTests));
-            endDate = LocalDate.of(2222,2,22);
-            ReservationManager.setEndDate(testReservation, endDate);
-	        if (testReservation.getEndDate().isEqual(endDate)) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-            System.out.println(String.format("---Test #%d: Edit Reservation Total Price---", numOfTests));
-            ReservationManager.setTotalPrice(testReservation, 123.45);
-	        if (testReservation.getTotalPrice() == 123.45) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-            //Update Reservation in Database
-            System.out.println(String.format("---Test #%d: Update Reservation in Database---", numOfTests));
-            DatabaseConnector.updateReservationInDatabase(testReservation);
-	        if (DatabaseConnector.translateReservationFromDatabase(testReservation.getReservationID()).getTotalPrice() == 123.45) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-
-            DatabaseConnector.printAllTables();
-
-
-            System.out.println(String.format("---Test #%d: Remove Reservation from Database---", numOfTests));
-	        DatabaseConnector.removeItemFromDatabase(testReservation);
-	        if (DatabaseConnector.translateReservationFromDatabase(testReservation.getReservationID()) == null) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-	        System.out.println(String.format("---Test #%d: Remove Room from Database---", numOfTests));
-	        DatabaseConnector.removeItemFromDatabase(testRoom);
-	        if (DatabaseConnector.translateRoomFromDatabase(testRoom.getRoomID()) == null) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-	        System.out.println(String.format("---Test #%d: Remove Hotel from Database---", numOfTests));
-	        DatabaseConnector.removeItemFromDatabase(testHotel);
-	        if (DatabaseConnector.translateHotelFromDatabase(testHotel.getHotelID()) == null) {
-	            passedTest++;
-	            System.out.println("Test #" + numOfTests + ": Passed\n");
-	        } else {
-	            System.out.println("Test #" + numOfTests + ": Failed\n");
-	        }
-	        numOfTests++;
-
-
-	    } catch (Exception e) {
-	        System.out.println("Test Encountered an error: " + e);
-
-	    } finally {
-	    	//DatabaseConnector.emptyDatabase();
-
-	        System.out.println("Number of Tests Run: " + numOfTests);
-	        System.out.println("Number of Tests Passed: " + passedTest);
-	    }
-	}
-*/
 
 	
 	public static void testPrints(){
