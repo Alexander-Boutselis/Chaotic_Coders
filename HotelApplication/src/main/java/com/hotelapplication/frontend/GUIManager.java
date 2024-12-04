@@ -875,6 +875,11 @@ public static void runAppInTerminal(Scanner scanner){
 		LocalDate startDate = null;
 		LocalDate endDate = null;
 
+        if (DatabaseManager.getCurrentHotel() == null) {
+            System.out.println("You need to select a hotel first.");
+            return;
+        }
+
 		while (looper == 0) {
 			System.out.println("Enter the start date of your reservation in the following format: YYYY/MM/DD");
 			String startInput = scanner.nextLine().trim();
@@ -948,7 +953,7 @@ public static void runAppInTerminal(Scanner scanner){
 		double price = ReservationManager.calculateTotalPrice(chosenRoom, nights);
 
 		//Room is reserved and set
-		Reservation processedReservation = ReservationManager.createReservation(DatabaseManager.getCurrentHotel(), DatabaseManager.getCurrentUser(), ReservationManager.getNextUnusedNumber(DatabaseManager.getCurrentHotel()), price, chosenRoom, startDate, endDate);
+		Reservation processedReservation = ReservationManager.createReservation(AccountManager.getUserID(DatabaseManager.getCurrentUser()), RoomManager.getRoomID(chosenRoom), startDate, endDate);
 		System.out.println();
         ReservationManager.printReservation(processedReservation);
     }   //End of makeReservationScreen
@@ -1533,7 +1538,7 @@ public static void runAppInTerminal(Scanner scanner){
         if (answer.equalsIgnoreCase("NO")) {
             return;
         } else {
-            ReservationManager.cancelReservation(DatabaseManager.getCurrentHotel(), DatabaseManager.getCurrentUser(), reservation);
+            ReservationManager.cancelReservation(reservation);
         }
 
         System.out.println("Your reservation has been cancelled successfully.");
@@ -1597,13 +1602,13 @@ public static void runAppInTerminal(Scanner scanner){
                     }
                 }
 
-                ReservationManager.cancelReservation(DatabaseManager.getCurrentHotel(), DatabaseConnector.translateUserFromDatabase(ReservationManager.getAssignedUserID(reservation)), reservation);
+                ReservationManager.cancelReservation(reservation);
                 ArrayList<Room> filteredRoomsOne = ReservationManager.filterRooms(HotelManager.getAllHotelRooms(DatabaseManager.getCurrentHotel()), RoomManager.getNumberOfBeds(ReservationManager.getRoom(reservation)), DatabaseManager.getCurrentHotel(), ReservationManager.getStartDate(reservation), ReservationManager.getEndDate(reservation));
 
                 if (!(filteredRoomsOne.contains(ReservationManager.getRoom(reservation)))) {
                     System.out.println("This room is unavailable for this date range. If you would like to change the room and date range, you must rebook your stay.");
                     System.out.println("Your reservation will be set back to the old date range for now.");
-                    ReservationManager.createReservation(DatabaseManager.getCurrentHotel(), ReservationManager.getAssignedUser(reservation), ReservationManager.getNextUnusedNumber(DatabaseManager.getCurrentHotel()), ReservationManager.getTotalPrice(reservation), ReservationManager.getRoom(reservation), ReservationManager.getStartDate(reservation), ReservationManager.getEndDate(reservation));
+                    ReservationManager.createReservation(ReservationManager.getAssignedUserID(reservation), ReservationManager.getRoomID(reservation), ReservationManager.getStartDate(reservation), ReservationManager.getEndDate(reservation));
                     if (DatabaseManager.getCurrentUser() instanceof Manager) {
                         managerHomeScreen(scanner);
                     } else {
@@ -1619,7 +1624,7 @@ public static void runAppInTerminal(Scanner scanner){
                 int decision = Integer.parseInt(scanner.nextLine().trim());
 
                 if (decision == 1) {
-                    ReservationManager.createReservation(DatabaseManager.getCurrentHotel(), ReservationManager.getAssignedUser(reservation), ReservationManager.getNextUnusedNumber(DatabaseManager.getCurrentHotel()), ReservationManager.getTotalPrice(reservation), ReservationManager.getRoom(reservation), startDate, endDate);
+                    ReservationManager.createReservation(ReservationManager.getAssignedUserID(reservation), ReservationManager.getRoomID(reservation), startDate, endDate);
                     System.out.println("The reservation dates have been changed successfully.");
                     userHomeScreen(scanner);
                 } else {
@@ -1684,8 +1689,8 @@ public static void runAppInTerminal(Scanner scanner){
                     looper2 = 1;
                 }
                 
-                ReservationManager.cancelReservation(DatabaseManager.getCurrentHotel(), ReservationManager.getAssignedUser(reservation), reservation);
-                ReservationManager.createReservation(DatabaseManager.getCurrentHotel(), ReservationManager.getAssignedUser(reservation), ReservationManager.getNextUnusedNumber(DatabaseManager.getCurrentHotel()), ReservationManager.getTotalPrice(reservation), chosenRoom, ReservationManager.getStartDate(reservation), ReservationManager.getEndDate(reservation));
+                ReservationManager.cancelReservation(reservation);
+                ReservationManager.createReservation(ReservationManager.getAssignedUserID(reservation), RoomManager.getRoomID(chosenRoom), ReservationManager.getStartDate(reservation), ReservationManager.getEndDate(reservation));
                 System.out.println("The room has been changed successfully.");
             
                 if (DatabaseManager.getCurrentUser() instanceof Manager) {

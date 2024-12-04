@@ -31,21 +31,18 @@ public class ReservationManager {
      * Creates a new reservation and updates associated entities such as the hotel,
      * user, room, and the database.
      * 
-     * @param hotel The hotel where the reservation is made.
-     * @param user The user making the reservation.
-     * @param reservationNumber The unique ID for the reservation.
-     * @param totalPrice The total price of the reservation.
-     * @param room The room being reserved.
+     * @param userID The user ID of the user making the reservation.
+     * @param roomID The room ID of the room being reserved.
      * @param startDate The start date of the reservation.
      * @param endDate The end date of the reservation.
      * @return The created Reservation object.
      */
-	public static Reservation createReservation(Hotel hotel, User user, int reservationNumber, double totalPrice, Room room, LocalDate startDate, LocalDate endDate) {
-		Reservation newReservation = new Reservation(reservationNumber, AccountManager.getUserID(user), RoomManager.getRoomID(room), HotelManager.getHotelID(hotel), startDate, endDate, totalPrice);
-		HotelManager.addReservation(hotel, newReservation);
-		AccountManager.addReservationToUser(user, reservationNumber);
-		RoomManager.addReservationToRoom(room, reservationNumber);
+	public static Reservation createReservation(int userID, int roomID, LocalDate startDate, LocalDate endDate) {
+		Reservation newReservation = new Reservation(userID, roomID, startDate, endDate);
 		DatabaseConnector.addReservation(newReservation);
+		HotelManager.addReservation(getHotelFromReservation(newReservation), newReservation);
+		AccountManager.addReservationToUser(getAssignedUser(newReservation), getReservationID(newReservation));
+		RoomManager.addReservationToRoom(getRoom(newReservation), getReservationID(newReservation));
 		return newReservation;
 	}
 
@@ -55,22 +52,20 @@ public class ReservationManager {
      * @param reservation The Reservation object to be added.
      */
 	public static void createReservationGivenReservation(Reservation reservation) {
+		DatabaseConnector.addReservation(reservation);
 		HotelManager.addReservation(getHotelFromReservation(reservation), reservation);
-		User user = DatabaseConnector.translateUserFromDatabase(getAssignedUserID(reservation));
-		AccountManager.addReservationToUser(user, reservation.getReservationID());
+		AccountManager.addReservationToUser(getAssignedUser(reservation), reservation.getReservationID());
 		RoomManager.addReservationToRoom(getRoom(reservation), reservation.getReservationID());
 	}
 
 	/**
      * Cancels a reservation and updates associated entities such as the hotel, user, and room.
      * 
-     * @param hotel The hotel from which the reservation is being canceled.
-     * @param user The user who made the reservation.
      * @param reservation The reservation to be canceled.
      */
-	public static void cancelReservation(Hotel hotel, User user, Reservation reservation) {
-		HotelManager.removeReservation(hotel, reservation);
-		AccountManager.removeReservationFromUser(user, reservation.getReservationID());
+	public static void cancelReservation(Reservation reservation) {
+		HotelManager.removeReservation(getHotelFromReservation(reservation), reservation);
+		AccountManager.removeReservationFromUser(getAssignedUser(reservation), reservation.getReservationID());
 		RoomManager.removeReservationFromRoom(getRoom(reservation), reservation.getReservationID());
 	}
 
@@ -78,17 +73,20 @@ public class ReservationManager {
      * Assigns a user to a reservation by creating a new reservation with the updated user
      * and replacing the old reservation in the hotel and user records.
      * 
-     * @param hotel The hotel where the reservation exists.
      * @param user The new user to be assigned to the reservation.
      * @param reservation The existing reservation to be updated.
      */
-	public static void assignUser(Hotel hotel, User user, Reservation reservation) {		
+	public static void assignUser(User user, Reservation reservation) {		
 		Reservation newReservation = new Reservation(reservation);
-		HotelManager.removeReservation(hotel, reservation);
-		AccountManager.removeReservationFromUser(user, reservation.getReservationID());
+		HotelManager.removeReservation(getHotelFromReservation(reservation), reservation);
+		AccountManager.removeReservationFromUser(getAssignedUser(reservation), getReservationID(reservation));
+		RoomManager.removeReservationFromRoom(getRoom(reservation), getReservationID(reservation));
 		newReservation.setAssignedUserID(AccountManager.getUserID(user));
-		HotelManager.addReservation(hotel, newReservation);
-		AccountManager.addReservationToUser(user, newReservation.getReservationID());
+		DatabaseConnector.removeItemFromDatabase(reservation);
+		DatabaseConnector.addReservation(newReservation);
+		HotelManager.addReservation(getHotelFromReservation(newReservation), newReservation);
+		AccountManager.addReservationToUser(user, getReservationID(newReservation));
+		RoomManager.addReservationToRoom(getRoom(newReservation), getReservationID(newReservation));
 	}
 
 	/**
@@ -222,6 +220,16 @@ public class ReservationManager {
      */
 	public static Room getRoom(Reservation reservation) {
 		return DatabaseConnector.translateRoomFromDatabase(reservation.getRoomID());
+	}
+
+	/**
+     * Retrieves the room ID associated with a reservation.
+     * 
+     * @param reservation The reservation to retrieve the room ID from.
+     * @return The Room ID of the room object associated with the reservation.
+     */
+	public static int getRoomID(Reservation reservation) {
+		return reservation.getRoomID();
 	}
 
 	/**

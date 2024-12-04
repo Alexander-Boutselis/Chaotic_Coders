@@ -297,13 +297,10 @@ public class TestClass{
 		LocalDate startDate = LocalDate.of(2024, 12, 17);
 		LocalDate endDate = LocalDate.of(2024, 12, 31);
 		testReservation = new Reservation(
-			null, 
 			testUser.getUserID(), 
 			testRoom.getRoomID(), 
-			testHotel.getHotelID(), 
 			startDate, 
-			endDate, 
-			420.69);
+			endDate);
 		assertNotNull(testReservation, "Failed");
 		System.out.println("Passed");
 		numOfTests++;
