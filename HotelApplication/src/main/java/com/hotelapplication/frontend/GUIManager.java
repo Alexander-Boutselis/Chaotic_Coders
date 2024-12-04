@@ -985,7 +985,7 @@ public static void runAppInTerminal(Scanner scanner){
 			return;
 		}
 
-        viewReceiptScreen(HotelManager.getReservation(DatabaseManager.getCurrentHotel(), Integer.valueOf(reservationNumber)), scanner);
+        viewReceiptScreen(DatabaseConnector.translateReservationFromDatabase(Integer.valueOf(reservationNumber)), scanner);
     }//End of viewUserReservationsScreen
 
 

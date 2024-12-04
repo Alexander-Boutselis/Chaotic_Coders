@@ -52,7 +52,6 @@ public class ReservationManager {
      * @param reservation The Reservation object to be added.
      */
 	public static void createReservationGivenReservation(Reservation reservation) {
-		DatabaseConnector.addReservation(reservation);
 		HotelManager.addReservation(getHotelFromReservation(reservation), reservation);
 		AccountManager.addReservationToUser(getAssignedUser(reservation), reservation.getReservationID());
 		RoomManager.addReservationToRoom(getRoom(reservation), reservation.getReservationID());
@@ -67,6 +66,7 @@ public class ReservationManager {
 		HotelManager.removeReservation(getHotelFromReservation(reservation), reservation);
 		AccountManager.removeReservationFromUser(getAssignedUser(reservation), reservation.getReservationID());
 		RoomManager.removeReservationFromRoom(getRoom(reservation), reservation.getReservationID());
+		DatabaseConnector.removeItemFromDatabase(reservation);
 	}
 
 	/**
@@ -278,7 +278,7 @@ public class ReservationManager {
      * @return The User object assigned to the reservation.
      */
 	public static User getAssignedUser(Reservation reservation){
-		return DatabaseConnector.translateUserFromDatabase(reservation.getAssignedUserID());
+		return AccountManager.getAccount(reservation.getAssignedUserID());
 	}
 
 	/**

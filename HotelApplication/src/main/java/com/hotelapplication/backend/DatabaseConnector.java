@@ -364,7 +364,7 @@ public class DatabaseConnector {
             int reservationID = handle.createUpdate(insertSQL)
                     .bind("user_id", AccountManager.getUserID(ReservationManager.getAssignedUser(reservation)))
                     .bind("room_id", RoomManager.getRoomID(ReservationManager.getRoom(reservation)))
-                    .bind("hotel_id", HotelManager.getHotelID(ReservationManager.getHotel()))
+                    .bind("hotel_id", HotelManager.getHotelID(ReservationManager.getHotelFromReservation(reservation)))
                     .bind("check_in_date", Date.valueOf(ReservationManager.getStartDate(reservation)))
                     .bind("check_out_date", Date.valueOf(ReservationManager.getEndDate(reservation)))
                     .bind("total_cost", ReservationManager.getTotalPrice(reservation))
