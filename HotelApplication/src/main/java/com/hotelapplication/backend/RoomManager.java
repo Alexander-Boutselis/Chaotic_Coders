@@ -362,6 +362,7 @@ public class RoomManager {
         System.out.print("Room Number: ");
         int roomNumber = scanner.nextInt();
         scanner.nextLine();
+        DatabaseConnector.removeItemFromDatabase(getHotelRoom(roomNumber));
         removeRoom(roomNumber);
     }
 

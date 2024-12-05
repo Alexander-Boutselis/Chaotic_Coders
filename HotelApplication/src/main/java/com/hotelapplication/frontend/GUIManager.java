@@ -1126,7 +1126,12 @@ public static void runAppInTerminal(Scanner scanner){
                     break;
 
                 case 3:
+                    try{
                     viewHotelRoomsScreen(scanner);
+                }catch(Exception e){
+                    System.out.println("This Hotel does not have any rooms");
+
+                }
                     break;
 
                 case 4:
