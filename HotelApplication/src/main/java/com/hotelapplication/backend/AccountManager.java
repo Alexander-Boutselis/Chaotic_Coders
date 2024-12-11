@@ -174,6 +174,15 @@ public class AccountManager{
     }
 
     /**
+     * Retrieves the password of the current user.
+     * 
+     * @return The password of the current user.
+     */
+    public static String getPassword(){
+        return DatabaseManager.getCurrentUser().getPassword();
+    }
+
+    /**
      * Retrieves all reservation numbers associated with a given user.
      * 
      * @param user The user whose reservation numbers are being retrieved.
@@ -285,6 +294,19 @@ public class AccountManager{
     }
 
     /**
+     * Sets the User ID for the current user.
+     * 
+     * @param userID The new User ID.
+     */
+    public static void setUserID(int userID){
+        User currentUser = DatabaseManager.getCurrentUser();
+        if (currentUser != null) {
+            currentUser.setUserID(userID);
+            DatabaseConnector.updateUserInDatabase(currentUser);
+        }
+    }
+
+    /**
      * Sets the username for a given user.
      * 
      * @param user The user whose username is being set.
@@ -293,6 +315,19 @@ public class AccountManager{
     public static void setUsername(User user, String newUsername){
         user.setUsername(newUsername);
         DatabaseConnector.updateUserInDatabase(user);
+    }
+
+    /**
+     * Sets the username for the current user.
+     * 
+     * @param newUsername The new username.
+     */
+    public static void setUsername(String newUsername){
+        User currentUser = DatabaseManager.getCurrentUser();
+        if (currentUser != null) {
+            currentUser.setUsername(newUsername);
+            DatabaseConnector.updateUserInDatabase(currentUser);
+        }
     }
 
     /**
@@ -308,6 +343,19 @@ public class AccountManager{
     }
 
     /**
+     * Sets the first name for the current user.
+     * 
+     * @param newFirstName The new first name.
+     */
+    public static void setFirstName(String newFirstName){
+        User currentUser = DatabaseManager.getCurrentUser();
+        if (currentUser != null) {
+            currentUser.setFirstName(newFirstName);
+            DatabaseConnector.updateUserInDatabase(currentUser);
+        }
+    }
+
+    /**
      * Sets the last name for a given user.
      * 
      * @param user The user whose last name is being set.
@@ -317,6 +365,19 @@ public class AccountManager{
         user.setLastName(newLastName);
         DatabaseConnector.updateUserInDatabase(user);
 
+    }
+
+    /**
+     * Sets the last name for the current user.
+     * 
+     * @param newLastName The new last name.
+     */
+    public static void setLastName(String newLastName){
+        User currentUser = DatabaseManager.getCurrentUser();
+        if (currentUser != null) {
+            currentUser.setLastName(newLastName);
+            DatabaseConnector.updateUserInDatabase(currentUser);
+        }
     }
 
     /**
@@ -334,6 +395,21 @@ public class AccountManager{
     }
 
     /**
+     * Sets the full name (first + last name) for the current user.
+     * 
+     * @param newFirstName The new first name.
+     * @param newLastName The new last name.
+     */
+    public static void setFullName(String newFirstName, String newLastName){
+        User currentUser = DatabaseManager.getCurrentUser();
+        if (currentUser != null) {
+            currentUser.setFirstName(newFirstName);
+            currentUser.setLastName(newLastName);
+            DatabaseConnector.updateUserInDatabase(currentUser);
+        }
+    }
+
+    /**
      * Sets the birthday for a given user.
      * 
      * @param user The user whose birthday is being set.
@@ -346,6 +422,19 @@ public class AccountManager{
     }
 
     /**
+     * Sets the birthday for the current user.
+     * 
+     * @param newBirthday The new birthday.
+     */
+    public static void setBirthday(Calendar newBirthday){
+        User currentUser = DatabaseManager.getCurrentUser();
+        if (currentUser != null) {
+            currentUser.setBirthday(newBirthday);
+            DatabaseConnector.updateUserInDatabase(currentUser);
+        }
+    }
+
+    /**
      * Sets the password for a given user.
      * 
      * @param user The user whose password is being set.
@@ -355,6 +444,19 @@ public class AccountManager{
         user.setPassword(newPassword);
         DatabaseConnector.updateUserInDatabase(user);
 
+    }
+
+    /**
+     * Sets the password for the current user.
+     * 
+     * @param newPassword The new password.
+     */
+    public static void setPassword(String newPassword){
+        User currentUser = DatabaseManager.getCurrentUser();
+        if (currentUser != null) {
+            currentUser.setPassword(newPassword);
+            DatabaseConnector.updateUserInDatabase(currentUser);
+        }
     }
 
     /**
@@ -392,6 +494,7 @@ public class AccountManager{
         DatabaseConnector.updateUserInDatabase(manager);
 
     }
+
 
 
 /****************************************************************
@@ -500,9 +603,22 @@ public class AccountManager{
      * @param user The user to remove from the system.
      */
     public static void removeAccount(User user){
+        signOut();
         user.setActiveStatus(false);
-        DatabaseConnector.updateUserInDatabase(user);
+        DatabaseConnector.removeItemFromDatabase(user);
 
+    }
+
+    /**
+     * Removes the current account from the system by deactivating it.
+     */
+    public static void removeAccount(){
+        User currentUser = DatabaseManager.getCurrentUser();
+        if (currentUser != null) {
+            signOut();
+            currentUser.setActiveStatus(false);
+            DatabaseConnector.removeItemFromDatabase(currentUser);
+        }
     }
 
 /****************************************************************

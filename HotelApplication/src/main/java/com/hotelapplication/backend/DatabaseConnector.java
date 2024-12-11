@@ -630,30 +630,42 @@ public class DatabaseConnector {
             return getHandle().createQuery(sqlQuery)
                     .bind("userId", userId)
                     .map((resultSet, statementContext) -> {
+                        Calendar birthday = Calendar.getInstance();
+                        Date birthdayDate = resultSet.getDate("birthday");
+                        if (birthdayDate != null) {
+                            birthday.setTime(birthdayDate);
+                        }
+
                         if (resultSet.getObject("employee_num") != null) {
+                            Calendar startDate = Calendar.getInstance();
+                            Date startDateValue = resultSet.getDate("start_date");
+                            if (startDateValue != null) {
+                                startDate.setTime(startDateValue);
+                            }
                             return new Manager(
                                     userId,
                                     resultSet.getInt("employee_num"),
                                     resultSet.getString("first_name"),
                                     resultSet.getString("last_name"),
-                                    Calendar.getInstance(),
+                                    birthday,
                                     resultSet.getString("username"),
                                     resultSet.getString("password"),
-                                    Calendar.getInstance(),
-                                    Calendar.getInstance(),
+                                    startDate,
+                                    null, // End date can be null if not set
                                     true);
                         } else {
                             return new User(
                                     userId,
                                     resultSet.getString("first_name"),
                                     resultSet.getString("last_name"),
-                                    Calendar.getInstance(),
+                                    birthday,
                                     resultSet.getString("username"),
                                     resultSet.getString("password"),
                                     true);
                         }
                     }).one();
         } catch (Exception e) {
+            System.err.println("Failed to translate user from database: " + e.getMessage());
             return null;
         }
     }
@@ -1016,13 +1028,13 @@ public static void removeItemFromDatabase(Object item) {
             }
 
             StringBuilder querySQL = new StringBuilder();
-            querySQL.append("SELECT user_id, first_name, last_name, username, birthday, employee_num FROM Users");
+            querySQL.append("SELECT user_id, first_name, last_name, username, birthday, employee_num, password FROM Users");
             Query query = handle.createQuery(querySQL.toString());
 
             // Print the table header
-            System.out.println("\n--------------------------------------------------------------------------------------------------------------");
-            System.out.println(String.format("%-10s %-15s %-15s %-15s %-15s %-15s %-15s", "User ID", "First Name", "Last Name", "Username", "Birthday", "Account Type", "Employee Number"));
-            System.out.println("--------------------------------------------------------------------------------------------------------------");
+            System.out.println("\n-------------------------------------------------------------------------------------------------------------------");
+            System.out.println(String.format("%-10s %-15s %-15s %-15s %-15s %-15s %-15s %-15s", "User ID", "First Name", "Last Name", "Username", "Birthday", "Account Type", "Employee Number", "Password"));
+            System.out.println("-------------------------------------------------------------------------------------------------------------------");
 
             // Print each row in the Users table
             query.map((rs, ctx) -> {
@@ -1035,14 +1047,15 @@ public static void removeItemFromDatabase(Object item) {
                     } else {
                         role = "Manager";
                     }
-                    String userRow = String.format("%-10d %-15s %-15s %-15s %-15s %-15s %-15s",
+                    String userRow = String.format("%-10d %-15s %-15s %-15s %-15s %-15s %-15s %-15s",
                             rs.getInt("user_id"),
                             rs.getString("first_name"),
                             rs.getString("last_name"),
                             rs.getString("username"),
                             rs.getDate("birthday"),
                             role,
-                            employeeNumber);
+                            employeeNumber,
+                            rs.getString("password"));
                     System.out.println(userRow);
                 } catch (Exception e) {
                     System.err.println("Error processing row: " + e.getMessage());
@@ -1050,7 +1063,7 @@ public static void removeItemFromDatabase(Object item) {
                 return null;
             }).list();
 
-            System.out.println("--------------------------------------------------------------------------------------------------------------\n");
+            System.out.println("-------------------------------------------------------------------------------------------------------------------\n");
         } catch (Exception e) {
             System.err.println("Failed to print Users table: " + e.getMessage());
             e.printStackTrace(); // Print the full stack trace for better debugging
