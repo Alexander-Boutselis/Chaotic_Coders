@@ -40,6 +40,15 @@ public class AccountManager{
     }
 
     /**
+     * Gets the User ID for the current user.
+     * 
+     * @return The User ID.
+     */
+    public static int getUserID(){
+        return DatabaseManager.getCurrentUser().getUserID();
+    }
+
+    /**
      * Retrieves the account associated with a specific username.
      * 
      * @param searchUsername The username of the account to retrieve.
@@ -70,6 +79,15 @@ public class AccountManager{
     }
 
     /**
+     * Retrieves the username of the current user.
+     * 
+     * @return The username of the current user.
+     */
+    public static String getUsername(){
+        return DatabaseManager.getCurrentUser().getUsername();
+    }
+
+    /**
      * Retrieves the first name of a given user.
      * 
      * @param user The user whose first name is being retrieved.
@@ -77,6 +95,15 @@ public class AccountManager{
      */
     public static String getFirstName(User user){
         return user.getFirstName();
+    }
+
+    /**
+     * Retrieves the first name of the current user.
+     * 
+     * @return The first name of the current user.
+     */
+    public static String getFirstName(){
+        return DatabaseManager.getCurrentUser().getFirstName();
     }
 
     /**
@@ -90,6 +117,15 @@ public class AccountManager{
     }
 
     /**
+     * Retrieves the last name of the current user.
+     * 
+     * @return The last name of the current user.
+     */
+    public static String getLastName(){
+        return DatabaseManager.getCurrentUser().getLastName();
+    }
+
+    /**
      * Retrieves the full name (first + last name) of a given user.
      * 
      * @param user The user whose full name is being retrieved.
@@ -100,6 +136,15 @@ public class AccountManager{
     }
 
     /**
+     * Retrieves the full name (first + last name) of the current user.
+     * 
+     * @return The full name of the current user.
+     */
+    public static String getFullName(){
+        return DatabaseManager.getCurrentUser().getName();
+    }
+
+    /**
      * Retrieves the birthday of a given user.
      * 
      * @param user The user whose birthday is being retrieved.
@@ -107,6 +152,15 @@ public class AccountManager{
      */
     public static Calendar getBirthday(User user){
         return user.getBirthday();
+    }
+
+    /**
+     * Retrieves the birthday of the current user.
+     * 
+     * @return The birthday of the current user.
+     */
+    public static Calendar getBirthday(){
+        return DatabaseManager.getCurrentUser().getBirthday();
     }
 
     /**
@@ -129,10 +183,14 @@ public class AccountManager{
         return user.getAllreservationNumbers();
     }
 
-    /*//Get All Notificaitons
-    public static ArrayList<Notification> getAllNotifications(User user){
-        return user.getAllNotifications();
-    }*/
+    /**
+     * Retrieves all reservation numbers associated with the current user.
+     * 
+     * @return A list of reservation numbers.
+     */
+    public static ArrayList<Integer> getAllReservationNumbers(){
+        return DatabaseManager.getCurrentUser().getAllreservationNumbers();
+    }
 
     /**
      * Retrieves the employee number of a manager.
@@ -142,6 +200,18 @@ public class AccountManager{
      */
     public static int getEmployeeNumber(Manager manager){
         return manager.getEmployeeNumber();
+    }
+
+    /**
+     * Retrieves the employee number of the current manager.
+     * 
+     * @return The employee number of the current manager.
+     */
+    public static int getEmployeeNumber(){
+        if (DatabaseManager.getCurrentUser() instanceof Manager) {
+            return ((Manager) DatabaseManager.getCurrentUser()).getEmployeeNumber();
+        }
+        throw new IllegalStateException("Current user is not a Manager.");
     }
 
     /**
@@ -155,6 +225,18 @@ public class AccountManager{
     }
 
     /**
+     * Retrieves the start date of the current manager's employment.
+     * 
+     * @return The start date of the current manager's employment.
+     */
+    public static Calendar getEmployeeStartDate(){
+        if (DatabaseManager.getCurrentUser() instanceof Manager) {
+            return ((Manager) DatabaseManager.getCurrentUser()).getStartDate();
+        }
+        throw new IllegalStateException("Current user is not a Manager.");
+    }
+
+    /**
      * Retrieves the end date of a manager's employment.
      * 
      * @param manager The manager whose end date is being retrieved.
@@ -163,6 +245,18 @@ public class AccountManager{
      */
     public static Calendar getEmployeeEndDate(Manager manager){
         return manager.getEndDate();
+    }
+
+    /**
+     * Retrieves the end date of the current manager's employment.
+     * 
+     * @return The end date of the current manager's employment, or `null` if not set.
+     */
+    public static Calendar getEmployeeEndDate(){
+        if (DatabaseManager.getCurrentUser() instanceof Manager) {
+            return ((Manager) DatabaseManager.getCurrentUser()).getEndDate();
+        }
+        throw new IllegalStateException("Current user is not a Manager.");
     }
 
     /**
@@ -353,6 +447,22 @@ public class AccountManager{
  *                      Sign-in/out                             *
  ****************************************************************/
 
+   /**
+     * Signs a user into the system.
+     * 
+     * @param username The username to sign in.
+     * @param password The password to sign in.
+     */
+    public static User accountSignIn(String username, String password){
+        for (User user : DatabaseManager.getAllUsers()) {
+        if (user.getUsername().equals(username) && user.getPassword().equals(password) && user.getActiveStatus()) {
+            AccountManager.signIn(user);
+            return user;
+        }
+    }
+    return null; //Return null for incorrect login
+    }
+
     /**
      * Signs a user into the system.
      * 
@@ -462,24 +572,25 @@ public class AccountManager{
      * @param username The user's desired username.
      * @param password The user's desired password.
      */
-    public static void createUser(String firstName, String lastName, Calendar birthday, String username, String password){
+    public static User createUser(String firstName, String lastName, Calendar birthday, String username, String password){
 
         if(isUniqueUsername(username)){
 
         //Create User
-        User newUser = new User(firstName, lastName, birthday, username, password);
-
-        //Add to Database
-        addAccount(newUser);
-        DatabaseConnector.addAccount(newUser);
-
-        //Set Current User
-        DatabaseManager.signIn(newUser);
+            User newUser = new User(firstName, lastName, birthday, username, password);
+    
+            //Add to Database
+            addAccount(newUser);
+            DatabaseConnector.addAccount(newUser);
+    
+            //Set Current User
+            DatabaseManager.signIn(newUser);
+            return newUser;
         }else{
             System.out.println("Username Not Unique");
 
         }
-        return;
+        return null;
    }//End of createUser
 
    /**
@@ -491,19 +602,20 @@ public class AccountManager{
      * @param username The manager's desired username.
      * @param password The manager's desired password.
      */
-   public static void createManager(String firstName, String lastName, Calendar birthday, String username, String password){  
+   public static User createManager(String firstName, String lastName, Calendar birthday, String username, String password){  
 
-            if(isUniqueUsername(username)){
+        if(isUniqueUsername(username)){
             Manager newManager = new Manager(DatabaseManager.nextEmployeeNumber(), firstName, lastName, birthday, username, password);
             
             //Add to Database
             addAccount(newManager);
             DatabaseConnector.addAccount(newManager);
-
             //Set Current User
             DatabaseManager.signIn(newManager);
+            return newManager;
+        }else{
+            return null;
         }
-        return;
     }//End of createManager
 
 /****************************************************************

@@ -7,6 +7,8 @@
 /*
 Maven Commands:
 mvn clean compile javadoc:javadoc exec:java
+mvn compile exec:java
+mvn test
 */
 package com.hotelapplication;
 import com.hotelapplication.frontend.*;
