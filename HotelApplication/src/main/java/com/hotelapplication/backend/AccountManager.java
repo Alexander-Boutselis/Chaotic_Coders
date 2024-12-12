@@ -614,6 +614,11 @@ public class AccountManager{
      */
     public static void removeAccount(){
         User currentUser = DatabaseManager.getCurrentUser();
+        if (!currentUser.getAllreservationNumbers().isEmpty()) {
+            for (int reservationNumber : currentUser.getAllreservationNumbers()) {
+                ReservationManager.cancelReservation(ReservationManager.getReservation(reservationNumber));
+            }
+        }
         if (currentUser != null) {
             signOut();
             currentUser.setActiveStatus(false);
