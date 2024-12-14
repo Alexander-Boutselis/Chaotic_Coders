@@ -70,6 +70,7 @@ public class ReservationManager {
 		AccountManager.removeReservationFromUser(getAssignedUser(reservation), reservation.getReservationID());
 		RoomManager.removeReservationFromRoom(getRoom(reservation), reservation.getReservationID());
 		DatabaseConnector.removeItemFromDatabase(reservation);
+		DatabaseManager.removeReservation(reservation);
 	}
 
 	/**
@@ -226,6 +227,18 @@ public class ReservationManager {
 	}
 
 	/**
+     * Retrieves the room associated with a reservation.
+     * 
+     * @param reservation The reservation to retrieve the room from.
+     * @return The Room object associated with the reservation.
+     */
+	public static Integer getRoomNumber(Reservation reservation) {
+		return RoomManager.getRoomNumber(getRoom(reservation));
+		
+	}
+
+
+	/**
      * Retrieves the room ID associated with a reservation.
      * 
      * @param reservation The reservation to retrieve the room ID from.
@@ -263,7 +276,7 @@ public class ReservationManager {
 	 */
 	public static Calendar getStartDateAsCalendar(Reservation reservation) {
 	    LocalDate startDate = reservation.getStartDate();
-	    return convertToLocalDateToCalendar(startDate);
+	    return convertLocalDateToCalendar(startDate);
 	}
 
 	/**
@@ -274,7 +287,7 @@ public class ReservationManager {
 	 */
 	public static Calendar getEndDateAsCalendar(Reservation reservation) {
 	    LocalDate endDate = reservation.getEndDate();
-	    return convertToLocalDateToCalendar(endDate);
+	    return convertLocalDateToCalendar(endDate);
 	}
 
 	/**
@@ -283,7 +296,7 @@ public class ReservationManager {
 	 * @param localDate The LocalDate to convert.
 	 * @return The equivalent Calendar instance.
 	 */
-	private static Calendar convertToLocalDateToCalendar(LocalDate localDate) {
+	public static Calendar convertLocalDateToCalendar(LocalDate localDate) {
 	    Calendar calendarDate = Calendar.getInstance();
 	    calendarDate.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth());
 	    calendarDate.set(Calendar.HOUR_OF_DAY, 0);
@@ -309,6 +322,7 @@ public class ReservationManager {
      * @return The current hotel.
      */
 	public static Hotel getHotel() {
+		
 		return DatabaseManager.getCurrentHotel();
 	}
 
@@ -514,11 +528,11 @@ public class ReservationManager {
 
 			for (Reservation reservation : DatabaseManager.getAllReservations()) {
 				if (RoomManager.getRoomID(getRoom(reservation)) == RoomManager.getRoomID(room)) {
-					Calendar reservationStartDate = convertToLocalDateToCalendar(reservation.getStartDate());
-					Calendar reservationEndDate = convertToLocalDateToCalendar(reservation.getEndDate());
+					Calendar reservationStartDate = convertLocalDateToCalendar(reservation.getStartDate());
+					Calendar reservationEndDate = convertLocalDateToCalendar(reservation.getEndDate());
 
 					if ((!startDate.before(reservationEndDate)) || (!endDate.after(reservationStartDate))) {
-						
+
 						newRoomList = filterParameters(room, newRoomList, numOfBeds,bedType);
 
 					}else{

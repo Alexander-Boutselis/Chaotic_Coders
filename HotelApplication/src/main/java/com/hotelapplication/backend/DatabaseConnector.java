@@ -157,6 +157,7 @@ public class DatabaseConnector {
                 // Call database connector to translate database
                 translateFromDatabase();
             }
+            printAllTables();
         } catch (Exception e) {
             System.err.println("Failed to Initialize Application: " + e.getMessage());
             e.printStackTrace(); // Print the stack trace for better debugging
@@ -298,6 +299,7 @@ public class DatabaseConnector {
         } catch (Exception e) {
             System.err.println("Failed to add hotel: " + e.getMessage());
         }
+        printAllTables();
     }
 
     /**
@@ -325,6 +327,7 @@ public class DatabaseConnector {
         } catch (Exception e) {
             System.err.println("Failed to add room: " + e.getMessage());
         }
+        printAllTables();
     }
 
     /**
@@ -350,6 +353,7 @@ public class DatabaseConnector {
         } catch (Exception e) {
             System.err.println("Failed to add user to the database: " + e.getMessage());
         }
+        printAllTables();
     }
 
     /**
@@ -374,6 +378,7 @@ public class DatabaseConnector {
         } catch (Exception e) {
             System.err.println("Failed to add reservation to the database: " + e.getMessage());
         }
+        printAllTables();
     }
 
     /****************************************************************
@@ -395,9 +400,11 @@ public class DatabaseConnector {
                     .bind("address", HotelManager.getHotelAddress(hotel))
                     .execute();
             System.out.println("Hotel with ID " + HotelManager.getHotelID(hotel) + " updated successfully.");
+            printAllTables();
             return true;
         } catch (Exception e) {
             System.err.println("Failed to update hotel in database: " + e.getMessage());
+            printAllTables();
             return false;
         }
     }
@@ -422,9 +429,11 @@ public class DatabaseConnector {
                     .bind("room_description", RoomManager.getRoomDescription(room))
                     .execute();
             System.out.println("Room with ID " + RoomManager.getRoomID(room) + " updated successfully.");
+            printAllTables();
             return true;
         } catch (Exception e) {
             System.err.println("Failed to update room in database: " + e.getMessage());
+            printAllTables();
             return false;
         }
     }
@@ -450,12 +459,12 @@ public class DatabaseConnector {
                     .bind("employee_num", user instanceof Manager ? AccountManager.getEmployeeNumber((Manager) user) : null)
                     .execute();
             System.out.println("User with ID " + AccountManager.getUserID(user) + " updated successfully.");
+            printAllTables();
             return true;
-        } catch (NullPointerException e) {
-            System.err.println("Failed to update user in database: User ID is null.");
-            return false;
+            
         } catch (Exception e) {
             System.err.println("Failed to update user in database: " + e.getMessage());
+            printAllTables();
             return false;
         }
     }
@@ -480,9 +489,11 @@ public class DatabaseConnector {
                     .bind("total_cost", ReservationManager.getTotalPrice(reservation))
                     .execute();
             System.out.println("Reservation with ID " + reservation.getReservationID() + " updated successfully.");
+            printAllTables();
             return true;
         } catch (Exception e) {
             System.err.println("Failed to update reservation in database: " + e.getMessage());
+            printAllTables();
             return false;
         }
     }
@@ -733,6 +744,7 @@ public class DatabaseConnector {
         } catch (Exception e) {
             System.err.println("Failed to drop table '" + tableName + "': " + e.getMessage());
         }
+
     }
 
     /********************************
@@ -849,81 +861,84 @@ public class DatabaseConnector {
                     break;
                 default:
                     throw new IllegalArgumentException("Unsupported item type: " + itemType);
+
             }
         } catch (Exception e) {
             System.err.println("Failed to remove item by ID: " + e.getMessage());
         }
+        printAllTables();
     }
 
    
 
-/********************************
- *   Remove Item from Database  *
- ********************************/
-/**
- * Removes a specific item (Hotel, Room, User, Manager, or Reservation) from the database.
- *
- * @param item the item to remove (can be Hotel, Room, User, Reservation, or Manager)
- */
-public static void removeItemFromDatabase(Object item) {
-    try {
-        StringBuilder deleteSQL = new StringBuilder();
-        String resetSQL;
-        if (item instanceof Hotel) {
-            Hotel hotel = (Hotel) item;
-            int hotelID = HotelManager.getHotelID(hotel);
-            deleteSQL.append("DELETE FROM Hotels WHERE hotel_id = :hotel_id");
-            handle.createUpdate(deleteSQL.toString())
-                  .bind("hotel_id", hotelID)
-                  .execute();
-            resetSQL = "ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH (SELECT COALESCE(MAX(hotel_id), 0) + 1 FROM Hotels)";
-            handle.execute(resetSQL);
-            System.out.println("Hotel with ID " + hotelID + " removed successfully.\n");
-        } else if (item instanceof Room) {
-            Room room = (Room) item;
-            int roomID = RoomManager.getRoomID(room);
-            deleteSQL.append("DELETE FROM Rooms WHERE room_id = :room_id");
-            handle.createUpdate(deleteSQL.toString())
-                  .bind("room_id", roomID)
-                  .execute();
-            System.out.println("Room with ID " + roomID + " removed successfully.\n");
-        } else if (item instanceof Manager) {
-            Manager manager = (Manager) item;
-            int managerID = AccountManager.getUserID(manager);
-            deleteSQL.append("DELETE FROM Users WHERE user_id = :user_id");
-            handle.createUpdate(deleteSQL.toString())
-                  .bind("user_id", managerID)
-                  .execute();
-            resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT COALESCE(MAX(user_id), 0) + 1 FROM Users)";
-            handle.execute(resetSQL);
-            System.out.println("Manager with ID " + managerID + " removed successfully.\n");
-        } else if (item instanceof User) {
-            User user = (User) item;
-            int userID = AccountManager.getUserID(user);
-            deleteSQL.append("DELETE FROM Users WHERE user_id = :user_id");
-            handle.createUpdate(deleteSQL.toString())
-                  .bind("user_id", userID)
-                  .execute();
-            resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT COALESCE(MAX(user_id), 0) + 1 FROM Users)";
-            handle.execute(resetSQL);
-            System.out.println("User with ID " + userID + " removed successfully.\n");
-        } else if (item instanceof Reservation) {
-            Reservation reservation = (Reservation) item;
-            int reservationID = ReservationManager.getReservationID(reservation);
-            deleteSQL.append("DELETE FROM Reservations WHERE reservation_id = :reservation_id");
-            handle.createUpdate(deleteSQL.toString())
-                  .bind("reservation_id", reservationID)
-                  .execute();
-            resetSQL = "ALTER TABLE Reservations ALTER COLUMN reservation_id RESTART WITH (SELECT COALESCE(MAX(reservation_id), 0) + 1 FROM Reservations)";
-            handle.execute(resetSQL);
-            System.out.println("Reservation with ID " + reservationID + " removed successfully.\n");
-        } else {
-            throw new IllegalArgumentException("Unsupported item type: " + item.getClass().getName());
+    /********************************
+     *   Remove Item from Database  *
+     ********************************/
+    /**
+     * Removes a specific item (Hotel, Room, User, Manager, or Reservation) from the database.
+     *
+     * @param item the item to remove (can be Hotel, Room, User, Reservation, or Manager)
+     */
+    public static void removeItemFromDatabase(Object item) {
+        try {
+            StringBuilder deleteSQL = new StringBuilder();
+            String resetSQL;
+            if (item instanceof Hotel) {
+                Hotel hotel = (Hotel) item;
+                int hotelID = HotelManager.getHotelID(hotel);
+                deleteSQL.append("DELETE FROM Hotels WHERE hotel_id = :hotel_id");
+                handle.createUpdate(deleteSQL.toString())
+                      .bind("hotel_id", hotelID)
+                      .execute();
+                resetSQL = "ALTER TABLE Hotels ALTER COLUMN hotel_id RESTART WITH (SELECT COALESCE(MAX(hotel_id), 0) + 1 FROM Hotels)";
+                handle.execute(resetSQL);
+                System.out.println("Hotel with ID " + hotelID + " removed successfully.\n");
+            } else if (item instanceof Room) {
+                Room room = (Room) item;
+                int roomID = RoomManager.getRoomID(room);
+                deleteSQL.append("DELETE FROM Rooms WHERE room_id = :room_id");
+                handle.createUpdate(deleteSQL.toString())
+                      .bind("room_id", roomID)
+                      .execute();
+                System.out.println("Room with ID " + roomID + " removed successfully.\n");
+            } else if (item instanceof Manager) {
+                Manager manager = (Manager) item;
+                int managerID = AccountManager.getUserID(manager);
+                deleteSQL.append("DELETE FROM Users WHERE user_id = :user_id");
+                handle.createUpdate(deleteSQL.toString())
+                      .bind("user_id", managerID)
+                      .execute();
+                resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT COALESCE(MAX(user_id), 0) + 1 FROM Users)";
+                handle.execute(resetSQL);
+                System.out.println("Manager with ID " + managerID + " removed successfully.\n");
+            } else if (item instanceof User) {
+                User user = (User) item;
+                int userID = AccountManager.getUserID(user);
+                deleteSQL.append("DELETE FROM Users WHERE user_id = :user_id");
+                handle.createUpdate(deleteSQL.toString())
+                      .bind("user_id", userID)
+                      .execute();
+                resetSQL = "ALTER TABLE Users ALTER COLUMN user_id RESTART WITH (SELECT COALESCE(MAX(user_id), 0) + 1 FROM Users)";
+                handle.execute(resetSQL);
+                System.out.println("User with ID " + userID + " removed successfully.\n");
+            } else if (item instanceof Reservation) {
+                Reservation reservation = (Reservation) item;
+                int reservationID = ReservationManager.getReservationID(reservation);
+                deleteSQL.append("DELETE FROM Reservations WHERE reservation_id = :reservation_id");
+                handle.createUpdate(deleteSQL.toString())
+                      .bind("reservation_id", reservationID)
+                      .execute();
+                resetSQL = "ALTER TABLE Reservations ALTER COLUMN reservation_id RESTART WITH (SELECT COALESCE(MAX(reservation_id), 0) + 1 FROM Reservations)";
+                handle.execute(resetSQL);
+                System.out.println("Reservation with ID " + reservationID + " removed successfully.\n");
+            } else {
+                throw new IllegalArgumentException("Unsupported item type: " + item.getClass().getName());
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to remove item: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.err.println("Failed to remove item: " + e.getMessage());
+        printAllTables();
     }
-}
 
 
 

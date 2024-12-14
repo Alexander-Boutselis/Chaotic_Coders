@@ -5,6 +5,8 @@ package com.hotelapplication.backend;
 import com.hotelapplication.frontend.*;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 /**
 * The DatabaseManager class provides static methods to interact with the Database class.
@@ -185,7 +187,18 @@ public class DatabaseManager {
     }
 
     public static ArrayList<Reservation> getAllReservations(){
-        return database.getAllReservations();
+
+        ArrayList<Reservation> allReservations = new ArrayList<>();
+
+        if (DatabaseConnector.getNumberOfItemsInTable("Reservations") > 0) {
+            List<Integer> reservationIDs = DatabaseConnector.getAllIdsFromTable("Reservations", "reservation_id");
+            for (int reservationID : reservationIDs) {
+                allReservations.add(DatabaseConnector.translateReservationFromDatabase(reservationID));
+            }
+            return allReservations;
+        }else{
+            return null;
+        }
     }
 
 
