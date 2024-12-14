@@ -783,7 +783,7 @@ public static void runAppInTerminal(Scanner scanner){
     public static void viewUsersReservationsScreen(Scanner scanner){
 
         //Check if current user has Reservations
-        ArrayList<Integer> reservationIDs = AccountManager.getAllreservationNumbers(DatabaseManager.getCurrentUser());
+        ArrayList<Integer> reservationIDs = AccountManager.getAllReservationNumbers(DatabaseManager.getCurrentUser());
         if(reservationIDs.size() < 1){
             System.out.println("You have no current reservations.");
             return;

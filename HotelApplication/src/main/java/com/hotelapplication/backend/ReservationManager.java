@@ -367,7 +367,7 @@ public class ReservationManager {
      */
 	public static ArrayList<Integer> getReservationsFromUser(int userID) {
 		User user = AccountManager.getAccount(userID);
-		return AccountManager.getAllreservationNumbers(user);
+		return AccountManager.getAllReservationNumbers(user);
 	}
 	
 	/****************************************************************
@@ -525,23 +525,25 @@ public class ReservationManager {
 				newRoomList = filterParameters(room, newRoomList, numOfBeds,bedType);
 
 			}
+			if (DatabaseManager.getAllReservations() != null){
+				for (Reservation reservation : DatabaseManager.getAllReservations()) {
+					if (RoomManager.getRoomID(getRoom(reservation)) == RoomManager.getRoomID(room)) {
+						Calendar reservationStartDate = convertLocalDateToCalendar(reservation.getStartDate());
+						Calendar reservationEndDate = convertLocalDateToCalendar(reservation.getEndDate());
 
-			for (Reservation reservation : DatabaseManager.getAllReservations()) {
-				if (RoomManager.getRoomID(getRoom(reservation)) == RoomManager.getRoomID(room)) {
-					Calendar reservationStartDate = convertLocalDateToCalendar(reservation.getStartDate());
-					Calendar reservationEndDate = convertLocalDateToCalendar(reservation.getEndDate());
+						if ((!startDate.before(reservationEndDate)) || (!endDate.after(reservationStartDate))) {
 
-					if ((!startDate.before(reservationEndDate)) || (!endDate.after(reservationStartDate))) {
+							newRoomList = filterParameters(room, newRoomList, numOfBeds,bedType);
 
-						newRoomList = filterParameters(room, newRoomList, numOfBeds,bedType);
-
-					}else{
-						if (newRoomList.contains(room)){
-							newRoomList.remove(room);
+						}else{
+							if (newRoomList.contains(room)){
+								newRoomList.remove(room);
+							}
 						}
-					}
-				} 
+					} 
+				}
 			}
+			
 
 		}
 		return newRoomList;
