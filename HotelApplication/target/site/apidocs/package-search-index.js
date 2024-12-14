@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.hotelapplication"},{"l":"com.hotelapplication.backend"},{"l":"com.hotelapplication.frontend"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.hotelapplication"},{"l":"com.hotelapplication.backend"},{"l":"com.hotelapplication.frontend"}]

@@ -1975,9 +1975,6 @@ public class GUIScreen extends javax.swing.JFrame {
     }
 
 
-
-
-
     public void managerWelcomeScreen() {
         //Clear contentMainPanel
         contentMainPanel.removeAll();
@@ -2066,8 +2063,6 @@ public class GUIScreen extends javax.swing.JFrame {
         contentMainPanel.revalidate();
         contentMainPanel.repaint();
     }
-
-
 
 
     public void selectHotelScreenManager() {
@@ -2220,7 +2215,7 @@ public class GUIScreen extends javax.swing.JFrame {
         whiteBackgroundPanel.setBackground(SECONDARY_BACKGROUND_COLOR);
 
         // --- Header Label ---
-        javax.swing.JLabel headerTitleLabel = new javax.swing.JLabel("Edit Account");
+        javax.swing.JLabel headerTitleLabel = new javax.swing.JLabel("Edit Hotel");
         headerTitleLabel.setFont(HEADER_FONT);
         headerTitleLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
         headerTitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -2257,14 +2252,28 @@ public class GUIScreen extends javax.swing.JFrame {
         hotelAddressField.setPreferredSize(STANDARD_FIELD_DIMENSIONS);
 
         // --- Number of Rooms Section ---
-        javax.swing.JLabel numOfHotelRoomsLabel = new javax.swing.JLabel("Number of Rooms: " + numOfHotelRooms);
+        javax.swing.JLabel numOfHotelRoomsLabel = new javax.swing.JLabel("Number of Rooms:");
         numOfHotelRoomsLabel.setFont(BODY_FONT);
         numOfHotelRoomsLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
 
+         javax.swing.JLabel numOfRoomsLabel = new javax.swing.JLabel(numOfHotelRooms.toString());
+        numOfRoomsLabel.setFont(BODY_FONT);
+        numOfRoomsLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+
         // --- Expected and Actual Earnings Section ---
-        javax.swing.JLabel hotelEaringsLabel = new javax.swing.JLabel("$$$$$$" + HotelManager.calcHotelEarnings());
+        javax.swing.JLabel hotelEaringsLabel = new javax.swing.JLabel("$");
         hotelEaringsLabel.setFont(BODY_FONT);
         hotelEaringsLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+
+        javax.swing.JLabel earingsLabel = new javax.swing.JLabel("" + HotelManager.calcHotelEarnings());
+        earingsLabel.setFont(BODY_FONT);
+        earingsLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+
+        // --- View Hotel Rooms Buttons ---
+        javax.swing.JButton viewRoomsButton = new javax.swing.JButton("View Rooms");
+        viewRoomsButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        viewRoomsButton.setForeground(BUTTON_TEXT_COLOR);
+        viewRoomsButton.setPreferredSize(SIGN_OUT_BUTTON_DIMENSIONS);
 
         // --- Save and Discard Buttons ---
         javax.swing.JButton saveChangesButton = new javax.swing.JButton("Save");
@@ -2284,7 +2293,20 @@ public class GUIScreen extends javax.swing.JFrame {
             returnToScreen();
         });
         saveChangesButton.addActionListener(event-> {
-            
+            //Check if any values have changed
+            String enteredHotelName = hotelNameField.getText().trim();
+            String enteredHoteAddress = hotelAddressField.getText().trim();
+
+            if (!enteredHotelName.equals(hotelName) && enteredHotelName != null) {
+                HotelManager.setHotelName(enteredHotelName);
+            }
+
+            System.out.println(hotelAddress);
+            System.out.println(enteredHoteAddress);
+            if (!enteredHoteAddress.equals(hotelAddress) && enteredHoteAddress != null) {
+                HotelManager.setHotelAddress(enteredHoteAddress);
+            }
+
             returnToScreen();
         });
         
@@ -2320,11 +2342,25 @@ public class GUIScreen extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         buttonsPanel.add(numOfHotelRoomsLabel, gridBagConstraints);
 
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        buttonsPanel.add(numOfRoomsLabel, gridBagConstraints);
+
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         buttonsPanel.add(hotelEaringsLabel, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        buttonsPanel.add(earingsLabel, gridBagConstraints);
         
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
+        buttonsPanel.add(viewRoomsButton, gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -2335,6 +2371,8 @@ public class GUIScreen extends javax.swing.JFrame {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         buttonsPanel.add(saveChangesButton, gridBagConstraints);
+
+
 
         // --- Wrapper panel for quit button ---
         javax.swing.JPanel quitButtonPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
@@ -2355,7 +2393,6 @@ public class GUIScreen extends javax.swing.JFrame {
         contentMainPanel.revalidate();
         contentMainPanel.repaint();
     }
-
 
 
     public void returnToScreen(){

@@ -46,8 +46,6 @@ public static void runAppGUI() {
     //Keeps terminal open
     Scanner scanner = new Scanner(System.in);
     runAppInTerminal(scanner);
-    //int choice = scanner.nextInt();
-        //scanner.nextLine(); 
 }//End of Run App GUI
 
 
