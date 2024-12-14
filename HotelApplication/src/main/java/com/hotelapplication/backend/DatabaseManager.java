@@ -172,6 +172,24 @@ public class DatabaseManager {
 
 
     /****************************************************************
+     *                         Reservation                          *
+     ****************************************************************/
+
+    public static void addReservation(Reservation reservation){
+        database.addReservation(reservation);
+    }
+
+    public static void removeReservation(Reservation reservation){
+        database.removeReservation(ReservationManager.getReservationID(reservation));
+        DatabaseConnector.removeItemFromDatabase(reservation);
+    }
+
+    public static ArrayList<Reservation> getAllReservations(){
+        return database.getAllReservations();
+    }
+
+
+    /****************************************************************
      *                           Current                            *
      ****************************************************************/
     /**
