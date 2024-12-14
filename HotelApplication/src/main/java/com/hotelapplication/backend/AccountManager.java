@@ -188,7 +188,7 @@ public class AccountManager{
      * @param user The user whose reservation numbers are being retrieved.
      * @return A list of reservation numbers.
      */
-    public static ArrayList<Integer> getAllreservationNumbers(User user){
+    public static ArrayList<Integer> getAllReservationNumbers(User user){
         return user.getAllreservationNumbers();
     }
 
