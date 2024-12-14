@@ -35,13 +35,19 @@ public static String accountSignIn(String username, String password) {
  ****************************************************************/
 // Method to run the GUI, showing login screen
 public static void runAppGUI() {
+    //GUIScreen screen = new GUIScreen();
+    //screen.setVisible(true);
+    //screen.loginScreen();
+
+
     Login loginWindow = new Login();
     loginWindow.setVisible(true);
 
     //Keeps terminal open
     Scanner scanner = new Scanner(System.in);
-    int choice = scanner.nextInt();
-        scanner.nextLine(); 
+    runAppInTerminal(scanner);
+    //int choice = scanner.nextInt();
+        //scanner.nextLine(); 
 }//End of Run App GUI
 
 
@@ -50,6 +56,7 @@ public static void runAppGUI() {
  ****************************************************************/
 //Method to end program gracefully
 public static int closeApplication(){
+    DatabaseConnector.printAllTables();
     DatabaseConnector.disconnect();
     System.exit(0);
     return 0;
@@ -58,262 +65,71 @@ public static int closeApplication(){
 
 
 
-/****************************************************************
- *                   Print Window in Terminal                   *
- ****************************************************************/
-
-public static void runAppInTerminal(String screenName){
-    String screen = screenName;
-    boolean running = true;
-    Scanner scanner = new Scanner(System.in);
-    
-    while(running == true){
-        switch (screen) {     
-    
-        /********************************
-         *         Welcome Screen       *
-         ********************************/
-        case "Welcome Screen":
-            System.out.println("---------------------------Welcome Screen---------------------------");
-            System.out.println("---------------Welcome---------------");
-            System.out.println("1. Sign-in");
-            System.out.println("2. Sign-up");
-            System.out.println("3. Quit");
-            System.out.print("Please enter a number: ");
-            
-            int choice = scanner.nextInt();
-            scanner.nextLine(); 
-            
-            System.out.println("---------------------------Welcome Screen---------------------------");
-            switch(choice){
-            case 1:
-            //********************************
-            //            Sign-In            *
-            //********************************
-                screen = "Sign-in";
-            break;
-            
-            case 2:
-            //********************************
-            //         Create Account        *
-            //********************************
-                screen = "Sign-up";
-            break;
-            
-            case 3:
-            //********************************
-            //              Quit             *
-            //********************************
-                screen = "Exit";
-            break;
-            
-            default:
-                //Invalid choice
-                System.out.println("Invalid Selection");
-            break;
-            }
-        break;
-        
-        /********************************
-         *            Sign-in           *
-         ********************************/
-        case "Sign-in":
-            System.out.println("---------------------------Sign-In Screen---------------------------");
-
-            System.out.println("\n---Sign-in to Account---");
-
-            //Get Username
-            System.out.print("Enter Username: ");
-            String inputUsername = scanner.nextLine();
-
-            //Get Password
-            System.out.print("Enter Password: ");
-            String inputPassword = scanner.nextLine();
-
-            System.out.println("---------------------------Sign-In Screen---------------------------");
-
-            for (User user : DatabaseManager.getAllUsers()){
-                //System.out.println("Checked User Number: " + user.getUserNumber());
-                //System.out.println("Entered Password: " + inputPassword + "\nUser Password: " + user.getPassword());
-                if (user.getUsername().equals(inputUsername) && user.getPassword().equals(inputPassword)){
-                    if (user.getActiveStatus()){
-
-                        AccountManager.signIn(user);
-                        if (DatabaseManager.getCurrentUser() instanceof Manager){
-                            screen = "Manager Home";
-                        }else {//If signed in User is of type User
-                            screen = "User Home";
-                        }
-                        break;
-                    }
-                }
-            }
-            System.out.println("Username or Password incorrect");
-            screen = "Welcome Screen";
 
 
-        break;
 
-        /********************************
-         *           Signed-up          *
-         ********************************/
-        case "Sign-up":
-            System.out.println("---------------------------Sign-Up Screen---------------------------");
 
-            createAccount();
 
-            System.out.println("---------------------------Sign-Up Screen---------------------------");
-        break;
 
-        /********************************
-         *           User Home          *
-         ********************************/
-        case "User Home":
-            System.out.println("-----------------------------User Home------------------------------");
 
-            //
 
-            System.out.println("-----------------------------User Home------------------------------");
-        break;
 
-        /********************************
-         *         Manager Home         *
-         ********************************/
-        case "Manager Home":
-            System.out.println("----------------------------Manager Home----------------------------");
 
-            //
 
-            System.out.println("----------------------------Manager Home----------------------------");
-        break;
 
-        /********************************
-         *         Select Hotel         *
-         ********************************/
-        case "Select Hotel":
-            System.out.println("----------------------------Select Hotel----------------------------");
 
-            //
 
-            System.out.println("----------------------------Select Hotel----------------------------");
-        break;
 
-        /********************************
-         *         Edit Account         *
-         ********************************/
-        case "Edit Account":
-            System.out.println("----------------------------Edit Account----------------------------");
 
-            //
 
-            System.out.println("----------------------------Edit Account----------------------------");
-        break;
 
-        /********************************
-         *       Make Reservation       *
-         ********************************/
-        case "Make Reservation":
-            System.out.println("--------------------------Make Reservation--------------------------");
 
-            //
 
-            System.out.println("--------------------------Make Reservation--------------------------");
-        break;
 
-        /********************************
-         *       View Reservations      *
-         ********************************/
-        case "View Reservations":
-            System.out.println("--------------------------View Reservations-------------------------");
 
-            //If the current User is a manager show all reservations
 
-            //If the current User is a user show only the users reservations
 
-            System.out.println("--------------------------View Reservations-------------------------");
-        break;
 
-        /********************************
-         *         View Receipt         *
-         ********************************/
-        case "View Receipt":
-            System.out.println("----------------------------View Receipt----------------------------");
 
-            //
 
-            System.out.println("----------------------------View Receipt----------------------------");
-        break;
 
-        /********************************
-         *          Edit Hotel          *
-         ********************************/
-        case "Edit Hotel":
-            System.out.println("-----------------------------Edit Hotel-----------------------------");
 
-            //
 
-            System.out.println("-----------------------------Edit Hotel-----------------------------");
-        break;
 
-        /********************************
-         *         Create Hotel         *
-         ********************************/
-        case "Create Hotel":
-            System.out.println("----------------------------Create Hotel----------------------------");
 
-            //
 
-            System.out.println("----------------------------Create Hotel----------------------------");
-        break;
 
-        /********************************
-         *        Edit User Info        *
-         ********************************/
-        case "Edit User Info":
-            System.out.println("---------------------------Edit User Info---------------------------");
 
-            //
 
-            System.out.println("---------------------------Edit User Info---------------------------");
-        break;
 
-        /********************************
-         *       View Hotel Rooms       *
-         ********************************/
-        case "View Hotel Rooms":
-            System.out.println("--------------------------View Hotel Rooms--------------------------");
 
-            //
 
-            System.out.println("--------------------------View Hotel Rooms--------------------------");
-        break;
 
-        /********************************
-         *        Edit Hotel Room       *
-         ********************************/
-        case "Edit Hotel Room":
-            System.out.println("--------------------------Edit Hotel Room---------------------------");
 
-            //
 
-            System.out.println("--------------------------Edit Hotel Room---------------------------");
-        break;
-        
-        /********************************
-         *              Exit            *
-         ********************************/
-        case "Exit":
-            System.out.println("-------------------------------Exit---------------------------------");
 
-            //
 
-            System.out.println("-------------------------------Exit---------------------------------");
-        break;
-        
-        }
-    }
-    
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -376,7 +192,8 @@ public static void runAppInTerminal(Scanner scanner){
              ********************************/
             case 4://Exit Program
                 System.out.println("Exiting the shell.");
-                running = false; // This ends the loop and exits the program.
+                running = false;
+                closeApplication();
             break;
             /********************************
              *           Default            *
@@ -427,6 +244,8 @@ public static void runAppInTerminal(Scanner scanner){
         //              Quit             *
         //********************************
             System.out.println("Exiting...");
+            closeApplication();
+
             return false;
 
         default:
