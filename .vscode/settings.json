@@ -2,5 +2,6 @@
     "java.project.sourcePaths": [
         "Project_Files",
         "HotelApplication/src/main/java/com/hotelapplication"
-    ]
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
 }

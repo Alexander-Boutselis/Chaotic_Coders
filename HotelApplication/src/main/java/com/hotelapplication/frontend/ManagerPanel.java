@@ -1,6 +1,7 @@
 //ManagerPanel.java
 
 package com.hotelapplication.frontend;
+
 import com.hotelapplication.backend.*;
 
 import javax.swing.*;
@@ -55,6 +56,11 @@ public class ManagerPanel extends JFrame {
         editAccountButton.addActionListener(e -> {
             SwingUtilities.invokeLater(() -> new EditAccountForm().setVisible(true)); // Open Edit Account form
             this.dispose();
+        });
+
+        // View Reservations Button Logic
+        viewReservationsButton.addActionListener(e -> {
+            SwingUtilities.invokeLater(() -> new ViewAllReservations().setVisible(true)); // Open View All Reservations form
         });
 
         // Add buttons to the main panel
