@@ -78,6 +78,21 @@ public class ManagerPanel extends JFrame {
             }
         });
 
+        // Edit Hotel Button Logic
+        editHotelButton.addActionListener(e -> {
+            if (HotelManager.getCurrentHotel() == null) {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Please select a hotel before editing.",
+                    "No Hotel Selected",
+                    JOptionPane.WARNING_MESSAGE
+                );
+            } else {
+                SwingUtilities.invokeLater(() -> new EditHotelWindow().setVisible(true));
+            }
+        });
+        
+
         // Add buttons to the main panel
         panel.add(selectHotelButton);
         panel.add(editAccountButton);
