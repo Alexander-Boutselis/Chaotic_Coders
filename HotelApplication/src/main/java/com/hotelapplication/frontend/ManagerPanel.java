@@ -58,9 +58,24 @@ public class ManagerPanel extends JFrame {
             this.dispose();
         });
 
-        // View Reservations Button Logic
+        // Select Hotel Button Logic
+        selectHotelButton.addActionListener(e -> SwingUtilities.invokeLater(() -> new SelectHotel().setVisible(true)));
+
+        // View All Reservations Button Logic
         viewReservationsButton.addActionListener(e -> {
-            SwingUtilities.invokeLater(() -> new ViewAllReservations().setVisible(true)); // Open View All Reservations form
+            // Check if a hotel is selected
+            if (HotelManager.getCurrentHotel() == null) {
+                // Show a pop-up message if no hotel is selected
+                JOptionPane.showMessageDialog(
+                    ManagerPanel.this,
+                    "Please select a hotel before viewing reservations.",
+                    "No Hotel Selected",
+                    JOptionPane.WARNING_MESSAGE
+                );
+            } else {
+                // Open the ViewAllReservations window if a hotel is selected
+                SwingUtilities.invokeLater(() -> new ViewAllReservations().setVisible(true));
+            }
         });
 
         // Add buttons to the main panel

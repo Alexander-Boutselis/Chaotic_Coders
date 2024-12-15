@@ -1,10 +1,10 @@
 -------------------------------------------------------------------------------
 Test set: com.hotelapplication.TestClass
 -------------------------------------------------------------------------------
-Tests run: 31, Failures: 0, Errors: 22, Skipped: 0, Time elapsed: 0.479 s <<< FAILURE! -- in com.hotelapplication.TestClass
-com.hotelapplication.TestClass.testRemoveUserfromDatabase -- Time elapsed: 0.002 s <<< ERROR!
+Tests run: 31, Failures: 0, Errors: 22, Skipped: 0, Time elapsed: 0.310 s <<< FAILURE! -- in com.hotelapplication.TestClass
+com.hotelapplication.TestClass.testRemoveUserfromDatabase -- Time elapsed: 0.003 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User.getUserID()" because "this.testUser" is null
-	at com.hotelapplication.TestClass.testRemoveUserfromDatabase(TestClass.java:412)
+	at com.hotelapplication.TestClass.testRemoveUserfromDatabase(TestClass.java:409)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -218,9 +218,9 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Mana
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testAddReservationToDatabase -- Time elapsed: 0.002 s <<< ERROR!
+com.hotelapplication.TestClass.testAddReservationToDatabase -- Time elapsed: 0.001 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Reservation.getReservationID()" because "this.testReservation" is null
-	at com.hotelapplication.TestClass.testAddReservationToDatabase(TestClass.java:316)
+	at com.hotelapplication.TestClass.testAddReservationToDatabase(TestClass.java:313)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -290,10 +290,10 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Rese
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testUpdateReservationInDatabase -- Time elapsed: 0.004 s <<< ERROR!
+com.hotelapplication.TestClass.testUpdateReservationInDatabase -- Time elapsed: 0.001 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Reservation.setTotalPrice(double)" because "reservation" is null
-	at com.hotelapplication.backend.ReservationManager.setTotalPrice(ReservationManager.java:311)
-	at com.hotelapplication.TestClass.testUpdateReservationInDatabase(TestClass.java:355)
+	at com.hotelapplication.backend.ReservationManager.setTotalPrice(ReservationManager.java:319)
+	at com.hotelapplication.TestClass.testUpdateReservationInDatabase(TestClass.java:352)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -363,9 +363,9 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Rese
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testRemoveRoomFromDatabase -- Time elapsed: 0.002 s <<< ERROR!
+com.hotelapplication.TestClass.testRemoveRoomFromDatabase -- Time elapsed: 0.001 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Room.getRoomID()" because "this.testRoom" is null
-	at com.hotelapplication.TestClass.testRemoveRoomFromDatabase(TestClass.java:388)
+	at com.hotelapplication.TestClass.testRemoveRoomFromDatabase(TestClass.java:385)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -507,7 +507,7 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hote
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testEditHotelName -- Time elapsed: 0.001 s <<< ERROR!
+com.hotelapplication.TestClass.testEditHotelName -- Time elapsed: 0.002 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hotel.setHotelName(String)" because "hotel" is null
 	at com.hotelapplication.backend.HotelManager.setHotelName(HotelManager.java:146)
 	at com.hotelapplication.TestClass.testEditHotelName(TestClass.java:167)
@@ -580,7 +580,7 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hote
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testCases -- Time elapsed: 0.001 s <<< ERROR!
+com.hotelapplication.TestClass.testCases -- Time elapsed: 0.002 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "java.lang.Integer.intValue()" because the return value of "com.hotelapplication.backend.Hotel.getHotelID()" is null
 	at com.hotelapplication.backend.HotelManager.getHotelID(HotelManager.java:85)
 	at com.hotelapplication.TestClass.testCases(TestClass.java:208)
@@ -653,7 +653,7 @@ java.lang.NullPointerException: Cannot invoke "java.lang.Integer.intValue()" bec
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testUpdateUserInDatabase -- Time elapsed: 0.002 s <<< ERROR!
+com.hotelapplication.TestClass.testUpdateUserInDatabase -- Time elapsed: 0.001 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User.getUserID()" because "this.testUser" is null
 	at com.hotelapplication.TestClass.testUpdateUserInDatabase(TestClass.java:137)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
@@ -725,10 +725,10 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testEditReservationEndDate -- Time elapsed: 0.001 s <<< ERROR!
+com.hotelapplication.TestClass.testEditReservationEndDate -- Time elapsed: 0.002 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Reservation.setEndDate(java.time.LocalDate)" because "reservation" is null
-	at com.hotelapplication.backend.ReservationManager.setEndDate(ReservationManager.java:341)
-	at com.hotelapplication.TestClass.testEditReservationEndDate(TestClass.java:335)
+	at com.hotelapplication.backend.ReservationManager.setEndDate(ReservationManager.java:349)
+	at com.hotelapplication.TestClass.testEditReservationEndDate(TestClass.java:332)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -798,10 +798,10 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Rese
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testEditReservationTotalPrice -- Time elapsed: 0 s <<< ERROR!
+com.hotelapplication.TestClass.testEditReservationTotalPrice -- Time elapsed: 0.001 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Reservation.setTotalPrice(double)" because "reservation" is null
-	at com.hotelapplication.backend.ReservationManager.setTotalPrice(ReservationManager.java:311)
-	at com.hotelapplication.TestClass.testEditReservationTotalPrice(TestClass.java:345)
+	at com.hotelapplication.backend.ReservationManager.setTotalPrice(ReservationManager.java:319)
+	at com.hotelapplication.TestClass.testEditReservationTotalPrice(TestClass.java:342)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -873,8 +873,8 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Rese
 
 com.hotelapplication.TestClass.testEditReservationStartDate -- Time elapsed: 0.001 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Reservation.setStartDate(java.time.LocalDate)" because "reservation" is null
-	at com.hotelapplication.backend.ReservationManager.setStartDate(ReservationManager.java:331)
-	at com.hotelapplication.TestClass.testEditReservationStartDate(TestClass.java:325)
+	at com.hotelapplication.backend.ReservationManager.setStartDate(ReservationManager.java:339)
+	at com.hotelapplication.TestClass.testEditReservationStartDate(TestClass.java:322)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -946,7 +946,7 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Rese
 
 com.hotelapplication.TestClass.testRemoveManagerfromDatabase -- Time elapsed: 0.001 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Manager.getUserID()" because "this.testManager" is null
-	at com.hotelapplication.TestClass.testRemoveManagerfromDatabase(TestClass.java:421)
+	at com.hotelapplication.TestClass.testRemoveManagerfromDatabase(TestClass.java:418)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -1016,9 +1016,9 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Mana
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testEditUserLastName -- Time elapsed: 0.001 s <<< ERROR!
+com.hotelapplication.TestClass.testEditUserLastName -- Time elapsed: 0 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User.setLastName(String)" because "user" is null
-	at com.hotelapplication.backend.AccountManager.setLastName(AccountManager.java:223)
+	at com.hotelapplication.backend.AccountManager.setLastName(AccountManager.java:365)
 	at com.hotelapplication.TestClass.testEditUserLastName(TestClass.java:120)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
@@ -1089,9 +1089,9 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testRemoveHotelFromDatabase -- Time elapsed: 0 s <<< ERROR!
+com.hotelapplication.TestClass.testRemoveHotelFromDatabase -- Time elapsed: 0.001 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hotel.getHotelID()" because "this.testHotel" is null
-	at com.hotelapplication.TestClass.testRemoveHotelFromDatabase(TestClass.java:401)
+	at com.hotelapplication.TestClass.testRemoveHotelFromDatabase(TestClass.java:398)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -1161,9 +1161,9 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hote
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testRemoveReservationFromDatabase -- Time elapsed: 0.001 s <<< ERROR!
+com.hotelapplication.TestClass.testRemoveReservationFromDatabase -- Time elapsed: 0 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Reservation.getReservationID()" because "this.testReservation" is null
-	at com.hotelapplication.TestClass.testRemoveReservationFromDatabase(TestClass.java:378)
+	at com.hotelapplication.TestClass.testRemoveReservationFromDatabase(TestClass.java:375)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -1233,9 +1233,9 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Rese
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testCreateReservation -- Time elapsed: 0.001 s <<< ERROR!
+com.hotelapplication.TestClass.testCreateReservation -- Time elapsed: 0 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User.getUserID()" because "this.testUser" is null
-	at com.hotelapplication.TestClass.testCreateReservation(TestClass.java:301)
+	at com.hotelapplication.TestClass.testCreateReservation(TestClass.java:300)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -1305,9 +1305,9 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testEditUserFirstName -- Time elapsed: 0.001 s <<< ERROR!
+com.hotelapplication.TestClass.testEditUserFirstName -- Time elapsed: 0 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User.setFirstName(String)" because "user" is null
-	at com.hotelapplication.backend.AccountManager.setFirstName(AccountManager.java:211)
+	at com.hotelapplication.backend.AccountManager.setFirstName(AccountManager.java:340)
 	at com.hotelapplication.TestClass.testEditUserFirstName(TestClass.java:112)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
@@ -1378,7 +1378,7 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testEditHotelAddress -- Time elapsed: 0.001 s <<< ERROR!
+com.hotelapplication.TestClass.testEditHotelAddress -- Time elapsed: 0 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hotel.setHotelAddress(String)" because "hotel" is null
 	at com.hotelapplication.backend.HotelManager.setHotelAddress(HotelManager.java:188)
 	at com.hotelapplication.TestClass.testEditHotelAddress(TestClass.java:176)
@@ -1451,7 +1451,7 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hote
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testUpdateHotelInDatabase -- Time elapsed: 0.001 s <<< ERROR!
+com.hotelapplication.TestClass.testUpdateHotelInDatabase -- Time elapsed: 0 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hotel.getHotelID()" because "this.testHotel" is null
 	at com.hotelapplication.TestClass.testUpdateHotelInDatabase(TestClass.java:186)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
@@ -1523,9 +1523,9 @@ java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hote
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-com.hotelapplication.TestClass.testEditUserUesername -- Time elapsed: 0 s <<< ERROR!
+com.hotelapplication.TestClass.testEditUserUesername -- Time elapsed: 0.001 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User.setUsername(String)" because "user" is null
-	at com.hotelapplication.backend.AccountManager.setUsername(AccountManager.java:200)
+	at com.hotelapplication.backend.AccountManager.setUsername(AccountManager.java:316)
 	at com.hotelapplication.TestClass.testEditUserUesername(TestClass.java:128)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)

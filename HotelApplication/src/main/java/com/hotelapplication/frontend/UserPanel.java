@@ -40,15 +40,16 @@ public class UserPanel extends JFrame {
 
         // Add logic to buttons
         viewReservationsButton.addActionListener(e -> {
-            // Add logic for viewing reservations
+            // Add logic for viewing reservations (to be implemented)
         });
 
         makeReservationButton.addActionListener(e -> {
-            // Add logic for making a reservation
+            // Add logic for making a reservation (to be implemented)
         });
 
         selectHotelButton.addActionListener(e -> {
-            // Add logic for selecting a hotel
+            // Logic for selecting a hotel
+            SwingUtilities.invokeLater(() -> new SelectHotel().setVisible(true));
         });
 
         editAccountButton.addActionListener(e -> {

@@ -69,6 +69,7 @@ public class ViewAllReservations extends JFrame {
             } else {
                 textArea.setText(""); // Clear previous text
                 for (Reservation reservation : reservations) {
+                    System.out.println("Reservation ID: " + reservation.getReservationID());
                     String reservationDetails = String.format(
                         "Reservation ID: %d\nUser ID: %d\nRoom ID: %d\nHotel ID: %d\nStart Date: %s\nEnd Date: %s\nTotal Price: $%.2f\n\n",
                         reservation.getReservationID(),

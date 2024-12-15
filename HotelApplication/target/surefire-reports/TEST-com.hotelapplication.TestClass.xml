@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.hotelapplication.TestClass" time="0.479" tests="31" errors="22" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.hotelapplication.TestClass" time="0.31" tests="31" errors="22" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="20"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Users\minpa\OneDrive\Desktop\CSUN\COMP380\Project\Chaotic_Coders\HotelApplication\target\test-classes;C:\Users\minpa\OneDrive\Desktop\CSUN\COMP380\Project\Chaotic_Coders\HotelApplication\target\classes;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.1\junit-jupiter-5.8.1.jar;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.1\junit-jupiter-api-5.8.1.jar;C:\Users\minpa\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\minpa\.m2\repository\org\junit\platform\junit-platform-commons\1.8.1\junit-platform-commons-1.8.1.jar;C:\Users\minpa\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.1\junit-jupiter-params-5.8.1.jar;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.1\junit-jupiter-engine-5.8.1.jar;C:\Users\minpa\.m2\repository\org\junit\platform\junit-platform-engine\1.8.1\junit-platform-engine-1.8.1.jar;C:\Users\minpa\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\minpa\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\minpa\.m2\repository\org\jdbi\jdbi3-core\3.36.0\jdbi3-core-3.36.0.jar;C:\Users\minpa\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\minpa\.m2\repository\io\leangen\geantyref\geantyref\1.3.13\geantyref-1.3.13.jar;C:\Users\minpa\.m2\repository\com\github\ben-manes\caffeine\caffeine\3.0.3\caffeine-3.0.3.jar;C:\Users\minpa\.m2\repository\com\h2database\h2\2.1.214\h2-2.1.214.jar;"/>
+    <property name="java.class.path" value="C:\Users\minpa\OneDrive\Desktop\CSUN\COMP380\Project\Chaotic_Coders\HotelApplication\target\test-classes;C:\Users\minpa\OneDrive\Desktop\CSUN\COMP380\Project\Chaotic_Coders\HotelApplication\target\classes;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.1\junit-jupiter-5.8.1.jar;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.1\junit-jupiter-api-5.8.1.jar;C:\Users\minpa\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\minpa\.m2\repository\org\junit\platform\junit-platform-commons\1.8.1\junit-platform-commons-1.8.1.jar;C:\Users\minpa\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.1\junit-jupiter-params-5.8.1.jar;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.1\junit-jupiter-engine-5.8.1.jar;C:\Users\minpa\.m2\repository\org\junit\platform\junit-platform-engine\1.8.1\junit-platform-engine-1.8.1.jar;C:\Users\minpa\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\minpa\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\minpa\.m2\repository\org\jdbi\jdbi3-core\3.36.0\jdbi3-core-3.36.0.jar;C:\Users\minpa\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\minpa\.m2\repository\io\leangen\geantyref\geantyref\1.3.13\geantyref-1.3.13.jar;C:\Users\minpa\.m2\repository\com\github\ben-manes\caffeine\caffeine\3.0.3\caffeine-3.0.3.jar;C:\Users\minpa\.m2\repository\com\h2database\h2\2.1.214\h2-2.1.214.jar;C:\Users\minpa\.m2\repository\com\toedter\jcalendar\1.4\jcalendar-1.4.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -15,9 +15,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-20\bin"/>
-    <property name="sun.java.command" value="C:\Users\minpa\AppData\Local\Temp\surefire5280522317604996873\surefirebooter-20241203131948779_3.jar C:\Users\minpa\AppData\Local\Temp\surefire5280522317604996873 2024-12-03T13-19-48_692-jvmRun1 surefire-20241203131948779_1tmp surefire_0-20241203131948779_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\minpa\AppData\Local\Temp\surefire5066436092803643769\surefirebooter-20241213200510158_3.jar C:\Users\minpa\AppData\Local\Temp\surefire5066436092803643769 2024-12-13T20-05-10_095-jvmRun1 surefire-20241213200510158_1tmp surefire_0-20241213200510158_2tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="C:\Users\minpa\OneDrive\Desktop\CSUN\COMP380\Project\Chaotic_Coders\HotelApplication\target\test-classes;C:\Users\minpa\OneDrive\Desktop\CSUN\COMP380\Project\Chaotic_Coders\HotelApplication\target\classes;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.1\junit-jupiter-5.8.1.jar;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.1\junit-jupiter-api-5.8.1.jar;C:\Users\minpa\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\minpa\.m2\repository\org\junit\platform\junit-platform-commons\1.8.1\junit-platform-commons-1.8.1.jar;C:\Users\minpa\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.1\junit-jupiter-params-5.8.1.jar;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.1\junit-jupiter-engine-5.8.1.jar;C:\Users\minpa\.m2\repository\org\junit\platform\junit-platform-engine\1.8.1\junit-platform-engine-1.8.1.jar;C:\Users\minpa\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\minpa\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\minpa\.m2\repository\org\jdbi\jdbi3-core\3.36.0\jdbi3-core-3.36.0.jar;C:\Users\minpa\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\minpa\.m2\repository\io\leangen\geantyref\geantyref\1.3.13\geantyref-1.3.13.jar;C:\Users\minpa\.m2\repository\com\github\ben-manes\caffeine\caffeine\3.0.3\caffeine-3.0.3.jar;C:\Users\minpa\.m2\repository\com\h2database\h2\2.1.214\h2-2.1.214.jar;"/>
+    <property name="surefire.test.class.path" value="C:\Users\minpa\OneDrive\Desktop\CSUN\COMP380\Project\Chaotic_Coders\HotelApplication\target\test-classes;C:\Users\minpa\OneDrive\Desktop\CSUN\COMP380\Project\Chaotic_Coders\HotelApplication\target\classes;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter\5.8.1\junit-jupiter-5.8.1.jar;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.1\junit-jupiter-api-5.8.1.jar;C:\Users\minpa\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\minpa\.m2\repository\org\junit\platform\junit-platform-commons\1.8.1\junit-platform-commons-1.8.1.jar;C:\Users\minpa\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.8.1\junit-jupiter-params-5.8.1.jar;C:\Users\minpa\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.1\junit-jupiter-engine-5.8.1.jar;C:\Users\minpa\.m2\repository\org\junit\platform\junit-platform-engine\1.8.1\junit-platform-engine-1.8.1.jar;C:\Users\minpa\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\minpa\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\minpa\.m2\repository\org\jdbi\jdbi3-core\3.36.0\jdbi3-core-3.36.0.jar;C:\Users\minpa\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\minpa\.m2\repository\io\leangen\geantyref\geantyref\1.3.13\geantyref-1.3.13.jar;C:\Users\minpa\.m2\repository\com\github\ben-manes\caffeine\caffeine\3.0.3\caffeine-3.0.3.jar;C:\Users\minpa\.m2\repository\com\h2database\h2\2.1.214\h2-2.1.214.jar;C:\Users\minpa\.m2\repository\com\toedter\jcalendar\1.4\jcalendar-1.4.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\minpa"/>
     <property name="user.language" value="en"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\minpa\AppData\Local\Temp\surefire5280522317604996873\surefirebooter-20241203131948779_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\minpa\AppData\Local\Temp\surefire5066436092803643769\surefirebooter-20241213200510158_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="20.0.2+9-78"/>
@@ -50,7 +50,7 @@
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="native.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk-20\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;&quot;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Java\jdk-20\bin&quot;;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\System32;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\msys64\mingw64\bin;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk-20\bin;C:\Users\minpa\Downloads\apache-maven-3.9.9\bin;C:\Users\minpa\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\minpa\AppData\Local\Programs\Python\Python311\;C:\Users\minpa\AppData\Local\Microsoft\WindowsApps;C:\Users\minpa\AppData\Local\Programs\Microsoft VS Code\bin;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-20\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;&quot;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Java\jdk-20\bin&quot;;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\System32;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\msys64\mingw64\bin;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk-20\bin;C:\Users\minpa\Downloads\apache-maven-3.9.9\bin;C:\Program Files\swipl\bin;C:\Users\minpa\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\minpa\AppData\Local\Programs\Python\Python311\;C:\Users\minpa\AppData\Local\Microsoft\WindowsApps;C:\Users\minpa\AppData\Local\Programs\Microsoft VS Code\bin;."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
     <property name="stderr.encoding" value="Cp1252"/>
     <property name="java.vendor" value="Oracle Corporation"/>
@@ -58,14 +58,14 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="64.0"/>
   </properties>
-  <testcase name="testHotelCreation" classname="com.hotelapplication.TestClass" time="0.016">
+  <testcase name="testHotelCreation" classname="com.hotelapplication.TestClass" time="0.019">
     <system-out><![CDATA[---Test #1: Create Hotel---
 Passed
 ]]></system-out>
   </testcase>
-  <testcase name="testRemoveUserfromDatabase" classname="com.hotelapplication.TestClass" time="0.002">
+  <testcase name="testRemoveUserfromDatabase" classname="com.hotelapplication.TestClass" time="0.003">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.User.getUserID()&quot; because &quot;this.testUser&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User.getUserID()" because "this.testUser" is null
-	at com.hotelapplication.TestClass.testRemoveUserfromDatabase(TestClass.java:412)
+	at com.hotelapplication.TestClass.testRemoveUserfromDatabase(TestClass.java:409)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -294,9 +294,9 @@ Passed
     <system-err><![CDATA[Failed to add user to the database: Cannot invoke "org.jdbi.v3.core.Handle.createUpdate(String)" because "com.hotelapplication.backend.DatabaseConnector.handle" is null
 ]]></system-err>
   </testcase>
-  <testcase name="testAddReservationToDatabase" classname="com.hotelapplication.TestClass" time="0.002">
+  <testcase name="testAddReservationToDatabase" classname="com.hotelapplication.TestClass" time="0.001">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.Reservation.getReservationID()&quot; because &quot;this.testReservation&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Reservation.getReservationID()" because "this.testReservation" is null
-	at com.hotelapplication.TestClass.testAddReservationToDatabase(TestClass.java:316)
+	at com.hotelapplication.TestClass.testAddReservationToDatabase(TestClass.java:313)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -371,7 +371,7 @@ Passed
     <system-err><![CDATA[Failed to add reservation to the database: Cannot invoke "com.hotelapplication.backend.Reservation.getAssignedUserID()" because "reservation" is null
 ]]></system-err>
   </testcase>
-  <testcase name="testConnection" classname="com.hotelapplication.TestClass" time="0.376">
+  <testcase name="testConnection" classname="com.hotelapplication.TestClass" time="0.217">
     <system-out><![CDATA[Connection to H2 database successful!
 Hotels table created/found.
 Users table created/found.
@@ -384,10 +384,10 @@ SLF4J: Defaulting to no-operation (NOP) logger implementation
 SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
 ]]></system-err>
   </testcase>
-  <testcase name="testUpdateReservationInDatabase" classname="com.hotelapplication.TestClass" time="0.004">
+  <testcase name="testUpdateReservationInDatabase" classname="com.hotelapplication.TestClass" time="0.001">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.Reservation.setTotalPrice(double)&quot; because &quot;reservation&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Reservation.setTotalPrice(double)" because "reservation" is null
-	at com.hotelapplication.backend.ReservationManager.setTotalPrice(ReservationManager.java:311)
-	at com.hotelapplication.TestClass.testUpdateReservationInDatabase(TestClass.java:355)
+	at com.hotelapplication.backend.ReservationManager.setTotalPrice(ReservationManager.java:319)
+	at com.hotelapplication.TestClass.testUpdateReservationInDatabase(TestClass.java:352)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -460,9 +460,9 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
     <system-out><![CDATA[---Test #1: Update Reservation in Database---
 ]]></system-out>
   </testcase>
-  <testcase name="testRemoveRoomFromDatabase" classname="com.hotelapplication.TestClass" time="0.002">
+  <testcase name="testRemoveRoomFromDatabase" classname="com.hotelapplication.TestClass" time="0.001">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.Room.getRoomID()&quot; because &quot;this.testRoom&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Room.getRoomID()" because "this.testRoom" is null
-	at com.hotelapplication.TestClass.testRemoveRoomFromDatabase(TestClass.java:388)
+	at com.hotelapplication.TestClass.testRemoveRoomFromDatabase(TestClass.java:385)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -614,7 +614,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
     <system-err><![CDATA[Failed to add hotel: Cannot invoke "com.hotelapplication.backend.Hotel.getHotelName()" because "hotel" is null
 ]]></system-err>
   </testcase>
-  <testcase name="testEditHotelName" classname="com.hotelapplication.TestClass" time="0.001">
+  <testcase name="testEditHotelName" classname="com.hotelapplication.TestClass" time="0.002">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.Hotel.setHotelName(String)&quot; because &quot;hotel&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hotel.setHotelName(String)" because "hotel" is null
 	at com.hotelapplication.backend.HotelManager.setHotelName(HotelManager.java:146)
 	at com.hotelapplication.TestClass.testEditHotelName(TestClass.java:167)
@@ -690,7 +690,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
     <system-out><![CDATA[---Test #1: Edit Hotel Name---
 ]]></system-out>
   </testcase>
-  <testcase name="testCases" classname="com.hotelapplication.TestClass" time="0.001">
+  <testcase name="testCases" classname="com.hotelapplication.TestClass" time="0.002">
     <error message="Cannot invoke &quot;java.lang.Integer.intValue()&quot; because the return value of &quot;com.hotelapplication.backend.Hotel.getHotelID()&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "java.lang.Integer.intValue()" because the return value of "com.hotelapplication.backend.Hotel.getHotelID()" is null
 	at com.hotelapplication.backend.HotelManager.getHotelID(HotelManager.java:85)
 	at com.hotelapplication.TestClass.testCases(TestClass.java:208)
@@ -766,7 +766,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
     <system-out><![CDATA[---Test #1: Create Room---
 ]]></system-out>
   </testcase>
-  <testcase name="testUpdateUserInDatabase" classname="com.hotelapplication.TestClass" time="0.002">
+  <testcase name="testUpdateUserInDatabase" classname="com.hotelapplication.TestClass" time="0.001">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.User.getUserID()&quot; because &quot;this.testUser&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User.getUserID()" because "this.testUser" is null
 	at com.hotelapplication.TestClass.testUpdateUserInDatabase(TestClass.java:137)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
@@ -843,10 +843,10 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
     <system-err><![CDATA[Failed to update user in database: User ID is null.
 ]]></system-err>
   </testcase>
-  <testcase name="testEditReservationEndDate" classname="com.hotelapplication.TestClass" time="0.001">
+  <testcase name="testEditReservationEndDate" classname="com.hotelapplication.TestClass" time="0.002">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.Reservation.setEndDate(java.time.LocalDate)&quot; because &quot;reservation&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Reservation.setEndDate(java.time.LocalDate)" because "reservation" is null
-	at com.hotelapplication.backend.ReservationManager.setEndDate(ReservationManager.java:341)
-	at com.hotelapplication.TestClass.testEditReservationEndDate(TestClass.java:335)
+	at com.hotelapplication.backend.ReservationManager.setEndDate(ReservationManager.java:349)
+	at com.hotelapplication.TestClass.testEditReservationEndDate(TestClass.java:332)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -919,10 +919,10 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
     <system-out><![CDATA[---Test #1: Edit Reservation End Date---
 ]]></system-out>
   </testcase>
-  <testcase name="testEditReservationTotalPrice" classname="com.hotelapplication.TestClass" time="0.0">
+  <testcase name="testEditReservationTotalPrice" classname="com.hotelapplication.TestClass" time="0.001">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.Reservation.setTotalPrice(double)&quot; because &quot;reservation&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Reservation.setTotalPrice(double)" because "reservation" is null
-	at com.hotelapplication.backend.ReservationManager.setTotalPrice(ReservationManager.java:311)
-	at com.hotelapplication.TestClass.testEditReservationTotalPrice(TestClass.java:345)
+	at com.hotelapplication.backend.ReservationManager.setTotalPrice(ReservationManager.java:319)
+	at com.hotelapplication.TestClass.testEditReservationTotalPrice(TestClass.java:342)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -995,14 +995,14 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
     <system-out><![CDATA[---Test #1: Edit Reservation Total Price---
 ]]></system-out>
   </testcase>
-  <testcase name="testManagerSignOut" classname="com.hotelapplication.TestClass" time="0.0">
+  <testcase name="testManagerSignOut" classname="com.hotelapplication.TestClass" time="0.001">
     <system-out><![CDATA[---Test #1: Sign out Manager---
 ]]></system-out>
   </testcase>
   <testcase name="testEditReservationStartDate" classname="com.hotelapplication.TestClass" time="0.001">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.Reservation.setStartDate(java.time.LocalDate)&quot; because &quot;reservation&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Reservation.setStartDate(java.time.LocalDate)" because "reservation" is null
-	at com.hotelapplication.backend.ReservationManager.setStartDate(ReservationManager.java:331)
-	at com.hotelapplication.TestClass.testEditReservationStartDate(TestClass.java:325)
+	at com.hotelapplication.backend.ReservationManager.setStartDate(ReservationManager.java:339)
+	at com.hotelapplication.TestClass.testEditReservationStartDate(TestClass.java:322)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -1075,7 +1075,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
     <system-out><![CDATA[---Test #1: Edit Reservation Start Date---
 ]]></system-out>
   </testcase>
-  <testcase name="testPrintDatabaseTables" classname="com.hotelapplication.TestClass" time="0.013">
+  <testcase name="testPrintDatabaseTables" classname="com.hotelapplication.TestClass" time="0.012">
     <system-out><![CDATA[
 -------------------------------------------------------------
 Hotel ID   Name                 Address                       
@@ -1087,10 +1087,10 @@ Hotel ID   Name                 Address
 Room ID    Hotel ID   Room Number     Bed Type        Num of Beds     Price per Night Room Description
 ------------------------------------------------------------------------------------------------------
 
---------------------------------------------------------------------------------------------------------------
-User ID    First Name      Last Name       Username        Birthday        Account Type    Employee Number
---------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+User ID    First Name      Last Name       Username        Birthday        Account Type    Employee Number Password       
+-------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
 
 
 -----------------------------------------------------------------------------------------------------
@@ -1100,7 +1100,22 @@ Reservation ID  User ID    Room ID    Hotel ID   Check-In Date   Check-Out Date 
 
 ]]></system-out>
     <system-err><![CDATA[Failed to print Rooms table: org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "ROOM_DESCRIPTION" not found; SQL statement:
-SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, room_description FROM Rooms [42122-214] [statement:"SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, room_description FROM Rooms", arguments:{positional:{}, named:{}, finder:[]}]
+SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, room_description FROM Rooms [42122-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.command.query.Select.prepareExpressions(Select.java:1170)
+	at org.h2.command.query.Query.prepare(Query.java:218)
+	at org.h2.command.Parser.prepareCommand(Parser.java:575)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:631)
+	at org.h2.server.TcpServerThread.process(TcpServerThread.java:288)
+	at org.h2.server.TcpServerThread.run(TcpServerThread.java:191)
+	at java.base/java.lang.Thread.run(Thread.java:1623)
+ [statement:"SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, room_description FROM Rooms", arguments:{positional:{}, named:{}, finder:[]}]
 ]]></system-err>
   </testcase>
   <testcase name="testManagerCreation" classname="com.hotelapplication.TestClass" time="0.001">
@@ -1109,7 +1124,7 @@ SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, r
   </testcase>
   <testcase name="testRemoveManagerfromDatabase" classname="com.hotelapplication.TestClass" time="0.001">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.Manager.getUserID()&quot; because &quot;this.testManager&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Manager.getUserID()" because "this.testManager" is null
-	at com.hotelapplication.TestClass.testRemoveManagerfromDatabase(TestClass.java:421)
+	at com.hotelapplication.TestClass.testRemoveManagerfromDatabase(TestClass.java:418)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -1184,9 +1199,9 @@ SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, r
     <system-err><![CDATA[Failed to remove item: Cannot invoke "Object.getClass()" because "item" is null
 ]]></system-err>
   </testcase>
-  <testcase name="testEditUserLastName" classname="com.hotelapplication.TestClass" time="0.001">
+  <testcase name="testEditUserLastName" classname="com.hotelapplication.TestClass" time="0.0">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.User.setLastName(String)&quot; because &quot;user&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User.setLastName(String)" because "user" is null
-	at com.hotelapplication.backend.AccountManager.setLastName(AccountManager.java:223)
+	at com.hotelapplication.backend.AccountManager.setLastName(AccountManager.java:365)
 	at com.hotelapplication.TestClass.testEditUserLastName(TestClass.java:120)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
@@ -1260,9 +1275,9 @@ SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, r
     <system-out><![CDATA[---Test #1: Edit User Last Name---
 ]]></system-out>
   </testcase>
-  <testcase name="testRemoveHotelFromDatabase" classname="com.hotelapplication.TestClass" time="0.0">
+  <testcase name="testRemoveHotelFromDatabase" classname="com.hotelapplication.TestClass" time="0.001">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.Hotel.getHotelID()&quot; because &quot;this.testHotel&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hotel.getHotelID()" because "this.testHotel" is null
-	at com.hotelapplication.TestClass.testRemoveHotelFromDatabase(TestClass.java:401)
+	at com.hotelapplication.TestClass.testRemoveHotelFromDatabase(TestClass.java:398)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -1337,7 +1352,7 @@ SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, r
     <system-err><![CDATA[Failed to remove item: Cannot invoke "Object.getClass()" because "item" is null
 ]]></system-err>
   </testcase>
-  <testcase name="testUserSignIn" classname="com.hotelapplication.TestClass" time="0.001">
+  <testcase name="testUserSignIn" classname="com.hotelapplication.TestClass" time="0.002">
     <system-out><![CDATA[---Test #1: Sign in---
 ]]></system-out>
   </testcase>
@@ -1345,13 +1360,13 @@ SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, r
     <system-out><![CDATA[---Test #1: Sign in Manager---
 ]]></system-out>
   </testcase>
-  <testcase name="testUserSignOut" classname="com.hotelapplication.TestClass" time="0.001">
+  <testcase name="testUserSignOut" classname="com.hotelapplication.TestClass" time="0.0">
     <system-out><![CDATA[---Test #1: Sign out---
 ]]></system-out>
   </testcase>
-  <testcase name="testRemoveReservationFromDatabase" classname="com.hotelapplication.TestClass" time="0.001">
+  <testcase name="testRemoveReservationFromDatabase" classname="com.hotelapplication.TestClass" time="0.0">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.Reservation.getReservationID()&quot; because &quot;this.testReservation&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Reservation.getReservationID()" because "this.testReservation" is null
-	at com.hotelapplication.TestClass.testRemoveReservationFromDatabase(TestClass.java:378)
+	at com.hotelapplication.TestClass.testRemoveReservationFromDatabase(TestClass.java:375)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -1426,9 +1441,9 @@ SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, r
     <system-err><![CDATA[Failed to remove item: Cannot invoke "Object.getClass()" because "item" is null
 ]]></system-err>
   </testcase>
-  <testcase name="testCreateReservation" classname="com.hotelapplication.TestClass" time="0.001">
+  <testcase name="testCreateReservation" classname="com.hotelapplication.TestClass" time="0.0">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.User.getUserID()&quot; because &quot;this.testUser&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User.getUserID()" because "this.testUser" is null
-	at com.hotelapplication.TestClass.testCreateReservation(TestClass.java:301)
+	at com.hotelapplication.TestClass.testCreateReservation(TestClass.java:300)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
@@ -1501,9 +1516,9 @@ SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, r
     <system-out><![CDATA[---Test #1: Create Reservation---
 ]]></system-out>
   </testcase>
-  <testcase name="testEditUserFirstName" classname="com.hotelapplication.TestClass" time="0.001">
+  <testcase name="testEditUserFirstName" classname="com.hotelapplication.TestClass" time="0.0">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.User.setFirstName(String)&quot; because &quot;user&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User.setFirstName(String)" because "user" is null
-	at com.hotelapplication.backend.AccountManager.setFirstName(AccountManager.java:211)
+	at com.hotelapplication.backend.AccountManager.setFirstName(AccountManager.java:340)
 	at com.hotelapplication.TestClass.testEditUserFirstName(TestClass.java:112)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
@@ -1577,7 +1592,7 @@ SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, r
     <system-out><![CDATA[---Test #1: Edit User First Name---
 ]]></system-out>
   </testcase>
-  <testcase name="testEditHotelAddress" classname="com.hotelapplication.TestClass" time="0.001">
+  <testcase name="testEditHotelAddress" classname="com.hotelapplication.TestClass" time="0.0">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.Hotel.setHotelAddress(String)&quot; because &quot;hotel&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hotel.setHotelAddress(String)" because "hotel" is null
 	at com.hotelapplication.backend.HotelManager.setHotelAddress(HotelManager.java:188)
 	at com.hotelapplication.TestClass.testEditHotelAddress(TestClass.java:176)
@@ -1653,7 +1668,7 @@ SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, r
     <system-out><![CDATA[---Test #1: Edit Hotel Address---
 ]]></system-out>
   </testcase>
-  <testcase name="testUpdateHotelInDatabase" classname="com.hotelapplication.TestClass" time="0.001">
+  <testcase name="testUpdateHotelInDatabase" classname="com.hotelapplication.TestClass" time="0.0">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.Hotel.getHotelID()&quot; because &quot;this.testHotel&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.Hotel.getHotelID()" because "this.testHotel" is null
 	at com.hotelapplication.TestClass.testUpdateHotelInDatabase(TestClass.java:186)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
@@ -1730,9 +1745,9 @@ SELECT room_id, hotel_id, room_number, bed_type, num_of_beds, price_per_night, r
     <system-err><![CDATA[Failed to update hotel in database: Cannot invoke "com.hotelapplication.backend.Hotel.getHotelID()" because "hotel" is null
 ]]></system-err>
   </testcase>
-  <testcase name="testEditUserUesername" classname="com.hotelapplication.TestClass" time="0.0">
+  <testcase name="testEditUserUesername" classname="com.hotelapplication.TestClass" time="0.001">
     <error message="Cannot invoke &quot;com.hotelapplication.backend.User.setUsername(String)&quot; because &quot;user&quot; is null" type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "com.hotelapplication.backend.User.setUsername(String)" because "user" is null
-	at com.hotelapplication.backend.AccountManager.setUsername(AccountManager.java:200)
+	at com.hotelapplication.backend.AccountManager.setUsername(AccountManager.java:316)
 	at com.hotelapplication.TestClass.testEditUserUesername(TestClass.java:128)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
