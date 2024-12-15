@@ -7,6 +7,7 @@ import java.util.*;
 import java.time.*;
 import java.time.format.*;
 import java.time.temporal.*;
+import java.text.SimpleDateFormat;
 
 /**
  * The ReservationManager class provides static utility methods for managing
@@ -40,6 +41,7 @@ public class ReservationManager {
 	public static Reservation createReservation(int userID, int roomID, LocalDate startDate, LocalDate endDate) {
 		Reservation newReservation = new Reservation(userID, roomID, startDate, endDate);
 		DatabaseConnector.addReservation(newReservation);
+		DatabaseManager.addReservation(newReservation);
 		HotelManager.addReservation(getHotelFromReservation(newReservation), newReservation);
 		AccountManager.addReservationToUser(getAssignedUser(newReservation), getReservationID(newReservation));
 		RoomManager.addReservationToRoom(getRoom(newReservation), getReservationID(newReservation));
@@ -55,6 +57,7 @@ public class ReservationManager {
 		HotelManager.addReservation(getHotelFromReservation(reservation), reservation);
 		AccountManager.addReservationToUser(getAssignedUser(reservation), reservation.getReservationID());
 		RoomManager.addReservationToRoom(getRoom(reservation), reservation.getReservationID());
+		DatabaseManager.addReservation(reservation);
 	}
 
 	/**
@@ -67,6 +70,7 @@ public class ReservationManager {
 		AccountManager.removeReservationFromUser(getAssignedUser(reservation), reservation.getReservationID());
 		RoomManager.removeReservationFromRoom(getRoom(reservation), reservation.getReservationID());
 		DatabaseConnector.removeItemFromDatabase(reservation);
+		DatabaseManager.removeReservation(reservation);
 	}
 
 	/**
@@ -223,6 +227,18 @@ public class ReservationManager {
 	}
 
 	/**
+     * Retrieves the room associated with a reservation.
+     * 
+     * @param reservation The reservation to retrieve the room from.
+     * @return The Room object associated with the reservation.
+     */
+	public static Integer getRoomNumber(Reservation reservation) {
+		return RoomManager.getRoomNumber(getRoom(reservation));
+		
+	}
+
+
+	/**
      * Retrieves the room ID associated with a reservation.
      * 
      * @param reservation The reservation to retrieve the room ID from.
@@ -253,11 +269,60 @@ public class ReservationManager {
 	}
 
 	/**
+	 * Retrieves the start date of a reservation as a Calendar instance.
+	 * 
+	 * @param reservation The reservation to retrieve the start date from.
+	 * @return The start date of the reservation as a Calendar.
+	 */
+	public static Calendar getStartDateAsCalendar(Reservation reservation) {
+	    LocalDate startDate = reservation.getStartDate();
+	    return convertLocalDateToCalendar(startDate);
+	}
+
+	/**
+	 * Retrieves the end date of a reservation as a Calendar instance.
+	 * 
+	 * @param reservation The reservation to retrieve the end date from.
+	 * @return The end date of the reservation as a Calendar.
+	 */
+	public static Calendar getEndDateAsCalendar(Reservation reservation) {
+	    LocalDate endDate = reservation.getEndDate();
+	    return convertLocalDateToCalendar(endDate);
+	}
+
+	/**
+	 * Converts a LocalDate to a Calendar instance.
+	 * 
+	 * @param localDate The LocalDate to convert.
+	 * @return The equivalent Calendar instance.
+	 */
+	public static Calendar convertLocalDateToCalendar(LocalDate localDate) {
+	    Calendar calendarDate = Calendar.getInstance();
+	    calendarDate.set(localDate.getYear(), localDate.getMonthValue() - 1, localDate.getDayOfMonth());
+	    calendarDate.set(Calendar.HOUR_OF_DAY, 0);
+	    calendarDate.set(Calendar.MINUTE, 0);
+	    calendarDate.set(Calendar.SECOND, 0);
+	    calendarDate.set(Calendar.MILLISECOND, 0);
+	    return calendarDate;
+	}
+
+	/**
+	 * Converts a Calendar instance to a LocalDate.
+	 * 
+	 * @param calendarDate The Calendar to convert.
+	 * @return The equivalent LocalDate instance.
+	 */
+	public static LocalDate convertCalendarToLocalDate(Calendar calendarDate) {
+	    return LocalDate.of(calendarDate.get(Calendar.YEAR), calendarDate.get(Calendar.MONTH) + 1, calendarDate.get(Calendar.DAY_OF_MONTH));
+	}
+
+	/**
      * Retrieves the current hotel.
      * 
      * @return The current hotel.
      */
 	public static Hotel getHotel() {
+		
 		return DatabaseManager.getCurrentHotel();
 	}
 
@@ -302,7 +367,7 @@ public class ReservationManager {
      */
 	public static ArrayList<Integer> getReservationsFromUser(int userID) {
 		User user = AccountManager.getAccount(userID);
-		return AccountManager.getAllreservationNumbers(user);
+		return AccountManager.getAllReservationNumbers(user);
 	}
 	
 	/****************************************************************
@@ -435,6 +500,79 @@ public class ReservationManager {
 		}
 		return newRoomList;
 	}
+
+	/**
+     * Filters a list of rooms by size and availability.
+     * 
+     * @param rooms The list of rooms to filter.
+     * @param roomSize The desired number of beds.
+     * @param hotel The hotel where the rooms are located.
+     * @param startDate The start date of the desired reservation.
+     * @param endDate The end date of the desired reservation.
+     * @return A list of rooms matching the criteria.
+     */
+	public static ArrayList<Room> filterRooms(ArrayList<Room> rooms, Integer numOfBeds, String bedType, Calendar startDate, Calendar endDate) {
+		
+		ArrayList<Room> newRoomList = new ArrayList<>();
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate;
+
+		for (Room room : rooms) {
+
+			
+			if (!newRoomList.contains(room)){
+				newRoomList = filterParameters(room, newRoomList, numOfBeds,bedType);
+
+			}
+			if (DatabaseManager.getAllReservations() != null){
+				for (Reservation reservation : DatabaseManager.getAllReservations()) {
+					if (RoomManager.getRoomID(getRoom(reservation)) == RoomManager.getRoomID(room)) {
+						Calendar reservationStartDate = convertLocalDateToCalendar(reservation.getStartDate());
+						Calendar reservationEndDate = convertLocalDateToCalendar(reservation.getEndDate());
+
+						if ((!startDate.before(reservationEndDate)) || (!endDate.after(reservationStartDate))) {
+
+							newRoomList = filterParameters(room, newRoomList, numOfBeds,bedType);
+
+						}else{
+							if (newRoomList.contains(room)){
+								newRoomList.remove(room);
+							}
+						}
+					} 
+				}
+			}
+			
+
+		}
+		return newRoomList;
+	}
+
+
+	public static ArrayList<Room> filterParameters(Room thisRoom, ArrayList<Room> listOfRooms, Integer numOfBeds, String bedType){
+
+		ArrayList<Room> newRoomList = listOfRooms;
+		if (numOfBeds == null || numOfBeds == RoomManager.getNumberOfBeds(thisRoom)) {
+
+			if(RoomManager.getBedType(thisRoom).equals(bedType) || bedType == null){
+
+				if(!newRoomList.contains(thisRoom)){
+
+					newRoomList.add(thisRoom);
+					//System.out.println("Added Room to List");
+				}
+
+			}
+
+		}
+
+		return newRoomList;
+
+	}
+
+
+
 
 	/**
      * Lists all room information for a given list of rooms.

@@ -30,10 +30,28 @@ public class RoomManager {
      * @param bedType The type of bed in the room.
      * @param roomDescription A description of the room.
      */
-    public static void createRoom(int numOfBeds, String bedType, String roomDescription) {
+    public static void createRoom(int numOfBeds, String bedType, String description) {
+        String roomDescription = description;
         int roomNumber = getNextRoomNumber();  // Get next room number
         double pricePerNight = calcPricePerNight(roomNumber, numOfBeds, bedType);  // Calculate price per night
         int roomID = HotelManager.getHotelID(HotelManager.getCurrentHotel()) * 1000 + roomNumber;
+
+        // If no Description generate description
+        if (roomDescription.equals("")) {
+            StringBuilder receipt = new StringBuilder();
+            String capitalizedBedType = bedType.substring(0, 1).toUpperCase() + bedType.substring(1);
+            String formatedPricePerNight = String.format("%.2f", pricePerNight);
+
+            receipt.append("This room has " + numOfBeds + " " + capitalizedBedType + " sized bed(s).\n");
+            int roomFloor = roomNumber / 100;
+            if (roomFloor == 0) {
+                receipt.append("It is on the ground floor.\n");
+            } else {
+                receipt.append("It is on floor " + roomFloor + ".\n");
+            }
+            receipt.append("This room costs " + formatedPricePerNight + " per night.");
+            roomDescription = receipt.toString();
+        } 
 
         // Create Room
         Room newRoom = new Room(roomID, roomNumber, numOfBeds, bedType, pricePerNight, roomDescription);
@@ -42,6 +60,7 @@ public class RoomManager {
         HotelManager.addRoomToHotel(newRoom);
         DatabaseConnector.addRoom(newRoom);
     }
+
 
     /**
      * Removes a room from the current hotel.

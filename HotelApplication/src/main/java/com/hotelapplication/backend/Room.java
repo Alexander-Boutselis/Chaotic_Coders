@@ -173,19 +173,8 @@ public class Room {
         receipt.append("\n");
         receipt.append("Description: \n");
 
-        // If no Description generate description
-        if (roomDescription.equals("")) {
-            receipt.append("This room has " + numOfBeds + " " + capitalizedBedType + " sized bed(s).\n");
-            int roomFloor = roomNumber / 100;
-            if (roomFloor == 0) {
-                receipt.append("It is on the ground floor.\n");
-            } else {
-                receipt.append("It is on the " + roomFloor + " floor.\n");
-            }
-            receipt.append("This room costs " + formatedPricePerNight + " per night.");
-        } else {
-            receipt.append(roomDescription);
-        }
+        receipt.append(roomDescription);
+        
         receipt.append("\n***********************\n");
         return receipt.toString();
     }

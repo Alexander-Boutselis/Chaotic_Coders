@@ -37,7 +37,7 @@ public class Main {
 
         try {
             //DatabaseConnector.deleteDatabaseFile();
-            // Initialize the database and application
+            
             DatabaseConnector.initializeApplication();
 
         } catch (Exception e) {
@@ -46,9 +46,8 @@ public class Main {
         }
 
         try {
-            // Prompt the user to choose between GUI and terminal operation
-            //TestClass.runTestCases();
-            promptForGUI(scanner);
+            
+            GUIManager.runAppGUI();
 
             // Print the current database tables for verification
             DatabaseConnector.printAllTables();
@@ -65,29 +64,6 @@ public class Main {
             System.exit(0);
         }
     } // End of main
-
-    /**
-     * Prompts the user to decide whether to launch the application in GUI mode or run it in the terminal.
-     *
-     * @param scanner the Scanner object used to get user input
-     */
-    public static void promptForGUI(Scanner scanner) {
-        String choice;
-
-        System.out.println("\n---Launch GUI---");
-        System.out.println("Would you like to launch the GUI (Y/N): ");
-
-        choice = scanner.nextLine().toLowerCase();
-
-        if (choice.charAt(0) == 'y') {
-            // Launch the application GUI
-            GUIManager.runAppGUI();
-        } else {
-            // Run the application in the terminal
-
-            GUIManager.runAppInTerminal(scanner);
-        }
-    }
 
     /**
      * Debug method for setting the program state. Allows selection between different user states.

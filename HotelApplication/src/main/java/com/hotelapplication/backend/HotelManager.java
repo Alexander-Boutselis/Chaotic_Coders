@@ -268,6 +268,20 @@ public class HotelManager {
         return DatabaseConnector.translateRoomFromDatabase(roomID);
     }
 
+
+    /**
+     * Gets a 
+     *
+     * @param hotel 
+     * @return 
+     */
+    public static double calcHotelEarnings() {
+        double earnings = 0;
+        return earnings;
+    }
+
+
+
     /****************************************************************
      *                            Adders                            *
      ****************************************************************/
@@ -369,6 +383,15 @@ public class HotelManager {
      */
     public static ArrayList<Reservation> getAllReservations(Hotel hotel) {
         return hotel.getAllReservations();
+    }
+
+    /**
+     * Retrieves all reservations from the specified hotel.
+     *
+     * @return A list of all reservations in the hotel.
+     */
+    public static ArrayList<Reservation> getAllReservations() {
+        return DatabaseManager.getCurrentHotel().getAllReservations();
     }
     
     /**
