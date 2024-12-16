@@ -331,7 +331,15 @@ public class HotelManager {
      * @param newRoom The room object to be removed.
      */
     public static void removeRoomHotel(Room newRoom) {
+        for (Integer reservationID : RoomManager.getAllReservationNumbers(newRoom)){
+           ReservationManager.cancelReservation(ReservationManager.getReservation(reservationID));
+        }
+
+        //Remove Room from hotel
         DatabaseManager.getCurrentHotel().removeRoom(newRoom.getRoomNumber());
+
+        //Remove Room from Database
+        DatabaseConnector.removeItemFromDatabase(newRoom);
     }
 
     /**

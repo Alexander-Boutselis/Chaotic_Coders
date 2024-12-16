@@ -37,7 +37,6 @@ public class Main {
 
         try {
             //DatabaseConnector.deleteDatabaseFile();
-            
             DatabaseConnector.initializeApplication();
 
         } catch (Exception e) {
@@ -51,7 +50,6 @@ public class Main {
 
             // Print the current database tables for verification
             DatabaseConnector.printAllTables();
-           
             //TestClass.testPrints();
             
 

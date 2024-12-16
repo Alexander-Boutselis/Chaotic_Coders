@@ -20,9 +20,9 @@ public class Reservation {
 
 	// Private Fields
 	private Integer reservationID;
-	private int assignedUserID;
-	private int roomID;
-	private int hotelID;
+	private Integer assignedUserID;
+	private Integer roomID;
+	private Integer hotelID;
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private double totalPrice;
@@ -35,7 +35,7 @@ public class Reservation {
      * @param startDate Start date of the reservation.
      * @param endDate End date of the reservation.
      */
-	public Reservation(int assignedUserID, int roomID, LocalDate startDate, LocalDate endDate) {
+	public Reservation(Integer assignedUserID, Integer roomID, LocalDate startDate, LocalDate endDate) {
 		this.reservationID = null;
 		this.assignedUserID = assignedUserID;
 		this.roomID = roomID;
@@ -141,7 +141,7 @@ public class Reservation {
      * 
      * @return The room ID.
      */
-	public int getRoomID() {
+	public Integer getRoomID() {
 		return roomID;
 	}
 

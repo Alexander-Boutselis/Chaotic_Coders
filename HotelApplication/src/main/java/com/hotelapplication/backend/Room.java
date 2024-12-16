@@ -61,7 +61,7 @@ public class Room {
      *
      * @return The ID of the room.
      */
-    public int getRoomID() {
+    public Integer getRoomID() {
         return roomID;
     }
 
