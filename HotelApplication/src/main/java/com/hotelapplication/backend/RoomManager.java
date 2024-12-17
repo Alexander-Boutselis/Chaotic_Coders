@@ -38,7 +38,19 @@ public class RoomManager {
 
         // If no Description generate description
         if (roomDescription.equals("")) {
-           roomDescription = generateRoomDescription(numOfBeds, bedType, roomNumber, pricePerNight);
+            StringBuilder receipt = new StringBuilder();
+            String capitalizedBedType = bedType.substring(0, 1).toUpperCase() + bedType.substring(1);
+            String formatedPricePerNight = String.format("%.2f", pricePerNight);
+
+            receipt.append("This room has " + numOfBeds + " " + capitalizedBedType + " sized bed(s).\n");
+            int roomFloor = roomNumber / 100;
+            if (roomFloor == 0) {
+                receipt.append("It is on the ground floor.\n");
+            } else {
+                receipt.append("It is on floor " + roomFloor + ".\n");
+            }
+            receipt.append("This room costs " + formatedPricePerNight + " per night.");
+            roomDescription = receipt.toString();
         } 
 
         // Create Room
@@ -66,6 +78,7 @@ public class RoomManager {
         return receipt.toString();
     
     }
+    
 
     /**
      * Removes a room from the current hotel.
@@ -202,11 +215,8 @@ public class RoomManager {
      * @param room The room object.
      * @return The room ID.
      */
-    public static Integer getRoomID(Room room) {
-        if (room.getRoomID() != null) {
-            return room.getRoomID();
-        }
-        return null;
+    public static int getRoomID(Room room) {
+        return room.getRoomID();
     }
 
     /****************************************************************
