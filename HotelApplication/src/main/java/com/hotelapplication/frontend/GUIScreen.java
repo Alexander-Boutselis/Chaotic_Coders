@@ -54,7 +54,7 @@ public class GUIScreen extends javax.swing.JFrame {
     private static final java.awt.Dimension STANDARD_FIELD_DIMENSIONS = new java.awt.Dimension(350, 30);
     private static final java.awt.Dimension SIDE_PANEL_FIELD_DIMENSIONS = new java.awt.Dimension(175, 30);
     private static final java.awt.Dimension TILE_DIMENSIONS = new java.awt.Dimension(X_TILE_DIMENSION_ONLY, 200);
-    private static final java.awt.Dimension TALL_TILE_DIMENSIONS = new java.awt.Dimension(600, 225);
+    private static final java.awt.Dimension TALL_TILE_DIMENSIONS = new java.awt.Dimension(600, 275);
 
 
 
@@ -1040,7 +1040,7 @@ public class GUIScreen extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
 
         for (Reservation reservation : reservations) {
 
@@ -1081,16 +1081,23 @@ public class GUIScreen extends javax.swing.JFrame {
 
             // Start Date
             javax.swing.JLabel startDateLabel = new javax.swing.JLabel("Start Date: " + ReservationManager.getStartDate(reservation).toString());
-            startDateLabel.setFont(TILE_BODY_FONT_BOLD);
+            startDateLabel.setFont(TILE_BODY_FONT);
             tileConstraints.anchor = java.awt.GridBagConstraints.CENTER;
             reservationTile.add(startDateLabel, tileConstraints);
             tileConstraints.gridy++;
 
             // End Date
             javax.swing.JLabel endDateLabel = new javax.swing.JLabel("End Date: " + ReservationManager.getEndDate(reservation).toString());
-            endDateLabel.setFont(TILE_BODY_FONT_BOLD);
+            endDateLabel.setFont(TILE_BODY_FONT);
             tileConstraints.anchor = java.awt.GridBagConstraints.CENTER;
             reservationTile.add(endDateLabel, tileConstraints);
+            tileConstraints.gridy++;
+
+            // Total Price
+            javax.swing.JLabel reservationPriceLabel = new javax.swing.JLabel("Total Price: $" + ReservationManager.getTotalPrice(reservation));
+            reservationPriceLabel.setFont(TILE_BODY_FONT);
+            tileConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
+            reservationTile.add(reservationPriceLabel, tileConstraints);
             tileConstraints.gridy++;
 
             // Cancel Reservation Button
@@ -1135,6 +1142,11 @@ public class GUIScreen extends javax.swing.JFrame {
 
             reservationTile.add(gapSpacer, tileConstraints);
             tileConstraints.gridy++;
+
+            Dimension setWidth = reservationTile.getPreferredSize();
+            setWidth.width = X_TILE_DIMENSION_ONLY;     
+            reservationTile.setPreferredSize(setWidth);
+
             reservationTilesPanel.add(reservationTile, gridBagConstraints);
             gridBagConstraints.gridy++;
 
@@ -1335,6 +1347,13 @@ public class GUIScreen extends javax.swing.JFrame {
                 roomTile.add(roomDescriptionLabel, tileConstraints);
                 tileConstraints.gridy++;
             }
+
+            // Total Price
+            javax.swing.JLabel reservationPriceLabel = new javax.swing.JLabel("Price Per Night: $" + RoomManager.getPricePerNight(room));
+            reservationPriceLabel.setFont(TILE_BODY_FONT);
+            tileConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
+            roomTile.add(reservationPriceLabel, tileConstraints);
+            tileConstraints.gridy++;
             
             // Select Button
             javax.swing.JButton selectButton = new javax.swing.JButton("Select");
@@ -1733,6 +1752,13 @@ public class GUIScreen extends javax.swing.JFrame {
                 roomTile.add(roomDescriptionLabel, tileConstraints);
                 tileConstraints.gridy++;
             }
+
+            // Total Price
+            javax.swing.JLabel reservationPriceLabel = new javax.swing.JLabel("Price Per Night: $" + RoomManager.getPricePerNight(room));
+            reservationPriceLabel.setFont(TILE_BODY_FONT);
+            tileConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
+            roomTile.add(reservationPriceLabel, tileConstraints);
+            tileConstraints.gridy++;
             
             // Select Button
             javax.swing.JButton selectButton = new javax.swing.JButton("Select");
@@ -1779,7 +1805,7 @@ public class GUIScreen extends javax.swing.JFrame {
 
                             int currentReservationID = ReservationManager.getReservationID(currentReservation);
                             System.out.println(currentReservationID);
-                            Reservation updatedReservation = new Reservation(currentReservationID, AccountManager.getUserID(), thisRoomID, ReservationManager.convertCalendarToLocalDate(startDate), ReservationManager.convertCalendarToLocalDate(endDate));
+                            Reservation updatedReservation = new Reservation(currentReservationID, ReservationManager.getAssignedUserID(currentReservation), thisRoomID, ReservationManager.convertCalendarToLocalDate(startDate), ReservationManager.convertCalendarToLocalDate(endDate));
                             DatabaseConnector.updateReservationInDatabase(updatedReservation);
                             reservationMade = true;
                         }
@@ -2547,6 +2573,7 @@ public class GUIScreen extends javax.swing.JFrame {
         contentMainPanel.repaint();
     }
 
+
     public void createHotelScreen(){
         // Clear contentMainPanel
         contentMainPanel.removeAll();
@@ -2605,7 +2632,7 @@ public class GUIScreen extends javax.swing.JFrame {
         quitActionButton.addActionListener(event -> GUIManager.closeApplication());
         actionButton.addActionListener(event -> returnToScreen());
         
-        discardChangesButton.addActionListener(event-> selectHotelScreenManager());
+        discardChangesButton.addActionListener(event-> returnToScreen());
 
         createHotelButton.addActionListener(event-> {
             //Check if any values have changed
@@ -2681,6 +2708,7 @@ public class GUIScreen extends javax.swing.JFrame {
         contentMainPanel.revalidate();
         contentMainPanel.repaint();
     }
+
 
     public void addRoomScreen(){
         // Clear contentMainPanel
@@ -2919,6 +2947,7 @@ public class GUIScreen extends javax.swing.JFrame {
         contentMainPanel.revalidate();
         contentMainPanel.repaint();
     }
+
 
     public void editRoomScreen(Room room){
         Integer roomNumber = RoomManager.getRoomNumber(room);
@@ -3197,6 +3226,7 @@ public class GUIScreen extends javax.swing.JFrame {
         contentMainPanel.repaint();
     }
 
+
     public void returnToScreen(){
     	if(DatabaseManager.getCurrentUser() == null){
 			loginScreen();
@@ -3206,7 +3236,6 @@ public class GUIScreen extends javax.swing.JFrame {
     		userWelcomeScreen();
 		}
     }
-
 
 }
 

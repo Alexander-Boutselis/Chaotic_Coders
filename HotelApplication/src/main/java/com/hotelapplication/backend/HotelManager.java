@@ -277,6 +277,10 @@ public class HotelManager {
      */
     public static double calcHotelEarnings() {
         double earnings = 0;
+        for (Reservation reservation : getAllReservations()) {
+           earnings += ReservationManager.getTotalPrice(reservation);
+        }
+        ;
         return earnings;
     }
 
