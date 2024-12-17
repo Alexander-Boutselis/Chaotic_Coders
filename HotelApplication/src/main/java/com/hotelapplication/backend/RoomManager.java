@@ -30,7 +30,7 @@ public class RoomManager {
      * @param bedType The type of bed in the room.
      * @param roomDescription A description of the room.
      */
-    public static void createRoom(int numOfBeds, String bedType, String description) {
+    public static Room createRoom(int numOfBeds, String bedType, String description) {
         String roomDescription = description;
         int roomNumber = getNextRoomNumber();  // Get next room number
         double pricePerNight = calcPricePerNight(roomNumber, numOfBeds, bedType);  // Calculate price per night
@@ -38,19 +38,7 @@ public class RoomManager {
 
         // If no Description generate description
         if (roomDescription.equals("")) {
-            StringBuilder receipt = new StringBuilder();
-            String capitalizedBedType = bedType.substring(0, 1).toUpperCase() + bedType.substring(1);
-            String formatedPricePerNight = String.format("%.2f", pricePerNight);
-
-            receipt.append("This room has " + numOfBeds + " " + capitalizedBedType + " sized bed(s).\n");
-            int roomFloor = roomNumber / 100;
-            if (roomFloor == 0) {
-                receipt.append("It is on the ground floor.\n");
-            } else {
-                receipt.append("It is on floor " + roomFloor + ".\n");
-            }
-            receipt.append("This room costs " + formatedPricePerNight + " per night.");
-            roomDescription = receipt.toString();
+            roomDescription = generateRoomDescription(numOfBeds, bedType, roomNumber, pricePerNight);
         } 
 
         // Create Room
@@ -59,6 +47,7 @@ public class RoomManager {
         // Add Room to Current Hotel
         HotelManager.addRoomToHotel(newRoom);
         DatabaseConnector.addRoom(newRoom);
+        return newRoom;
     }
 
     public static String generateRoomDescription(int numOfBeds, String bedType, int roomNumber, double pricePerNight){
@@ -78,7 +67,7 @@ public class RoomManager {
         return receipt.toString();
     
     }
-    
+
 
     /**
      * Removes a room from the current hotel.
@@ -136,6 +125,23 @@ public class RoomManager {
     public static int getNextRoomNumber() {
         int nextRoomNumber = 1;
         for (Room room : HotelManager.getAllHotelRooms()) {
+            int roomNumber = getRoomNumber(room);
+            if (roomNumber <= nextRoomNumber) {
+                nextRoomNumber = roomNumber + 1;
+            }
+        }
+        return nextRoomNumber;
+    }
+
+    /**
+     * Gets the next available room number for a new room.
+     *
+     * @param hotel
+     * @return The next available room number.
+     */
+    public static int getNextRoomNumber(Hotel hotel) {
+        int nextRoomNumber = 1;
+        for (Room room : HotelManager.getAllHotelRooms(hotel)) {
             int roomNumber = getRoomNumber(room);
             if (roomNumber <= nextRoomNumber) {
                 nextRoomNumber = roomNumber + 1;

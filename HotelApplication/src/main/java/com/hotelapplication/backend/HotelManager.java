@@ -326,6 +326,16 @@ public class HotelManager {
     }
 
     /**
+     * Removes a hotel from the database by its name.
+     *
+     */
+    public static void removeHotel() {
+        String searchHotelName = HotelManager.getHotelName(DatabaseManager.getCurrentHotel());
+        DatabaseManager.setCurrentHotel(null);
+        DatabaseManager.removeHotel(searchHotelName);
+    }
+
+    /**
      * Removes a room from the current hotel by its room number.
      *
      * @param newRoom The room object to be removed.

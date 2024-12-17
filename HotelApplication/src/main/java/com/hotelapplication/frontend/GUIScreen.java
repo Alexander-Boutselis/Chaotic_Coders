@@ -2028,7 +2028,7 @@ public class GUIScreen extends javax.swing.JFrame {
         editAccountActionButton.addActionListener(event -> editAccountScreen());
         quitActionButton.addActionListener(event -> GUIManager.closeApplication());
         viewReservationsActionButton.addActionListener(event -> viewReservationsScreen(DatabaseManager.getAllReservations()));
-
+        createHotelActionButton.addActionListener(event -> createHotelScreen());
         // --- Buttons Panel with GridBagLayout ---
         javax.swing.JPanel buttonsPanel = new javax.swing.JPanel(new java.awt.GridBagLayout());
         buttonsPanel.setBackground(SECONDARY_BACKGROUND_COLOR);
@@ -2209,10 +2209,6 @@ public class GUIScreen extends javax.swing.JFrame {
     }
 
 
-    public void createHotelScreen(){
-
-    }
-
     public void editHotelScreen(){
         String hotelName = HotelManager.getHotelName();
         String hotelAddress = HotelManager.getHotelAddress();
@@ -2309,6 +2305,18 @@ public class GUIScreen extends javax.swing.JFrame {
         quitActionButton.addActionListener(event -> GUIManager.closeApplication());
         actionButton.addActionListener(event -> selectHotelScreenManager());
         deleteHotelButton.addActionListener(event -> {
+            int confirmation = JOptionPane.showConfirmDialog(
+                null,
+                "Are you sure you want to delete this Hotel? This action cannot be undone.",
+                "Confirm Deletion",
+                JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirmation == JOptionPane.YES_OPTION) {
+                DatabaseConnector.removeItemFromDatabase(DatabaseManager.getCurrentHotel());
+                HotelManager.removeHotel();
+                selectHotelScreenManager();
+            }
 
         });
         addRoomButton.addActionListener(event -> addRoomScreen());
@@ -2324,8 +2332,6 @@ public class GUIScreen extends javax.swing.JFrame {
                 HotelManager.setHotelName(enteredHotelName);
             }
 
-            System.out.println(hotelAddress);
-            System.out.println(enteredHoteAddress);
             if (!enteredHoteAddress.equals(hotelAddress) && enteredHoteAddress != null) {
                 HotelManager.setHotelAddress(enteredHoteAddress);
             }
@@ -2432,13 +2438,13 @@ public class GUIScreen extends javax.swing.JFrame {
             tileConstraints.anchor = java.awt.GridBagConstraints.CENTER;
             tileConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
 
-            // Room Number - Centered
+            // --- Room Number ---
             javax.swing.JLabel roomNumberLabel = new javax.swing.JLabel("#" + RoomManager.getRoomNumber(room));
             roomNumberLabel.setFont(TILE_HEADER_FONT);
             roomNumberLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             roomTile.add(roomNumberLabel, tileConstraints);
 
-            // Number of Beds and Bed Type - Centered
+            // --- Number of Beds and Bed Type ---
             tileConstraints.gridy++;
             String bedType = RoomManager.getBedType(room);
             int numOfBeds = RoomManager.getNumberOfBeds(room);
@@ -2448,26 +2454,24 @@ public class GUIScreen extends javax.swing.JFrame {
             bedTypeLabelComponent.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             roomTile.add(bedTypeLabelComponent, tileConstraints);
 
-            // Room Description - Centered TextPane without Border
+            // --- Room Description Section ---
             tileConstraints.gridy++;
             tileConstraints.anchor = java.awt.GridBagConstraints.CENTER;
-            tileConstraints.fill = java.awt.GridBagConstraints.NONE; // Prevent stretching
+            tileConstraints.fill = java.awt.GridBagConstraints.NONE;
 
             String description = RoomManager.getRoomDescription(room);
             if (description.isEmpty()) {
                 description = RoomManager.generateRoomDescription(numOfBeds, bedType, RoomManager.getRoomNumber(room), RoomManager.getPricePerNight(room));
             }
 
-            // Use JTextPane instead of JTextArea
             javax.swing.JTextPane roomDescriptionPane = new javax.swing.JTextPane();
             roomDescriptionPane.setText(description);
             roomDescriptionPane.setFont(TILE_BODY_FONT);
             roomDescriptionPane.setEditable(false);
             roomDescriptionPane.setBackground(TILE_BACKGROUND_COLOR);
-            roomDescriptionPane.setOpaque(false); // Ensure it blends with background
-            roomDescriptionPane.setBorder(null);  // Remove border
+            roomDescriptionPane.setOpaque(false);
+            roomDescriptionPane.setBorder(null);
 
-            // Center-align the text using StyledDocument and SimpleAttributeSet
             javax.swing.text.SimpleAttributeSet centerAlign = new javax.swing.text.SimpleAttributeSet();
             javax.swing.text.StyleConstants.setAlignment(centerAlign, javax.swing.text.StyleConstants.ALIGN_CENTER);
             javax.swing.text.StyleConstants.setFontFamily(centerAlign, TILE_BODY_FONT.getFamily());
@@ -2478,14 +2482,14 @@ public class GUIScreen extends javax.swing.JFrame {
             roomDescriptionPane.setPreferredSize(new java.awt.Dimension((int) (TILE_DIMENSIONS.width * 0.8), 80));
             roomTile.add(roomDescriptionPane, tileConstraints);
 
-            // Price Per Night - Centered
+            // --- Price Per Night ---
             tileConstraints.gridy++;
             javax.swing.JLabel roomPriceLabel = new javax.swing.JLabel("Price Per Night: $" + RoomManager.getPricePerNight(room));
             roomPriceLabel.setFont(TILE_BODY_FONT_BOLD);
             roomPriceLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             roomTile.add(roomPriceLabel, tileConstraints);
 
-            // Edit and Delete Buttons - Centered
+            // --- Edit and Delete Buttons ---
             tileConstraints.gridy++;
             javax.swing.JButton editButton = new javax.swing.JButton("Edit");
             editButton.setBackground(BUTTON_BACKGROUND_COLOR);
@@ -2510,14 +2514,12 @@ public class GUIScreen extends javax.swing.JFrame {
             buttonPanel.add(deleteButton);
             roomTile.add(buttonPanel, tileConstraints);
 
-            // Ensure tile height adjusts dynamically
             roomTile.setPreferredSize(new java.awt.Dimension(TILE_DIMENSIONS.width, Math.max(200, roomTile.getPreferredSize().height)));
-
             roomTilesPanel.add(roomTile, gridBagConstraints);
             gridBagConstraints.gridy++;
         }
 
-        // Add a scroll pane for the room tiles panel
+        // Scroll Pane
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(roomTilesPanel);
         scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -2545,21 +2547,142 @@ public class GUIScreen extends javax.swing.JFrame {
         contentMainPanel.repaint();
     }
 
-    public void addHotelScreen(){
+    public void createHotelScreen(){
+        // Clear contentMainPanel
+        contentMainPanel.removeAll();
+
+        // --- Main Wrapper Panel for White Background ---
+        javax.swing.JPanel whiteBackgroundPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+        whiteBackgroundPanel.setBackground(SECONDARY_BACKGROUND_COLOR);
+
+        // --- Header Label ---
+        javax.swing.JLabel headerTitleLabel = new javax.swing.JLabel("Create Hotel");
+        headerTitleLabel.setFont(HEADER_FONT);
+        headerTitleLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+        headerTitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        // --- Buttons ---
+        javax.swing.JButton actionButton = new javax.swing.JButton("Back");
+        actionButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        actionButton.setForeground(BUTTON_TEXT_COLOR);
+        actionButton.setPreferredSize(QUIT_BUTTON_DIMENSIONS);
+
+        javax.swing.JButton quitActionButton = new javax.swing.JButton("Quit");
+        quitActionButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        quitActionButton.setForeground(BUTTON_TEXT_COLOR);
+        quitActionButton.setPreferredSize(QUIT_BUTTON_DIMENSIONS);
+
+        // --- Hotel Name Section ---
+        javax.swing.JLabel hotelNameLabel = new javax.swing.JLabel("Hotel Name");
+        hotelNameLabel.setFont(BODY_FONT);
+        hotelNameLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+
+        javax.swing.JTextField hotelNameField = new javax.swing.JTextField(20);
+        hotelNameField.setFont(BODY_FONT);
+        hotelNameField.setPreferredSize(STANDARD_FIELD_DIMENSIONS);
+
+        // --- Hotel Address Section ---
+        javax.swing.JLabel hotelAddressLabel = new javax.swing.JLabel("Hotel Address");
+        hotelAddressLabel.setFont(BODY_FONT);
+        hotelAddressLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+
+        javax.swing.JTextField hotelAddressField = new javax.swing.JTextField(20);
+        hotelAddressField.setFont(BODY_FONT);
+        hotelAddressField.setPreferredSize(STANDARD_FIELD_DIMENSIONS);
+
+        // --- Create and Discard Buttons ---
+        javax.swing.JButton createHotelButton = new javax.swing.JButton("Create");
+        createHotelButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        createHotelButton.setForeground(BUTTON_TEXT_COLOR);
+        createHotelButton.setPreferredSize(QUIT_BUTTON_DIMENSIONS);
+
+        javax.swing.JButton discardChangesButton = new javax.swing.JButton("Discrad");
+        discardChangesButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        discardChangesButton.setForeground(BUTTON_TEXT_COLOR);
+        discardChangesButton.setPreferredSize(QUIT_BUTTON_DIMENSIONS);
+
+        // --- Listener for Interaction ---
+        quitActionButton.addActionListener(event -> GUIManager.closeApplication());
+        actionButton.addActionListener(event -> returnToScreen());
         
+        discardChangesButton.addActionListener(event-> selectHotelScreenManager());
+
+        createHotelButton.addActionListener(event-> {
+            //Check if any values have changed
+            String enteredHotelName = hotelNameField.getText().trim();
+            String enteredHoteAddress = hotelAddressField.getText().trim();
+
+            if (enteredHotelName == null) {
+                JOptionPane.showMessageDialog(this, "Please Enter a Name for this Hotel", "Create Hotel Error", JOptionPane.ERROR_MESSAGE);
+                
+            } else if (enteredHoteAddress == null) {
+                JOptionPane.showMessageDialog(this, "Please Enter an Address for this Hotel", "Create Hotel Error", JOptionPane.ERROR_MESSAGE);
+                
+            } else{
+                HotelManager.createHotel(enteredHotelName, enteredHoteAddress);
+                JOptionPane.showMessageDialog(this, "New Hotel created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                returnToScreen();
+            }
+        });
+        
+        // --- Layout ---
+        javax.swing.JPanel componentsPanel = new javax.swing.JPanel(new java.awt.GridBagLayout());
+        componentsPanel.setBackground(SECONDARY_BACKGROUND_COLOR);
+
+        java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = STANDARD_INSETS;
+        
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        componentsPanel.add(hotelNameLabel, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        componentsPanel.add(hotelNameField, gridBagConstraints);
+        
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        componentsPanel.add(hotelAddressLabel, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        componentsPanel.add(hotelAddressField, gridBagConstraints);
+        
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
+        componentsPanel.add(discardChangesButton, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        componentsPanel.add(createHotelButton, gridBagConstraints);
+
+
+        // --- Wrapper panel for quit button ---
+        javax.swing.JPanel quitButtonPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
+        quitButtonPanel.setBackground(SECONDARY_BACKGROUND_COLOR);
+        quitButtonPanel.add(actionButton);
+        quitButtonPanel.add(quitActionButton);
+        
+        // --- Add Components to White Background Panel ---
+        whiteBackgroundPanel.add(headerTitleLabel, java.awt.BorderLayout.NORTH);
+        whiteBackgroundPanel.add(componentsPanel, java.awt.BorderLayout.CENTER);
+
+        // --- Add White Background Panel to Content Main Panel ---
+        contentMainPanel.setLayout(new java.awt.BorderLayout());
+        contentMainPanel.add(whiteBackgroundPanel, java.awt.BorderLayout.CENTER);
+        contentMainPanel.add(quitButtonPanel, java.awt.BorderLayout.SOUTH);
+
+        contentMainPanel.revalidate();
+        contentMainPanel.repaint();
     }
 
     public void addRoomScreen(){
-
-    }
-
-    public void editRoomScreen(Room room){
-        Integer roomNumber = RoomManager.getRoomNumber(room);
-        Integer numOfBeds = RoomManager.getNumberOfBeds(room);
-        String bedType = RoomManager.getBedType(room);
-        String roomDescription = RoomManager.getRoomDescription(room);
-        double pricePerNight = RoomManager.getPricePerNight(room);
-
         // Clear contentMainPanel
         contentMainPanel.removeAll();
 
@@ -2585,7 +2708,8 @@ public class GUIScreen extends javax.swing.JFrame {
         quitActionButton.setPreferredSize(QUIT_BUTTON_DIMENSIONS);
 
         // --- Room Number Section ---
-        javax.swing.JLabel roomIDLabel = new javax.swing.JLabel("#" + RoomManager.getRoomID(room));
+        int nextRoomNum = RoomManager.getNextRoomNumber();
+        javax.swing.JLabel roomIDLabel = new javax.swing.JLabel("#" + HotelManager.getHotelID() + ((nextRoomNum <= 10) ? ("00" + nextRoomNum) : (nextRoomNum >= 100) ?  nextRoomNum : ("0" + nextRoomNum)));
         roomIDLabel.setFont(BODY_FONT_BOLD);
         roomIDLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
 
@@ -2595,37 +2719,30 @@ public class GUIScreen extends javax.swing.JFrame {
 
         javax.swing.JTextField roomNumberSpinner = new javax.swing.JTextField(20);
         roomNumberSpinner.setFont(BODY_FONT);
-        roomNumberSpinner.setText(roomNumber.toString());
         roomNumberSpinner.setPreferredSize(STANDARD_FIELD_DIMENSIONS);
-
-        //SpinnerNumberModel numberModel = new SpinnerNumberModel(0, 0, 100, 1);
-        //JSpinner roomNumberSpinner = new JSpinner(numberModel);
-        //roomNumberSpinner.setPreferredSize(STANDARD_FIELD_DIMENSIONS);
-        //roomNumberSpinner.setFont(BODY_FONT);
-        //roomNumberSpinner.setValue(roomNumber);
+        roomNumberSpinner.setText("" + nextRoomNum);
 
         // --- Number of Beds Section ---
-        javax.swing.JLabel numOfBedsLabel = new javax.swing.JLabel(numOfBeds + (numOfBeds > 1 ? " beds" : " bed"));
+        javax.swing.JLabel numOfBedsLabel = new javax.swing.JLabel("Number of Beds");
         numOfBedsLabel.setFont(BODY_FONT);
         numOfBedsLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
 
-        Integer[] numOfBedsList = { 1, 2, 3, 4, 5 };
+        Integer[] numOfBedsList = {null, 1, 2, 3, 4, 5 };
         JComboBox<Integer>numOfBedsDropdown = new JComboBox<>(numOfBedsList);
         numOfBedsDropdown.setFont(BODY_FONT);
         numOfBedsDropdown.setPreferredSize(STANDARD_FIELD_DIMENSIONS);
-        numOfBedsDropdown.setSelectedItem(numOfBeds);
+        numOfBedsDropdown.setSelectedItem(null);
 
         // --- Bed Type Section ---
         javax.swing.JLabel bedTypeLabel = new javax.swing.JLabel("Bed Type:");
         bedTypeLabel.setFont(BODY_FONT);
         bedTypeLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
 
-        String[] bedTypes = { "Twin", "Queen", "King", "Full", "Suite" };
+        String[] bedTypes = {"", "Twin", "Queen", "King", "Full", "Suite" };
         JComboBox<String> bedTypeDropdown = new JComboBox<>(bedTypes);
         bedTypeDropdown.setFont(BODY_FONT);
         bedTypeDropdown.setPreferredSize(STANDARD_FIELD_DIMENSIONS);
-        bedType = bedType.substring(0, 1).toUpperCase() + bedType.substring(1).toLowerCase();
-        bedTypeDropdown.setSelectedItem(bedType);
+        bedTypeDropdown.setSelectedItem("");
 
         // --- Room Description Section
         javax.swing.JLabel roomDescriptionLabel = new javax.swing.JLabel("Description:");
@@ -2634,7 +2751,6 @@ public class GUIScreen extends javax.swing.JFrame {
 
         JTextArea roomDescriptionTextArea = new JTextArea(5, 20);
         roomDescriptionTextArea.setFont(BODY_FONT);
-        roomDescriptionTextArea.setText(roomDescription);
         roomDescriptionTextArea.setLineWrap(true);
         roomDescriptionTextArea.setWrapStyleWord(true);
         roomDescriptionTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -2644,56 +2760,63 @@ public class GUIScreen extends javax.swing.JFrame {
         pricePerNightLabel.setFont(BODY_FONT);
         pricePerNightLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
 
-        // Create a NumberFormat for currency
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
-
-        // Create a JFormattedTextField with the currency format
-        JFormattedTextField pricePerNightField = new JFormattedTextField(currencyFormat);
+        javax.swing.JTextField pricePerNightField = new javax.swing.JTextField(20);
         pricePerNightField.setFont(BODY_FONT);
         pricePerNightField.setPreferredSize(STANDARD_FIELD_DIMENSIONS);
-        pricePerNightField.setValue(pricePerNight);
-        pricePerNightField.setColumns(20); 
+
+        javax.swing.JLabel pricePerNightMessageLabel = new javax.swing.JLabel("Leave blank for calculated price");
+        pricePerNightMessageLabel.setFont(BODY_FONT);
+        pricePerNightMessageLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
 
         // --- Save and Discard Buttons ---
-        javax.swing.JButton saveChangesButton = new javax.swing.JButton("Save");
-        saveChangesButton.setBackground(BUTTON_BACKGROUND_COLOR);
-        saveChangesButton.setForeground(BUTTON_TEXT_COLOR);
-        saveChangesButton.setPreferredSize(QUIT_BUTTON_DIMENSIONS);
+        javax.swing.JButton createRoomButton = new javax.swing.JButton("Create");
+        createRoomButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        createRoomButton.setForeground(BUTTON_TEXT_COLOR);
+        createRoomButton.setPreferredSize(QUIT_BUTTON_DIMENSIONS);
 
         javax.swing.JButton discardChangesButton = new javax.swing.JButton("Discrad");
         discardChangesButton.setBackground(BUTTON_BACKGROUND_COLOR);
         discardChangesButton.setForeground(BUTTON_TEXT_COLOR);
         discardChangesButton.setPreferredSize(QUIT_BUTTON_DIMENSIONS);
-        
-        // --- Delete Room Buttons ---
-        javax.swing.JButton deleteRoomButton = new javax.swing.JButton("Delete Room");
-        deleteRoomButton.setBackground(BUTTON_BACKGROUND_COLOR);
-        deleteRoomButton.setForeground(BUTTON_TEXT_COLOR);
-        deleteRoomButton.setPreferredSize(SIGN_OUT_BUTTON_DIMENSIONS);
 
         // --- Listener for Interaction ---
         quitActionButton.addActionListener(event -> GUIManager.closeApplication());
         actionButton.addActionListener(event -> returnToScreen());
-        deleteRoomButton.addActionListener(event-> {
-            int confirmation = JOptionPane.showConfirmDialog(
-                null,
-                "Are you sure you want to delete this Room? This action cannot be undone.",
-                "Confirm Deletion",
-                JOptionPane.YES_NO_OPTION
-            );
-
-            if (confirmation == JOptionPane.YES_OPTION) {
-                HotelManager.removeRoomHotel(room);
-                returnToScreen();
-            }
-        });
         discardChangesButton.addActionListener(event-> {
-            returnToScreen();
+            editHotelScreen();
         });
 
-        saveChangesButton.addActionListener(event-> {
-            //JOptionPane.showMessageDialog(this, "Error, please make sure the old password and new password are different.\nPlease make sure new password matches", "Edit Account Error", JOptionPane.ERROR_MESSAGE);
-            returnToScreen();
+        createRoomButton.addActionListener(event-> {
+            Integer numOfBeds = (Integer) numOfBedsDropdown.getSelectedItem();
+            String bedType = ((String) bedTypeDropdown.getSelectedItem()).trim().toLowerCase();
+            String description = ((String) roomDescriptionTextArea.getText()).trim();
+
+            if (numOfBeds == null) {
+                JOptionPane.showMessageDialog(this, "Please Choose how many beds this room will have", "Create Room Error", JOptionPane.ERROR_MESSAGE);
+            } else if (bedType.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Choose what bed type this room will have", "Create Room Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                Room newRoom = RoomManager.createRoom(numOfBeds, bedType, description);
+
+                // Validate the price input
+                String priceInput = pricePerNightField.getText().trim();
+                if (!priceInput.isEmpty()) {
+                    try {
+                        double pricePerNight = Double.parseDouble(priceInput);
+                        if (pricePerNight < 0) {
+                            throw new NumberFormatException("Negative price");
+                        }
+                        RoomManager.setPricePerNight(newRoom, pricePerNight);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Please enter a valid number for the price per night", "Input Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+
+                JOptionPane.showMessageDialog(this, "New Room created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            editHotelScreen();
         });
         
         // --- Layout ---
@@ -2760,18 +2883,295 @@ public class GUIScreen extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         buttonsPanel.add(pricePerNightField, gridBagConstraints);
 
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        buttonsPanel.add(pricePerNightMessageLabel, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        buttonsPanel.add(createRoomButton, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
+        buttonsPanel.add(discardChangesButton, gridBagConstraints);
+
+
+        // --- Wrapper panel for quit button ---
+        javax.swing.JPanel quitButtonPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER));
+        quitButtonPanel.setBackground(SECONDARY_BACKGROUND_COLOR);
+        quitButtonPanel.add(actionButton);
+        quitButtonPanel.add(quitActionButton);
+
+        // --- Add Components to White Background Panel ---
+        whiteBackgroundPanel.add(headerTitleLabel, java.awt.BorderLayout.NORTH);
+        whiteBackgroundPanel.add(buttonsPanel, java.awt.BorderLayout.CENTER);
+        //whiteBackgroundPanel.add(deleteRoomButton, java.awt.BorderLayout.SOUTH);
+
+        // --- Add White Background Panel to Content Main Panel ---
+        contentMainPanel.setLayout(new java.awt.BorderLayout());
+        contentMainPanel.add(whiteBackgroundPanel, java.awt.BorderLayout.CENTER);
+        contentMainPanel.add(quitButtonPanel, java.awt.BorderLayout.SOUTH);
+
+
+        contentMainPanel.revalidate();
+        contentMainPanel.repaint();
+    }
+
+    public void editRoomScreen(Room room){
+        Integer roomNumber = RoomManager.getRoomNumber(room);
+        Integer numOfBeds = RoomManager.getNumberOfBeds(room);
+        String bedType = RoomManager.getBedType(room);
+        String roomDescription = RoomManager.getRoomDescription(room);
+        double pricePerNight = RoomManager.getPricePerNight(room);
+
+        // Clear contentMainPanel
+        contentMainPanel.removeAll();
+
+        // --- Main Wrapper Panel for White Background ---
+        javax.swing.JPanel whiteBackgroundPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+        whiteBackgroundPanel.setBackground(SECONDARY_BACKGROUND_COLOR);
+
+        // --- Header Label ---
+        javax.swing.JLabel headerTitleLabel = new javax.swing.JLabel("Edit Room");
+        headerTitleLabel.setFont(HEADER_FONT);
+        headerTitleLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+        headerTitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        // --- Buttons ---
+        javax.swing.JButton actionButton = new javax.swing.JButton("Back");
+        actionButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        actionButton.setForeground(BUTTON_TEXT_COLOR);
+        actionButton.setPreferredSize(QUIT_BUTTON_DIMENSIONS);
+
+        javax.swing.JButton quitActionButton = new javax.swing.JButton("Quit");
+        quitActionButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        quitActionButton.setForeground(BUTTON_TEXT_COLOR);
+        quitActionButton.setPreferredSize(QUIT_BUTTON_DIMENSIONS);
+
+        // --- Room Number Section ---
+        javax.swing.JLabel roomIDLabel = new javax.swing.JLabel("#" + RoomManager.getRoomID(room));
+        roomIDLabel.setFont(BODY_FONT_BOLD);
+        roomIDLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+
+        javax.swing.JLabel roomNumberLabel = new javax.swing.JLabel("Room Number: ");
+        roomNumberLabel.setFont(BODY_FONT);
+        roomNumberLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+
+        javax.swing.JTextField roomNumberSpinner = new javax.swing.JTextField(20);
+        roomNumberSpinner.setFont(BODY_FONT);
+        roomNumberSpinner.setText(roomNumber.toString());
+        roomNumberSpinner.setPreferredSize(STANDARD_FIELD_DIMENSIONS);
+
+        // --- Number of Beds Section ---
+        javax.swing.JLabel numOfBedsLabel = new javax.swing.JLabel(numOfBeds + (numOfBeds > 1 ? " beds" : " bed"));
+        numOfBedsLabel.setFont(BODY_FONT);
+        numOfBedsLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+
+        Integer[] numOfBedsList = { 1, 2, 3, 4, 5 };
+        JComboBox<Integer>numOfBedsDropdown = new JComboBox<>(numOfBedsList);
+        numOfBedsDropdown.setFont(BODY_FONT);
+        numOfBedsDropdown.setPreferredSize(STANDARD_FIELD_DIMENSIONS);
+        numOfBedsDropdown.setSelectedItem(numOfBeds);
+
+        // --- Bed Type Section ---
+        javax.swing.JLabel bedTypeLabel = new javax.swing.JLabel("Bed Type:");
+        bedTypeLabel.setFont(BODY_FONT);
+        bedTypeLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+
+        String[] bedTypes = { "Twin", "Queen", "King", "Full", "Suite" };
+        JComboBox<String> bedTypeDropdown = new JComboBox<>(bedTypes);
+        bedTypeDropdown.setFont(BODY_FONT);
+        bedTypeDropdown.setPreferredSize(STANDARD_FIELD_DIMENSIONS);
+        bedType = bedType.substring(0, 1).toUpperCase() + bedType.substring(1).toLowerCase();
+        bedTypeDropdown.setSelectedItem(bedType);
+
+        // --- Room Description Section
+        javax.swing.JLabel roomDescriptionLabel = new javax.swing.JLabel("Description:");
+        roomDescriptionLabel.setFont(BODY_FONT);
+        roomDescriptionLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+
+        JTextArea roomDescriptionTextArea = new JTextArea(5, 20);
+        roomDescriptionTextArea.setFont(BODY_FONT);
+        roomDescriptionTextArea.setText(roomDescription);
+        roomDescriptionTextArea.setLineWrap(true);
+        roomDescriptionTextArea.setWrapStyleWord(true);
+        roomDescriptionTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        // --- Price Per Night Section
+        javax.swing.JLabel pricePerNightLabel = new javax.swing.JLabel("Price Per Night:");
+        pricePerNightLabel.setFont(BODY_FONT);
+        pricePerNightLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+
+        javax.swing.JTextField pricePerNightField = new javax.swing.JTextField(20);
+        pricePerNightField.setFont(BODY_FONT);
+        pricePerNightField.setPreferredSize(STANDARD_FIELD_DIMENSIONS);
+        pricePerNightField.setText("" + pricePerNight);
+
+        javax.swing.JLabel pricePerNightMessageLabel = new javax.swing.JLabel("Leave blank for calculated price");
+        pricePerNightMessageLabel.setFont(BODY_FONT);
+        pricePerNightMessageLabel.setForeground(PRIMARY_BACKGROUND_COLOR);
+
+        // --- Save and Discard Buttons ---
+        javax.swing.JButton saveChangesButton = new javax.swing.JButton("Save");
+        saveChangesButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        saveChangesButton.setForeground(BUTTON_TEXT_COLOR);
+        saveChangesButton.setPreferredSize(QUIT_BUTTON_DIMENSIONS);
+
+        javax.swing.JButton discardChangesButton = new javax.swing.JButton("Discrad");
+        discardChangesButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        discardChangesButton.setForeground(BUTTON_TEXT_COLOR);
+        discardChangesButton.setPreferredSize(QUIT_BUTTON_DIMENSIONS);
+        
+        // --- Delete Room Buttons ---
+        javax.swing.JButton deleteRoomButton = new javax.swing.JButton("Delete Room");
+        deleteRoomButton.setBackground(BUTTON_BACKGROUND_COLOR);
+        deleteRoomButton.setForeground(BUTTON_TEXT_COLOR);
+        deleteRoomButton.setPreferredSize(SIGN_OUT_BUTTON_DIMENSIONS);
+
+        // --- Listener for Interaction ---
+        quitActionButton.addActionListener(event -> GUIManager.closeApplication());
+        actionButton.addActionListener(event -> returnToScreen());
+        deleteRoomButton.addActionListener(event-> {
+            int confirmation = JOptionPane.showConfirmDialog(
+                null,
+                "Are you sure you want to delete this Room? This action cannot be undone.",
+                "Confirm Deletion",
+                JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirmation == JOptionPane.YES_OPTION) {
+                HotelManager.removeRoomHotel(room);
+                returnToScreen();
+            }
+        });
+        discardChangesButton.addActionListener(event-> {
+            returnToScreen();
+        });
+
+        saveChangesButton.addActionListener(event-> { 
+            Integer enteredNumOfBeds = (Integer) numOfBedsDropdown.getSelectedItem();
+            String entereBedType = ((String) bedTypeDropdown.getSelectedItem()).trim().toLowerCase();
+            String enteredDescription = ((String) roomDescriptionTextArea.getText()).trim();
+
+            if (enteredNumOfBeds == null) {
+                JOptionPane.showMessageDialog(this, "Please Choose how many beds this room will have", "Create Room Error", JOptionPane.ERROR_MESSAGE);
+            } else if (entereBedType.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Choose what bed type this room will have", "Create Room Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+
+                RoomManager.setNumberOfBeds(room, enteredNumOfBeds);
+                RoomManager.setBedType(room, entereBedType);
+                RoomManager.setRoomDescription(room, enteredDescription);
+
+                // Validate the price input
+                String priceInput = pricePerNightField.getText().trim();
+                if (!priceInput.isEmpty()) {
+                    try {
+                        double enteredPricePerNight = Double.parseDouble(priceInput);
+                        if (enteredPricePerNight < 0) {
+                            throw new NumberFormatException("Negative price");
+                        }
+                        RoomManager.setPricePerNight(room, enteredPricePerNight);
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Please enter a valid number for the price per night", "Input Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }else{
+                    RoomManager.setPricePerNight(room);
+                }
+
+                DatabaseConnector.updateRoomInDatabase(room);
+                JOptionPane.showMessageDialog(this, "New Room created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            editHotelScreen();
+        
+        });
+        
+        // --- Layout ---
+        javax.swing.JPanel buttonsPanel = new javax.swing.JPanel(new java.awt.GridBagLayout());
+        buttonsPanel.setBackground(SECONDARY_BACKGROUND_COLOR);
+
+        java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = STANDARD_INSETS;
+        
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
+        buttonsPanel.add(roomIDLabel, gridBagConstraints);
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        buttonsPanel.add(deleteRoomButton, gridBagConstraints);
+        buttonsPanel.add(roomNumberLabel, gridBagConstraints);
+        
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        buttonsPanel.add(roomNumberSpinner, gridBagConstraints);
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        buttonsPanel.add(numOfBedsLabel, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        buttonsPanel.add(numOfBedsDropdown, gridBagConstraints);
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        buttonsPanel.add(bedTypeLabel, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        buttonsPanel.add(bedTypeDropdown, gridBagConstraints);
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        buttonsPanel.add(roomDescriptionLabel, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        buttonsPanel.add(roomDescriptionTextArea, gridBagConstraints);
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        buttonsPanel.add(pricePerNightLabel, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        buttonsPanel.add(pricePerNightField, gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        buttonsPanel.add(pricePerNightMessageLabel, gridBagConstraints);
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        buttonsPanel.add(deleteRoomButton, gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         buttonsPanel.add(saveChangesButton, gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
         buttonsPanel.add(discardChangesButton, gridBagConstraints);
 
