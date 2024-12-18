@@ -4,10 +4,10 @@ public class ReservationMain {
 
     public static void main(String[] args) {
         // Sample data for a reservation
-        String roomType = "Room type?";
-        String roomCapacity = "Room capacity?";
-        String checkInDate = "Check in Date?";
-        String checkOutDate = "Checkout Date?";
+        String roomType = " ";
+        String roomCapacity = " ";
+        String checkInDate = " ";
+        String checkOutDate = " ";
 
         // Create and display the ViewReservation form
         
