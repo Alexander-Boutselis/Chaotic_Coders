@@ -1,0 +1,60 @@
+@options
+@packages
+-classpath
+'/root/.m2/repository/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar:/root/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar:/root/.m2/repository/org/jdbi/jdbi3-core/3.36.0/jdbi3-core-3.36.0.jar:/root/.m2/repository/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar:/root/.m2/repository/io/leangen/geantyref/geantyref/1.3.13/geantyref-1.3.13.jar:/root/.m2/repository/com/github/ben-manes/caffeine/caffeine/3.0.3/caffeine-3.0.3.jar:/root/.m2/repository/com/h2database/h2/2.1.214/h2-2.1.214.jar:/root/.m2/repository/com/toedter/jcalendar/1.4/jcalendar-1.4.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/src/main/java:/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'HotelApplication 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/en/java/javase/11/docs/api' '/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'HotelApplication 1.0-SNAPSHOT API'
+com.hotelapplication.backend
+com.hotelapplication.frontend
+com.hotelapplication
+/root/.m2/repository/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar = 1730877311070
+/root/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar = 1730877311040
+/root/.m2/repository/org/jdbi/jdbi3-core/3.36.0/jdbi3-core-3.36.0.jar = 1731429204572
+/root/.m2/repository/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar = 1730877313000
+/root/.m2/repository/io/leangen/geantyref/geantyref/1.3.13/geantyref-1.3.13.jar = 1731429204553
+/root/.m2/repository/com/github/ben-manes/caffeine/caffeine/3.0.3/caffeine-3.0.3.jar = 1731429204592
+/root/.m2/repository/com/h2database/h2/2.1.214/h2-2.1.214.jar = 1731429204612
+/root/.m2/repository/com/toedter/jcalendar/1.4/jcalendar-1.4.jar = 1733873893793
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/src/main/java = 1730877267950
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/generated-sources/annotations = 1734502875371
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/help-doc.html = 1734502879850
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/tag-search-index.js = 1734502879809
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/serialized-form.html = 1734502879728
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/member-search-index.js = 1734502879809
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/copy.svg = 1734502879850
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/type-search-index.js = 1734502879809
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/search-page.js = 1734502879850
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/jquery-ui.overrides.css = 1734502879850
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/overview-summary.html = 1734502879840
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/search.js = 1734502879850
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/allclasses-index.html = 1734502879809
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/allpackages-index.html = 1734502879809
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/index.html = 1734502879789
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/search.html = 1734502879840
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/package-search-index.js = 1734502879809
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/element-list = 1734502879678
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/script.js = 1734502879850
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/stylesheet.css = 1734502879850
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/overview-tree.html = 1734502879789
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/module-search-index.js = 1734502879809
+/root/classes/CSUN_Classes/current_classes/comp380L/Chaotic_Coders/HotelApplication/target/site/apidocs/index-all.html = 1734502879840
